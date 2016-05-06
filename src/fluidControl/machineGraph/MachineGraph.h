@@ -12,16 +12,21 @@
 
 #include "../../graph/Graph.h"
 #include "../../graph/Edge.h"
-#include "../machineGraph/ContainerNode.h"
+#include "ContainerNode.h"
+#include "ContainerNodeType.h"
 
 class MachineGraph {
 public:
 	MachineGraph(std::string name);
 	virtual ~MachineGraph();
 
-	bool addContainer(int idContainer, NodeType type, float capacity);
+	bool addContainer(int idContainer, boost::shared_ptr<ContainerNodeType> type, float capacity);
 	bool connectContainer(int idSource, int idTarget);
-	bool changeContainerType(int idContainer, NodeType type);
+
+	bool changeContainerType(int idContainer, ContainerType type);
+	bool changeMovementType(int idContainer, MovementType type);
+	bool addAddon(int idContainer, AddOnsType type);
+	bool removeAddon(int idContainer, AddOnsType type);
 
 	bool areConected(int idSource, int idTarget);
 	bool hasConections(int idContainer);

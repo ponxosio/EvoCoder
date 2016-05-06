@@ -18,7 +18,7 @@ MachineGraph::~MachineGraph() {
 	delete machine;
 }
 
-bool MachineGraph::addContainer(int idContainer, NodeType type,
+bool MachineGraph::addContainer(int idContainer, boost::shared_ptr<ContainerNodeType> type,
 		float capacity) {
 	bool vuelta = false;
 	if (!existsContainer(idContainer)) {
@@ -35,17 +35,6 @@ bool MachineGraph::connectContainer(int idSource, int idTarget) {
 			&& !areConected(idSource, idTarget)) {
 		Edge* newEdge = new Edge(idSource, idTarget);
 		machine->addEdge(newEdge);
-		vuelta = true;
-	}
-	return vuelta;
-}
-
-bool MachineGraph::changeContainerType(int idContainer, NodeType type) {
-	bool vuelta = false;
-
-	ContainerNode* cont = machine->getNode(idContainer);
-	if (cont != NULL) {
-		cont->setType(type);
 		vuelta = true;
 	}
 	return vuelta;
@@ -97,15 +86,7 @@ bool MachineGraph::extractVolume(int idContainer, float volume) {
 }
 
 bool MachineGraph::areConected(int idSource, int idTarget) {
-	bool vuelta = false;
-	const vector<Edge*>* neighbors = machine->getNeighbors(idSource);
-
-	auto it = neighbors->begin();
-	while (!vuelta && (it != neighbors->end())) {
-		Edge* cast = *it;
-		vuelta = (cast->getIdTarget() == idTarget);
-	}
-	return vuelta;
+	return machine->areConnected(idSource, idTarget);
 }
 
 bool MachineGraph::hasConections(int idContainer) {
@@ -115,6 +96,50 @@ bool MachineGraph::hasConections(int idContainer) {
 	if (cont != NULL) {
 		const vector<Edge*>* neighbors = machine->getNeighbors(idContainer);
 		vuelta = !neighbors->empty();
+	}
+	return vuelta;
+}
+
+bool MachineGraph::changeContainerType(int idContainer, ContainerType type) {
+	bool vuelta = false;
+
+	ContainerNode* cont = machine->getNode(idContainer);
+	if (cont != NULL) {
+		cont->changeContainerType(type);
+		vuelta = true;
+	}
+	return vuelta;
+}
+
+bool MachineGraph::changeMovementType(int idContainer, MovementType type) {
+	bool vuelta = false;
+
+	ContainerNode* cont = machine->getNode(idContainer);
+	if (cont != NULL) {
+		cont->changeMovementType(type);
+		vuelta = true;
+	}
+	return vuelta;
+}
+
+bool MachineGraph::addAddon(int idContainer, AddOnsType type) {
+	bool vuelta = false;
+
+	ContainerNode* cont = machine->getNode(idContainer);
+	if (cont != NULL) {
+		cont->addAddon(type);
+		vuelta = true;
+	}
+	return vuelta;
+}
+
+bool MachineGraph::removeAddon(int idContainer, AddOnsType type) {
+	bool vuelta = false;
+
+	ContainerNode* cont = machine->getNode(idContainer);
+	if (cont != NULL) {
+		cont->removeAddon(type);
+		vuelta = true;
 	}
 	return vuelta;
 }

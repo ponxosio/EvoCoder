@@ -10,10 +10,10 @@
 
 //lib
 #include "../../lib/easylogging++.h"
+#include "executableMachineGraph/ExecutableMachineGraph.h"
 
 //local
 #include "machineGraph/MachineGraph.h"
-#include "machineGraph/ExecutableMachineGraph.h"
 
 namespace mapping {
 /*** Enum for the operation the mapping will do ***/
@@ -36,6 +36,7 @@ public:
 	void mix(int source1, int source2, int target, double volume1, double volume2);
 	void applyLight(int id, double wavelength, double intensity);
 	void applyTemperature(int id, double degres);
+	void stir(int id, double intensity);
 	void loadContainer(int containerID, double volume);
 
 	double getVolume(int id);
@@ -71,10 +72,14 @@ protected:
 			double volume2);
 	void sketching_applyLight(int id, double wavelength, double intensity);
 	void sketching_applyTemperature(int id, double degrees);
+	void sketching_stir(int id);
 	void sketching_loadContainer(int containerID, double volume);
 
-	double sketching_measureOD(int id);
+	void sketching_measureOD(int id);
 	double sketching_timeStep();
+
+	void transformSourceContainer(int idSource, int idTarget, ContainerNode* sourceNode, MovementType desiredType);
+	void transformTargetContainer(int idSource, int idTarget, ContainerNode* targetNode);
 
 	//TEST
 	void test_setContinuosFlow(int idSource, int idTarget, double rate);
@@ -83,6 +88,7 @@ protected:
 			double volume2);
 	void test_applyLight(int id, double wavelength, double intensity);
 	void test_applyTemperature(int id, double degres);
+	void test_stir(int id, double intensity);
 	void test_loadContainer(int containerID, double volume);
 
 	double test_getVolume(int id);
@@ -96,6 +102,7 @@ protected:
 			double volume2);
 	void exec_applyLight(int id, double wavelength, double intensity);
 	void exec_applyTemperature(int id, double degres);
+	void exec_stir(int id, double intensity);
 	void exec_loadContainer(int containerID, double volume);
 
 	double exec_getVolume(int id);

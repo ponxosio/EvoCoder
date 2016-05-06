@@ -65,6 +65,8 @@ void Mapping::setContinuosFlow(int idSource, int idTarget, double rate) {
 	case mapping::exec_ep:
 		exec_setContinuosFlow(idSource, idTarget, rate);
 		break;
+	default:
+		break;
 	}
 }
 
@@ -81,6 +83,8 @@ void Mapping::transfer(int idSource, int idTarget, double volume) {
 		break;
 	case mapping::exec_ep:
 		exec_transfer(idSource, idTarget, volume);
+		break;
+	default:
 		break;
 	}
 }
@@ -101,6 +105,8 @@ void Mapping::mix(int source1, int source2, int target, double volume1,
 	case mapping::exec_ep:
 		exec_mix(source1, source2, target, volume1, volume2);
 		break;
+	default:
+		break;
 	}
 }
 
@@ -118,6 +124,8 @@ void Mapping::applyLight(int id, double wavelength, double intensity) {
 	case mapping::exec_ep:
 		exec_applyLight(id, wavelength, intensity);
 		break;
+	default:
+		break;
 	}
 }
 
@@ -134,6 +142,27 @@ void Mapping::applyTemperature(int id, double degrees) {
 		break;
 	case mapping::exec_ep:
 		exec_applyTemperature(id, degrees);
+		break;
+	default:
+		break;
+	}
+}
+
+void Mapping::stir(int id, double intensity) {
+	switch (operation) {
+	case mapping::sketch:
+		sketching_stir(id);
+		break;
+	case mapping::test:
+		test_stir(id, intensity);
+		break;
+	case mapping::exec_general:
+		exec_stir(id, intensity);
+		break;
+	case mapping::exec_ep:
+		exec_stir(id, intensity);
+		break;
+	default:
 		break;
 	}
 }
@@ -153,6 +182,8 @@ double Mapping::getVolume(int id) {
 	case mapping::exec_ep:
 		vuelta = exec_getVolume(id);
 		break;
+	default:
+		break;
 	}
 	return vuelta;
 }
@@ -162,7 +193,7 @@ double Mapping::measureOD(int id) {
 
 	switch (operation) {
 	case mapping::sketch:
-		vuelta = sketching_measureOD(id);
+		sketching_measureOD(id);
 		break;
 	case mapping::test:
 		vuelta = test_measureOD(id);
@@ -172,6 +203,8 @@ double Mapping::measureOD(int id) {
 		break;
 	case mapping::exec_ep:
 		vuelta = exec_measureOD(id);
+		break;
+	default:
 		break;
 	}
 	return vuelta;
@@ -190,6 +223,8 @@ void Mapping::loadContainer(int containerID, double volume) {
 		break;
 	case mapping::exec_ep:
 		exec_loadContainer(containerID, volume);
+		break;
+	default:
 		break;
 	}
 }
@@ -210,6 +245,8 @@ double Mapping::timeStept() {
 	case mapping::exec_ep:
 		vuelta = exec_timeStep();
 		break;
+	default:
+		break;
 	}
 	return vuelta;
 }
@@ -225,39 +262,21 @@ void Mapping::sketching_setContinuosFlow(int idSource, int idTarget,
 	//Update source node
 	if (sketch->existsContainer(idSource)) {
 		ContainerNode* sourceNode = sketch->getContainer(idSource);
-		if (sourceNode->getType() == unknow) {
-			sketch->changeContainerType(idSource, continuous_inlet);
-		} else if (sourceNode->getType() == continuous_inlet
-				|| sourceNode->getType() == continuous_flow_chamber) {
-			if (!sketch->areConected(idSource, idTarget)) {
-				sketch->changeContainerType(idSource, divergent_switch);
-			}
-		} else if (sourceNode->getType() == sink) {
-			sketch->changeContainerType(idSource, continuous_flow_chamber);
+		if (sourceNode->getType().get()->isCompatibleMovement(MovementType::continuous)) {
+			transformSourceContainer(idSource, idTarget, sourceNode, MovementType::continuous);
 		} else {
-			//TODO: controlar error, nodo ya es un discrete flow ...?¿
+			LOG(FATAL)<< "container: " << patch::to_string(idTarget) << " cannot be continuous because already is" << sourceNode->getType().get()->getMovementTypeString();
 		}
 	} else {
-		sketch->addContainer(idSource, continuous_inlet, 0.0);
+		sketch->addContainer(idSource, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::continuous, ContainerType::inlet)), 0.0);
 	}
 
 	// Update target node
 	if (sketch->existsContainer(idTarget)) {
 		ContainerNode* targetNode = sketch->getContainer(idTarget);
-		if (targetNode->getType() == unknow) {
-			sketch->changeContainerType(idTarget, sink);
-		} else if (targetNode->getType() == continuous_inlet) {
-			sketch->changeContainerType(idTarget, continuous_flow_chamber);
-		} else if (targetNode->getType() == sink
-				|| targetNode->getType() == continuous_flow_chamber) {
-			if (!sketch->areConected(idSource, idTarget)) {
-				sketch->changeContainerType(idTarget, convergent_switch);
-			}
-		} else {
-			//TODO: controlar error nodo ya es discrete flow
-		}
+		transformTargetContainer(idSource, idTarget, targetNode);
 	} else {
-		sketch->addContainer(idTarget, sink, 0.0);
+		sketch->addContainer(idTarget, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::sink)), 0.0);
 	}
 	/**** Connect source and target nodes ****/
 	sketch->connectContainer(idSource, idTarget);
@@ -266,50 +285,107 @@ void Mapping::sketching_setContinuosFlow(int idSource, int idTarget,
 void Mapping::sketching_transfer(int idSource, int idTarget, double volume) {
 
 	LOG(DEBUG)<< "sketching transfer(" << patch::to_string(idSource) << ", "
-		<< patch::to_string(idTarget) << ", " << patch::to_string(volume)
-		<< ")";
+	<< patch::to_string(idTarget) << ", " << patch::to_string(volume)
+	<< ")";
 
 	//Update source node
 	if (sketch->existsContainer(idSource)) {
 		ContainerNode* sourceNode = sketch->getContainer(idSource);
-		if (sourceNode->getType() == unknow) {
-			sketch->changeContainerType(idSource, discrete_inlet);
-		} else if (sourceNode->getType() == discrete_inlet
-				|| sourceNode->getType() == discrete_flow_chamber) {
-			if (sketch->hasConections(idSource)
-					&& !sketch->areConected(idSource, idTarget)) {
-				sketch->changeContainerType(idSource, divergent_switch);
-			}
-		} else if (sourceNode->getType() == sink) {
-			sketch->changeContainerType(idSource, discrete_flow_chamber);
+		if (sourceNode->getType().get()->isCompatibleMovement(MovementType::discrete)) {
+			transformSourceContainer(idSource, idTarget, sourceNode, MovementType::discrete);
 		} else {
-			//TODO: controlar error, nodo ya es un discrete flow ...?¿
+			LOG(FATAL)<< "container: " << patch::to_string(idTarget) << " cannot be discrete because already is" << sourceNode->getType().get()->getMovementTypeString();
 		}
 	} else {
-		sketch->addContainer(idSource, discrete_inlet, 0.0);
+		sketch->addContainer(idSource, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::discrete, ContainerType::inlet)), 0.0);
 	}
 
 	// Update target node
 	if (sketch->existsContainer(idTarget)) {
 		ContainerNode* targetNode = sketch->getContainer(idTarget);
-		if (targetNode->getType() == unknow) {
-			sketch->changeContainerType(idTarget, sink);
-		} else if (targetNode->getType() == discrete_inlet) {
-			sketch->changeContainerType(idTarget, discrete_flow_chamber);
-		} else if (targetNode->getType() == sink
-				|| targetNode->getType() == discrete_flow_chamber) {
-			if (sketch->hasConections(idTarget)
-					&& !sketch->areConected(idSource, idTarget)) {
-				sketch->changeContainerType(idTarget, convergent_switch);
-			}
-		} else {
-			//TODO: controlar error nodo ya es discrete flow
-		}
+		transformTargetContainer(idSource, idTarget, targetNode);
 	} else {
-		sketch->addContainer(idTarget, sink, 0.0);
+		sketch->addContainer(idTarget, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::sink)), 0.0);
 	}
 	/**** Connect source and target nodes ****/
 	sketch->connectContainer(idSource, idTarget);
+}
+
+void Mapping::transformSourceContainer(int idSource, int idTarget,
+		ContainerNode* sourceNode, MovementType desiredType) {
+
+	switch (sourceNode->getType().get()->getContainerType()) {
+	case ContainerType::unknow:
+		sketch->changeContainerType(idSource, ContainerType::inlet);
+		sketch->changeMovementType(idSource, desiredType);
+		break;
+	case ContainerType::inlet:
+		if (!sketch->areConected(idSource, idTarget)) {
+			sketch->changeContainerType(idSource,
+					ContainerType::divergent_switch);
+		}
+		break;
+	case ContainerType::flow:
+		if (!sketch->areConected(idSource, idTarget)) {
+			sketch->changeContainerType(idSource,
+					ContainerType::divergent_switch_sink);
+		}
+		break;
+	case ContainerType::sink:
+		sketch->changeContainerType(idSource, ContainerType::flow);
+		sketch->changeMovementType(idSource, desiredType);
+		break;
+	case ContainerType::convergent_switch:
+		sketch->changeContainerType(idSource,
+				ContainerType::convergent_switch_inlet);
+		sketch->changeMovementType(idSource, desiredType);
+		break;
+	case ContainerType::convergent_switch_inlet:
+		if (!sketch->areConected(idSource, idTarget)) {
+			sketch->changeContainerType(idSource,
+					ContainerType::bidirectional_switch);
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+void Mapping::transformTargetContainer(int idSource, int idTarget,
+		ContainerNode* targetNode) {
+
+	switch(targetNode->getType().get()->getContainerType()) {
+	case ContainerType::unknow:
+		sketch->changeContainerType(idTarget, ContainerType::sink);
+		break;
+	case ContainerType::inlet:
+		sketch->changeContainerType(idTarget, ContainerType::flow);
+		break;
+	case ContainerType::sink:
+		if (!sketch->areConected(idSource, idTarget)) {
+			sketch->changeContainerType(idTarget,
+					ContainerType::convergent_switch);
+		}
+		break;
+	case ContainerType::flow:
+		if (!sketch->areConected(idSource, idTarget)) {
+			sketch->changeContainerType(idTarget,
+					ContainerType::convergent_switch_inlet);
+		}
+		break;
+	case ContainerType::divergent_switch:
+		sketch->changeContainerType(idTarget,
+				ContainerType::divergent_switch_sink);
+		break;
+	case ContainerType::divergent_switch_sink:
+		if (!sketch->areConected(idSource, idTarget)) {
+			sketch->changeContainerType(idTarget,
+					ContainerType::bidirectional_switch);
+		}
+		break;
+	default:
+		break;
+	}
 }
 
 void Mapping::sketching_mix(int source1, int source2, int target,
@@ -333,7 +409,7 @@ void Mapping::sketching_loadContainer(int containerID, double volume) {
 		ContainerNode* node = sketch->getContainer(containerID);
 		node->setVolume(node->getVolume() + volume);
 	} else {
-		sketch->addContainer(containerID, unknow, volume);
+		sketch->addContainer(containerID, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow)), volume);
 	}
 }
 
@@ -341,20 +417,63 @@ void Mapping::sketching_applyLight(int id, double wavelength,
 		double intensity) {
 
 	LOG(DEBUG)<< "sketching applyLight(" << patch::to_string(id) << ", "
-		<< patch::to_string(wavelength) << ", " << patch::to_string(intensity)
-		<< ")";
+	<< patch::to_string(wavelength) << ", " << patch::to_string(intensity)
+	<< ")";
+
+	if (sketch->existsContainer(id)) {
+		ContainerNode* node = sketch->getContainer(id);
+		node->getType().get()->addAddon(AddOnsType::light);
+	} else {
+		vector<AddOnsType> vect;
+		vect.push_back(AddOnsType::light);
+		sketch->addContainer(id, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
+	}
 }
 
 void Mapping::sketching_applyTemperature(int id, double degres) {
 
 	LOG(DEBUG)<< "sketching applyTemperature(" << patch::to_string(id) << ", "
-			<< patch::to_string(degres) << ")";
+	<< patch::to_string(degres) << ")";
 
+	if (sketch->existsContainer(id)) {
+		ContainerNode* node = sketch->getContainer(id);
+		node->getType().get()->addAddon(AddOnsType::temp);
+	} else {
+		vector<AddOnsType> vect;
+		vect.push_back(AddOnsType::temp);
+		sketch->addContainer(id, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
+	}
 }
 
-double Mapping::sketching_measureOD(int id) {
+void Mapping::sketching_measureOD(int id) {
 
-	LOG(DEBUG)<< "sketching measureOD(" << patch::to_string(id)  << ")";
+	LOG(DEBUG)<< "sketching measureOD(" << patch::to_string(id) << ")";
+
+	if (sketch->existsContainer(id)) {
+		ContainerNode* node = sketch->getContainer(id);
+		node->getType().get()->addAddon(AddOnsType::OD_sensor);
+	} else {
+		vector<AddOnsType> vect;
+		vect.push_back(AddOnsType::OD_sensor);
+		sketch->addContainer(id, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
+	}
+}
+
+void Mapping::sketching_stir(int id) {
+	LOG(DEBUG)<< "sketching measureOD(" << patch::to_string(id) << ")";
+
+	if (sketch->existsContainer(id)) {
+		ContainerNode* node = sketch->getContainer(id);
+		node->getType().get()->addAddon(AddOnsType::mixer);
+	} else {
+		vector<AddOnsType> vect;
+		vect.push_back(AddOnsType::mixer);
+		sketch->addContainer(id, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
+	}
+}
+
+double Mapping::sketching_timeStep() {
+	return 1;
 }
 
 //TEST
@@ -380,7 +499,14 @@ double Mapping::test_getVolume(int id) {
 double Mapping::test_measureOD(int id) {
 }
 
+void Mapping::test_stir(int id, double intensity) {
+}
+
 void Mapping::test_loadContainer(int containerID, double volume) {
+}
+
+double Mapping::test_timeStep() {
+	return 1;
 }
 
 //EXEC
@@ -409,18 +535,13 @@ double Mapping::exec_measureOD(int id) {
 void Mapping::exec_loadContainer(int containerID, double volume) {
 }
 
-double Mapping::sketching_timeStep() {
-	return 1;
-}
-
-double Mapping::test_timeStep() {
-	return 1;
-}
-
-void Mapping::printSketch(const std::string& path) {
-	sketch->printMachine(path);
+void Mapping::exec_stir(int id, double intensity) {
 }
 
 double Mapping::exec_timeStep() {
 	//TODO: el tiempo que pasa esperando o el sleep en caso de que se haga...
+}
+
+void Mapping::printSketch(const std::string& path) {
+	sketch->printMachine(path);
 }

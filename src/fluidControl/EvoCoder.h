@@ -35,7 +35,7 @@
 #include "../util/Utils.h"
 #include "Mapping.h"
 #include "machineGraph/MachineGraph.h"
-#include "machineGraph/ExecutableMachineGraph.h"
+#include "executableMachineGraph/ExecutableMachineGraph.h"
 #include "protocolGraph/ProtocolGraph.h"
 #include "protocolGraph/OperationNode.h"
 #include "protocolGraph/operations/LoopNode.h"

@@ -21,6 +21,7 @@
 // data structures
 #include <memory>
 #include <vector>
+#include <queue>
 #include <tr1/unordered_map>
 
 // boost library
@@ -57,6 +58,7 @@ public:
 	NodeType* getNode(int containerId);
 	const vector<EdgeType*>* getNeighbors(int idSource);
 	const vector<NodeType*> getAllNodes();
+	bool areConnected(int idSource, int idTarget);
 
 	//delete from graph
 	bool removeNode(int nodeID);
@@ -413,6 +415,20 @@ string Graph<NodeType, EdgeType>::toString() {
 
 	myfile << "}";
 	return myfile.str();
+}
+
+template<class NodeType, class EdgeType>
+bool Graph<NodeType, EdgeType>::areConnected(int idSource, int idTarget) {
+	bool vuelta = false;
+	const vector<Edge*>* neighbors = getNeighbors(idSource);
+
+	auto it = neighbors->begin();
+	while (!vuelta && (it != neighbors->end())) {
+		Edge* cast = *it;
+		vuelta = (cast->getIdTarget() == idTarget);
+		++it;
+	}
+	return vuelta;
 }
 
 #endif /* SRC_GRAPH_GRAPH_H_ */
