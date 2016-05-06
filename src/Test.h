@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include <queue>
 #include <thread>
 #include <iostream>
 #include <functional>
@@ -25,11 +26,14 @@
 #include "graph/Graph.h"
 #include "graph/Node.h"
 #include "graph/Edge.h"
+#include "graph/Flow.h"
+#include "graph/FlowPtrComparator.h"
 #include "util/Utils.h"
 #include "util/AutoEnumerate.h"
 #include "fluidControl/EvoCoder.h"
 #include "fluidControl/machineGraph/MachineGraph.h"
 #include "fluidControl/machineGraph/ContainerNode.h"
+#include "fluidControl/machineGraph/ContainerNodeType.h"
 #include "fluidControl/protocolGraph/ProtocolGraph.h"
 #include "fluidControl/protocolGraph/ConditionEdge.h"
 #include "operables/mathematics/ConstantNumber.h"
@@ -56,7 +60,8 @@
 #include "fluidControl/protocolGraph/operations/container/TimeStep.h"
 #include "fluidControl/protocolGraph/operations/container/Transfer.h"
 #include "fluidControl/protocolGraph/operations/LoopNode.h"
-#include "fluidControl/protocolGraph/operations/DivergeNode.h".h"
+#include "fluidControl/protocolGraph/operations/DivergeNode.h"
+#include "graph/Flow.h"
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -81,6 +86,8 @@ public:
 	void testComparisonVariable();
 	void testUnaryOperation();
 	void testSketcher();
+	void testMapping();
+	void testFlow();
 };
 
 #endif /* SRC_TEST_H_ */

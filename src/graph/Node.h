@@ -17,8 +17,6 @@
 //local
 #include "../util/Patch.h"
 
-using namespace std;
-
 /**
  * Minimum operations a all node must have, Base for all Node types to derive
  */
