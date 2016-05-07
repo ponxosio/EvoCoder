@@ -15,7 +15,7 @@ public:
 	virtual ~FlowPtrComparator(){}
 
 	bool operator()(Flow* f1, Flow* f2) const {
-		return (f1->getPaths().size() < f2->getPaths().size());
+		return (f1->getPaths().size() >= f2->getPaths().size());
 	}
 };
 

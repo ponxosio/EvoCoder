@@ -221,7 +221,7 @@ std::string ContainerNodeType::makeAddonsNodes(int idContainer) {
 	for (int i = 0; i < ADDONS_MAX; i++) {
 		if (addOns[i] == true) {
 			vuelta += patch::to_string(base - i) + "[image=\""
-					+ Utils::getCurrentDir() + PATH
+					+ Utils::getCurrentDir() + PATH_TO_IMGS
 					+ getAddonsImg((AddOnsType) (i)) + "\"];"
 					+ patch::to_string(base - i) + "->"
 					+ patch::to_string(idContainer) + ";";
@@ -274,7 +274,7 @@ std::string ContainerNodeType::getAddonsImg(AddOnsType addonType) {
 std::string ContainerNodeType::getTypeImagePath() {
 	std::string prefix = getMovementPrefix();
 	std::string subfix = getContainerSubfix();
-	return PATH + prefix + subfix;
+	return PATH_TO_IMGS + prefix + subfix;
 }
 
 std::string ContainerNodeType::getMovementPrefix() {

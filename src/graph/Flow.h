@@ -29,7 +29,7 @@ public:
 	bool equals(const Flow & flow);
 
 	inline std::string toText() {
-		return patch::to_string(idStart) + "->" + patch::to_string(idFinish);
+		return patch::to_string(idStart) + "->" + patch::to_string(idFinish) + ":" + patch::to_string(paths.size());
 	}
 
 	inline int getIdFinish() const {

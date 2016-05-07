@@ -1,0 +1,20 @@
+15/03 15:26:11 066 ERROR Test.cpp[58]void Test::testGraph():  error loading graph
+15/03 15:26:11 068 ERROR Test.cpp[58]void Test::testGraph():  error loading graph
+15/03 15:26:11 069 ERROR Test.cpp[58]void Test::testGraph():  error loading graph
+15/03 15:26:11 070 ERROR Test.cpp[58]void Test::testGraph():  error loading graph
+15/03 15:26:11 071 ERROR Test.cpp[58]void Test::testGraph():  error loading graph
+15/03 15:53:55 776 ERROR graph/Graph.h[318]static Graph<NodeType, EdgeType>* Graph<NodeType, EdgeType>::loadGraph(std::string) [with NodeType = Node; EdgeType = Edge; std::string = std::basic_string<char>]:  Graph::loadGraph-> unable to open file: X:\codigo\EvoCoder_Release_v1\EvoCoder\test.graph
+
+15/03 15:53:55 776 ERROR Test.cpp[58]void Test::testGraph():  error loading graph
+15/03 15:53:55 779 ERROR graph/Graph.h[318]static Graph<NodeType, EdgeType>* Graph<NodeType, EdgeType>::loadGraph(std::string) [with NodeType = Node; EdgeType = Edge; std::string = std::basic_string<char>]:  Graph::loadGraph-> unable to open file: X:\codigo\EvoCoder_Release_v1\EvoCoder\test.graph
+
+15/03 15:53:55 780 ERROR Test.cpp[58]void Test::testGraph():  error loading graph
+15/03 15:53:55 781 ERROR graph/Graph.h[318]static Graph<NodeType, EdgeType>* Graph<NodeType, EdgeType>::loadGraph(std::string) [with NodeType = Node; EdgeType = Edge; std::string = std::basic_string<char>]:  Graph::loadGraph-> unable to open file: X:\codigo\EvoCoder_Release_v1\EvoCoder\test.graph
+
+15/03 15:53:55 781 ERROR Test.cpp[58]void Test::testGraph():  error loading graph
+15/03 15:53:55 783 ERROR graph/Graph.h[318]static Graph<NodeType, EdgeType>* Graph<NodeType, EdgeType>::loadGraph(std::string) [with NodeType = Node; EdgeType = Edge; std::string = std::basic_string<char>]:  Graph::loadGraph-> unable to open file: X:\codigo\EvoCoder_Release_v1\EvoCoder\test.graph
+
+15/03 15:53:55 783 ERROR Test.cpp[58]void Test::testGraph():  error loading graph
+15/03 15:53:55 783 ERROR graph/Graph.h[318]static Graph<NodeType, EdgeType>* Graph<NodeType, EdgeType>::loadGraph(std::string) [with NodeType = Node; EdgeType = Edge; std::string = std::basic_string<char>]:  Graph::loadGraph-> unable to open file: X:\codigo\EvoCoder_Release_v1\EvoCoder\test.graph
+
+15/03 15:53:55 783 ERROR Test.cpp[58]void Test::testGraph():  error loading graph

@@ -34,6 +34,9 @@
 #include "fluidControl/machineGraph/MachineGraph.h"
 #include "fluidControl/machineGraph/ContainerNode.h"
 #include "fluidControl/machineGraph/ContainerNodeType.h"
+
+#include "fluidControl/executable/containers/actuators/liquids/Control.h"
+
 #include "fluidControl/protocolGraph/ProtocolGraph.h"
 #include "fluidControl/protocolGraph/ConditionEdge.h"
 #include "operables/mathematics/ConstantNumber.h"

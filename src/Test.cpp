@@ -33,9 +33,9 @@ int main(int argv, char* argc[]) {
 //	t.testVariableTable(table, "wikiwiki");
 //	t.testMathematicVariable();
 	//t.testUnaryOperation();
-	//t.testSketcher();
+	t.testSketcher();
 	//t.testMapping();
-	t.testFlow();
+	//t.testFlow();
 
 	LOG(INFO)<< "finished!";
 }
