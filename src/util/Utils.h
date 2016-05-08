@@ -9,7 +9,7 @@
 #define SRC_UTIL_UTILS_H_
 
 #include <stdio.h>
-
+#include <sys/time.h>
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -54,6 +54,10 @@ public:
 	 * @param argv array of arguments passed to the main method
 	 */
 	static void initLogs(int argc, const char** argv);
+	/**
+	 * return the current timestamp in Milliseconds since epoch time
+	 */
+	static long getCurrentTimeMilis();
 
 	/**
 	 * Checks if an object can be cast to a given subtype,

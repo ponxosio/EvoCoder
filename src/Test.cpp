@@ -33,9 +33,11 @@ int main(int argv, char* argc[]) {
 //	t.testVariableTable(table, "wikiwiki");
 //	t.testMathematicVariable();
 	//t.testUnaryOperation();
-	t.testSketcher();
+	//t.testSketcher();
 	//t.testMapping();
 	//t.testFlow();
+
+	t.testSerialPort();
 
 	LOG(INFO)<< "finished!";
 }
@@ -508,4 +510,20 @@ void Test::testFlow() {
 		LOG(INFO) << actual->toText();
 	}
 
+}
+
+void Test::testSerialPort() {
+	try {
+		SerialSender* s = new SerialSender("\\\\.\\COM3");
+
+		LOG(INFO) << "sending Hola mundo...";
+		LOG(INFO) << "correct: " << s->sendString("Hola mundo!");
+
+		LOG(INFO) << "waitng for data to arrive...";
+		std::string respuesta = s->receiveString();
+
+		LOG(INFO) << "recibido : " << respuesta;
+	} catch (std::ios_base::failure& e) {
+		LOG(INFO) << "error: " << e.what();
+	}
 }

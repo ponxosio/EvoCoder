@@ -30,6 +30,7 @@
 #include "graph/FlowPtrComparator.h"
 #include "util/Utils.h"
 #include "util/AutoEnumerate.h"
+#include "util/SerialSender.h"
 #include "fluidControl/EvoCoder.h"
 #include "fluidControl/machineGraph/MachineGraph.h"
 #include "fluidControl/machineGraph/ContainerNode.h"
@@ -91,6 +92,7 @@ public:
 	void testSketcher();
 	void testMapping();
 	void testFlow();
+	void testSerialPort();
 };
 
 #endif /* SRC_TEST_H_ */
