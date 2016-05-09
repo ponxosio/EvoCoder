@@ -1,0 +1,7 @@
+digraph G {
+1 [image="X:\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_inlet.png"];
+2 [image="X:\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_flow.png"];-8[image="X:\codigo\EvoCoder_Release_v1\EvoCoder\Img\mixer.png"];-8->2;-11[image="X:\codigo\EvoCoder_Release_v1\EvoCoder\Img\odsensor.png"];-11->2;
+3 [image="X:\codigo\EvoCoder_Release_v1\EvoCoder\Img\sink.png"];
+1->2;
+2->3;
+}

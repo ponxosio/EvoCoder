@@ -10,9 +10,7 @@
 
 //lib
 #include "../../lib/easylogging++.h"
-#include "executableMachineGraph/ExecutableMachineGraph.h"
-
-//local
+#include "executable/ExecutableMachineGraph.h"
 #include "machineGraph/MachineGraph.h"
 
 namespace mapping {

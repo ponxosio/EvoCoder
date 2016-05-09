@@ -16,7 +16,6 @@
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "../../../lib/easylogging++.h"
 //local
 #include "../../util/Patch.h"
 #include "../../util/Utils.h"

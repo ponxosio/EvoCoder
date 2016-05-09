@@ -30,10 +30,14 @@
 #include "graph/FlowPtrComparator.h"
 #include "util/Utils.h"
 #include "util/AutoEnumerate.h"
+#include "util/SerialSender.h"
 #include "fluidControl/EvoCoder.h"
 #include "fluidControl/machineGraph/MachineGraph.h"
 #include "fluidControl/machineGraph/ContainerNode.h"
 #include "fluidControl/machineGraph/ContainerNodeType.h"
+
+#include "fluidControl/executable/containers/actuators/liquids/Control.h"
+
 #include "fluidControl/protocolGraph/ProtocolGraph.h"
 #include "fluidControl/protocolGraph/ConditionEdge.h"
 #include "operables/mathematics/ConstantNumber.h"
@@ -72,6 +76,9 @@ public:
 	static ProtocolGraph* MakeTurbidostat(
 			boost::shared_ptr<VariableTable> table,
 			boost::shared_ptr<Mapping> map);
+	static ProtocolGraph* makeSimpleProtocol(
+				boost::shared_ptr<VariableTable> table,
+				boost::shared_ptr<Mapping> map);
 
 	Test();
 	virtual ~Test();
@@ -88,6 +95,8 @@ public:
 	void testSketcher();
 	void testMapping();
 	void testFlow();
+	void testSerialPort_send();
+	void testSerialPort_receive();
 };
 
 #endif /* SRC_TEST_H_ */
