@@ -7,13 +7,17 @@
 
 #include "SerialSender.h"
 
-SerialSender::SerialSender(std::string device, unsigned long baudRate,
-		unsigned char byteSize, unsigned char stopBits, unsigned char parity,
-		unsigned long readIntervalTimeout,
-		unsigned long readTotalTimeoutConstant,
-		unsigned long readTotalTimeoutMultiplier,
-		unsigned long writeTotalTimeoutConstant,
-		unsigned long writeTotalTimeoutMultiplier)
+SerialSender::SerialSender(std::string device,
+		DWORD baudRate,
+		BYTE byteSize,
+		BYTE stopBits,
+		BYTE parity,
+		DWORD maxMsWaitingRead,
+		DWORD readIntervalTimeout,
+		DWORD readTotalTimeoutConstant,
+		DWORD readTotalTimeoutMultiplier,
+		DWORD writeTotalTimeoutConstant,
+		DWORD writeTotalTimeoutMultiplier)
 				throw (std::ios_base::failure) {
 
 	this->baudRate = baudRate;
@@ -54,31 +58,47 @@ void SerialSender::disconnect() {
 unsigned long SerialSender::sendString(const std::string& str) {
 	DWORD bytesWritten = 0;
 	WriteFile(hSerial, str.c_str(), sizeof(char) * str.length(), &bytesWritten, NULL);
+	LOG(DEBUG) << "send  " << bytesWritten << " bytes";
 
 	return bytesWritten;
 }
 
 std::string SerialSender::receiveString() throw (std::ios_base::failure) {
-	DWORD dwEventMask;
-	if (!WaitCommEvent(hSerial, &dwEventMask, NULL)) {
-		//error
+	int waited = 0;
+	DWORD dwErrorFlags;
+	COMSTAT ComStat;
+
+	ClearCommError(hSerial, &dwErrorFlags, &ComStat);
+
+	while (ComStat.cbInQue == 0) {
+		LOG(DEBUG) << "waiting for data for " << waited << " ms";
+		Sleep(100);
+		waited += 100;
+		ClearCommError(hSerial, &dwErrorFlags, &ComStat);
+		if (waited >= maxMsWaitingRead) {
+			throw(std::ios_base::failure("timeout while reading data"));
+		}
 	}
 
 	DWORD bytesRead;
-	int i = 0;
 	std::string buffer;
 	char tempChar;
+	ReadFile(hSerial,           //Handle of the Serial port
+			&tempChar,       //Temporary character
+			sizeof(tempChar),       //Size of TempChar
+			&bytesRead,    //Number of bytes read
+			NULL);
 
-	do {
+	while (bytesRead > 0) {
+		buffer += tempChar;    // Store Tempchar into buffer
+		LOG(DEBUG)<< "read " << bytesRead << " bytes";
 		ReadFile(hSerial,           //Handle of the Serial port
 				&tempChar,       //Temporary character
 				sizeof(tempChar),       //Size of TempChar
 				&bytesRead,    //Number of bytes read
 				NULL);
 
-		buffer += tempChar;    // Store Tempchar into buffer
-	} while (bytesRead > 0);
-
+	}
 	return buffer;
 }
 
@@ -88,7 +108,7 @@ void SerialSender::configure() throw (std::ios_base::failure) {
 	dcbSerialParams.DCBlength = sizeof(DCB);
 
 	if (!GetCommState(hSerial, &dcbSerialParams)) {
-		throw(new std::ios_base::failure(
+		throw( std::ios_base::failure(
 				"Failed to Get Comm State Reason: " + GetLastError()));
 	}
 	dcbSerialParams.BaudRate = baudRate;

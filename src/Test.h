@@ -76,6 +76,9 @@ public:
 	static ProtocolGraph* MakeTurbidostat(
 			boost::shared_ptr<VariableTable> table,
 			boost::shared_ptr<Mapping> map);
+	static ProtocolGraph* makeSimpleProtocol(
+				boost::shared_ptr<VariableTable> table,
+				boost::shared_ptr<Mapping> map);
 
 	Test();
 	virtual ~Test();
@@ -92,7 +95,8 @@ public:
 	void testSketcher();
 	void testMapping();
 	void testFlow();
-	void testSerialPort();
+	void testSerialPort_send();
+	void testSerialPort_receive();
 };
 
 #endif /* SRC_TEST_H_ */

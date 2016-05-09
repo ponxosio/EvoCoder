@@ -34,10 +34,12 @@ int main(int argv, char* argc[]) {
 //	t.testMathematicVariable();
 	//t.testUnaryOperation();
 	//t.testSketcher();
-	//t.testMapping();
+	t.testMapping();
 	//t.testFlow();
 
-	t.testSerialPort();
+	//t.testSerialPort_send();
+
+	//t.testSerialPort_receive();
 
 	LOG(INFO)<< "finished!";
 }
@@ -441,7 +443,7 @@ void Test::testSketcher() {
 	ExecutableMachineGraph* machine = new ExecutableMachineGraph("testMachine");
 	boost::shared_ptr<Mapping> map(new Mapping(machine, "testMamchine"));
 
-	ProtocolGraph* protocol = MakeTurbidostat(t, map);
+	ProtocolGraph* protocol = makeSimpleProtocol(t, map);
 
 	LOG(INFO)<< "printing protocol...";
 	protocol->printProtocol("protocol.graph");
@@ -468,16 +470,10 @@ void Test::testMapping() {
 	map->setSketching();
 
 	//test: actuador antes de declarar nodo
-	map->applyLight(1, 0.0, 0.0);
 	map->setContinuosFlow(1, 2, 0.0);
-	map->transfer(3, 2, 0.0);
+	map->setContinuosFlow(2, 3, 0.0);
 	map->measureOD(2);
 	map->stir(2, 0.0);
-	map->setContinuosFlow(2, 4, 0.0);
-	map->setContinuosFlow(2, 5, 0.0);
-	map->applyTemperature(5, 0.0);
-	map->setContinuosFlow(6, 1, 0.0);
-	map->transfer(5, 7, 0.0);
 
 	LOG(INFO)<< "Sketching... " << evo->sketcher();
 	map->printSketch("mappingTest.graph");
@@ -511,18 +507,111 @@ void Test::testFlow() {
 	}
 
 }
-
-void Test::testSerialPort() {
+void Test::testSerialPort_send() {
 	try {
 		SerialSender* s = new SerialSender("\\\\.\\COM3");
 
-		LOG(INFO) << "sending Hola mundo...";
-		LOG(INFO) << "correct: " << s->sendString("Hola mundo!");
+		for (int i = 0; i < 10; i++) {
+			LOG(INFO)<< "sending " << i << "...";
+			LOG(INFO)<< "correct: " << s->sendString(patch::to_string(i));
+			Sleep(2000);
+		}
 
-		LOG(INFO) << "waitng for data to arrive...";
-		std::string respuesta = s->receiveString();
+	} catch (std::ios_base::failure& e) {
+		LOG(INFO) << "error: " << e.what();
+	}
+}
 
-		LOG(INFO) << "recibido : " << respuesta;
+ProtocolGraph* Test::makeSimpleProtocol(boost::shared_ptr<VariableTable> table,
+		boost::shared_ptr<Mapping> map) {
+
+	AutoEnumerate serial;
+	ProtocolGraph* protocol = new ProtocolGraph("simpleProtocol");
+
+	boost::shared_ptr<ComparisonOperable> tautology(new Tautology());
+
+	boost::shared_ptr<VariableEntry> epsilon(
+				new VariableEntry("epsilon", table));
+	boost::shared_ptr<MathematicOperable> mepsilon(
+				new VariableEntry("epsilon", table));
+	boost::shared_ptr<MathematicOperable> num0_5(new ConstantNumber(0.5));
+	boost::shared_ptr<MathematicOperable> num10(new ConstantNumber(10));
+
+	OperationNode* op1 = new AssignationOperation(serial.getNextValue(),
+				epsilon, num0_5); //epsilon = 0.5
+
+	boost::shared_ptr<MathematicOperable> num1000(new ConstantNumber(1000));
+	OperationNode* op4 = new LoadContainerOperation(serial.getNextValue(), map,
+			1, num1000); //loadContainer(1, 1000ml)
+	OperationNode* op5 = new LoadContainerOperation(serial.getNextValue(), map,
+			2, num1000); //loadContainer(2, 1000ml)
+	OperationNode* op6 = new LoadContainerOperation(serial.getNextValue(), map,
+			3, num1000); //loadContainer(3, 1000ml)
+
+	protocol->addOperation(op1);
+	protocol->addOperation(op4);
+	protocol->addOperation(op5);
+	protocol->addOperation(op6);
+
+	protocol->connectOperation(op1, op4, tautology);
+	protocol->connectOperation(op4, op5, tautology);
+	protocol->connectOperation(op5, op6, tautology);
+
+	boost::shared_ptr<ComparisonOperable> contradiction(new Tautology());
+	OperationNode* loop1 = new LoopNode(serial.getNextValue(), tautology,
+			contradiction); //while (true)
+
+	protocol->addOperation(loop1);
+	protocol->connectOperation(op6, loop1, tautology);
+
+	boost::shared_ptr<VariableEntry> od(new VariableEntry("od", table));
+	boost::shared_ptr<MathematicOperable> mod(new VariableEntry("od", table));
+	OperationNode* op7 = new MeasureOD(serial.getNextValue(), map, 3, od); //od = measureOd(2)
+
+	protocol->addOperation(op7);
+	protocol->connectOperation(loop1, op7, tautology);
+
+	boost::shared_ptr<ComparisonOperable> comp2in(
+			new SimpleComparison(false, mod, comparison::greater, mepsilon));
+	boost::shared_ptr<ComparisonOperable> comp2out(
+			new SimpleComparison(true, mod, comparison::greater, mepsilon));
+	DivergeNode* if1 = new DivergeNode(serial.getNextValue(), comp2in,
+			comp2out); //if (od > 0.5)
+
+	protocol->addOperation(if1);
+	protocol->connectOperation(op7, if1, tautology);
+
+	OperationNode* op8 = new Transfer(serial.getNextValue(), map, 1, 3, num10);
+	OperationNode* op9 = new Transfer(serial.getNextValue(), map, 3, 4, num10);
+
+	protocol->addOperation(op8);
+	protocol->connectOperation(if1, op8, comp2in);
+	protocol->addOperation(op9);
+	protocol->connectOperation(op8, op9, tautology);
+	protocol->connectOperation(op9, loop1, tautology);
+
+	OperationNode* op10 = new Transfer(serial.getNextValue(), map, 2, 3, num10);
+	OperationNode* op11 = new Transfer(serial.getNextValue(), map, 3, 4, num10);
+
+	protocol->addOperation(op10);
+	protocol->connectOperation(if1, op10, comp2out);
+	protocol->addOperation(op11);
+	protocol->connectOperation(op10, op11, tautology);
+	protocol->connectOperation(op11, loop1, tautology);
+
+	return protocol;
+}
+
+void Test::testSerialPort_receive() {
+	try {
+		SerialSender* s = new SerialSender("\\\\.\\COM3");
+
+		LOG(INFO) << "recibiendo datos...";
+		for (int i = 0; i < 10; i++) {
+			LOG(INFO) << i << ":" << s->receiveString();
+			Sleep(1500);
+		}
+
 	} catch (std::ios_base::failure& e) {
 		LOG(INFO) << "error: " << e.what();
 	}
