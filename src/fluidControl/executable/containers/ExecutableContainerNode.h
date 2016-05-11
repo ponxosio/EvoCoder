@@ -50,19 +50,21 @@ public:
 	virtual ~ExecutableContainerNode(){}
 
 	//getters & setters
-	/*inline const boost::shared_ptr<Light>& getLight() const {
+	inline const boost::shared_ptr<Light>& getLight() const {
 		return light;
 	}
 
 	inline void setLight(const boost::shared_ptr<Light>& light) {
+		addAddon(AddOnsType::light);
 		this->light = light;
-	}*/
+	}
 
 	inline const boost::shared_ptr<Mixer>& getMix() const {
 		return mix;
 	}
 
 	inline void setMix(const boost::shared_ptr<Mixer>& mix) {
+		addAddon(AddOnsType::mixer);
 		this->mix = mix;
 	}
 
@@ -71,6 +73,7 @@ public:
 	}
 
 	inline void setOd(const boost::shared_ptr<ODSensor>& od) {
+		addAddon(AddOnsType::OD_sensor);
 		this->od = od;
 	}
 
@@ -80,6 +83,7 @@ public:
 
 	inline void setTemperature(
 			const boost::shared_ptr<Temperature>& temperature) {
+		addAddon(AddOnsType::temp);
 		this->temperature = temperature;
 	}
 
@@ -92,7 +96,7 @@ protected:
 	//Light* light;
 	boost::shared_ptr<ODSensor> od;
 	boost::shared_ptr<Mixer> mix;
-	//boost::shared_ptr<Light> light;
+	boost::shared_ptr<Light> light;
 	boost::shared_ptr<Temperature> temperature;
 };
 

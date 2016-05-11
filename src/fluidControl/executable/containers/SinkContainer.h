@@ -17,7 +17,7 @@ public:
 	SinkContainer();
 	SinkContainer(const SinkContainer & node);
 
-	virtual std::string toText();
+	//virtual std::string toText();
 	virtual void loadNode(const std::string & line)
 			throw (std::invalid_argument);
 	//

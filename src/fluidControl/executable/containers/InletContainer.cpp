@@ -24,9 +24,9 @@ InletContainer::InletContainer(int idContainer, float capacity,
 
 InletContainer::~InletContainer() {}
 
-std::string InletContainer::toText() {
+/*std::string InletContainer::toText() {
 	//TODO: por definir
-}
+}*/
 
 void InletContainer::loadNode(const std::string& line)
 		throw (std::invalid_argument) {

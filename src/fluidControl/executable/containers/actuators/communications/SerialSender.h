@@ -70,6 +70,8 @@ public:
 	 */
 	virtual std::string receiveString() throw (std::ios_base::failure);
 
+	virtual std::string readUntil(char endCharacter) throw (std::ios_base::failure);
+
 protected:
 	//handler
 	/**

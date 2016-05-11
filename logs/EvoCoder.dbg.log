@@ -11757,3 +11757,642 @@ DEBUG 15/03 15:21:19 402444 digraph{1 [image="X:\codigo\EvoCoder_Release_v1\EvoC
 10/05 14:41:07 357: read 1 bytes
 10/05 14:41:07 357: read 1 bytes
 10/05 14:41:07 357: read 1 bytes
+11/05 18:41:59 234: send  7 bytes
+11/05 18:42:59 366: send  7 bytes
+11/05 18:46:47 293: send  7 bytes
+11/05 18:47:41 016: send  7 bytes
+11/05 18:50:56 451: send  7 bytes
+11/05 18:50:56 455: send  7 bytes
+11/05 18:50:56 455: waiting for data for 0 ms
+11/05 18:50:56 556: waiting for data for 100 ms
+11/05 18:50:56 656: waiting for data for 200 ms
+11/05 18:50:56 756: waiting for data for 300 ms
+11/05 18:50:56 856: waiting for data for 400 ms
+11/05 18:50:56 956: waiting for data for 500 ms
+11/05 18:50:57 057: waiting for data for 600 ms
+11/05 18:50:57 158: waiting for data for 700 ms
+11/05 18:50:57 259: waiting for data for 800 ms
+11/05 18:50:57 360: waiting for data for 900 ms
+11/05 18:50:57 460: waiting for data for 1000 ms
+11/05 18:50:57 561: waiting for data for 1100 ms
+11/05 18:50:57 661: waiting for data for 1200 ms
+11/05 18:50:57 761: waiting for data for 1300 ms
+11/05 18:50:57 861: waiting for data for 1400 ms
+11/05 18:50:57 962: waiting for data for 1500 ms
+11/05 18:50:58 062: waiting for data for 1600 ms
+11/05 18:50:58 163: waiting for data for 1700 ms
+11/05 18:50:58 264: waiting for data for 1800 ms
+11/05 18:50:58 364: waiting for data for 1900 ms
+11/05 18:50:58 464: waiting for data for 2000 ms
+11/05 18:50:58 564: waiting for data for 2100 ms
+11/05 18:50:58 664: waiting for data for 2200 ms
+11/05 18:50:58 765: waiting for data for 2300 ms
+11/05 18:50:58 865: waiting for data for 2400 ms
+11/05 18:50:58 966: waiting for data for 2500 ms
+11/05 18:50:59 067: waiting for data for 2600 ms
+11/05 18:50:59 167: waiting for data for 2700 ms
+11/05 18:50:59 267: waiting for data for 2800 ms
+11/05 18:50:59 367: waiting for data for 2900 ms
+11/05 18:50:59 467: waiting for data for 3000 ms
+11/05 18:50:59 568: waiting for data for 3100 ms
+11/05 18:50:59 668: waiting for data for 3200 ms
+11/05 18:50:59 768: waiting for data for 3300 ms
+11/05 18:50:59 869: waiting for data for 3400 ms
+11/05 18:50:59 969: waiting for data for 3500 ms
+11/05 18:51:00 070: waiting for data for 3600 ms
+11/05 18:51:00 170: waiting for data for 3700 ms
+11/05 18:51:00 270: waiting for data for 3800 ms
+11/05 18:51:00 370: waiting for data for 3900 ms
+11/05 18:51:00 470: waiting for data for 4000 ms
+11/05 18:51:00 571: waiting for data for 4100 ms
+11/05 18:51:00 671: waiting for data for 4200 ms
+11/05 18:51:00 771: waiting for data for 4300 ms
+11/05 18:51:00 872: waiting for data for 4400 ms
+11/05 18:51:00 972: waiting for data for 4500 ms
+11/05 18:51:01 072: waiting for data for 4600 ms
+11/05 18:51:01 172: waiting for data for 4700 ms
+11/05 18:53:27 428: send  7 bytes
+11/05 18:53:27 428: waiting for data for 0 ms
+11/05 18:53:27 529: waiting for data for 100 ms
+11/05 18:53:27 629: waiting for data for 200 ms
+11/05 18:53:27 729: waiting for data for 300 ms
+11/05 18:53:27 829: waiting for data for 400 ms
+11/05 18:53:27 929: waiting for data for 500 ms
+11/05 18:53:28 029: waiting for data for 600 ms
+11/05 18:53:28 130: waiting for data for 700 ms
+11/05 18:53:28 230: waiting for data for 800 ms
+11/05 18:53:28 330: waiting for data for 900 ms
+11/05 18:53:28 430: waiting for data for 1000 ms
+11/05 18:53:28 531: waiting for data for 1100 ms
+11/05 18:53:28 631: waiting for data for 1200 ms
+11/05 18:53:28 731: waiting for data for 1300 ms
+11/05 18:53:28 831: waiting for data for 1400 ms
+11/05 18:53:28 931: waiting for data for 1500 ms
+11/05 18:53:29 032: waiting for data for 1600 ms
+11/05 18:53:29 132: waiting for data for 1700 ms
+11/05 18:53:29 233: waiting for data for 1800 ms
+11/05 18:53:29 334: waiting for data for 1900 ms
+11/05 18:53:29 434: waiting for data for 2000 ms
+11/05 18:53:29 534: waiting for data for 2100 ms
+11/05 18:53:29 635: waiting for data for 2200 ms
+11/05 18:53:29 735: waiting for data for 2300 ms
+11/05 18:53:29 835: waiting for data for 2400 ms
+11/05 18:53:29 936: waiting for data for 2500 ms
+11/05 18:53:30 036: waiting for data for 2600 ms
+11/05 18:53:30 136: waiting for data for 2700 ms
+11/05 18:53:30 236: waiting for data for 2800 ms
+11/05 18:53:30 337: waiting for data for 2900 ms
+11/05 18:53:30 437: waiting for data for 3000 ms
+11/05 18:53:30 538: waiting for data for 3100 ms
+11/05 18:53:30 638: waiting for data for 3200 ms
+11/05 18:53:30 738: waiting for data for 3300 ms
+11/05 18:53:30 839: waiting for data for 3400 ms
+11/05 18:53:30 939: waiting for data for 3500 ms
+11/05 18:53:31 039: waiting for data for 3600 ms
+11/05 18:53:31 140: waiting for data for 3700 ms
+11/05 18:53:31 240: waiting for data for 3800 ms
+11/05 18:53:31 340: waiting for data for 3900 ms
+11/05 18:53:31 440: waiting for data for 4000 ms
+11/05 18:53:31 540: waiting for data for 4100 ms
+11/05 18:53:31 640: waiting for data for 4200 ms
+11/05 18:53:31 741: waiting for data for 4300 ms
+11/05 18:53:31 841: waiting for data for 4400 ms
+11/05 18:53:31 941: waiting for data for 4500 ms
+11/05 18:53:32 042: waiting for data for 4600 ms
+11/05 18:53:32 142: waiting for data for 4700 ms
+11/05 18:53:32 242: waiting for data for 4800 ms
+11/05 18:53:32 343: waiting for data for 4900 ms
+11/05 18:55:04 691: send  7 bytes
+11/05 18:55:04 691: waiting for data for 0 ms
+11/05 18:55:04 791: waiting for data for 100 ms
+11/05 18:55:04 891: waiting for data for 200 ms
+11/05 18:55:04 992: waiting for data for 300 ms
+11/05 18:55:05 092: waiting for data for 400 ms
+11/05 18:55:05 192: waiting for data for 500 ms
+11/05 18:55:05 292: waiting for data for 600 ms
+11/05 18:55:05 393: waiting for data for 700 ms
+11/05 18:55:05 493: waiting for data for 800 ms
+11/05 18:55:05 593: waiting for data for 900 ms
+11/05 18:55:05 693: waiting for data for 1000 ms
+11/05 18:55:05 794: waiting for data for 1100 ms
+11/05 18:55:05 894: waiting for data for 1200 ms
+11/05 18:55:05 994: waiting for data for 1300 ms
+11/05 18:55:06 094: waiting for data for 1400 ms
+11/05 18:55:06 194: waiting for data for 1500 ms
+11/05 18:55:06 295: waiting for data for 1600 ms
+11/05 18:55:06 395: waiting for data for 1700 ms
+11/05 18:55:06 495: waiting for data for 1800 ms
+11/05 18:55:06 596: waiting for data for 1900 ms
+11/05 18:55:06 696: waiting for data for 2000 ms
+11/05 18:55:06 796: waiting for data for 2100 ms
+11/05 18:55:06 896: waiting for data for 2200 ms
+11/05 18:55:06 996: waiting for data for 2300 ms
+11/05 18:55:07 097: waiting for data for 2400 ms
+11/05 18:55:07 197: waiting for data for 2500 ms
+11/05 18:55:07 297: waiting for data for 2600 ms
+11/05 18:55:07 397: waiting for data for 2700 ms
+11/05 18:55:07 497: waiting for data for 2800 ms
+11/05 18:55:07 598: waiting for data for 2900 ms
+11/05 18:55:07 698: waiting for data for 3000 ms
+11/05 18:55:07 798: waiting for data for 3100 ms
+11/05 18:55:07 899: waiting for data for 3200 ms
+11/05 18:55:07 999: waiting for data for 3300 ms
+11/05 18:55:08 099: waiting for data for 3400 ms
+11/05 18:55:08 199: waiting for data for 3500 ms
+11/05 18:55:08 299: waiting for data for 3600 ms
+11/05 18:55:08 400: waiting for data for 3700 ms
+11/05 18:55:08 500: waiting for data for 3800 ms
+11/05 18:55:08 601: waiting for data for 3900 ms
+11/05 18:55:08 701: waiting for data for 4000 ms
+11/05 18:55:08 801: waiting for data for 4100 ms
+11/05 18:55:08 902: waiting for data for 4200 ms
+11/05 18:55:09 003: waiting for data for 4300 ms
+11/05 18:55:09 103: waiting for data for 4400 ms
+11/05 18:55:09 204: waiting for data for 4500 ms
+11/05 18:55:09 304: waiting for data for 4600 ms
+11/05 18:55:09 404: waiting for data for 4700 ms
+11/05 18:55:09 504: waiting for data for 4800 ms
+11/05 18:55:09 605: waiting for data for 4900 ms
+11/05 18:56:41 075: send  7 bytes
+11/05 18:56:41 085: waiting for data for 0 ms
+11/05 18:56:41 185: waiting for data for 100 ms
+11/05 18:56:41 286: waiting for data for 200 ms
+11/05 18:56:41 386: waiting for data for 300 ms
+11/05 18:56:41 486: waiting for data for 400 ms
+11/05 18:56:41 587: waiting for data for 500 ms
+11/05 18:56:41 687: waiting for data for 600 ms
+11/05 18:56:41 787: waiting for data for 700 ms
+11/05 18:56:41 887: waiting for data for 800 ms
+11/05 18:56:41 988: waiting for data for 900 ms
+11/05 18:56:42 088: waiting for data for 1000 ms
+11/05 18:56:42 189: waiting for data for 1100 ms
+11/05 18:56:42 289: waiting for data for 1200 ms
+11/05 18:56:42 389: waiting for data for 1300 ms
+11/05 18:56:42 490: waiting for data for 1400 ms
+11/05 18:56:42 590: waiting for data for 1500 ms
+11/05 18:56:42 690: waiting for data for 1600 ms
+11/05 18:56:42 790: waiting for data for 1700 ms
+11/05 18:56:42 891: waiting for data for 1800 ms
+11/05 18:56:42 992: waiting for data for 1900 ms
+11/05 18:56:43 092: waiting for data for 2000 ms
+11/05 18:56:43 192: waiting for data for 2100 ms
+11/05 18:56:43 292: waiting for data for 2200 ms
+11/05 18:56:43 393: waiting for data for 2300 ms
+11/05 18:56:43 493: waiting for data for 2400 ms
+11/05 18:56:43 593: waiting for data for 2500 ms
+11/05 18:56:43 694: waiting for data for 2600 ms
+11/05 18:56:43 794: waiting for data for 2700 ms
+11/05 18:56:43 894: waiting for data for 2800 ms
+11/05 18:56:43 996: waiting for data for 2900 ms
+11/05 18:56:44 097: waiting for data for 3000 ms
+11/05 18:56:44 197: waiting for data for 3100 ms
+11/05 18:56:44 297: waiting for data for 3200 ms
+11/05 18:56:44 398: waiting for data for 3300 ms
+11/05 18:56:44 498: waiting for data for 3400 ms
+11/05 18:56:44 598: waiting for data for 3500 ms
+11/05 18:56:44 698: waiting for data for 3600 ms
+11/05 18:56:44 799: waiting for data for 3700 ms
+11/05 18:56:44 899: waiting for data for 3800 ms
+11/05 18:56:44 999: waiting for data for 3900 ms
+11/05 18:56:45 099: waiting for data for 4000 ms
+11/05 18:56:45 200: waiting for data for 4100 ms
+11/05 18:56:45 301: waiting for data for 4200 ms
+11/05 18:56:45 401: waiting for data for 4300 ms
+11/05 18:56:45 501: waiting for data for 4400 ms
+11/05 18:56:45 602: waiting for data for 4500 ms
+11/05 18:56:45 703: waiting for data for 4600 ms
+11/05 18:56:45 804: waiting for data for 4700 ms
+11/05 18:56:45 904: waiting for data for 4800 ms
+11/05 18:56:46 004: waiting for data for 4900 ms
+11/05 18:58:17 777: send  7 bytes
+11/05 18:58:17 877: waiting for data for 0 ms
+11/05 18:58:17 978: waiting for data for 100 ms
+11/05 18:58:18 078: waiting for data for 200 ms
+11/05 18:58:18 179: waiting for data for 300 ms
+11/05 18:58:18 279: waiting for data for 400 ms
+11/05 18:58:18 380: waiting for data for 500 ms
+11/05 18:58:18 480: waiting for data for 600 ms
+11/05 18:58:18 580: waiting for data for 700 ms
+11/05 18:58:18 681: waiting for data for 800 ms
+11/05 18:58:18 781: waiting for data for 900 ms
+11/05 18:58:18 881: waiting for data for 1000 ms
+11/05 18:58:18 982: waiting for data for 1100 ms
+11/05 18:58:19 083: waiting for data for 1200 ms
+11/05 18:58:19 184: waiting for data for 1300 ms
+11/05 18:58:19 284: waiting for data for 1400 ms
+11/05 18:58:19 384: waiting for data for 1500 ms
+11/05 18:58:19 485: waiting for data for 1600 ms
+11/05 18:58:19 585: waiting for data for 1700 ms
+11/05 18:58:19 685: waiting for data for 1800 ms
+11/05 18:58:19 786: waiting for data for 1900 ms
+11/05 18:58:19 886: waiting for data for 2000 ms
+11/05 18:58:19 987: waiting for data for 2100 ms
+11/05 18:58:20 088: waiting for data for 2200 ms
+11/05 18:58:20 189: waiting for data for 2300 ms
+11/05 18:58:20 289: waiting for data for 2400 ms
+11/05 18:58:20 389: waiting for data for 2500 ms
+11/05 18:58:20 489: waiting for data for 2600 ms
+11/05 18:58:20 589: waiting for data for 2700 ms
+11/05 18:58:20 689: waiting for data for 2800 ms
+11/05 18:58:20 790: waiting for data for 2900 ms
+11/05 18:58:20 890: waiting for data for 3000 ms
+11/05 18:58:20 990: waiting for data for 3100 ms
+11/05 18:58:21 090: waiting for data for 3200 ms
+11/05 18:58:21 191: waiting for data for 3300 ms
+11/05 18:58:21 291: waiting for data for 3400 ms
+11/05 18:58:21 391: waiting for data for 3500 ms
+11/05 18:58:21 491: waiting for data for 3600 ms
+11/05 18:58:21 592: waiting for data for 3700 ms
+11/05 18:58:21 693: waiting for data for 3800 ms
+11/05 18:58:21 795: waiting for data for 3900 ms
+11/05 18:58:21 895: waiting for data for 4000 ms
+11/05 18:58:21 996: waiting for data for 4100 ms
+11/05 18:58:22 096: waiting for data for 4200 ms
+11/05 18:58:22 196: waiting for data for 4300 ms
+11/05 18:58:22 297: waiting for data for 4400 ms
+11/05 18:58:22 397: waiting for data for 4500 ms
+11/05 18:58:22 497: waiting for data for 4600 ms
+11/05 18:58:22 598: waiting for data for 4700 ms
+11/05 18:58:22 698: waiting for data for 4800 ms
+11/05 18:58:22 798: waiting for data for 4900 ms
+11/05 18:59:17 864: send  7 bytes
+11/05 18:59:17 965: waiting for data for 0 ms
+11/05 18:59:18 065: waiting for data for 100 ms
+11/05 18:59:18 166: waiting for data for 200 ms
+11/05 18:59:18 266: waiting for data for 300 ms
+11/05 18:59:18 367: waiting for data for 400 ms
+11/05 18:59:18 467: waiting for data for 500 ms
+11/05 18:59:18 567: waiting for data for 600 ms
+11/05 18:59:18 668: waiting for data for 700 ms
+11/05 18:59:18 768: waiting for data for 800 ms
+11/05 18:59:18 868: waiting for data for 900 ms
+11/05 18:59:18 969: waiting for data for 1000 ms
+11/05 18:59:19 070: waiting for data for 1100 ms
+11/05 18:59:19 170: waiting for data for 1200 ms
+11/05 18:59:19 270: waiting for data for 1300 ms
+11/05 18:59:19 371: waiting for data for 1400 ms
+11/05 18:59:19 471: waiting for data for 1500 ms
+11/05 18:59:19 572: waiting for data for 1600 ms
+11/05 18:59:19 672: waiting for data for 1700 ms
+11/05 18:59:19 773: waiting for data for 1800 ms
+11/05 18:59:19 873: waiting for data for 1900 ms
+11/05 18:59:19 974: waiting for data for 2000 ms
+11/05 18:59:20 074: waiting for data for 2100 ms
+11/05 18:59:20 174: waiting for data for 2200 ms
+11/05 18:59:20 275: waiting for data for 2300 ms
+11/05 18:59:20 375: waiting for data for 2400 ms
+11/05 18:59:20 475: waiting for data for 2500 ms
+11/05 18:59:20 576: waiting for data for 2600 ms
+11/05 18:59:20 676: waiting for data for 2700 ms
+11/05 18:59:20 777: waiting for data for 2800 ms
+11/05 18:59:20 877: waiting for data for 2900 ms
+11/05 18:59:20 977: waiting for data for 3000 ms
+11/05 18:59:21 077: waiting for data for 3100 ms
+11/05 18:59:21 178: waiting for data for 3200 ms
+11/05 18:59:21 279: waiting for data for 3300 ms
+11/05 18:59:21 379: waiting for data for 3400 ms
+11/05 18:59:21 479: waiting for data for 3500 ms
+11/05 18:59:21 579: waiting for data for 3600 ms
+11/05 18:59:21 680: waiting for data for 3700 ms
+11/05 18:59:21 780: waiting for data for 3800 ms
+11/05 18:59:21 881: waiting for data for 3900 ms
+11/05 18:59:21 981: waiting for data for 4000 ms
+11/05 18:59:22 082: waiting for data for 4100 ms
+11/05 18:59:22 183: waiting for data for 4200 ms
+11/05 18:59:22 283: waiting for data for 4300 ms
+11/05 18:59:22 384: waiting for data for 4400 ms
+11/05 18:59:22 484: waiting for data for 4500 ms
+11/05 18:59:22 585: waiting for data for 4600 ms
+11/05 18:59:22 685: waiting for data for 4700 ms
+11/05 18:59:22 785: waiting for data for 4800 ms
+11/05 18:59:22 886: waiting for data for 4900 ms
+11/05 18:59:33 773: send  7 bytes
+11/05 18:59:33 874: waiting for data for 0 ms
+11/05 18:59:33 975: waiting for data for 100 ms
+11/05 18:59:34 075: waiting for data for 200 ms
+11/05 18:59:34 175: waiting for data for 300 ms
+11/05 18:59:34 275: waiting for data for 400 ms
+11/05 18:59:34 376: waiting for data for 500 ms
+11/05 18:59:34 476: waiting for data for 600 ms
+11/05 18:59:34 577: waiting for data for 700 ms
+11/05 18:59:34 678: waiting for data for 800 ms
+11/05 18:59:34 778: waiting for data for 900 ms
+11/05 18:59:34 878: read 1 bytes
+11/05 18:59:34 878: read 1 bytes
+11/05 18:59:34 878: read 1 bytes
+11/05 18:59:34 878: read 1 bytes
+11/05 18:59:34 878: read 1 bytes
+11/05 18:59:34 878: read 1 bytes
+11/05 18:59:34 929: send  7 bytes
+11/05 18:59:34 929: waiting for data for 0 ms
+11/05 18:59:35 030: waiting for data for 100 ms
+11/05 18:59:35 130: waiting for data for 200 ms
+11/05 18:59:35 230: waiting for data for 300 ms
+11/05 18:59:35 330: waiting for data for 400 ms
+11/05 18:59:35 431: waiting for data for 500 ms
+11/05 18:59:35 531: waiting for data for 600 ms
+11/05 18:59:35 632: waiting for data for 700 ms
+11/05 18:59:35 732: waiting for data for 800 ms
+11/05 18:59:35 832: waiting for data for 900 ms
+11/05 18:59:35 933: waiting for data for 1000 ms
+11/05 18:59:36 033: read 1 bytes
+11/05 18:59:36 033: read 1 bytes
+11/05 18:59:36 033: read 1 bytes
+11/05 18:59:36 033: read 1 bytes
+11/05 18:59:36 033: read 1 bytes
+11/05 19:05:17 597: send  7 bytes
+11/05 19:05:17 658: waiting for data for 0 ms
+11/05 19:05:17 759: waiting for data for 100 ms
+11/05 19:05:17 859: waiting for data for 200 ms
+11/05 19:05:17 960: waiting for data for 300 ms
+11/05 19:05:18 060: waiting for data for 400 ms
+11/05 19:05:18 160: waiting for data for 500 ms
+11/05 19:05:18 260: waiting for data for 600 ms
+11/05 19:05:18 360: waiting for data for 700 ms
+11/05 19:05:18 461: waiting for data for 800 ms
+11/05 19:05:18 561: waiting for data for 900 ms
+11/05 19:05:18 662: waiting for data for 1000 ms
+11/05 19:05:18 763: read 1 bytes
+11/05 19:05:18 763: read 1 bytes
+11/05 19:05:18 763: read 1 bytes
+11/05 19:05:18 763: read 1 bytes
+11/05 19:05:18 763: read 1 bytes
+11/05 19:05:18 763: read 1 bytes
+11/05 19:05:18 763: read 1 bytes
+11/05 19:05:18 763: read 1 bytes
+11/05 19:05:18 813: send  7 bytes
+11/05 19:05:18 874: waiting for data for 0 ms
+11/05 19:05:18 974: waiting for data for 100 ms
+11/05 19:05:19 075: waiting for data for 200 ms
+11/05 19:05:19 175: waiting for data for 300 ms
+11/05 19:05:19 275: waiting for data for 400 ms
+11/05 19:05:19 376: waiting for data for 500 ms
+11/05 19:05:19 476: waiting for data for 600 ms
+11/05 19:05:19 576: waiting for data for 700 ms
+11/05 19:05:19 677: waiting for data for 800 ms
+11/05 19:05:19 777: waiting for data for 900 ms
+11/05 19:05:19 877: waiting for data for 1000 ms
+11/05 19:05:19 978: read 1 bytes
+11/05 19:05:19 978: read 1 bytes
+11/05 19:05:19 978: read 1 bytes
+11/05 19:05:19 978: read 1 bytes
+11/05 19:05:19 978: read 1 bytes
+11/05 19:05:19 978: read 1 bytes
+11/05 19:05:19 978: read 1 bytes
+11/05 19:22:58 918: send  7 bytes
+11/05 19:22:58 979: waiting for data for 0 ms
+11/05 19:22:59 079: waiting for data for 100 ms
+11/05 19:22:59 179: waiting for data for 200 ms
+11/05 19:22:59 279: waiting for data for 300 ms
+11/05 19:22:59 380: waiting for data for 400 ms
+11/05 19:22:59 480: waiting for data for 500 ms
+11/05 19:22:59 580: waiting for data for 600 ms
+11/05 19:22:59 680: waiting for data for 700 ms
+11/05 19:22:59 781: waiting for data for 800 ms
+11/05 19:22:59 881: waiting for data for 900 ms
+11/05 19:22:59 981: waiting for data for 1000 ms
+11/05 19:23:00 081: read 1 bytes
+11/05 19:23:00 081: read 1 bytes
+11/05 19:23:00 081: read 1 bytes
+11/05 19:23:00 081: read 1 bytes
+11/05 19:23:00 081: read 1 bytes
+11/05 19:23:00 081: read 1 bytes
+11/05 19:23:00 081: read 1 bytes
+11/05 19:23:00 081: read 1 bytes
+11/05 19:23:00 081: read 1 bytes
+11/05 19:23:00 132: send  7 bytes
+11/05 19:23:00 233: waiting for data for 0 ms
+11/05 19:23:00 334: waiting for data for 100 ms
+11/05 19:23:00 434: waiting for data for 200 ms
+11/05 19:23:00 534: waiting for data for 300 ms
+11/05 19:23:00 635: waiting for data for 400 ms
+11/05 19:23:00 735: waiting for data for 500 ms
+11/05 19:23:00 836: waiting for data for 600 ms
+11/05 19:23:00 936: waiting for data for 700 ms
+11/05 19:23:01 037: waiting for data for 800 ms
+11/05 19:23:01 137: waiting for data for 900 ms
+11/05 19:23:01 237: read 1 bytes
+11/05 19:23:01 237: read 1 bytes
+11/05 19:23:01 237: read 1 bytes
+11/05 19:23:01 237: read 1 bytes
+11/05 19:23:01 237: read 1 bytes
+11/05 19:23:01 237: read 1 bytes
+11/05 19:23:01 237: read 1 bytes
+11/05 19:23:01 237: read 1 bytes
+11/05 19:24:35 086: send  7 bytes
+11/05 19:24:35 147: waiting for data for 0 ms
+11/05 19:24:35 248: waiting for data for 100 ms
+11/05 19:24:35 348: waiting for data for 200 ms
+11/05 19:24:35 449: waiting for data for 300 ms
+11/05 19:24:35 549: waiting for data for 400 ms
+11/05 19:24:35 650: waiting for data for 500 ms
+11/05 19:24:35 750: waiting for data for 600 ms
+11/05 19:24:35 851: waiting for data for 700 ms
+11/05 19:24:35 951: waiting for data for 800 ms
+11/05 19:24:36 052: waiting for data for 900 ms
+11/05 19:24:36 152: waiting for data for 1000 ms
+11/05 19:24:36 252: read 1 bytes
+11/05 19:24:36 252: read 1 bytes
+11/05 19:24:36 252: read 1 bytes
+11/05 19:24:36 252: read 1 bytes
+11/05 19:24:36 252: read 1 bytes
+11/05 19:24:36 252: read 1 bytes
+11/05 19:24:36 252: read 1 bytes
+11/05 19:24:36 252: read 1 bytes
+11/05 19:24:36 252: read 1 bytes
+11/05 19:24:36 304: send  7 bytes
+11/05 19:24:36 404: waiting for data for 0 ms
+11/05 19:24:36 504: waiting for data for 100 ms
+11/05 19:24:36 605: waiting for data for 200 ms
+11/05 19:24:36 705: waiting for data for 300 ms
+11/05 19:24:36 805: waiting for data for 400 ms
+11/05 19:24:36 905: waiting for data for 500 ms
+11/05 19:24:37 006: waiting for data for 600 ms
+11/05 19:24:37 106: waiting for data for 700 ms
+11/05 19:24:37 206: waiting for data for 800 ms
+11/05 19:24:37 306: waiting for data for 900 ms
+11/05 19:24:37 407: read 1 bytes
+11/05 19:24:37 407: read 1 bytes
+11/05 19:24:37 407: read 1 bytes
+11/05 19:24:37 407: read 1 bytes
+11/05 19:24:37 407: read 1 bytes
+11/05 19:24:37 407: read 1 bytes
+11/05 19:24:37 407: read 1 bytes
+11/05 19:24:37 407: read 1 bytes
+11/05 19:28:37 783: send  7 bytes
+11/05 19:28:37 844: waiting for data for 0 ms
+11/05 19:28:37 944: waiting for data for 100 ms
+11/05 19:28:38 045: waiting for data for 200 ms
+11/05 19:28:38 145: waiting for data for 300 ms
+11/05 19:28:38 245: waiting for data for 400 ms
+11/05 19:28:38 345: waiting for data for 500 ms
+11/05 19:28:38 446: waiting for data for 600 ms
+11/05 19:28:38 546: waiting for data for 700 ms
+11/05 19:28:38 646: waiting for data for 800 ms
+11/05 19:28:38 746: waiting for data for 900 ms
+11/05 19:28:38 846: waiting for data for 1000 ms
+11/05 19:28:38 947: read 1 bytes
+11/05 19:28:38 947: read 1 bytes
+11/05 19:28:38 947: read 1 bytes
+11/05 19:28:38 947: read 1 bytes
+11/05 19:28:38 947: read 1 bytes
+11/05 19:28:38 948: read 1 bytes
+11/05 19:28:38 948: read 1 bytes
+11/05 19:28:38 948: read 1 bytes
+11/05 19:28:38 948: read 1 bytes
+11/05 19:28:38 998: send  7 bytes
+11/05 19:28:39 099: waiting for data for 0 ms
+11/05 19:28:39 200: waiting for data for 100 ms
+11/05 19:28:39 300: waiting for data for 200 ms
+11/05 19:28:39 400: waiting for data for 300 ms
+11/05 19:28:39 501: waiting for data for 400 ms
+11/05 19:28:39 601: waiting for data for 500 ms
+11/05 19:28:39 701: waiting for data for 600 ms
+11/05 19:28:39 801: waiting for data for 700 ms
+11/05 19:28:39 902: waiting for data for 800 ms
+11/05 19:28:40 003: waiting for data for 900 ms
+11/05 19:28:40 104: read 1 bytes
+11/05 19:28:40 104: read 1 bytes
+11/05 19:28:40 104: read 1 bytes
+11/05 19:28:40 104: read 1 bytes
+11/05 19:28:40 104: read 1 bytes
+11/05 19:28:40 104: read 1 bytes
+11/05 19:28:40 104: read 1 bytes
+11/05 19:28:40 104: read 1 bytes
+11/05 19:30:18 173: send  7 bytes
+11/05 19:30:18 233: waiting for data for 0 ms
+11/05 19:30:18 333: waiting for data for 100 ms
+11/05 19:30:18 434: waiting for data for 200 ms
+11/05 19:30:18 534: waiting for data for 300 ms
+11/05 19:30:18 634: waiting for data for 400 ms
+11/05 19:30:18 735: waiting for data for 500 ms
+11/05 19:30:18 835: waiting for data for 600 ms
+11/05 19:30:18 936: waiting for data for 700 ms
+11/05 19:30:19 036: waiting for data for 800 ms
+11/05 19:30:19 136: waiting for data for 900 ms
+11/05 19:30:19 237: waiting for data for 1000 ms
+11/05 19:30:19 337: read 1 bytes
+11/05 19:30:19 337: read 1 bytes
+11/05 19:30:19 337: read 1 bytes
+11/05 19:30:19 337: read 1 bytes
+11/05 19:30:19 337: read 1 bytes
+11/05 19:30:19 337: read 1 bytes
+11/05 19:30:19 337: read 1 bytes
+11/05 19:30:19 337: read 1 bytes
+11/05 19:30:19 337: read 1 bytes
+11/05 19:30:19 388: send  7 bytes
+11/05 19:30:19 489: waiting for data for 0 ms
+11/05 19:30:19 589: waiting for data for 100 ms
+11/05 19:30:19 689: waiting for data for 200 ms
+11/05 19:30:19 790: waiting for data for 300 ms
+11/05 19:30:19 890: waiting for data for 400 ms
+11/05 19:30:19 990: waiting for data for 500 ms
+11/05 19:30:20 090: waiting for data for 600 ms
+11/05 19:30:20 190: waiting for data for 700 ms
+11/05 19:30:20 291: waiting for data for 800 ms
+11/05 19:30:20 391: waiting for data for 900 ms
+11/05 19:30:20 492: read 1 bytes
+11/05 19:30:20 492: read 1 bytes
+11/05 19:30:20 492: read 1 bytes
+11/05 19:30:20 492: read 1 bytes
+11/05 19:30:20 492: read 1 bytes
+11/05 19:30:20 492: read 1 bytes
+11/05 19:30:20 492: read 1 bytes
+11/05 19:32:15 540: send  7 bytes
+11/05 19:32:15 601: waiting for data for 0 ms
+11/05 19:32:15 701: waiting for data for 100 ms
+11/05 19:32:15 801: waiting for data for 200 ms
+11/05 19:32:15 902: waiting for data for 300 ms
+11/05 19:32:16 002: waiting for data for 400 ms
+11/05 19:32:16 102: waiting for data for 500 ms
+11/05 19:32:16 203: waiting for data for 600 ms
+11/05 19:32:16 303: waiting for data for 700 ms
+11/05 19:32:16 404: waiting for data for 800 ms
+11/05 19:32:16 504: waiting for data for 900 ms
+11/05 19:32:16 605: waiting for data for 1000 ms
+11/05 19:32:16 705: read 1 bytes
+11/05 19:32:16 705: read 1 bytes
+11/05 19:32:16 705: read 1 bytes
+11/05 19:32:16 705: read 1 bytes
+11/05 19:32:16 705: read 1 bytes
+11/05 19:32:16 705: read 1 bytes
+11/05 19:32:16 705: read 1 bytes
+11/05 19:32:16 756: send  7 bytes
+11/05 19:32:16 856: waiting for data for 0 ms
+11/05 19:32:16 957: waiting for data for 100 ms
+11/05 19:32:17 057: waiting for data for 200 ms
+11/05 19:32:17 157: waiting for data for 300 ms
+11/05 19:32:17 257: waiting for data for 400 ms
+11/05 19:32:17 358: waiting for data for 500 ms
+11/05 19:32:17 458: waiting for data for 600 ms
+11/05 19:32:17 559: waiting for data for 700 ms
+11/05 19:32:17 659: waiting for data for 800 ms
+11/05 19:32:17 759: waiting for data for 900 ms
+11/05 19:32:17 859: read 1 bytes
+11/05 19:32:17 859: read 1 bytes
+11/05 19:32:17 859: read 1 bytes
+11/05 19:32:17 859: read 1 bytes
+11/05 19:32:17 859: read 1 bytes
+11/05 20:07:08 145: send  7 bytes
+11/05 20:07:08 205: waiting for data for 0 ms
+11/05 20:07:08 306: waiting for data for 100 ms
+11/05 20:07:08 406: waiting for data for 200 ms
+11/05 20:07:08 506: waiting for data for 300 ms
+11/05 20:07:08 606: waiting for data for 400 ms
+11/05 20:07:08 707: waiting for data for 500 ms
+11/05 20:07:08 808: waiting for data for 600 ms
+11/05 20:07:08 909: waiting for data for 700 ms
+11/05 20:07:09 009: waiting for data for 800 ms
+11/05 20:07:09 110: waiting for data for 900 ms
+11/05 20:07:09 210: read 1 bytes
+11/05 20:07:09 213: read 1 bytes
+11/05 20:07:09 213: read 1 bytes
+11/05 20:07:09 213: read 1 bytes
+11/05 20:07:09 213: read 1 bytes
+11/05 20:07:09 217: read 1 bytes
+11/05 20:07:09 217: read 1 bytes
+11/05 20:07:09 217: read 1 bytes
+11/05 20:07:09 221: read 1 bytes
+11/05 20:07:09 272: send  7 bytes
+11/05 20:07:09 372: waiting for data for 0 ms
+11/05 20:07:09 473: waiting for data for 100 ms
+11/05 20:07:09 573: waiting for data for 200 ms
+11/05 20:07:09 674: waiting for data for 300 ms
+11/05 20:07:09 774: waiting for data for 400 ms
+11/05 20:07:09 874: waiting for data for 500 ms
+11/05 20:07:09 974: waiting for data for 600 ms
+11/05 20:07:10 074: waiting for data for 700 ms
+11/05 20:07:10 175: waiting for data for 800 ms
+11/05 20:07:10 275: waiting for data for 900 ms
+11/05 20:07:10 375: read 1 bytes
+11/05 20:07:10 375: read 1 bytes
+11/05 20:07:10 375: read 1 bytes
+11/05 20:07:10 375: read 1 bytes
+11/05 20:07:10 375: read 1 bytes
+11/05 20:07:10 375: read 1 bytes
+11/05 20:07:10 375: read 1 bytes
+11/05 20:07:10 376: send  8 bytes
+11/05 20:07:10 436: read 1 bytes
+11/05 20:08:35 714: send  7 bytes
+11/05 20:08:35 775: read 1 bytes
+11/05 20:08:35 825: send  7 bytes
+11/05 20:08:35 926: waiting for data for 0 ms
+11/05 20:08:36 026: waiting for data for 100 ms
+11/05 20:08:36 126: waiting for data for 200 ms
+11/05 20:08:36 227: waiting for data for 300 ms
+11/05 20:08:36 327: waiting for data for 400 ms
+11/05 20:08:36 428: waiting for data for 500 ms
+11/05 20:08:36 528: waiting for data for 600 ms
+11/05 20:08:36 629: waiting for data for 700 ms
+11/05 20:08:36 729: waiting for data for 800 ms
+11/05 20:08:36 829: waiting for data for 900 ms
+11/05 20:08:36 929: read 1 bytes
+11/05 20:08:36 929: read 1 bytes
+11/05 20:08:36 929: read 1 bytes
+11/05 20:08:36 929: read 1 bytes
+11/05 20:08:36 929: read 1 bytes
+11/05 20:08:36 929: read 1 bytes
+11/05 20:08:36 929: read 1 bytes
+11/05 20:08:36 930: send  8 bytes
+11/05 20:08:36 935: send  8 bytes
+11/05 20:08:36 997: read 1 bytes

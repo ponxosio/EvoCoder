@@ -40,9 +40,9 @@ BidirectionalSwitch::~BidirectionalSwitch() {
 
 }
 
-std::string BidirectionalSwitch::toText() {
+/*std::string BidirectionalSwitch::toText() {
 	//TODO: DEFINIR
-}
+}*/
 
 void BidirectionalSwitch::loadNode(const std::string& line)
 		throw (std::invalid_argument) {

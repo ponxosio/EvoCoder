@@ -75,7 +75,9 @@ void ExecutableMachineGraph::getAvailableFlows_recursive(int idSource, vector<in
 	const vector<Edge*>* neighbors = graph->getNeighbors(actual->getContainerId());
 	for (auto it = neighbors->begin(); it != neighbors->end(); ++it) {
 		Edge* actualNeig = *it;
-		if (find(visitados.begin(), visitados.end(), actualNeig->getIdTarget()) == visitados.end()) {
+		if (isNodeAvailable(actualNeig->getIdTarget())
+				&& find(visitados.begin(), visitados.end(),
+						actualNeig->getIdTarget()) == visitados.end()) {
 			recorridos.push_back(actualNeig);
 			ExecutableContainerNode* nodeTarget = graph->getNode(actualNeig->getIdTarget());
 			if (nodeTarget->getType()->isCompatible(destinationType)) {
@@ -106,9 +108,40 @@ vector<ExecutableContainerNode*> ExecutableMachineGraph::getAllCompatibleNodes(
 
 	for (auto it = nodos.begin(); it != nodos.end(); ++it) {
 		ExecutableContainerNode* actual = *it;
-		if (actual->getType()->isCompatible(type)) {
+		if (isNodeAvailable(actual) && actual->getType()->isCompatible(type)) {
 			available.push_back(actual);
 		}
 	}
 	return available;
+}
+
+bool ExecutableMachineGraph::isNodeAvailable(ExecutableContainerNode* node) {
+	bool available = true;
+	for (auto it = usedNodes->begin(); available && it != usedNodes->end(); ++it) {
+		ExecutableContainerNode* actual = *it;
+		available = !actual->equals(*node);
+	}
+	return available;
+}
+
+bool ExecutableMachineGraph::isNodeAvailable(int nodeId) {
+	bool available = true;
+	for (auto it = usedNodes->begin(); available && it != usedNodes->end();
+			++it) {
+		ExecutableContainerNode* actual = *it;
+		available = actual->getContainerId() != nodeId;
+	}
+	return available;
+}
+
+void ExecutableMachineGraph::addUsedNode(int nodeId)
+		throw (std::invalid_argument) {
+	{
+		ExecutableContainerNode* node = graph->getNode(nodeId);
+		if (node != NULL) {
+			usedNodes->push_back(node);
+		} else {
+			throw(std::invalid_argument("unknown nodeId: " + patch::to_string(nodeId)));
+		}
+	}
 }

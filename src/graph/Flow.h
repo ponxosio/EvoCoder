@@ -35,10 +35,7 @@ public:
 	bool checkLoop();
 	bool equals(const Flow & flow);
 
-	inline std::string toText() {
-		return patch::to_string(idStart) + "->" + patch::to_string(idFinish)
-				+ ":" + patch::to_string(paths.size());
-	}
+	std::string toText();
 
 	inline int getIdFinish() const {
 		return idFinish;
@@ -140,6 +137,17 @@ bool Flow<EdgeType>::equals(const Flow& flow) {
 		++itCompare;
 	}
 	return equals;
+}
+
+template<class EdgeType>
+std::string Flow<EdgeType>::toText() {
+	std::string text = patch::to_string(idStart) + "->"
+			+ patch::to_string(idFinish) + ":";
+	for (auto it = paths.begin(); it != paths.end(); ++it) {
+		Edge* actual = *it;
+		text += actual->toText();
+	}
+	return text;
 }
 
 #endif /* SRC_GRAPH_FLOW_H_ */

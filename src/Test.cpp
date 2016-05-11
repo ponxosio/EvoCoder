@@ -36,11 +36,11 @@ int main(int argv, char* argc[]) {
 	//t.testSketcher();
 	//t.testMapping();
 	//t.testFlow();
-	//t.testExecutableMachineGraph();
+	t.testExecutableMachineGraph();
 
 	//t.testSerialPort_send();
 
-	t.testSerialPort_receive();
+	//t.testSerialPort_receive();
 
 	LOG(INFO)<< "finished!";
 }
@@ -486,7 +486,8 @@ void Test::testMapping() {
 }
 
 void Test::testFlow() {
-	std::priority_queue<Flow<Edge>*, vector<Flow<Edge>*>, FlowPtrComparator<Edge>> heap;
+	std::priority_queue<Flow<Edge>*, vector<Flow<Edge>*>,
+			FlowPtrComparator<Edge>> heap;
 
 	Flow<Edge>* f1 = new Flow<Edge>(1, 3);
 	Edge* edge13 = new Edge(1, 3);
@@ -501,10 +502,10 @@ void Test::testFlow() {
 
 	heap.push(f2);
 
-	while(!heap.empty()) {
+	while (!heap.empty()) {
 		Flow<Edge>* actual = heap.top();
 		heap.pop();
-		LOG(INFO) << actual->toText();
+		LOG(INFO)<< actual->toText();
 	}
 
 }
@@ -532,14 +533,14 @@ ProtocolGraph* Test::makeSimpleProtocol(boost::shared_ptr<VariableTable> table,
 	boost::shared_ptr<ComparisonOperable> tautology(new Tautology());
 
 	boost::shared_ptr<VariableEntry> epsilon(
-				new VariableEntry("epsilon", table));
+			new VariableEntry("epsilon", table));
 	boost::shared_ptr<MathematicOperable> mepsilon(
-				new VariableEntry("epsilon", table));
+			new VariableEntry("epsilon", table));
 	boost::shared_ptr<MathematicOperable> num0_5(new ConstantNumber(0.5));
 	boost::shared_ptr<MathematicOperable> num10(new ConstantNumber(10));
 
 	OperationNode* op1 = new AssignationOperation(serial.getNextValue(),
-				epsilon, num0_5); //epsilon = 0.5
+			epsilon, num0_5); //epsilon = 0.5
 
 	boost::shared_ptr<MathematicOperable> num1000(new ConstantNumber(1000));
 	OperationNode* op4 = new LoadContainerOperation(serial.getNextValue(), map,
@@ -607,9 +608,9 @@ void Test::testSerialPort_receive() {
 	try {
 		CommandSender* s = new SerialSender("\\\\.\\COM3");
 
-		LOG(INFO) << "recibiendo datos...";
+		LOG(INFO)<< "recibiendo datos...";
 		for (int i = 0; i < 10; i++) {
-			LOG(INFO) << i << ":" << s->receiveString();
+			LOG(INFO)<< i << ":" << s->receiveString();
 			Sleep(1500);
 		}
 
@@ -619,9 +620,90 @@ void Test::testSerialPort_receive() {
 }
 
 void Test::testExecutableMachineGraph() {
-	ExecutableMachineGraph* exMachine = new ExecutableMachineGraph("testMachine");
+	CommandSender* communications = new SerialSender("\\\\.\\COM3");
+	LOG(INFO) << "creating machine...";
+	ExecutableMachineGraph* machine = makeSimpleMachine(communications);
 
-//	ExecutableContainerNode* node1 = new InletContainer(1, 100.0, boost::shared_ptr<Extractor>(new Extractor()));
-//	node1->addAddon(AddOnsType::light);
-//	ExecutableContainerNode* node2 = new InletContainer(2, 100.0, boost::shared_ptr<Extractor>(new Extractor()));
+	ContainerNodeType cinlet(MovementType::continuous, ContainerType::inlet);
+	ContainerNodeType sink(MovementType::irrelevant, ContainerType::sink);
+
+	LOG(INFO) << "printing graph...";
+	machine->saveGraph("exMachine.graph");
+
+	LOG(INFO) << "not available 2";
+	machine->addUsedNode(4);
+
+	LOG(INFO) << "getting flows inlet to sink...";
+	std::priority_queue<Flow<Edge>*, vector<Flow<Edge>*>,
+				FlowPtrComparator<Edge>>* f = machine->getAvailableFlows(cinlet, sink);
+
+	int i = 0;
+	while(!f->empty()) {
+		LOG(INFO) << "Flow: " << i << " " << f->top()->toText();
+		f->pop();
+		i++;
+	}
+
+	LOG(INFO) << "destroying machine";
+	delete machine;
+	delete communications;
+}
+
+ExecutableMachineGraph* Test::makeSimpleMachine(CommandSender* communications) {
+	ExecutableMachineGraph* machine = new ExecutableMachineGraph(
+			"simpleMachine");
+
+	boost::shared_ptr<Control> control(new EvoprogSixwayValve(communications,7));
+	boost::shared_ptr<Light> light(new EvoprogLight(communications, 2, 3));
+	boost::shared_ptr<Temperature> temperature(
+			new EvoprogTemperature(communications, 1));
+	boost::shared_ptr<Extractor> cExtractor(
+			new EvoprogContinuousPump(communications, 13));
+	boost::shared_ptr<Extractor> dExtractor(
+			new EvoprogDiscretePump(communications, 14));
+	boost::shared_ptr<Injector> dummyInjector(
+			new EvoprogDummyInjector(communications));
+	boost::shared_ptr<Mixer> mix(new EvoprogMixer(communications, 4));
+
+	ExecutableContainerNode* cInlet1 = new InletContainer(1,100.0,cExtractor);
+	cInlet1->setLight(light);
+	ExecutableContainerNode* dInlet2 = new InletContainer(2,100.0,dExtractor);
+	dInlet2->setTemperature(temperature);
+	ExecutableContainerNode* cSwtInlet3 = new ConvergentSwitchInlet(3,100.0,dummyInjector,cExtractor,control);
+	cSwtInlet3->setMix(mix);
+	ExecutableContainerNode* sink = new SinkContainer(4,100.0,dummyInjector);
+
+	machine->addContainer(cInlet1);
+	machine->addContainer(dInlet2);
+	machine->addContainer(cSwtInlet3);
+	machine->addContainer(sink);
+
+	machine->connectExecutableContainer(1,3);
+	machine->connectExecutableContainer(2,3);
+	machine->connectExecutableContainer(3,4);
+
+	return machine;
+}
+
+void Test::testEvoprogComponents() {
+	try {
+		CommandSender* com = new SerialSender("\\\\.\\COM3");
+		Extractor* ext = new EvoprogContinuousPump(com, 2);
+		ODSensor* od = new EvoprogOdSensor(com, 3);
+		Light* light = new EvoprogLight(com, 4, 5);
+
+		LOG(INFO)<< "extracting liquid";
+		ext->extractLiquid(1.0);
+
+		LOG(INFO)<< "reading sensor";
+		LOG(INFO)<< "read " << od->readOd();
+
+		LOG(INFO)<< "send light command...";
+		light->applyLight(20.0, 50.0);
+
+	} catch (std::ios_base::failure& e) {
+		LOG(INFO)<< "error: " << e.what();
+	} catch (std::invalid_argument& e) {
+		LOG(INFO) << "error: " << e.what();
+	}
 }

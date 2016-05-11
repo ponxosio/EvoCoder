@@ -39,9 +39,9 @@ ConvergentSwitchInlet::~ConvergentSwitchInlet() {
 
 }
 
-std::string ConvergentSwitchInlet::toText() {
+/*std::string ConvergentSwitchInlet::toText() {
 	//TODO: definir
-}
+}*/
 
 void ConvergentSwitchInlet::loadNode(const std::string& line)
 		throw (std::invalid_argument) {

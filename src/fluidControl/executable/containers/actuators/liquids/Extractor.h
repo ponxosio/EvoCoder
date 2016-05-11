@@ -9,12 +9,13 @@
 #define SRC_FLUIDCONTROL_EXECUTABLEMACHINEGRAPH_CONTAINERS_ACTUATORSINTERFACES_LIQUIDACTUATORS_EXTRACTOR_H_
 
 #include "../Instructable.h"
-#include "../Communicable.h"
+#include "X:\\codigo\\EvoCoder_Release_v1\\EvoCoder\\src\\fluidControl\\executable\\containers\\actuators\\communications\\CommandSender.h"
 
-class Extractor: public Instructable, Communicable {
+class Extractor: public Instructable {
 public:
 	Extractor(CommandSender* communications) :
-			Communicable(communications) {
+			Instructable() {
+		this->communications = communications;
 	}
 	virtual ~Extractor() {
 	}
@@ -22,6 +23,8 @@ public:
 	virtual void extractLiquid(double rate) = 0;
 	virtual std::string getInstructions() = 0;
 	virtual int getMovementType() = 0;
+protected:
+	CommandSender* communications;
 };
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLEMACHINEGRAPH_CONTAINERS_ACTUATORSINTERFACES_LIQUIDACTUATORS_EXTRACTOR_H_ */

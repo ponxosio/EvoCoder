@@ -28,9 +28,9 @@ SinkContainer::SinkContainer(int idContainer, float capacity,
 SinkContainer::~SinkContainer() {
 }
 
-std::string SinkContainer::toText() {
+/*std::string SinkContainer::toText() {
 	//TODO: definir
-}
+}*/
 
 void SinkContainer::loadNode(const std::string& line)
 		throw (std::invalid_argument) {

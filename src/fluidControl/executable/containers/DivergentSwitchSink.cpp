@@ -39,9 +39,9 @@ DivergentSwitchSink::~DivergentSwitchSink() {
 
 }
 
-std::string DivergentSwitchSink::toText() {
+/*std::string DivergentSwitchSink::toText() {
 	//TODO: definir
-}
+}*/
 
 void DivergentSwitchSink::loadNode(const std::string& line)
 		throw (std::invalid_argument) {
