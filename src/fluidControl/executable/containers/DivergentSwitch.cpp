@@ -34,9 +34,9 @@ DivergentSwitch::~DivergentSwitch() {
 
 }
 
-std::string DivergentSwitch::toText() {
+/*std::string DivergentSwitch::toText() {
 	//TODO: definir
-}
+}*/
 
 void DivergentSwitch::loadNode(const std::string& line)
 		throw (std::invalid_argument) {

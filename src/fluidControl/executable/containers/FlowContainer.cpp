@@ -32,9 +32,9 @@ FlowContainer::~FlowContainer() {
 	// TODO Auto-generated destructor stub
 }
 
-std::string FlowContainer::toText() {
+/*std::string FlowContainer::toText() {
 	//TODO: DEFINIR
-}
+}*/
 
 void FlowContainer::loadNode(const std::string& line)
 		throw (std::invalid_argument) {

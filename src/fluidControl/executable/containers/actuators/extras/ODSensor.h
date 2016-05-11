@@ -8,19 +8,24 @@
 #ifndef SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_EXTRAS_ODSENSOR_H_
 #define SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_EXTRAS_ODSENSOR_H_
 
-#include "../Instructable.h"
-#include "../Communicable.h"
+#include <stdexcept>
 
-class ODSensor: public Instructable, Communicable {
+#include "../Instructable.h"
+#include "X:\\codigo\\EvoCoder_Release_v1\\EvoCoder\\src\\fluidControl\\executable\\containers\\actuators\\communications\\CommandSender.h"
+
+class ODSensor: public Instructable {
 public:
-	ODSensor(CommandSender* command) :
-			Instructable(), Communicable(command) {
+	ODSensor(CommandSender* communications) :
+			Instructable() {
+		this->communications = communications;
 	}
 	virtual ~ODSensor() {
 	}
 
 	virtual std::string getInstructions() = 0;
-	virtual double readOd() = 0;
+	virtual double readOd() throw (std::invalid_argument) = 0;
+protected:
+	CommandSender* communications;
 };
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_EXTRAS_ODSENSOR_H_ */

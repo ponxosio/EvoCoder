@@ -32,9 +32,9 @@ ConvergentSwitch::~ConvergentSwitch() {
 
 }
 
-std::string ConvergentSwitch::toText() {
+/*std::string ConvergentSwitch::toText() {
 	//TODO definir
-}
+}*/
 
 void ConvergentSwitch::loadNode(const std::string& line)
 		throw (std::invalid_argument) {

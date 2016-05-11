@@ -9,6 +9,7 @@
 #define SRC_FLUIDCONTROL_EXECUTABLE_EXECUTABLEMACHINEGRAPH_H_
 
 #include <string>
+#include <stdexcept>
 
 //vector
 #include <vector>
@@ -17,6 +18,7 @@
 #include <queue>
 
 //local
+#include "../../util/Patch.h"
 #include "../../graph/Graph.h"
 #include "../../graph/Edge.h"
 #include "../../graph/Flow.h"
@@ -48,6 +50,13 @@ public:
 	inline bool areConected(int idSource, int idTarget) {
 		return (graph->areConnected(idSource, idTarget));
 	}
+	inline void saveGraph(const std::string & path) {
+		graph->saveGraph(path);
+	}
+	inline void addUsedNode(ExecutableContainerNode* node) {
+		usedNodes->push_back(node);
+	}
+	void addUsedNode(int nodeId) throw(std::invalid_argument);
 protected:
 	std::string name;
 	Graph<ExecutableContainerNode, Edge>* graph;
@@ -55,16 +64,14 @@ protected:
 
 	vector<ExecutableContainerNode*> getAllCompatibleNodes(const ContainerNodeType & type);
 	bool isNodeInVector(ExecutableContainerNode* node, const vector<int> & nodesIds);
+	bool isNodeAvailable(ExecutableContainerNode* node);
+	bool isNodeAvailable(int nodeId);
 
 	void getAvailableFlows_recursive(int idSource, vector<int> & visitados, vector<Edge*> & recorridos,
 			std::priority_queue<Flow<Edge>* , vector<Flow<Edge>*>,
 					FlowPtrComparator<Edge> >* flows,
 			ExecutableContainerNode* actual, const ContainerNodeType & destinationType);
 
-
-	inline void addUsedNode(ExecutableContainerNode* node) {
-		usedNodes->push_back(node);
-	}
 };
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_EXECUTABLEMACHINEGRAPH_H_ */

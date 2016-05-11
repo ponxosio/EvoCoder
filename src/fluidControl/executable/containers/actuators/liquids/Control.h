@@ -9,13 +9,14 @@
 #define SRC_FLUIDCONTROL_EXECUTABLEMACHINEGRAPH_CONTAINERS_ACTUATORSINTERFACES_LIQUIDACTUATORS_CONTROL_H_
 
 #include "../Instructable.h"
-#include "../Communicable.h"
+#include "X:\\codigo\\EvoCoder_Release_v1\\EvoCoder\\src\\fluidControl\\executable\\containers\\actuators\\communications\\CommandSender.h"
 
-class Control: public Instructable, Communicable {
+class Control: public Instructable {
 public:
 	Control(int maxConexiones, CommandSender* communications) :
-			Communicable(communications) {
+			Instructable() {
 		this->maxConexiones = maxConexiones;
+		this->communications = communications;
 	}
 	virtual ~Control(){}
 
@@ -24,6 +25,7 @@ public:
 	virtual std::string getInstructions() = 0;
 protected:
 	int maxConexiones;
+	CommandSender* communications;
 };
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLEMACHINEGRAPH_CONTAINERS_ACTUATORSINTERFACES_LIQUIDACTUATORS_CONTROL_H_ */

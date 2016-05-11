@@ -110,36 +110,36 @@ bool ContainerNodeType::isCompatibleContainer(ContainerType container) {
 	if (this->containerType != container) {
 		switch (container) {
 		case inlet:
-			compatible = ((container == bidirectional_switch)
-					|| (container == convergent_switch_inlet)
-					|| (container == divergent_switch_sink)
-					|| (container == divergent_switch) || (container == flow));
+			compatible = ((this->containerType == bidirectional_switch)
+					|| (this->containerType == convergent_switch_inlet)
+					|| (this->containerType == divergent_switch_sink)
+					|| (this->containerType == divergent_switch) || (this->containerType == flow));
 			break;
 		case flow:
-			compatible = (container == bidirectional_switch)
-					|| (container == convergent_switch_inlet)
-					|| (container == divergent_switch_sink);
+			compatible = (this->containerType == bidirectional_switch)
+					|| (this->containerType == convergent_switch_inlet)
+					|| (this->containerType == divergent_switch_sink);
 			break;
 		case sink:
-			compatible = ((container == bidirectional_switch)
-					|| (container == convergent_switch)
-					|| (container == convergent_switch_inlet)
-					|| (container == divergent_switch_sink)
-					|| (container == flow));
+			compatible = ((this->containerType == bidirectional_switch)
+					|| (this->containerType == convergent_switch)
+					|| (this->containerType == convergent_switch_inlet)
+					|| (this->containerType == divergent_switch_sink)
+					|| (this->containerType == flow));
 			break;
 		case divergent_switch:
-			compatible = (container == bidirectional_switch)
-					|| (container == divergent_switch_sink);
+			compatible = (this->containerType == bidirectional_switch)
+					|| (this->containerType == divergent_switch_sink);
 			break;
 		case convergent_switch:
-			compatible = (container == bidirectional_switch)
-					|| (container == convergent_switch_inlet);
+			compatible = (this->containerType == bidirectional_switch)
+					|| (this->containerType == convergent_switch_inlet);
 			break;
 		case divergent_switch_sink:
-			compatible = (container == bidirectional_switch);
+			compatible = (this->containerType == bidirectional_switch);
 			break;
 		case convergent_switch_inlet:
-			compatible = (container == bidirectional_switch);
+			compatible = (this->containerType == bidirectional_switch);
 			break;
 		case bidirectional_switch:
 			break;
@@ -189,7 +189,9 @@ std::string ContainerNodeType::getContainerTypeString() {
 bool ContainerNodeType::isCompatibleAddOns(bool* addOns) {
 	bool compatible = true;
 	for (int i = 0; compatible && (i < AddOnsType::ADDONS_MAX); i++) {
-		compatible = (this->addOns[i] == addOns[i]);
+		if (addOns[i]) { //if the receiving type has an addon, this must have it too
+			compatible = this->addOns[i];
+		}
 	}
 	return compatible;
 }

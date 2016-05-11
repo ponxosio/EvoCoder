@@ -29,6 +29,16 @@
 #include "graph/Edge.h"
 #include "graph/Flow.h"
 #include "graph/FlowPtrComparator.h"
+
+#include "testactuator/EvoprogContinuousPump.h"
+#include "testactuator/EvoprogOdSensor.h"
+#include "testactuator/EvoprogSixwayValve.h"
+#include "testactuator/EvoprogLight.h"
+#include "testactuator/EvoprogDiscretePump.h"
+#include "testactuator/EvoprogMixer.h"
+#include "testactuator/EvoprogTemperature.h"
+#include "testactuator/EvoprogDummyInjector.h"
+
 #include "util/Utils.h"
 #include "util/AutoEnumerate.h"
 #include "fluidControl/EvoCoder.h"
@@ -37,6 +47,21 @@
 #include "fluidControl/machineGraph/ContainerNodeType.h"
 
 #include "fluidControl/executable/containers/actuators/liquids/Control.h"
+#include "fluidControl/executable/containers/actuators/liquids/Injector.h"
+#include "fluidControl/executable/containers/actuators/liquids/Extractor.h"
+#include "fluidControl/executable/containers/actuators/extras/Temperature.h"
+#include "fluidControl/executable/containers/actuators/extras/ODSensor.h"
+#include "fluidControl/executable/containers/actuators/extras/Light.h"
+#include "fluidControl/executable/containers/actuators/extras/Mixer.h"
+#include "fluidControl/executable/containers/InletContainer.h"
+#include "fluidControl/executable/containers/BidirectionalSwitch.h"
+#include "fluidControl/executable/containers/ConvergentSwitch.h"
+#include "fluidControl/executable/containers/ConvergentSwitchInlet.h"
+#include "fluidControl/executable/containers/DivergentSwitch.h"
+#include "fluidControl/executable/containers/DivergentSwitchSink.h"
+#include "fluidControl/executable/containers/ExecutableContainerNode.h"
+#include "fluidControl/executable/containers/FlowContainer.h"
+#include "fluidControl/executable/containers/SinkContainer.h"
 
 #include "fluidControl/protocolGraph/ProtocolGraph.h"
 #include "fluidControl/protocolGraph/ConditionEdge.h"
@@ -80,6 +105,7 @@ public:
 	static ProtocolGraph* makeSimpleProtocol(
 				boost::shared_ptr<VariableTable> table,
 				boost::shared_ptr<Mapping> map);
+	static ExecutableMachineGraph* makeSimpleMachine(CommandSender* communications);
 
 	Test();
 	virtual ~Test();
@@ -99,6 +125,8 @@ public:
 	void testSerialPort_send();
 	void testSerialPort_receive();
 	void testExecutableMachineGraph();
+	void testEvoprogComponents();
+
 };
 
 #endif /* SRC_TEST_H_ */

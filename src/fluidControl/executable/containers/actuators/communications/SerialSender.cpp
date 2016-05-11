@@ -141,3 +141,47 @@ void SerialSender::configure() throw (std::ios_base::failure) {
 				"Failed to set Comm mask, reason: " + GetLastError()));
 	}
 }
+
+std::string SerialSender::readUntil(char endCharacter)
+		throw (std::ios_base::failure) {
+	long waited = 0;
+	DWORD dwErrorFlags;
+	COMSTAT ComStat;
+
+	ClearCommError(hSerial, &dwErrorFlags, &ComStat);
+
+	while (ComStat.cbInQue == 0) {
+		LOG(DEBUG)<< "waiting for data for " << waited << " ms";
+		Sleep(100);
+		waited += 100;
+		ClearCommError(hSerial, &dwErrorFlags, &ComStat);
+		if (waited >= maxMsWaitingRead) {
+			throw(std::ios_base::failure("timeout while reading data"));
+		}
+	}
+
+	DWORD bytesRead;
+	std::string buffer;
+	char tempChar;
+	ReadFile(hSerial,           //Handle of the Serial port
+			&tempChar,       //Temporary character
+			sizeof(tempChar),       //Size of TempChar
+			&bytesRead,    //Number of bytes read
+			NULL);
+
+	while (tempChar != endCharacter && bytesRead > 0) {
+		buffer += tempChar;    // Store Tempchar into buffer
+		LOG(DEBUG)<< "read " << bytesRead << " bytes";
+		ReadFile(hSerial,           //Handle of the Serial port
+				&tempChar,       //Temporary character
+				sizeof(tempChar),       //Size of TempChar
+				&bytesRead,    //Number of bytes read
+				NULL);
+
+	}
+
+	if (bytesRead == 0) {
+		throw(std::ios_base::failure("the stream has ended without receiving the stop character " + endCharacter));
+	}
+	return buffer;
+}
