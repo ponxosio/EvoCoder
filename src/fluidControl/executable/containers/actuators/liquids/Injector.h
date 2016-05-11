@@ -8,11 +8,12 @@
 #ifndef SRC_FLUIDCONTROL_EXECUTABLEMACHINEGRAPH_CONTAINERS_ACTUATORSINTERFACES_LIQUIDACTUATORS_INJECTOR_H_
 #define SRC_FLUIDCONTROL_EXECUTABLEMACHINEGRAPH_CONTAINERS_ACTUATORSINTERFACES_LIQUIDACTUATORS_INJECTOR_H_
 
-#include "../../actuators/Instructable.h"
+#include "../Communicable.h"
+#include "../Instructable.h"
 
-class Injector: public Instructable {
+class Injector: public Instructable, Communicable {
 public:
-	Injector(){}
+	Injector(CommandSender* communications) : Communicable(communications){	}
 	virtual ~Injector(){}
 
 	virtual void injectLiquid(double rate) = 0;

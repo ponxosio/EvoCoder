@@ -11,15 +11,12 @@
 #include <string>
 #include <stdexcept>
 
-//boost
-#include <boost/shared_ptr.hpp>
-
 #include "../../machineGraph/ContainerNode.h"
 #include "../../machineGraph/ContainerNodeType.h"
-#include "actuators/addons/LightAplicator.h"
-#include "actuators/addons/Mixer.h"
-#include "actuators/addons/ODSensor.h"
-#include "actuators/addons/TemperatureAplicator.h"
+#include "actuators/extras/Light.h"
+#include "actuators/extras/Mixer.h"
+#include "actuators/extras/ODSensor.h"
+#include "actuators/extras/Temperature.h"
 
 class ExecutableContainerNode: public ContainerNode {
 public:
@@ -28,14 +25,16 @@ public:
 			ContainerNode() {
 		this->od = boost::shared_ptr<ODSensor>();
 		this->mix = boost::shared_ptr<Mixer>();
-		this->light = boost::shared_ptr<LightAplicator>();
-		this->temperature = boost::shared_ptr<TemperatureAplicator>();
+		//this->light = NULL;
+		//this->light = boost::shared_ptr<Light>();
+		this->temperature = boost::shared_ptr<Temperature>();
 	}
 	ExecutableContainerNode(const ExecutableContainerNode & node) :
 			ContainerNode(node) {
 		this->od = node.od;
 		this->mix = node.mix;
-		this->light = node.light;
+		//this->light = NULL;
+		//this->light = node.light;
 		this->temperature = node.temperature;
 	}
 	//
@@ -44,19 +43,20 @@ public:
 			ContainerNode(idConatiner, type, capacity) {
 		this->od = boost::shared_ptr<ODSensor>();
 		this->mix = boost::shared_ptr<Mixer>();
-		this->light = boost::shared_ptr<LightAplicator>();
-		this->temperature = boost::shared_ptr<TemperatureAplicator>();
+		//this->light = NULL;
+		//this->light = boost::shared_ptr<Light>();
+		this->temperature = boost::shared_ptr<Temperature>();
 	}
 	virtual ~ExecutableContainerNode(){}
 
 	//getters & setters
-	inline const boost::shared_ptr<LightAplicator>& getLight() const {
+	/*inline const boost::shared_ptr<Light>& getLight() const {
 		return light;
 	}
 
-	inline void setLight(const boost::shared_ptr<LightAplicator>& light) {
+	inline void setLight(const boost::shared_ptr<Light>& light) {
 		this->light = light;
-	}
+	}*/
 
 	inline const boost::shared_ptr<Mixer>& getMix() const {
 		return mix;
@@ -74,12 +74,12 @@ public:
 		this->od = od;
 	}
 
-	inline const boost::shared_ptr<TemperatureAplicator>& getTemperature() const {
+	inline const boost::shared_ptr<Temperature>& getTemperature() const {
 		return temperature;
 	}
 
 	inline void setTemperature(
-			const boost::shared_ptr<TemperatureAplicator>& temperature) {
+			const boost::shared_ptr<Temperature>& temperature) {
 		this->temperature = temperature;
 	}
 
@@ -89,10 +89,11 @@ public:
 	virtual void connectContainer(int source, int target) = 0;
 
 protected:
+	//Light* light;
 	boost::shared_ptr<ODSensor> od;
 	boost::shared_ptr<Mixer> mix;
-	boost::shared_ptr<LightAplicator> light;
-	boost::shared_ptr<TemperatureAplicator> temperature;
+	//boost::shared_ptr<Light> light;
+	boost::shared_ptr<Temperature> temperature;
 };
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_EXECUTABLECONTAINERNODE_H_ */

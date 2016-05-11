@@ -34,12 +34,13 @@ int main(int argv, char* argc[]) {
 //	t.testMathematicVariable();
 	//t.testUnaryOperation();
 	//t.testSketcher();
-	t.testMapping();
+	//t.testMapping();
 	//t.testFlow();
+	//t.testExecutableMachineGraph();
 
 	//t.testSerialPort_send();
 
-	//t.testSerialPort_receive();
+	t.testSerialPort_receive();
 
 	LOG(INFO)<< "finished!";
 }
@@ -485,15 +486,15 @@ void Test::testMapping() {
 }
 
 void Test::testFlow() {
-	std::priority_queue<Flow*, vector<Flow*>, FlowPtrComparator> heap;
+	std::priority_queue<Flow<Edge>*, vector<Flow<Edge>*>, FlowPtrComparator<Edge>> heap;
 
-	Flow* f1 = new Flow(1, 3);
+	Flow<Edge>* f1 = new Flow<Edge>(1, 3);
 	Edge* edge13 = new Edge(1, 3);
 	f1->append(edge13);
 
 	heap.push(f1);
 
-	Flow* f2 = new Flow(1, 3);
+	Flow<Edge>* f2 = new Flow<Edge>(1, 3);
 	Edge* edge12 = new Edge(1, 2);
 	f2->append(edge12);
 	f2->append(edge13);
@@ -501,7 +502,7 @@ void Test::testFlow() {
 	heap.push(f2);
 
 	while(!heap.empty()) {
-		Flow* actual = heap.top();
+		Flow<Edge>* actual = heap.top();
 		heap.pop();
 		LOG(INFO) << actual->toText();
 	}
@@ -604,7 +605,7 @@ ProtocolGraph* Test::makeSimpleProtocol(boost::shared_ptr<VariableTable> table,
 
 void Test::testSerialPort_receive() {
 	try {
-		SerialSender* s = new SerialSender("\\\\.\\COM3");
+		CommandSender* s = new SerialSender("\\\\.\\COM3");
 
 		LOG(INFO) << "recibiendo datos...";
 		for (int i = 0; i < 10; i++) {
@@ -615,4 +616,12 @@ void Test::testSerialPort_receive() {
 	} catch (std::ios_base::failure& e) {
 		LOG(INFO) << "error: " << e.what();
 	}
+}
+
+void Test::testExecutableMachineGraph() {
+	ExecutableMachineGraph* exMachine = new ExecutableMachineGraph("testMachine");
+
+//	ExecutableContainerNode* node1 = new InletContainer(1, 100.0, boost::shared_ptr<Extractor>(new Extractor()));
+//	node1->addAddon(AddOnsType::light);
+//	ExecutableContainerNode* node2 = new InletContainer(2, 100.0, boost::shared_ptr<Extractor>(new Extractor()));
 }
