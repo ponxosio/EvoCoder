@@ -8,12 +8,16 @@
 #ifndef SRC_FLUIDCONTROL_EXECUTABLEMACHINEGRAPH_CONTAINERS_ACTUATORSINTERFACES_LIQUIDACTUATORS_EXTRACTOR_H_
 #define SRC_FLUIDCONTROL_EXECUTABLEMACHINEGRAPH_CONTAINERS_ACTUATORSINTERFACES_LIQUIDACTUATORS_EXTRACTOR_H_
 
-#include "../../actuators/Instructable.h"
+#include "../Instructable.h"
+#include "../Communicable.h"
 
-class Extractor: public Instructable {
+class Extractor: public Instructable, Communicable {
 public:
-	Extractor(){}
-	virtual ~Extractor(){}
+	Extractor(CommandSender* communications) :
+			Communicable(communications) {
+	}
+	virtual ~Extractor() {
+	}
 
 	virtual void extractLiquid(double rate) = 0;
 	virtual std::string getInstructions() = 0;

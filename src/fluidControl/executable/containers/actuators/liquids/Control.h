@@ -9,10 +9,12 @@
 #define SRC_FLUIDCONTROL_EXECUTABLEMACHINEGRAPH_CONTAINERS_ACTUATORSINTERFACES_LIQUIDACTUATORS_CONTROL_H_
 
 #include "../Instructable.h"
+#include "../Communicable.h"
 
-class Control: public Instructable {
+class Control: public Instructable, Communicable {
 public:
-	Control(int maxConexiones) {
+	Control(int maxConexiones, CommandSender* communications) :
+			Communicable(communications) {
 		this->maxConexiones = maxConexiones;
 	}
 	virtual ~Control(){}

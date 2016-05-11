@@ -12,7 +12,7 @@ SerialSender::SerialSender(std::string device,
 		BYTE byteSize,
 		BYTE stopBits,
 		BYTE parity,
-		DWORD maxMsWaitingRead,
+		long maxMsWaitingRead,
 		DWORD readIntervalTimeout,
 		DWORD readTotalTimeoutConstant,
 		DWORD readTotalTimeoutMultiplier,
@@ -25,6 +25,7 @@ SerialSender::SerialSender(std::string device,
 	this->stopBits = stopBits;
 	this->parity = parity;
 
+	this->maxMsWaitingRead = maxMsWaitingRead;
 	this->readIntervalTimeout = readIntervalTimeout;
 	this->readTotalTimeoutConstant = readTotalTimeoutConstant;
 	this->readTotalTimeoutMultiplier = readTotalTimeoutMultiplier;
@@ -64,7 +65,7 @@ unsigned long SerialSender::sendString(const std::string& str) {
 }
 
 std::string SerialSender::receiveString() throw (std::ios_base::failure) {
-	int waited = 0;
+	long waited = 0;
 	DWORD dwErrorFlags;
 	COMSTAT ComStat;
 

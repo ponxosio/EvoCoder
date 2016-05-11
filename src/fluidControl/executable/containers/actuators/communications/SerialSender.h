@@ -5,22 +5,22 @@
  *      Author: angel
  */
 
-#ifndef SRC_UTIL_SERIALSENDER_H_
-#define SRC_UTIL_SERIALSENDER_H_
+#ifndef SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_COMMUNICATIONS_SERIALSENDER_H_
+#define SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_COMMUNICATIONS_SERIALSENDER_H_
 
 #include <windows.h>
 #include <stdio.h>
 #include <string>
 #include <ios>
 
-#include "../../lib/easylogging++.h"
-
-#include "Patch.h"
+#include "../../../../../../lib/easylogging++.h"
+#include "CommandSender.h"
+#include "../../../../../util/Patch.h"
 
 /**
  * Class that makes the serial communication
  */
-class SerialSender {
+class SerialSender : public CommandSender {
 public:
 	/**
 	 * @param device name of the port to communicate to (ex. \\\\.\\COM3)
@@ -49,7 +49,7 @@ public:
 			BYTE byteSize = 8,
 			BYTE stopBits = ONESTOPBIT,
 			BYTE parity = NOPARITY,
-			DWORD maxMsWaitingRead = 10000,
+			long maxMsWaitingRead = 5000,
 			DWORD readIntervalTimeout = 50,
 			DWORD readTotalTimeoutConstant = 50,
 			DWORD readTotalTimeoutMultiplier = 10,
@@ -62,13 +62,13 @@ public:
 	 * Send the string through the serial port.
 	 * @param str the number of characters send.
 	 */
-	unsigned long sendString(const std::string & str);
+	virtual unsigned long sendString(const std::string & str);
 	/**
 	 * receive a String through the serial port. if no information after maxMsWaitingRead millisenconds
 	 * a timeout exception is thrown.
 	 * @return the received string.
 	 */
-	std::string receiveString() throw (std::ios_base::failure);
+	virtual std::string receiveString() throw (std::ios_base::failure);
 
 protected:
 	//handler
@@ -102,7 +102,7 @@ protected:
 	 * maximum time waiting for data to arrive when performing a readString operation, if this
 	 * this time is surpassed a timeout exception will be thrown.
 	 */
-	DWORD maxMsWaitingRead;
+	long maxMsWaitingRead;
 
 	//internal
 	/**
@@ -130,4 +130,4 @@ protected:
 	void configure() throw (std::ios_base::failure);
 };
 
-#endif /* SRC_UTIL_SERIALSENDER_H_ */
+#endif /* SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_COMMUNICATIONS_SERIALSENDER_H_ */

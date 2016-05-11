@@ -21,6 +21,7 @@
 
 //lib
 #include "../lib/easylogging++.h"
+#include "fluidControl/executable/containers/actuators/communications/SerialSender.h"
 
 //local
 #include "graph/Graph.h"
@@ -30,7 +31,6 @@
 #include "graph/FlowPtrComparator.h"
 #include "util/Utils.h"
 #include "util/AutoEnumerate.h"
-#include "util/SerialSender.h"
 #include "fluidControl/EvoCoder.h"
 #include "fluidControl/machineGraph/MachineGraph.h"
 #include "fluidControl/machineGraph/ContainerNode.h"
@@ -67,6 +67,7 @@
 #include "fluidControl/protocolGraph/operations/DivergeNode.h"
 #include "graph/Flow.h"
 
+
 INITIALIZE_EASYLOGGINGPP
 
 using namespace std;
@@ -97,6 +98,7 @@ public:
 	void testFlow();
 	void testSerialPort_send();
 	void testSerialPort_receive();
+	void testExecutableMachineGraph();
 };
 
 #endif /* SRC_TEST_H_ */
