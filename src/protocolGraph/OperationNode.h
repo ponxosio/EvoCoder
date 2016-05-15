@@ -11,7 +11,7 @@
 #include <string>
 
 //local
-#include "../../graph/Node.h"
+#include "../graph/Node.h"
 
 /**
  * Interface that implements a node that can be executed

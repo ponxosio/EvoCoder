@@ -17,11 +17,11 @@
 #include <boost/shared_ptr.hpp>
 
 //lib
-#include "../../../lib/easylogging++.h"
+#include "../../lib/easylogging++.h"
 
 //local
-#include "../../graph/Graph.h"
-#include "../../operables/VariableTable.h"
+#include "../graph/Graph.h"
+#include "../operables/VariableTable.h"
 #include "ConditionEdge.h"
 #include "OperationNode.h"
 
@@ -41,7 +41,7 @@ public:
 		return graph->getNode(idNode);
 	}
 	inline const std::vector<ConditionEdge*>* getProjectingEdges(int idNode) {
-		return graph->getNeighbors(idNode);
+		return graph->getLeavingEdges(idNode);
 	}
 	inline std::vector<OperationNode*> getAllNodes() {
 		return graph->getAllNodes();

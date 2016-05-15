@@ -1,0 +1,7 @@
+digraph G {
+1 [image="X:\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_inlet.png"];
+2 [image="X:\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_flow.png"];
+3 [image="X:\codigo\EvoCoder_Release_v1\EvoCoder\Img\sink.png"];
+1->2;
+2->3;
+}

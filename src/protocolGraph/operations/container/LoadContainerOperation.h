@@ -12,8 +12,8 @@
 #include <boost/shared_ptr.hpp>
 
 //local
-#include "../../../../util/Utils.h"
-#include "../../../../operables/mathematics/MathematicOperable.h"
+#include "../../../util/Utils.h"
+#include "../../../operables/mathematics/MathematicOperable.h"
 #include "ContainerOperation.h"
 
 class LoadContainerOperation: public ContainerOperation {

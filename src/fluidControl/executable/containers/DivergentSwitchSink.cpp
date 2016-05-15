@@ -27,7 +27,7 @@ DivergentSwitchSink::DivergentSwitchSink(int idConatiner, float capacity,
 		boost::shared_ptr<Control> control) :
 		ExecutableContainerNode(idConatiner,
 				boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(
-						ContainerNodeType::fromIntToMovementType(insert.get()->getMovementType()),
+						ContainerNodeType::fromIntToMovementType(extractor.get()->getMovementType()),
 						ContainerType::divergent_switch_sink)), capacity) {
 
 	this->insert = insert;

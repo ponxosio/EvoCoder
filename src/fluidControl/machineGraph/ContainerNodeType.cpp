@@ -331,3 +331,11 @@ std::string ContainerNodeType::getContainerSubfix() {
 	}
 	return vuelta;
 }
+
+bool ContainerNodeType::operator ==(const ContainerNodeType& n1) {
+	bool equals = (n1.movementType == this->movementType) && (n1.containerType == this->containerType);
+	for (int i = 0; equals && (i < AddOnsType::ADDONS_MAX); i++) {
+		equals = (n1.addOns[i] == this->addOns[i]);
+	}
+	return equals;
+}

@@ -94,7 +94,7 @@ bool MachineGraph::hasConections(int idContainer) {
 	ContainerNode* cont = machine->getNode(idContainer);
 
 	if (cont != NULL) {
-		const vector<Edge*>* neighbors = machine->getNeighbors(idContainer);
+		const vector<Edge*>* neighbors = machine->getLeavingEdges(idContainer);
 		vuelta = !neighbors->empty();
 	}
 	return vuelta;

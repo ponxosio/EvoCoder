@@ -10,12 +10,14 @@
 ExecutableMachineGraph::ExecutableMachineGraph(const std::string & name) {
 	this->name = name;
 	this->graph = new Graph<ExecutableContainerNode, Edge>();
-	this->usedNodes = new vector<ExecutableContainerNode*>();
+	this->usedNodes = new std::tr1::unordered_set<int>();
+	this->usedEges = new std::tr1::unordered_set<std::pair<int,int>,PairIntIntHashFunction>();
 }
 
 ExecutableMachineGraph::~ExecutableMachineGraph() {
 	delete graph;
 	delete usedNodes;
+	delete usedEges;
 }
 
 void ExecutableMachineGraph::addContainer(ExecutableContainerNode* node) {
@@ -48,65 +50,171 @@ void ExecutableMachineGraph::printMachine(const std::string& path) {
 	graph->saveGraph(path);
 }
 
-std::priority_queue<Flow<Edge> *, vector<Flow<Edge> *>,
-		FlowPtrComparator<Edge> >*  ExecutableMachineGraph::getAvailableFlows(
-		const ContainerNodeType& tipoIni, const ContainerNodeType& tipofin) {
+std::priority_queue<Flow<Edge> , vector<Flow<Edge>>,
+		FlowPtrComparator<Edge> >  ExecutableMachineGraph::getAvailableFlows(
+		const ContainerNodeType& tipoIni, const ContainerNodeType& tipofin, const std::vector<ExecutableContainerNode*> & subgraph) {
 
-	std::priority_queue<Flow<Edge> *, vector<Flow<Edge> *>,
-			FlowPtrComparator<Edge>>* flows = new std::priority_queue<
-			Flow<Edge> *, vector<Flow<Edge> *>, FlowPtrComparator<Edge>>();
-	vector<ExecutableContainerNode*> available = getAllCompatibleNodes(tipoIni);
+	std::priority_queue<Flow<Edge> , vector<Flow<Edge>>,
+			FlowPtrComparator<Edge>> flows;
+	vector<ExecutableContainerNode*> available = getAllCompatibleNodes(tipoIni, subgraph);
 
 	for (auto it = available.begin(); it != available.end(); ++it) {
 		vector<int> visitados;
 		vector<Edge*> recorridos;
 		ExecutableContainerNode* actual = *it;
-		getAvailableFlows_recursive(actual->getContainerId(), visitados, recorridos, flows, actual, tipofin);
+		getAvailableFlows_recursive_type(actual->getContainerId(), visitados, recorridos, flows, actual, tipofin, false);
 	}
 	return flows;
 }
 
-void ExecutableMachineGraph::getAvailableFlows_recursive(int idSource, vector<int> & visitados, vector<Edge*> & recorridos,
-		std::priority_queue<Flow<Edge> *, vector<Flow<Edge> *>,
-				FlowPtrComparator<Edge> >* flows,
-		ExecutableContainerNode* actual, const ContainerNodeType & destinationType) {
+std::priority_queue<Flow<Edge> , vector<Flow<Edge> >, FlowPtrComparator<Edge> > ExecutableMachineGraph::getAvailableFlows(
+		int idConatinerInit, const ContainerNodeType& tipofin) {
+
+	std::priority_queue<Flow<Edge> , vector<Flow<Edge> >,
+				FlowPtrComparator<Edge>> flows;
+
+	vector<int> visitados;
+	vector<Edge*> recorridos;
+	ExecutableContainerNode* actual = graph->getNode(idConatinerInit);
+	getAvailableFlows_recursive_type(idConatinerInit, visitados, recorridos, flows,
+			actual, tipofin, false);
+	return flows;
+}
+
+std::priority_queue<Flow<Edge>, vector<Flow<Edge> >, FlowPtrComparator<Edge> > ExecutableMachineGraph::getAvailableFlows(
+		const ContainerNodeType& tipoIni, int idContainerFin) {
+
+	std::priority_queue<Flow<Edge>, vector<Flow<Edge> >, FlowPtrComparator<Edge>> flows;
+
+	vector<int> visitados;
+	vector<Edge*> recorridos;
+	ExecutableContainerNode* actual = graph->getNode(idContainerFin);
+	getAvailableFlows_recursive_type(idContainerFin, visitados, recorridos, flows,
+			actual, tipoIni, true);
+
+	return flows;
+}
+
+std::priority_queue<Flow<Edge>, vector<Flow<Edge> >, FlowPtrComparator<Edge> > ExecutableMachineGraph::getAvailableFlows(
+		int idInit, int idFin) {
+
+	std::priority_queue<Flow<Edge>, vector<Flow<Edge> >, FlowPtrComparator<Edge>> flows;
+
+	vector<int> visitados;
+	vector<Edge*> recorridos;
+	ExecutableContainerNode* actual = graph->getNode(idInit);
+	getAvailableFlows_recursive_id(idInit, visitados, recorridos,
+			flows, actual, idFin);
+
+	return flows;
+}
+
+void ExecutableMachineGraph::addUsedEdge(int idSorce, int idTarget) {
+	usedEges->insert(std::pair<int,int>(idSorce, idTarget));
+}
+
+void ExecutableMachineGraph::removeUsedEdge(int idSorce, int idTarget) {
+	usedEges->erase(std::pair<int,int>(idSorce, idTarget));
+}
+
+bool ExecutableMachineGraph::isEdgeAvailable(Edge* edge) {
+	return (usedEges->find(
+			std::pair<int, int>(edge->getIdSource(), edge->getIdTarget()))
+			== usedEges->end());
+}
+
+bool ExecutableMachineGraph::isEdgeAvailable(int idSource, int idTarget) {
+	return (usedEges->find(
+				std::pair<int, int>(idSource, idTarget))
+				== usedEges->end());
+}
+
+vector<Edge*> ExecutableMachineGraph::getAvailableEdges(
+		ExecutableContainerNode* actual, bool reversed) {
+	vector<Edge*> available;
+	const vector<Edge*>* edges;
+	if (reversed) {
+		edges = graph->getArrivingEdges(actual->getContainerId());
+	} else {
+		edges = graph->getLeavingEdges(actual->getContainerId());
+	}
+
+	for (auto it = edges->begin(); it != edges->end(); ++it) {
+		Edge* actual = *it;
+		if (isEdgeAvailable(actual)) {
+			available.push_back(actual);
+		}
+	}
+	return available;
+}
+
+void ExecutableMachineGraph::getAvailableFlows_recursive_type(int idSource, vector<int> & visitados, vector<Edge*> & recorridos,
+		std::priority_queue<Flow<Edge>, vector<Flow<Edge>>,
+				FlowPtrComparator<Edge> >& flows,
+		ExecutableContainerNode* actual, const ContainerNodeType & destinationType, bool reversed) {
 
 	visitados.push_back(actual->getContainerId());
-	const vector<Edge*>* neighbors = graph->getNeighbors(actual->getContainerId());
-	for (auto it = neighbors->begin(); it != neighbors->end(); ++it) {
+	vector<Edge*> neighbors = getAvailableEdges(actual, reversed);
+	for (auto it = neighbors.begin(); it != neighbors.end(); ++it) {
 		Edge* actualNeig = *it;
-		if (isNodeAvailable(actualNeig->getIdTarget())
+		int id;
+		if (reversed) {
+			id = actualNeig->getIdSource();
+		} else {
+			id = actualNeig->getIdTarget();
+		}
+		if (isNodeAvailable(id)
 				&& find(visitados.begin(), visitados.end(),
-						actualNeig->getIdTarget()) == visitados.end()) {
+						id) == visitados.end()) {
 			recorridos.push_back(actualNeig);
-			ExecutableContainerNode* nodeTarget = graph->getNode(actualNeig->getIdTarget());
+			ExecutableContainerNode* nodeTarget = graph->getNode(id);
 			if (nodeTarget->getType()->isCompatible(destinationType)) {
-				Flow<Edge>* nFlow = new Flow<Edge>(idSource, actualNeig->getIdTarget(), recorridos);
-				flows->push(nFlow);
+				if (reversed) {
+					flows.push(Flow<Edge>(id, idSource, recorridos));
+				} else {
+					flows.push(Flow<Edge>(idSource, id, recorridos));
+				}
 			}
-			getAvailableFlows_recursive(idSource, visitados, recorridos, flows, nodeTarget, destinationType);
+			getAvailableFlows_recursive_type(idSource, visitados, recorridos, flows, nodeTarget, destinationType, reversed);
 			recorridos.pop_back();
 		}
 	}
 }
 
-bool ExecutableMachineGraph::isNodeInVector(ExecutableContainerNode* node, const vector<int>& nodesIds) {
-	bool finded = false;
-	auto it = nodesIds.begin();
-	while(!finded && it != nodesIds.end()) {
-		int actual = *it;
-		finded  = (node->getContainerId() == actual);
-		++it;
+void ExecutableMachineGraph::getAvailableFlows_recursive_id(int idSource,
+		vector<int>& visitados, vector<Edge*>& recorridos,
+		std::priority_queue<Flow<Edge>, vector<Flow<Edge> >,
+				FlowPtrComparator<Edge> >& flows,
+		ExecutableContainerNode* actual, int idDestination) {
+
+	visitados.push_back(actual->getContainerId());
+	vector<Edge*> neighbors = getAvailableEdges(actual, false);
+	for (auto it = neighbors.begin(); it != neighbors.end(); ++it) {
+		Edge* actualNeig = *it;
+		int id = actualNeig->getIdTarget();
+
+		if (id == idDestination) {
+			recorridos.push_back(actualNeig);
+			flows.push(Flow<Edge>(idSource, id, recorridos));
+			recorridos.pop_back();
+		} else if (isNodeAvailable(id)
+				&& find(visitados.begin(), visitados.end(), id)
+						== visitados.end()) {
+
+			recorridos.push_back(actualNeig);
+			ExecutableContainerNode* nodeTarget = graph->getNode(id);
+			getAvailableFlows_recursive_id(idSource, visitados, recorridos,
+					flows, nodeTarget, idDestination);
+			recorridos.pop_back();
+		}
 	}
-	return finded;
 }
 
 vector<ExecutableContainerNode*> ExecutableMachineGraph::getAllCompatibleNodes(
-	const ContainerNodeType& type) {
+	const ContainerNodeType& type, const std::vector<ExecutableContainerNode*> & subgraph) {
 	vector<ExecutableContainerNode*> available;
-	vector<ExecutableContainerNode*> nodos = graph->getAllNodes();
 
-	for (auto it = nodos.begin(); it != nodos.end(); ++it) {
+	for (auto it = subgraph.begin(); it != subgraph.end(); ++it) {
 		ExecutableContainerNode* actual = *it;
 		if (isNodeAvailable(actual) && actual->getType()->isCompatible(type)) {
 			available.push_back(actual);
@@ -116,32 +224,17 @@ vector<ExecutableContainerNode*> ExecutableMachineGraph::getAllCompatibleNodes(
 }
 
 bool ExecutableMachineGraph::isNodeAvailable(ExecutableContainerNode* node) {
-	bool available = true;
-	for (auto it = usedNodes->begin(); available && it != usedNodes->end(); ++it) {
-		ExecutableContainerNode* actual = *it;
-		available = !actual->equals(*node);
-	}
-	return available;
+	return (usedNodes->find(node->getContainerId()) == usedNodes->end());
 }
 
 bool ExecutableMachineGraph::isNodeAvailable(int nodeId) {
-	bool available = true;
-	for (auto it = usedNodes->begin(); available && it != usedNodes->end();
-			++it) {
-		ExecutableContainerNode* actual = *it;
-		available = actual->getContainerId() != nodeId;
-	}
-	return available;
+	return (usedNodes->find(nodeId) == usedNodes->end());
 }
 
-void ExecutableMachineGraph::addUsedNode(int nodeId)
-		throw (std::invalid_argument) {
-	{
-		ExecutableContainerNode* node = graph->getNode(nodeId);
-		if (node != NULL) {
-			usedNodes->push_back(node);
-		} else {
-			throw(std::invalid_argument("unknown nodeId: " + patch::to_string(nodeId)));
-		}
-	}
+void ExecutableMachineGraph::addUsedNode(int nodeId) {
+	usedNodes->insert(nodeId);
+}
+
+void ExecutableMachineGraph::removeUsedNode(int nodeId) {
+	usedNodes->erase(nodeId);
 }

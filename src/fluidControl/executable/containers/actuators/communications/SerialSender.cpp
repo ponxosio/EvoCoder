@@ -17,9 +17,10 @@ SerialSender::SerialSender(std::string device,
 		DWORD readTotalTimeoutConstant,
 		DWORD readTotalTimeoutMultiplier,
 		DWORD writeTotalTimeoutConstant,
-		DWORD writeTotalTimeoutMultiplier)
-				throw (std::ios_base::failure) {
+		DWORD writeTotalTimeoutMultiplier) {
 
+	this->connected = false;
+	this->device = device;
 	this->baudRate = baudRate;
 	this->byteSize = byteSize;
 	this->stopBits = stopBits;
@@ -31,21 +32,6 @@ SerialSender::SerialSender(std::string device,
 	this->readTotalTimeoutMultiplier = readTotalTimeoutMultiplier;
 	this->writeTotalTimeoutConstant = writeTotalTimeoutConstant;
 	this->writeTotalTimeoutMultiplier = writeTotalTimeoutMultiplier;
-
-	hSerial = CreateFile(device.c_str(),
-	GENERIC_READ | GENERIC_WRITE, 0, 0,
-	OPEN_EXISTING,
-	0, 0);
-
-	if (hSerial == INVALID_HANDLE_VALUE) {
-		if (GetLastError() == ERROR_FILE_NOT_FOUND) {
-			throw(std::ios_base::failure(
-					"device " + device + " does not exists"));
-		}
-		throw(std::ios_base::failure("can not open the connection"));
-	}
-
-	configure();
 }
 
 SerialSender::~SerialSender() {
@@ -53,10 +39,17 @@ SerialSender::~SerialSender() {
 }
 
 void SerialSender::disconnect() {
-	CloseHandle(hSerial);
+	if (connected) {
+		CloseHandle(hSerial);
+	}
+	connected = false;
 }
 
 unsigned long SerialSender::sendString(const std::string& str) {
+	if (!this->connected) {
+		throw(std::ios_base::failure("connection has not been established yet"));
+	}
+
 	DWORD bytesWritten = 0;
 	WriteFile(hSerial, str.c_str(), sizeof(char) * str.length(), &bytesWritten, NULL);
 	LOG(DEBUG) << "send  " << bytesWritten << " bytes";
@@ -65,6 +58,9 @@ unsigned long SerialSender::sendString(const std::string& str) {
 }
 
 std::string SerialSender::receiveString() throw (std::ios_base::failure) {
+	if (!this->connected) {
+		throw(std::ios_base::failure("connection has not been established yet"));
+	}
 	long waited = 0;
 	DWORD dwErrorFlags;
 	COMSTAT ComStat;
@@ -101,6 +97,22 @@ std::string SerialSender::receiveString() throw (std::ios_base::failure) {
 
 	}
 	return buffer;
+}
+
+void SerialSender::connect() throw (std::ios_base::failure) {
+	hSerial = CreateFile(device.c_str(),
+	GENERIC_READ | GENERIC_WRITE, 0, 0,
+	OPEN_EXISTING, 0, 0);
+	connected = true;
+
+	if (hSerial == INVALID_HANDLE_VALUE) {
+		if (GetLastError() == ERROR_FILE_NOT_FOUND) {
+			throw(std::ios_base::failure(
+					"device " + device + " does not exists"));
+		}
+		throw(std::ios_base::failure("can not open the connection"));
+	}
+	configure();
 }
 
 void SerialSender::configure() throw (std::ios_base::failure) {
@@ -144,6 +156,10 @@ void SerialSender::configure() throw (std::ios_base::failure) {
 
 std::string SerialSender::readUntil(char endCharacter)
 		throw (std::ios_base::failure) {
+	if (!this->connected) {
+		throw(std::ios_base::failure("connection has not been established yet"));
+	}
+
 	long waited = 0;
 	DWORD dwErrorFlags;
 	COMSTAT ComStat;

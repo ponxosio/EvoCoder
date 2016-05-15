@@ -14,11 +14,13 @@
 //vector
 #include <vector>
 #include <algorithm>
-#include <tr1/unordered_map>
+#include <tr1/unordered_set>
 #include <queue>
 
 //local
 #include "../../util/Patch.h"
+#include "../../util/Utils.h"
+#include "../../util/ContainersUtils.h"
 #include "../../graph/Graph.h"
 #include "../../graph/Edge.h"
 #include "../../graph/Flow.h"
@@ -38,10 +40,21 @@ public:
 
 	void printMachine(const std::string & path);
 
-	std::priority_queue<Flow<Edge>*, vector<Flow<Edge>*>,
-			FlowPtrComparator<Edge>>* getAvailableFlows(
+	std::priority_queue<Flow<Edge>, vector<Flow<Edge>>, FlowPtrComparator<Edge>> getAvailableFlows(
 			const ContainerNodeType & tipoIni,
-			const ContainerNodeType & tipofin);
+			const ContainerNodeType & tipofin,
+			const std::vector<ExecutableContainerNode*> & subgraph);
+	std::priority_queue<Flow<Edge>, vector<Flow<Edge>>, FlowPtrComparator<Edge>> getAvailableFlows(
+			int idConatinerInit, const ContainerNodeType & tipofin);
+	std::priority_queue<Flow<Edge>, vector<Flow<Edge>>, FlowPtrComparator<Edge>> getAvailableFlows(
+			const ContainerNodeType & tipoIni, int idContainerFin);
+	std::priority_queue<Flow<Edge>, vector<Flow<Edge>>, FlowPtrComparator<Edge>> getAvailableFlows(
+			int idInit, int idFin);
+
+	void addUsedNode(int nodeId);
+	void removeUsedNode(int nodeId);
+	void addUsedEdge(int idSorce, int idTarget);
+	void removeUsedEdge(int idSorce, int idTarget);
 
 	inline bool existsContainer(int idContainer) {
 		return (graph->getNode(idContainer) != NULL);
@@ -53,24 +66,43 @@ public:
 	inline void saveGraph(const std::string & path) {
 		graph->saveGraph(path);
 	}
-	inline void addUsedNode(ExecutableContainerNode* node) {
-		usedNodes->push_back(node);
+
+	//getters & setters
+	inline Graph<ExecutableContainerNode, Edge>* getGraph() {
+		return graph;
 	}
-	void addUsedNode(int nodeId) throw(std::invalid_argument);
+	inline std::vector<std::pair<vector<ExecutableContainerNode*>*,vector<Edge*>*>>* getSubgraphs() {
+		return graph->getSubGraphs();
+	}
+	inline std::tr1::unordered_set<int>* getUsedNodes() {
+		return usedNodes;
+	}
 protected:
 	std::string name;
 	Graph<ExecutableContainerNode, Edge>* graph;
-	std::vector<ExecutableContainerNode*>* usedNodes;
+	std::tr1::unordered_set<int>* usedNodes;
+	std::tr1::unordered_set<std::pair<int,int>,PairIntIntHashFunction>* usedEges;
 
-	vector<ExecutableContainerNode*> getAllCompatibleNodes(const ContainerNodeType & type);
-	bool isNodeInVector(ExecutableContainerNode* node, const vector<int> & nodesIds);
+	void getAvailableFlows_recursive_type(int idSource, vector<int> & visitados,
+			vector<Edge*> & recorridos,
+			std::priority_queue<Flow<Edge>, vector<Flow<Edge>>,
+					FlowPtrComparator<Edge> > & flows,
+			ExecutableContainerNode* actual,
+			const ContainerNodeType & destinationType, bool reverse);
+	void getAvailableFlows_recursive_id(int idSource, vector<int> & visitados,
+			vector<Edge*> & recorridos,
+			std::priority_queue<Flow<Edge>, vector<Flow<Edge>>,
+					FlowPtrComparator<Edge> > & flows,
+			ExecutableContainerNode* actual, int idDestination);
+
+	vector<ExecutableContainerNode*> getAllCompatibleNodes(const ContainerNodeType & type, const std::vector<ExecutableContainerNode*> & nodeList);
+	vector<Edge*> getAvailableEdges(ExecutableContainerNode* actual, bool reversed);
+
 	bool isNodeAvailable(ExecutableContainerNode* node);
 	bool isNodeAvailable(int nodeId);
 
-	void getAvailableFlows_recursive(int idSource, vector<int> & visitados, vector<Edge*> & recorridos,
-			std::priority_queue<Flow<Edge>* , vector<Flow<Edge>*>,
-					FlowPtrComparator<Edge> >* flows,
-			ExecutableContainerNode* actual, const ContainerNodeType & destinationType);
+	bool isEdgeAvailable(Edge* edge);
+	bool isEdgeAvailable(int idSource, int idTarget);
 
 };
 

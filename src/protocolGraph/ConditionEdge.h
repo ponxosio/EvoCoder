@@ -12,9 +12,9 @@
 #include <boost/shared_ptr.hpp>
 
 //local
-#include "../../graph/Edge.h"
-#include "../../util/Utils.h"
-#include "../../operables/comparison/ComparisonOperable.h"
+#include "../graph/Edge.h"
+#include "../util/Utils.h"
+#include "../operables/comparison/ComparisonOperable.h"
 
 /**
  * Represents an edge in a graph that has a condition, the edge can not be used until the condition is met.

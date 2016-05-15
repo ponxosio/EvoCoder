@@ -27,6 +27,16 @@
 //local
 #include "../../lib/easylogging++.h"
 
+typedef struct {
+	//cantor paring function
+	size_t operator()(std::pair<int, int> x) const throw () {
+		int k1 = x.first;
+		int k2 = x.second;
+		size_t h = (0.5 * (k1 + k2) * (k1 + k2 + 1)) + k2;
+		return h;
+	}
+} PairIntIntHashFunction;
+
 using namespace std;
 
 /**
