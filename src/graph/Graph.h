@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string>
+#include <cmath>
 
 // file management
 #include <iostream>
@@ -22,6 +23,7 @@
 #include <memory>
 #include <vector>
 #include <queue>
+#include <utility>
 #include <tr1/unordered_map>
 
 // boost library
@@ -56,7 +58,8 @@ public:
 
 	//retrieve
 	NodeType* getNode(int containerId);
-	const vector<EdgeType*>* getNeighbors(int idSource);
+	const vector<EdgeType*>* getLeavingEdges(int idSource);
+	const vector<EdgeType*>* getArrivingEdges(int idSource);
 	const vector<NodeType*> getAllNodes();
 	bool areConnected(int idSource, int idTarget);
 
@@ -69,25 +72,37 @@ public:
 	bool saveGraph(const string& filename);
 
 	//getters
-	inline tr1::unordered_map<int, vector<EdgeType*> *>* getNeighborMap() const {
-		return neighborMap;
+	inline vector<EdgeType*>* getEdgeList() {
+		return edgeList;
+	}
+	inline vector<std::pair<vector<NodeType*>*,vector<EdgeType*>*>>* getSubGraphs() {
+		if (subGraphs == NULL) {
+			calculateSubgraphs();
+		}
+		return subGraphs;
 	}
 
 	string toString();
 protected:
 	//attributes
 	tr1::unordered_map<int, NodeType*>* nodeMap;
-	tr1::unordered_map<int, vector<EdgeType*>* >* neighborMap;
+	tr1::unordered_map<int, vector<EdgeType*>* >* leavingEdges;
+	tr1::unordered_map<int, vector<EdgeType*>* >* arrivingEdges;
+	vector<std::pair<vector<NodeType*>*,vector<EdgeType*>*>>* subGraphs;
 	vector<EdgeType*> *edgeList;
 
 	//methods
 	static bool processLine(const string& line, Graph* graph);
+	//operations over graph
+	void calculateSubgraphs();
 };
 
 template <class NodeType, class EdgeType>
 Graph<NodeType,EdgeType>::Graph() {
 	nodeMap = new tr1::unordered_map<int, NodeType*>();
-	neighborMap = new tr1::unordered_map<int, vector<EdgeType*>*>();
+	leavingEdges = new tr1::unordered_map<int, vector<EdgeType*>*>();
+	arrivingEdges = new tr1::unordered_map<int, vector<EdgeType*>*>();
+	subGraphs = NULL;
 	edgeList = new vector<EdgeType*>();
 }
 
@@ -96,7 +111,11 @@ Graph<NodeType,EdgeType>::~Graph() {
 	clear();
 	delete edgeList;
 	delete nodeMap;
-	delete neighborMap;
+	delete leavingEdges;
+	delete arrivingEdges;
+	if (subGraphs != NULL) {
+		delete subGraphs;
+	}
 }
 
 /**
@@ -118,12 +137,28 @@ void Graph<NodeType,EdgeType>::clear() {
 	}
 	nodeMap->clear();
 
-	//free the nodes
-	for (typename tr1::unordered_map<int, vector<EdgeType*>*>::iterator it = neighborMap->begin();
-			it != neighborMap->end(); ++it) {
+	//free the neighbor map
+	for (typename tr1::unordered_map<int, vector<EdgeType*>*>::iterator it = leavingEdges->begin();
+			it != leavingEdges->end(); ++it) {
 		delete it->second;
 	}
-	neighborMap->clear();
+	leavingEdges->clear();
+	for (typename tr1::unordered_map<int, vector<EdgeType*>*>::iterator it =
+			arrivingEdges->begin(); it != arrivingEdges->end(); ++it) {
+		delete it->second;
+	}
+	arrivingEdges->clear();
+
+	if (subGraphs != NULL) {
+		//free the neighbor map
+		for (auto it =
+				subGraphs->begin(); it != subGraphs->end(); ++it) {
+			std::pair<vector<NodeType*>*,vector<EdgeType*>*> actual = *it;
+			delete actual.second;
+			delete actual.first;
+		}
+		subGraphs->clear();
+	}
 }
 
 /**
@@ -138,7 +173,8 @@ bool Graph<NodeType,EdgeType>::addNode(NodeType* node) {
 	bool vuelta = false;
 	if (nodeMap->find(nodeCast->getContainerId()) == nodeMap->end()) {
 		nodeMap->insert(make_pair(nodeCast->getContainerId(), node));
-		neighborMap->insert(make_pair(nodeCast->getContainerId(), new vector<EdgeType*>()));
+		leavingEdges->insert(make_pair(nodeCast->getContainerId(), new vector<EdgeType*>()));
+		arrivingEdges->insert(make_pair(nodeCast->getContainerId(), new vector<EdgeType*>()));
 		vuelta = true;
 	}
 	return vuelta;
@@ -161,8 +197,10 @@ bool Graph<NodeType,EdgeType>::addEdge(EdgeType* edge) {
 	if ((nodeSource != nodeMap->end())
 			&& (nodeMap->find(edgeCast->getIdTarget()) != nodeMap->end())) {
 		edgeList->push_back(edge);
-		vector<EdgeType*>* vector = neighborMap->find(edgeCast->getIdSource())->second;
-		vector->push_back(edge);
+		vector<EdgeType*>* vectorLeaving = leavingEdges->find(edgeCast->getIdSource())->second;
+		vectorLeaving->push_back(edge);
+		vector<EdgeType*>* vectorArriving = arrivingEdges->find(edgeCast->getIdTarget())->second;
+		vectorArriving->push_back(edge);
 		vuelta = true;
 	}
 	return vuelta;
@@ -193,11 +231,11 @@ NodeType* Graph<NodeType,EdgeType>::getNode(int containerId) {
  *
  */
 template <class NodeType, class EdgeType>
-const vector<EdgeType*>* Graph<NodeType,EdgeType>::getNeighbors(int idSource) {
+const vector<EdgeType*>* Graph<NodeType,EdgeType>::getLeavingEdges(int idSource) {
 	vector<EdgeType*>* vuelta = NULL;
 
-	typename tr1::unordered_map<int, vector<EdgeType*>*>::iterator it = neighborMap->find(idSource);
-	if (it != neighborMap->end()) {
+	typename tr1::unordered_map<int, vector<EdgeType*>*>::iterator it = leavingEdges->find(idSource);
+	if (it != leavingEdges->end()) {
 		vuelta = it->second;
 	}
 	return vuelta;
@@ -242,8 +280,8 @@ bool Graph<NodeType,EdgeType>::removeNode(int nodeID) {
 		}
 
 		//remove neighbor from the list
-		delete neighborMap->find(nodeID)->second;
-		neighborMap->erase(nodeID);
+		delete leavingEdges->find(nodeID)->second;
+		leavingEdges->erase(nodeID);
 
 		vuelta = true;
 	}
@@ -340,6 +378,95 @@ Graph<NodeType,EdgeType>* Graph<NodeType,EdgeType>::loadGraph(string filename) {
 	return vuelta;
 }
 
+template<class NodeType, class EdgeType>
+const vector<EdgeType*>* Graph<NodeType, EdgeType>::getArrivingEdges(
+		int idSource) {
+	vector<EdgeType*>* vuelta = NULL;
+
+	typename tr1::unordered_map<int, vector<EdgeType*>*>::iterator it =
+			arrivingEdges->find(idSource);
+	if (it != arrivingEdges->end()) {
+		vuelta = it->second;
+	}
+	return vuelta;
+}
+
+/**
+ * Search all disjoint subgraphs, the idea is to color connect nodes with the same color:
+ *
+ * for all edges->
+ * 	*) if both connected nodes has no color: set the same random color to both;
+ * 	*) if only one has a color: set the empty node's color so they be the same.
+ * 	*) if both has one color and those colors are different: update all the nodes with
+ * 		the bigger color to match the smaller one. (merge)
+ */
+template<class NodeType, class EdgeType>
+void Graph<NodeType, EdgeType>::calculateSubgraphs() {
+	subGraphs = new vector<std::pair<vector<NodeType*>*,vector<EdgeType*>*>>();
+	tr1::unordered_map<int,int> node_colorMap;
+	int lastColor = 0;
+
+	for (auto it = edgeList->begin(); it != edgeList->end(); ++it) {
+		Edge* actual = *it;
+		int idSource = actual->getIdSource();
+		int idTarget = actual->getIdTarget();
+
+		int colorSource =
+				(node_colorMap.find(idSource) != node_colorMap.end()) ?
+						node_colorMap.find(idSource)->second : -1;
+		int colorTarget =
+				(node_colorMap.find(idTarget) != node_colorMap.end()) ?
+						node_colorMap.find(idTarget)->second : -1;
+
+		if ((colorSource == -1) && (colorTarget == -1)) {
+			node_colorMap.insert(make_pair(idTarget,lastColor));
+			node_colorMap.insert(make_pair(idSource,lastColor));
+			lastColor++;
+		} else if ((colorSource != -1) && (colorTarget == -1)) {
+			node_colorMap.insert(make_pair(idTarget,colorSource));
+		} else if ((colorSource == -1) && (colorTarget != -1)) {
+			node_colorMap.insert(make_pair(idSource,colorTarget));
+		} else if ((colorSource != -1) && (colorTarget != -1)) {
+			/* If the two has color a merge must be performed,
+			 * the bigger color will be change to the smaller one
+			 */
+			if (colorSource != colorTarget) {
+				int colorWin = min(colorSource, colorTarget);
+				int colorChange =
+						(colorWin == colorSource) ? colorTarget : colorSource;
+				for (auto it = node_colorMap.begin(); it != node_colorMap.end();
+						++it) {
+					if (it->second == colorChange) {
+						it->second = colorWin;
+					}
+				}
+			}
+		}
+	}
+	tr1::unordered_map<int,std::pair<vector<NodeType*>*,vector<EdgeType*>*>> temp_color_nodeMap;
+	for (auto it = node_colorMap.begin(); it != node_colorMap.end(); ++it) {
+		int color = it->second;
+		int idNode = it->first;
+
+		auto nodeList = temp_color_nodeMap.find(color);
+		if (nodeList == temp_color_nodeMap.end()) { //new color
+			std::pair<vector<NodeType*>*,vector<EdgeType*>*> newPair = make_pair(new vector<NodeType*>(), new vector<EdgeType*>());
+			newPair.first->push_back(getNode(idNode));
+			newPair.second->insert(newPair.second->end(), getLeavingEdges(idNode)->begin(), getLeavingEdges(idNode)->end());
+
+			temp_color_nodeMap.insert(make_pair(color, newPair));
+		} else {
+			std::pair<vector<NodeType*>*,vector<EdgeType*>*> actualPair = nodeList->second;
+			actualPair.first->push_back(getNode(idNode));
+			actualPair.second->insert(actualPair.second->end(), getLeavingEdges(idNode)->begin(), getLeavingEdges(idNode)->end());
+		}
+	}
+
+	for (auto it = temp_color_nodeMap.begin(); it != temp_color_nodeMap.end(); ++it) {
+		subGraphs->push_back(it->second);
+	}
+}
+
 /**
  * If possible allocates and adds a new edge/node from the text line
  *
@@ -420,7 +547,7 @@ string Graph<NodeType, EdgeType>::toString() {
 template<class NodeType, class EdgeType>
 bool Graph<NodeType, EdgeType>::areConnected(int idSource, int idTarget) {
 	bool vuelta = false;
-	const vector<Edge*>* neighbors = getNeighbors(idSource);
+	const vector<Edge*>* neighbors = getLeavingEdges(idSource);
 
 	auto it = neighbors->begin();
 	while (!vuelta && (it != neighbors->end())) {

@@ -17,8 +17,8 @@
 #include <boost/shared_ptr.hpp>
 
 //local
-#include "../../../util/Utils.h"
-#include "../../../operables/comparison/ComparisonOperable.h"
+#include "../../util/Utils.h"
+#include "../../operables/comparison/ComparisonOperable.h"
 #include "../OperationNode.h"
 
 class DivergeNode: public OperationNode {

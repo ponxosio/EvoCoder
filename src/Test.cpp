@@ -23,8 +23,8 @@ int main(int argv, char* argc[]) {
 
 	LOG(INFO)<< "started!...";
 
-	/*t.testGraph();
-	 t.testContainerNode();
+	//t.testGraph();
+	/* t.testContainerNode();
 	 t.testVariableTable();
 	 t.testComparisonVariable();
 	 t.testComparisonVariable();
@@ -36,12 +36,18 @@ int main(int argv, char* argc[]) {
 	//t.testSketcher();
 	//t.testMapping();
 	//t.testFlow();
-	t.testExecutableMachineGraph();
+	//t.testExecutableMachineGraph();
+	//t.testExecutableMachineGraphPerformance();
+	//t.testCalculateSubgraphs();
+	//t.testContainerNodeType();
+	//t.testCompatibleSubgraph();
 
 	//t.testSerialPort_send();
 
 	//t.testSerialPort_receive();
 
+	//t.testMappingEngine();
+	t.testMappingEnginePerformance();
 	LOG(INFO)<< "finished!";
 }
 
@@ -50,32 +56,23 @@ void Test::testGraph() {
 
 	if (g->addNode(new Node(0)) && g->addNode(new Node(1))
 			&& g->addNode(new Node(2)) && g->addEdge(new Edge(0, 1))
-			&& g->addEdge(new Edge(1, 2)) && g->saveGraph("test.graph")) {
+			&& g->addEdge(new Edge(1, 2)) && g->addNode(new Node(3)) && g->addEdge(new Edge(3,1)) ) {
 	} else {
 		LOG(ERROR)<< "error creating and saving graph";
 	}
 
-	LOG(DEBUG)<< "vecinos(0) 1 : " << g->getNeighbors(0)->size();
-
-	Graph<Node, Edge>* loadG = Graph<Node, Edge>::loadGraph(
-			"X:\\codigo\\EvoCoder_Release_v1\\EvoCoder\\test.graph");
-	if ((loadG != NULL)) {
-		LOG(DEBUG)<< "Grafo cargado..." << endl;
-		LOG(DEBUG) << loadG->toString() << endl;
-
-		loadG->removeNode(0);
-		LOG(DEBUG) << "Grafo: borrar nodo 0..." << endl;
-		LOG(DEBUG) << loadG->toString() << endl;
-
-		Edge tempE(1,2);
-		loadG->removeEdge(tempE);
-		LOG(DEBUG) << "Grafo: borrar arista 1->2..." << endl;
-		LOG(DEBUG) << loadG->toString() << endl;
-
-	} else {
-		LOG(ERROR) << "error loading graph";
+	const std::vector<Edge*>* arriving =  g->getArrivingEdges(1);
+	LOG(INFO) << "arriving edges to 1: 0->1, 3->1";
+	for (auto it = arriving->begin(); it != arriving->end(); ++it) {
+		LOG(INFO) << (*it)->toText();
 	}
-	delete loadG;
+
+	const std::vector<Edge*>* leaving = g->getLeavingEdges(1);
+	LOG(INFO)<< "leaving edges to 1: 1->2";
+	for (auto it = leaving->begin(); it != leaving->end(); ++it) {
+		LOG(INFO)<< (*it)->toText();
+	}
+
 	delete g;
 
 }
@@ -622,27 +619,62 @@ void Test::testSerialPort_receive() {
 void Test::testExecutableMachineGraph() {
 	CommandSender* communications = new SerialSender("\\\\.\\COM3");
 	LOG(INFO) << "creating machine...";
-	ExecutableMachineGraph* machine = makeSimpleMachine(communications);
+	ExecutableMachineGraph* machine = makeMappingMachine(communications);
 
-	ContainerNodeType cinlet(MovementType::continuous, ContainerType::inlet);
+	//ContainerNodeType cinlet(MovementType::continuous, ContainerType::inlet);
+	ContainerNodeType cinlet(MovementType::continuous, ContainerType::flow);
 	ContainerNodeType sink(MovementType::irrelevant, ContainerType::sink);
 
 	LOG(INFO) << "printing graph...";
 	machine->saveGraph("exMachine.graph");
 
-	LOG(INFO) << "not available 2";
-	machine->addUsedNode(4);
+	//LOG(INFO) << "not available 2";
+	//machine->addUsedNode(4);
 
-	LOG(INFO) << "getting flows inlet to sink...";
-	std::priority_queue<Flow<Edge>*, vector<Flow<Edge>*>,
-				FlowPtrComparator<Edge>>* f = machine->getAvailableFlows(cinlet, sink);
+	LOG(INFO) << "getting flows flow to sink...";
+	std::priority_queue<Flow<Edge>, vector<Flow<Edge>>,
+				FlowPtrComparator<Edge>> f = machine->getAvailableFlows(cinlet, sink, machine->getGraph()->getAllNodes());
 
 	int i = 0;
-	while(!f->empty()) {
-		LOG(INFO) << "Flow: " << i << " " << f->top()->toText();
-		f->pop();
+	while(!f.empty()) {
+		Flow<Edge> flow = f.top();
+		LOG(INFO) << "Flow: " << i << " " << flow.toText();
+		f.pop();
 		i++;
 	}
+
+	LOG(INFO)<< "getting flows #1 to sink...";
+	f = machine->getAvailableFlows(1, sink);
+
+	i = 0;
+	while (!f.empty()) {
+		Flow<Edge> flow = f.top();
+		LOG(INFO)<< "Flow: " << i << " " << flow.toText();
+		f.pop();
+		i++;
+	}
+
+	LOG(INFO)<< "getting flows: sink to #7...";
+	f = machine->getAvailableFlows(sink, 7);
+
+	i = 0;
+	while (!f.empty()) {
+		Flow<Edge> flow = f.top();
+		LOG(INFO)<< "Flow: " << i << " " << flow.toText();
+		f.pop();
+		i++;
+	}
+
+	LOG(INFO)<< "getting flows #2 to #7...";
+		f = machine->getAvailableFlows(2, 7);
+
+		i = 0;
+		while (!f.empty()) {
+			Flow<Edge> flow = f.top();
+			LOG(INFO)<< "Flow: " << i << " " << flow.toText();
+			f.pop();
+			i++;
+		}
 
 	LOG(INFO) << "destroying machine";
 	delete machine;
@@ -685,6 +717,104 @@ ExecutableMachineGraph* Test::makeSimpleMachine(CommandSender* communications) {
 	return machine;
 }
 
+ExecutableMachineGraph* Test::makeMatrixMachine(CommandSender* communications,
+		int size) {
+	ExecutableMachineGraph* machine = new ExecutableMachineGraph(
+				"matrixMachine");
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			ExecutableContainerNode* node;
+			if (i==0) {
+				if (j == 0) {
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
+					node = new ConvergentSwitch(i*size + j, 100.0, inject, ctrl);
+				} else if ( j == size-1) {
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					node = new FlowContainer(i*size + j, 100.0, extract, inject);
+				} else {
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					boost::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
+					node = new ConvergentSwitchInlet(i*size + j, 100.0, inject, extract, ctrl);
+				}
+			} else if (i==size -1) {
+				if (j == 0) {
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					node = new FlowContainer(i * size + j, 100.0, extract,inject);
+				} else if ( j == size-1) {
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					boost::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
+					node = new DivergentSwitch(i*size + j, 100.0, extract, ctrl);
+				} else {
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					boost::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
+					node = new DivergentSwitchSink(i*size + j, 100.0, inject, extract, ctrl);
+				}
+			} else {
+				if (j == 0) {
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					boost::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
+					node = new ConvergentSwitchInlet(i*size + j, 100.0, inject, extract, ctrl);
+				} else if ( j == size-1) {
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					boost::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
+					node = new DivergentSwitchSink(i*size + j, 100.0, inject, extract, ctrl);
+				} else {
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					boost::shared_ptr<Control> ctrlIn(new EvoprogSixwayValve(communications,3));
+					boost::shared_ptr<Control> ctrlOut(new EvoprogSixwayValve(communications,3));
+					node = new BidirectionalSwitch(i*size + j, 100.0, extract, inject, ctrlIn, ctrlOut);
+				}
+			}
+			machine->addContainer(node);
+			if (i > 0) {
+				machine->connectExecutableContainer(i*size + j, (i-1)*size + j);
+			}
+
+			if ( j > 0) {
+				machine->connectExecutableContainer(i*size + j, i*size + j-1);
+			}
+		}
+	}
+	return machine;
+}
+
+void Test::testExecutableMachineGraphPerformance() {
+	CommandSender* communications = new SerialSender("\\\\.\\COM3");
+	LOG(INFO)<< "creating machine...";
+	ExecutableMachineGraph* machine = makeMatrixMachine(communications, 40);
+
+	ContainerNodeType cinlet(MovementType::continuous, ContainerType::inlet);
+	ContainerNodeType sink(MovementType::irrelevant, ContainerType::sink);
+
+	LOG(INFO)<< "printing graph...";
+	machine->saveGraph("matrixMachine.graph");
+
+	//LOG(INFO)<< "not available 2";
+	//machine->addUsedNode(4);
+
+	DWORD init = GetTickCount();
+	LOG(INFO)<< "getting flows inlet to sink...";
+	std::priority_queue<Flow<Edge>, vector<Flow<Edge>>,
+			FlowPtrComparator<Edge>> f = machine->getAvailableFlows(cinlet,
+			sink, machine->getGraph()->getAllNodes());
+	DWORD end = GetTickCount();
+
+	LOG(INFO) << "calculate " << f.size() << " flows, in " << ((end - init)) << " ms";
+
+	LOG(INFO)<< "destroying machine";
+	delete machine;
+	delete communications;
+}
+
 void Test::testEvoprogComponents() {
 	try {
 		CommandSender* com = new SerialSender("\\\\.\\COM3");
@@ -705,5 +835,325 @@ void Test::testEvoprogComponents() {
 		LOG(INFO)<< "error: " << e.what();
 	} catch (std::invalid_argument& e) {
 		LOG(INFO) << "error: " << e.what();
+	}
+}
+
+void Test::testCalculateSubgraphs() {
+	Graph<Node, Edge>* g = new Graph<Node, Edge>();
+
+	g->addNode(new Node(1));
+	g->addNode(new Node(2));
+	g->addNode(new Node(3));
+	g->addNode(new Node(4));
+	g->addNode(new Node(5));
+	g->addNode(new Node(6));
+	g->addNode(new Node(7));
+	g->addNode(new Node(8));
+	g->addNode(new Node(9));
+	g->addNode(new Node(10));
+	g->addNode(new Node(11));
+
+	g->addEdge(new Edge(1,2));
+	g->addEdge(new Edge(2,3));
+	//g->addEdge(new Edge(2,4));
+	g->addEdge(new Edge(4,5));
+	g->addEdge(new Edge(4,6));
+	g->addEdge(new Edge(7,8));
+	g->addEdge(new Edge(8,9));
+	g->addEdge(new Edge(9,10));
+	g->addEdge(new Edge(10,11));
+
+	std::vector<std::pair<vector<Node*>*,vector<Edge*>*>>* subGraph = g->getSubGraphs();
+	int color = 0;
+	for (auto it = subGraph->begin(); it != subGraph->end(); ++it) {
+		LOG(INFO) << "subGraph " << color << ": ";
+		std::vector<Node*>* actualSubgraph = (*it).first;
+		for (auto it1 = actualSubgraph->begin(); it1 != actualSubgraph->end(); ++it1) {
+			Node* actual = *it1;
+			LOG(INFO) << actual->toText();
+		}
+		color++;
+	}
+}
+
+void Test::testContainerNodeType() {
+	std::vector<ContainerNodeType> types;
+	ContainerNodeType t1(MovementType::continuous,ContainerType::flow);
+	types.push_back(t1);
+
+	ContainerNodeType t2(MovementType::discrete,ContainerType::flow);
+
+	LOG(INFO) << "is t1 == t2? 1: " << (t1 == t2);
+
+	auto it = std::find(types.begin(), types.end(), t2);
+
+	LOG(INFO) << "is t2 in types? 1: " << (it != types.end());
+}
+
+void Test::testCompatibleSubgraph() {
+	std::tr1::unordered_set<int> used;
+	std::vector<ContainerNode*> vect1;
+	std::vector<ContainerNode*> vect2;
+
+	ContainerNode* c1 = new ContainerNode(1,
+			boost::shared_ptr<ContainerNodeType>(
+					new ContainerNodeType(MovementType::continuous,
+							ContainerType::inlet)), 100.0);
+	ContainerNode* c2 = new ContainerNode(2,
+				boost::shared_ptr<ContainerNodeType>(
+						new ContainerNodeType(MovementType::continuous,
+								ContainerType::flow)), 100.0);
+	ContainerNode* c3 = new ContainerNode(3,
+				boost::shared_ptr<ContainerNodeType>(
+						new ContainerNodeType(MovementType::irrelevant,
+								ContainerType::sink)), 100.0);
+
+	vect1.push_back(c1);
+	vect1.push_back(c2);
+	vect1.push_back(c3);
+
+	ContainerNode* c4 = new ContainerNode(4,
+			boost::shared_ptr<ContainerNodeType>(
+					new ContainerNodeType(MovementType::continuous,
+							ContainerType::divergent_switch)), 100.0);
+	ContainerNode* c5 = new ContainerNode(5,
+			boost::shared_ptr<ContainerNodeType>(
+					new ContainerNodeType(MovementType::continuous,
+							ContainerType::bidirectional_switch)), 100.0);
+	ContainerNode* c6 = new ContainerNode(6,
+			boost::shared_ptr<ContainerNodeType>(
+					new ContainerNodeType(MovementType::irrelevant,
+							ContainerType::convergent_switch)), 100.0);
+	vect2.push_back(c4);
+	vect2.push_back(c5);
+	vect2.push_back(c6);
+
+	LOG(INFO) << "are v1 and v2 compatible? 1: " << ContainersUtils::areSubgraphCompatible<ContainerNode,ContainerNode>(vect1, vect2, used);
+	LOG(INFO) << "are v2 and v1 compatible? 0: " << ContainersUtils::areSubgraphCompatible<ContainerNode,ContainerNode>(vect2, vect1, used);
+
+	LOG(INFO) << "is 1 in v1 ? 1: " << ContainersUtils::isNodeInVector<ContainerNode>(1, vect1);
+	LOG(INFO) << "is 1 in v2 ? 0: " << ContainersUtils::isNodeInVector<ContainerNode>(1, vect2);
+	LOG(INFO) << "is c4 in v2 ? 1: " << ContainersUtils::isNodeInVector<ContainerNode, ContainerNode>(c4, vect2);
+	LOG(INFO) << "is c4 in v1 ? 0: " << ContainersUtils::isNodeInVector<ContainerNode, ContainerNode>(c4, vect1);
+
+	delete c1;
+	delete c2;
+	delete c3;
+	delete c4;
+	delete c5;
+	delete c6;
+}
+
+ExecutableMachineGraph* Test::makeMappingMachine(
+		CommandSender* communications) {
+
+	ExecutableMachineGraph* machine = new ExecutableMachineGraph(
+			"mappingMachine");
+
+	boost::shared_ptr<Control> control(
+			new EvoprogSixwayValve(communications, 7));
+	boost::shared_ptr<Extractor> cExtractor(
+			new EvoprogContinuousPump(communications, 13));
+	boost::shared_ptr<Injector> dummyInjector(
+			new EvoprogDummyInjector(communications));
+	boost::shared_ptr<ODSensor> sensor(new EvoprogOdSensor(communications, 14));
+
+	ExecutableContainerNode* cInlet1 = new InletContainer(1, 100.0, cExtractor);
+	ExecutableContainerNode* cInlet2 = new DivergentSwitch(2, 100.0, cExtractor, control);
+	ExecutableContainerNode* cInlet3 = new FlowContainer(3, 100.0, cExtractor, dummyInjector);
+	ExecutableContainerNode* cInlet4 = new InletContainer(4, 100.0, cExtractor);
+
+
+	ExecutableContainerNode* cSwtInlet5 = new ConvergentSwitchInlet(5, 100.0,
+			dummyInjector, cExtractor, control);
+	ExecutableContainerNode* cSwtInlet6 = new ConvergentSwitchInlet(6, 100.0,
+				dummyInjector, cExtractor, control);
+	cSwtInlet6->setOd(sensor);
+	ExecutableContainerNode* cSwich7 = new ConvergentSwitch(7, 100.0, dummyInjector, control);
+
+	machine->addContainer(cInlet1);
+	machine->addContainer(cInlet2);
+	machine->addContainer(cInlet3);
+	machine->addContainer(cInlet4);
+	machine->addContainer(cSwtInlet5);
+	machine->addContainer(cSwtInlet6);
+	machine->addContainer(cSwich7);
+
+	machine->connectExecutableContainer(1, 5);
+	machine->connectExecutableContainer(2, 5);
+	machine->connectExecutableContainer(3, 6);
+	machine->connectExecutableContainer(4, 6);
+	machine->connectExecutableContainer(5, 7);
+	machine->connectExecutableContainer(6, 7);
+	machine->connectExecutableContainer(2, 3);
+
+	return machine;
+}
+
+MachineGraph* Test::makeTurbidostatSketch() {
+	MachineGraph* sketch = new MachineGraph("sketchTurbidostat");
+
+	boost::shared_ptr<ContainerNodeType> cinlet(new ContainerNodeType(MovementType::continuous, ContainerType::inlet));
+	boost::shared_ptr<ContainerNodeType> cFlow(new ContainerNodeType(MovementType::continuous, ContainerType::flow));
+	boost::shared_ptr<ContainerNodeType> sink(new ContainerNodeType(MovementType::irrelevant, ContainerType::sink));
+
+	sketch->addContainer(1, cinlet, 100.0);
+	sketch->addContainer(2, cFlow, 100.0);
+	sketch->addContainer(3, sink, 100.0);
+
+	sketch->connectContainer(1,2);
+	sketch->connectContainer(2,3);
+
+	return sketch;
+}
+
+void Test::testMappingEngine() {
+	CommandSender* com = new SerialSender("\\\\.\\COM3");
+	MachineGraph* sketch = makeTurbidostatSketch();
+	ExecutableMachineGraph* machine = makeMappingMachine(com);
+	MappingEngine* map = new MappingEngine(sketch, machine);
+
+	sketch->printMachine("turbidostatSketch.graph");
+	machine->saveGraph("mappingSimpleMachine.graph");
+
+	LOG(INFO)<< "edge list size" << sketch->getGraph()->getEdgeList()->size();
+	LOG(INFO)<< "making mapping... ";
+	if (map->startMapping()) {
+		LOG(INFO)<< "edge list size" << sketch->getGraph()->getEdgeList()->size();
+
+		std::vector<Edge*>* edges = sketch->getGraph()->getEdgeList();
+		std::vector<ContainerNode*> nodes = sketch->getGraph()->getAllNodes();
+
+		for (auto it = nodes.begin(); it != nodes.end(); ++it) {
+			ContainerNode* act = *it;
+			LOG(INFO)<< " sketch : " << patch::to_string(act->getContainerId()) << ", machine: " << patch::to_string(map->getMappedContainerId(act->getContainerId()));
+		}
+
+		for (auto it = edges->begin(); it != edges->end(); ++it) {
+			Edge* act = *it;
+			LOG(INFO)<< " sketch : " << act->toText() << ", machine: " << map->getMappedEdge(act)->toText();
+		}
+
+		LOG(INFO) << "used Nodes:";
+		std::tr1::unordered_set<int>* usedNodes = machine->getUsedNodes();
+		for (auto it = usedNodes->begin(); it != usedNodes->end(); ++it) {
+			LOG(INFO) << *it;
+		}
+	} else {
+		LOG(INFO) << "mapping error!";
+	}
+
+}
+
+MachineGraph* Test::makeMatrixSketch(int size) {
+	MachineGraph* sketch = new MachineGraph("sketchMatrix");
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			boost::shared_ptr<ContainerNodeType> type;
+			if (i == 0) {
+				if (j == 0) {
+					type = boost::shared_ptr<ContainerNodeType>(
+							new ContainerNodeType(MovementType::irrelevant,
+									ContainerType::convergent_switch));
+
+				} else if (j == size - 1) {
+					type = boost::shared_ptr<ContainerNodeType>(
+							new ContainerNodeType(MovementType::continuous,
+									ContainerType::flow));
+				} else {
+					type = boost::shared_ptr<ContainerNodeType>(
+							new ContainerNodeType(MovementType::continuous,
+									ContainerType::convergent_switch_inlet));
+				}
+			} else if (i == size - 1) {
+				if (j == 0) {
+					type = boost::shared_ptr<ContainerNodeType>(
+							new ContainerNodeType(MovementType::continuous,
+									ContainerType::flow));
+				} else if (j == size - 1) {
+					type = boost::shared_ptr<ContainerNodeType>(
+							new ContainerNodeType(MovementType::continuous,
+									ContainerType::divergent_switch));
+				} else {
+					type = boost::shared_ptr<ContainerNodeType>(
+							new ContainerNodeType(MovementType::continuous,
+									ContainerType::divergent_switch_sink));
+				}
+			} else {
+				if (j == 0) {
+					type = boost::shared_ptr<ContainerNodeType>(
+							new ContainerNodeType(MovementType::continuous,
+									ContainerType::convergent_switch_inlet));
+				} else if (j == size - 1) {
+					type = boost::shared_ptr<ContainerNodeType>(
+							new ContainerNodeType(MovementType::continuous,
+									ContainerType::divergent_switch_sink));
+				} else {
+					type = boost::shared_ptr<ContainerNodeType>(
+							new ContainerNodeType(MovementType::continuous,
+									ContainerType::bidirectional_switch));
+				}
+			}
+			sketch->addContainer(i * size + j, type, 100.0);
+			if (i > 0) {
+				sketch->connectContainer(i * size + j, (i - 1) * size + j);
+			}
+
+			if (j > 0) {
+				sketch->connectContainer(i * size + j, i * size + j - 1);
+			}
+		}
+	}
+	return sketch;
+}
+
+void Test::testMappingEnginePerformance() {
+	CommandSender* com = new SerialSender("\\\\.\\COM3");
+	MachineGraph* sketch = makeMatrixSketch(6);
+	ExecutableMachineGraph* machine = makeMatrixMachine(com, 10);
+	MappingEngine* map = new MappingEngine(sketch, machine);
+
+	LOG(INFO)<< "printing machine...";
+	machine->saveGraph("mappingMachine.graph");
+	sketch->printMachine("sketchMapping.graph");
+
+	LOG(INFO)<< "edge list size" << sketch->getGraph()->getEdgeList()->size();
+	LOG(INFO)<< "making mapping... ";
+	DWORD init = GetTickCount();
+	if (map->startMapping()) {
+		DWORD end = GetTickCount();
+		LOG(INFO) << "spend: " << ((end - init)) << " ms";
+
+		LOG(INFO)<< "edge list size" << sketch->getGraph()->getEdgeList()->size();
+
+		std::vector<Edge*>* edges = sketch->getGraph()->getEdgeList();
+		std::vector<ContainerNode*> nodes = sketch->getGraph()->getAllNodes();
+
+		for (auto it = nodes.begin(); it != nodes.end(); ++it) {
+			ContainerNode* act = *it;
+			try {
+				LOG(INFO)<< " sketch : " << patch::to_string(act->getContainerId()) << ", machine: " << patch::to_string(map->getMappedContainerId(act->getContainerId()));
+			} catch (std::invalid_argument & e) {
+				LOG(INFO) << "exception " << e.what();
+			}
+		}
+
+		for (auto it = edges->begin(); it != edges->end(); ++it) {
+			Edge* act = *it;
+			try {
+				LOG(INFO)<< " sketch : " << act->toText() << ", machine: " << map->getMappedEdge(act)->toText();
+			} catch (std::invalid_argument& e) {
+				LOG(INFO) << "exception " << e.what();
+			}
+		}
+
+		LOG(INFO)<< "used Nodes:";
+		std::tr1::unordered_set<int>* usedNodes = machine->getUsedNodes();
+		for (auto it = usedNodes->begin(); it != usedNodes->end(); ++it) {
+			LOG(INFO)<< *it;
+		}
+	} else {
+		LOG(INFO) << "mapping cannot be done";
 	}
 }

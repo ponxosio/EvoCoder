@@ -12,7 +12,7 @@
 #include <boost/shared_ptr.hpp>
 
 //local
-#include "../../../../operables/mathematics/VariableEntry.h"
+#include "../../../operables/mathematics/VariableEntry.h"
 #include "ContainerOperation.h"
 
 class MeasureOD: public ContainerOperation {

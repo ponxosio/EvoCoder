@@ -14,10 +14,10 @@
 #include <boost/shared_ptr.hpp>
 
 //local
-#include "../../../../util/Utils.h"
-#include "../../../../operables/mathematics/MathematicOperable.h"
-#include "../../../Mapping.h"
+#include "../../../util/Utils.h"
+#include "../../../operables/mathematics/MathematicOperable.h"
 #include "../../OperationNode.h"
+#include "../../../fluidControl/Mapping.h"
 
 /**
  * Interface that represents all the operations that can be made over the machine containers

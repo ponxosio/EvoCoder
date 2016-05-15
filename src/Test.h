@@ -14,6 +14,7 @@
 #include <thread>
 #include <iostream>
 #include <functional>
+#include <windows.h>
 
 //boost
 #include <boost/function.hpp>
@@ -41,7 +42,10 @@
 
 #include "util/Utils.h"
 #include "util/AutoEnumerate.h"
+#include "util/ContainersUtils.h"
+
 #include "fluidControl/EvoCoder.h"
+#include "fluidControl/MappingEngine.h"
 #include "fluidControl/machineGraph/MachineGraph.h"
 #include "fluidControl/machineGraph/ContainerNode.h"
 #include "fluidControl/machineGraph/ContainerNodeType.h"
@@ -63,8 +67,6 @@
 #include "fluidControl/executable/containers/FlowContainer.h"
 #include "fluidControl/executable/containers/SinkContainer.h"
 
-#include "fluidControl/protocolGraph/ProtocolGraph.h"
-#include "fluidControl/protocolGraph/ConditionEdge.h"
 #include "operables/mathematics/ConstantNumber.h"
 #include "operables/mathematics/ArithmeticOperation.h"
 #include "operables/mathematics/UnaryOperation.h"
@@ -77,20 +79,22 @@
 #include "operables/comparison/BooleanComparison.h"
 
 //operations
-#include "fluidControl/protocolGraph/operations/AssignationOperation.h"
-#include "fluidControl/protocolGraph/operations/container/ApplyLight.h"
-#include "fluidControl/protocolGraph/operations/container/ApplyTemperature.h"
-#include "fluidControl/protocolGraph/operations/container/ContainerOperation.h"
-#include "fluidControl/protocolGraph/operations/container/GetVolume.h"
-#include "fluidControl/protocolGraph/operations/container/LoadContainerOperation.h"
-#include "fluidControl/protocolGraph/operations/container/MeasureOD.h"
-#include "fluidControl/protocolGraph/operations/container/Mix.h"
-#include "fluidControl/protocolGraph/operations/container/SetContinousFlow.h"
-#include "fluidControl/protocolGraph/operations/container/TimeStep.h"
-#include "fluidControl/protocolGraph/operations/container/Transfer.h"
-#include "fluidControl/protocolGraph/operations/LoopNode.h"
-#include "fluidControl/protocolGraph/operations/DivergeNode.h"
 #include "graph/Flow.h"
+#include "protocolGraph/ConditionEdge.h"
+#include "protocolGraph/operations/AssignationOperation.h"
+#include "protocolGraph/operations/container/ApplyLight.h"
+#include "protocolGraph/operations/container/ApplyTemperature.h"
+#include "protocolGraph/operations/container/ContainerOperation.h"
+#include "protocolGraph/operations/container/GetVolume.h"
+#include "protocolGraph/operations/container/LoadContainerOperation.h"
+#include "protocolGraph/operations/container/MeasureOD.h"
+#include "protocolGraph/operations/container/Mix.h"
+#include "protocolGraph/operations/container/SetContinousFlow.h"
+#include "protocolGraph/operations/container/TimeStep.h"
+#include "protocolGraph/operations/container/Transfer.h"
+#include "protocolGraph/operations/DivergeNode.h"
+#include "protocolGraph/operations/LoopNode.h"
+#include "protocolGraph/ProtocolGraph.h"
 
 
 INITIALIZE_EASYLOGGINGPP
@@ -106,6 +110,10 @@ public:
 				boost::shared_ptr<VariableTable> table,
 				boost::shared_ptr<Mapping> map);
 	static ExecutableMachineGraph* makeSimpleMachine(CommandSender* communications);
+	static ExecutableMachineGraph* makeMatrixMachine(CommandSender* communications, int size);
+	static ExecutableMachineGraph* makeMappingMachine(CommandSender* communications);
+	static MachineGraph* makeTurbidostatSketch();
+	static MachineGraph* makeMatrixSketch(int size);
 
 	Test();
 	virtual ~Test();
@@ -125,7 +133,13 @@ public:
 	void testSerialPort_send();
 	void testSerialPort_receive();
 	void testExecutableMachineGraph();
+	void testExecutableMachineGraphPerformance();
 	void testEvoprogComponents();
+	void testCalculateSubgraphs();
+	void testContainerNodeType();
+	void testCompatibleSubgraph();
+	void testMappingEngine();
+	void testMappingEnginePerformance();
 
 };
 

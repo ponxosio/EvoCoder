@@ -5,7 +5,7 @@
  *      Author: angel
  */
 
-#include "./DivergeNode.h"
+#include "DivergeNode.h"
 
 DivergeNode::DivergeNode() :
 		OperationNode() {

@@ -5,7 +5,7 @@
  *      Author: angel
  */
 
-#include "../container/SetContinousFlow.h"
+#include "SetContinousFlow.h"
 
 SetContinousFlow::SetContinousFlow() :
 		ContainerOperation() {

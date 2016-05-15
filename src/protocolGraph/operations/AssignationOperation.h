@@ -14,9 +14,9 @@
 #include <boost/shared_ptr.hpp>
 
 //local
-#include "../../../util/Utils.h"
-#include "../../../operables/mathematics/VariableEntry.h"
-#include "../../../operables/mathematics/MathematicOperable.h"
+#include "../../util/Utils.h"
+#include "../../operables/mathematics/VariableEntry.h"
+#include "../../operables/mathematics/MathematicOperable.h"
 #include "../OperationNode.h"
 
 /**

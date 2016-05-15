@@ -122,6 +122,7 @@ public:
 		return containerType;
 	}
 
+	bool operator == (const ContainerNodeType& n1);
 protected:
 	MovementType movementType;
 	ContainerType containerType;

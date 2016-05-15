@@ -12,7 +12,7 @@
 #include "boost/shared_ptr.hpp"
 
 //local
-#include "../../../../operables/mathematics/MathematicOperable.h"
+#include "../../../operables/mathematics/MathematicOperable.h"
 #include "ContainerOperation.h"
 
 

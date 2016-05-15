@@ -10,6 +10,10 @@
 
 #include <string>
 
+//data structed
+#include <tr1/unordered_map>
+
+//local
 #include "../../graph/Graph.h"
 #include "../../graph/Edge.h"
 #include "ContainerNode.h"
@@ -35,6 +39,8 @@ public:
 	bool addVolume(int idContainer, float volume);
 	bool extractVolume(int idContainer, float volume);
 
+	void printMachine(const std::string & path);
+
 	/**
 	 * return if a certain container already exists in the machine
 	 * @param idContainer ID of the container
@@ -48,7 +54,13 @@ public:
 		return (machine->getNode(idContainer));
 	}
 
-	void printMachine(const std::string & path);
+	inline std::vector<std::pair<vector<ContainerNode*>*,vector<Edge*>*>>* getSubgraphs() {
+		return machine->getSubGraphs();
+	}
+
+	inline Graph<ContainerNode, Edge>* getGraph() {
+		return machine;
+	}
 
 protected:
 	std::string name;

@@ -54,8 +54,7 @@ public:
 			DWORD readTotalTimeoutConstant = 50,
 			DWORD readTotalTimeoutMultiplier = 10,
 			DWORD writeTotalTimeoutConstant = 50,
-			DWORD writeTotalTimeoutMultiplier = 10)
-					throw (std::ios_base::failure);
+			DWORD writeTotalTimeoutMultiplier = 10);
 	virtual ~SerialSender();
 
 	/**
@@ -72,7 +71,15 @@ public:
 
 	virtual std::string readUntil(char endCharacter) throw (std::ios_base::failure);
 
+	virtual void disconnect();
+
+	virtual void connect() throw (std::ios_base::failure);
+
 protected:
+
+	bool connected;
+
+	std::string device;
 	//handler
 	/**
 	 * Makes the serial communication
@@ -128,7 +135,6 @@ protected:
 	 */
 	DWORD writeTotalTimeoutMultiplier;
 
-	void disconnect();
 	void configure() throw (std::ios_base::failure);
 };
 
