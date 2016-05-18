@@ -7,7 +7,7 @@
 
 #include "EvoprogTemperature.h"
 
-EvoprogTemperature::EvoprogTemperature(CommandSender* communications,
+EvoprogTemperature::EvoprogTemperature(int communications,
 		int pinNumber) : Temperature(communications) {
 	this->pinNumber = pinNumber;
 }
@@ -23,7 +23,8 @@ std::string EvoprogTemperature::getInstructions() {
 void EvoprogTemperature::apply(double degrees) {
 	std::string command = "PWD " + patch::to_string(pinNumber) + " "
 			+ patch::to_string(fabs(degrees) > 255 ? 255 : round(fabs(degrees)));
-	this->communications->sendString(command);
+	CommandSender* com = CommunicationsInterface::GetInstance()->getCommandSender(this->communications);
+	com->sendString(command);
 	Sleep(60);
-	this->communications->receiveString();
+	com->synch();
 }

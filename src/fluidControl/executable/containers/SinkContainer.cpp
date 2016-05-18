@@ -37,14 +37,20 @@ void SinkContainer::loadNode(const std::string& line)
 	//TODO: JSON
 }
 
-void SinkContainer::receiveLiquid(int source, int target, double rate)
+void SinkContainer::receiveLiquid(double rate)
 		throw (std::invalid_argument) {
 	insert.get()->injectLiquid(rate);
 }
 
-void SinkContainer::extractLiquid(int source, int target, double rate)
+void SinkContainer::extractLiquid(double rate)
 		throw (std::invalid_argument) {
 	throw(std::invalid_argument("liquid cannot be extracted from this container "));
+}
+
+void SinkContainer::setPositionInject(int source, int target) {
+}
+
+void SinkContainer::setPositionExtract(int source, int target) {
 }
 
 void SinkContainer::connectContainer(int source, int target) {

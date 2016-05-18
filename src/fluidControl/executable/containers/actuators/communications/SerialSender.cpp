@@ -115,6 +115,10 @@ void SerialSender::connect() throw (std::ios_base::failure) {
 	configure();
 }
 
+void SerialSender::synch() throw (std::ios_base::failure) {
+	receiveString();
+}
+
 void SerialSender::configure() throw (std::ios_base::failure) {
 	//params
 	DCB dcbSerialParams = { 0 };

@@ -10,12 +10,15 @@
 
 #include <windows.h>
 
+#include "../../lib/easylogging++.h"
+
 #include "../fluidControl/executable/containers/actuators/extras/ODSensor.h"
 #include "../util/Patch.h"
+#include "../fluidControl/executable/containers/actuators/communications/CommunicationsInterface.h"
 
 class EvoprogOdSensor: public ODSensor {
 public:
-	EvoprogOdSensor(CommandSender* command, int port);
+	EvoprogOdSensor(int command, int port);
 	virtual ~EvoprogOdSensor();
 
 	virtual std::string getInstructions();

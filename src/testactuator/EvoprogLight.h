@@ -13,10 +13,11 @@
 
 #include "../util/Patch.h"
 #include "../fluidControl/executable/containers/actuators/extras/Light.h"
+#include "../fluidControl/executable/containers/actuators/communications/CommunicationsInterface.h"
 
 class EvoprogLight: public Light {
 public:
-	EvoprogLight(CommandSender* communications, int pinWaveLength, int pinIntensity);
+	EvoprogLight(int communications, int pinWaveLength, int pinIntensity);
 	virtual ~EvoprogLight();
 
 	virtual std::string getInstructions();

@@ -33,12 +33,18 @@ void InletContainer::loadNode(const std::string& line)
 	//TODO:Json
 }
 
-void InletContainer::receiveLiquid(int source, int target, double rate) throw (std::invalid_argument) {
+void InletContainer::receiveLiquid(double rate) throw (std::invalid_argument) {
 	throw(std::invalid_argument("this container cannot receive liquid"));
 }
 
-void InletContainer::extractLiquid(int source, int target, double rate) throw (std::invalid_argument) {
+void InletContainer::extractLiquid(double rate) throw (std::invalid_argument) {
 	ext.get()->extractLiquid(rate);
+}
+
+void InletContainer::setPositionInject(int source, int target) {
+}
+
+void InletContainer::setPositionExtract(int source, int target) {
 }
 
 void InletContainer::connectContainer(int source, int target) {

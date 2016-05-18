@@ -11,11 +11,10 @@
 #include <stdexcept>
 
 #include "../Instructable.h"
-#include "X:\\codigo\\EvoCoder_Release_v1\\EvoCoder\\src\\fluidControl\\executable\\containers\\actuators\\communications\\CommandSender.h"
 
 class ODSensor: public Instructable {
 public:
-	ODSensor(CommandSender* communications) :
+	ODSensor(int communications) :
 			Instructable() {
 		this->communications = communications;
 	}
@@ -25,7 +24,7 @@ public:
 	virtual std::string getInstructions() = 0;
 	virtual double readOd() throw (std::invalid_argument) = 0;
 protected:
-	CommandSender* communications;
+	int communications;
 };
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_EXTRAS_ODSENSOR_H_ */

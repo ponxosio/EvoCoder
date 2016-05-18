@@ -7,7 +7,7 @@
 
 #include "EvoprogDummyInjector.h"
 
-EvoprogDummyInjector::EvoprogDummyInjector(CommandSender* communications) : Injector(communications) {
+EvoprogDummyInjector::EvoprogDummyInjector(int communications) : Injector(communications) {
 }
 
 EvoprogDummyInjector::~EvoprogDummyInjector() {

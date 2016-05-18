@@ -13,10 +13,11 @@
 
 #include "../fluidControl/executable/containers/actuators/extras/Mixer.h"
 #include "../util/Patch.h"
+#include "../fluidControl/executable/containers/actuators/communications/CommunicationsInterface.h"
 
 class EvoprogMixer: public Mixer {
 public:
-	EvoprogMixer(CommandSender* communications, int pinNumber);
+	EvoprogMixer(int communications, int pinNumber);
 	virtual ~EvoprogMixer();
 
 	virtual std::string getInstructions();

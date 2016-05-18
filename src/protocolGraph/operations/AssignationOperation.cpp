@@ -40,6 +40,7 @@ void AssignationOperation::loadNode(const string& line) throw (invalid_argument)
 }
 
 void AssignationOperation::execute() {
+	LOG(DEBUG) << "executing: " << receiver.get()->toString() << " = " << value.get()->toString();
 	receiver.get()->setValue(value.get()->getValue());
 	receiver.get()->setPhysical(value.get()->isPhysical());
 }

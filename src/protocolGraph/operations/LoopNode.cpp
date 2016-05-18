@@ -41,4 +41,5 @@ void LoopNode::loadNode(const string& line) throw (invalid_argument) {
 }
 
 void LoopNode::execute() {
+	LOG(DEBUG) << "executing loop: " << conditionIN.get()->toString();
 }

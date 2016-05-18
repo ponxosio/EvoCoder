@@ -34,10 +34,10 @@ public:
 
 	virtual ~ConvergentSwitchInlet();
 
-	virtual void receiveLiquid(int source, int target, double rate)
-			throw (std::invalid_argument);
-	virtual void extractLiquid(int source, int target, double rate)
-			throw (std::invalid_argument);
+	virtual void setPositionInject(int source, int target);
+	virtual void setPositionExtract(int source, int target);
+	virtual void receiveLiquid(double rate) throw (std::invalid_argument);
+	virtual void extractLiquid(double rate) throw (std::invalid_argument);
 	virtual void connectContainer(int source, int target);
 protected:
 	boost::shared_ptr<Injector> insert;
