@@ -47,7 +47,13 @@ int main(int argv, char* argc[]) {
 	//t.testSerialPort_receive();
 
 	//t.testMappingEngine();
-	t.testMappingEnginePerformance();
+	//t.testMappingEnginePerformance();
+
+	//t.testCommunicationsInterface();
+	//t.testFileCommandSender();
+
+	//t.testMappingTest();
+	t.testMappingExec();
 	LOG(INFO)<< "finished!";
 }
 
@@ -374,10 +380,8 @@ ProtocolGraph* Test::MakeTurbidostat(boost::shared_ptr<VariableTable> table,
 
 	boost::shared_ptr<MathematicOperable> operation4_1(
 			new ArithmeticOperation(mprop, arithmetic::minus, num1)); // prop -1
-	boost::shared_ptr<MathematicOperable> operation4_2(
-			new UnaryOperation(operation4_1, unaryOperations::absoluteValue)); // fabs(prop -1)
 	boost::shared_ptr<MathematicOperable> operation4(
-			new ArithmeticOperation(operation4_2, arithmetic::minus, num1)); // fabs(prop -1) -1
+			new UnaryOperation(operation4_1, unaryOperations::absoluteValue)); // fabs(prop -1)
 
 	boost::shared_ptr<ComparisonOperable> comp4in(
 			new SimpleComparison(false, operation4, comparison::greater,
@@ -439,7 +443,8 @@ void Test::testUnaryOperation() {
 void Test::testSketcher() {
 	boost::shared_ptr<VariableTable> t(new VariableTable());
 	ExecutableMachineGraph* machine = new ExecutableMachineGraph("testMachine");
-	boost::shared_ptr<Mapping> map(new Mapping(machine, "testMamchine"));
+	std::vector<int> v;
+	boost::shared_ptr<Mapping> map(new Mapping(machine, "testMamchine", v));
 
 	ProtocolGraph* protocol = makeSimpleProtocol(t, map);
 
@@ -461,7 +466,8 @@ void Test::testMapping() {
 	boost::shared_ptr<VariableTable> t(new VariableTable());
 	ProtocolGraph* protocol = new ProtocolGraph("testProtocol");
 	ExecutableMachineGraph* machine = new ExecutableMachineGraph("testMachine");
-	Mapping* map = new Mapping(machine, "test");
+	std::vector<int> v;
+	Mapping* map = new Mapping(machine, "test", v);
 
 	EvoCoder* evo = new EvoCoder(protocol, t, map);
 
@@ -617,7 +623,9 @@ void Test::testSerialPort_receive() {
 }
 
 void Test::testExecutableMachineGraph() {
-	CommandSender* communications = new SerialSender("\\\\.\\COM3");
+	CommandSender* com = new SerialSender("\\\\.\\COM3");
+	int communications = CommunicationsInterface::GetInstance()->addCommandSender(com);
+
 	LOG(INFO) << "creating machine...";
 	ExecutableMachineGraph* machine = makeMappingMachine(communications);
 
@@ -678,10 +686,10 @@ void Test::testExecutableMachineGraph() {
 
 	LOG(INFO) << "destroying machine";
 	delete machine;
-	delete communications;
+	delete com;
 }
 
-ExecutableMachineGraph* Test::makeSimpleMachine(CommandSender* communications) {
+ExecutableMachineGraph* Test::makeSimpleMachine(int communications) {
 	ExecutableMachineGraph* machine = new ExecutableMachineGraph(
 			"simpleMachine");
 
@@ -689,20 +697,22 @@ ExecutableMachineGraph* Test::makeSimpleMachine(CommandSender* communications) {
 	boost::shared_ptr<Light> light(new EvoprogLight(communications, 2, 3));
 	boost::shared_ptr<Temperature> temperature(
 			new EvoprogTemperature(communications, 1));
-	boost::shared_ptr<Extractor> cExtractor(
+	boost::shared_ptr<Extractor> cExtractor13(
 			new EvoprogContinuousPump(communications, 13));
+	boost::shared_ptr<Extractor> cExtractor14(
+				new EvoprogContinuousPump(communications, 14));
 	boost::shared_ptr<Extractor> dExtractor(
-			new EvoprogDiscretePump(communications, 14));
+			new EvoprogDiscretePump(communications, 15));
 	boost::shared_ptr<Injector> dummyInjector(
 			new EvoprogDummyInjector(communications));
-	boost::shared_ptr<Mixer> mix(new EvoprogMixer(communications, 4));
+	boost::shared_ptr<ODSensor> od(new EvoprogOdSensor(communications, 4));
 
-	ExecutableContainerNode* cInlet1 = new InletContainer(1,100.0,cExtractor);
+	ExecutableContainerNode* cInlet1 = new InletContainer(1,100.0,cExtractor13);
 	cInlet1->setLight(light);
 	ExecutableContainerNode* dInlet2 = new InletContainer(2,100.0,dExtractor);
 	dInlet2->setTemperature(temperature);
-	ExecutableContainerNode* cSwtInlet3 = new ConvergentSwitchInlet(3,100.0,dummyInjector,cExtractor,control);
-	cSwtInlet3->setMix(mix);
+	ExecutableContainerNode* cSwtInlet3 = new ConvergentSwitchInlet(3,100.0,dummyInjector,cExtractor14,control);
+	cSwtInlet3->setOd(od);
 	ExecutableContainerNode* sink = new SinkContainer(4,100.0,dummyInjector);
 
 	machine->addContainer(cInlet1);
@@ -717,7 +727,7 @@ ExecutableMachineGraph* Test::makeSimpleMachine(CommandSender* communications) {
 	return machine;
 }
 
-ExecutableMachineGraph* Test::makeMatrixMachine(CommandSender* communications,
+ExecutableMachineGraph* Test::makeMatrixMachine(int communications,
 		int size) {
 	ExecutableMachineGraph* machine = new ExecutableMachineGraph(
 				"matrixMachine");
@@ -788,7 +798,9 @@ ExecutableMachineGraph* Test::makeMatrixMachine(CommandSender* communications,
 }
 
 void Test::testExecutableMachineGraphPerformance() {
-	CommandSender* communications = new SerialSender("\\\\.\\COM3");
+	CommandSender* com = new SerialSender("\\\\.\\COM3");
+	int communications = CommunicationsInterface::GetInstance()->addCommandSender(com);
+
 	LOG(INFO)<< "creating machine...";
 	ExecutableMachineGraph* machine = makeMatrixMachine(communications, 40);
 
@@ -812,12 +824,14 @@ void Test::testExecutableMachineGraphPerformance() {
 
 	LOG(INFO)<< "destroying machine";
 	delete machine;
-	delete communications;
+	delete com;
 }
 
 void Test::testEvoprogComponents() {
 	try {
-		CommandSender* com = new SerialSender("\\\\.\\COM3");
+		CommandSender* communications = new SerialSender("\\\\.\\COM3");
+		int com = CommunicationsInterface::GetInstance()->addCommandSender(communications);
+
 		Extractor* ext = new EvoprogContinuousPump(com, 2);
 		ODSensor* od = new EvoprogOdSensor(com, 3);
 		Light* light = new EvoprogLight(com, 4, 5);
@@ -945,7 +959,7 @@ void Test::testCompatibleSubgraph() {
 }
 
 ExecutableMachineGraph* Test::makeMappingMachine(
-		CommandSender* communications) {
+		int communications) {
 
 	ExecutableMachineGraph* machine = new ExecutableMachineGraph(
 			"mappingMachine");
@@ -1008,7 +1022,9 @@ MachineGraph* Test::makeTurbidostatSketch() {
 }
 
 void Test::testMappingEngine() {
-	CommandSender* com = new SerialSender("\\\\.\\COM3");
+	CommandSender* communications = new SerialSender("\\\\.\\COM3");
+	int com = CommunicationsInterface::GetInstance()->addCommandSender(communications);
+
 	MachineGraph* sketch = makeTurbidostatSketch();
 	ExecutableMachineGraph* machine = makeMappingMachine(com);
 	MappingEngine* map = new MappingEngine(sketch, machine);
@@ -1109,7 +1125,9 @@ MachineGraph* Test::makeMatrixSketch(int size) {
 }
 
 void Test::testMappingEnginePerformance() {
-	CommandSender* com = new SerialSender("\\\\.\\COM3");
+	CommandSender* communications = new SerialSender("\\\\.\\COM3");
+	int com = CommunicationsInterface::GetInstance()->addCommandSender(communications);
+
 	MachineGraph* sketch = makeMatrixSketch(6);
 	ExecutableMachineGraph* machine = makeMatrixMachine(com, 10);
 	MappingEngine* map = new MappingEngine(sketch, machine);
@@ -1156,4 +1174,87 @@ void Test::testMappingEnginePerformance() {
 	} else {
 		LOG(INFO) << "mapping cannot be done";
 	}
+}
+
+void Test::testCommunicationsInterface() {
+	CommunicationsInterface* com = CommunicationsInterface::GetInstance();
+
+	int id1 = com->addCommandSender(new SerialSender("\\\\.\\COM3"));
+
+	LOG(INFO) << "id1 = " << patch::to_string(id1);
+
+	CommunicationsInterface* com2 = CommunicationsInterface::GetInstance();
+	int id2 = com2->addCommandSender(new SerialSender("\\\\.\\COM3"));
+
+	LOG(INFO) << "id2 = " << patch::to_string(id2);
+
+	CommunicationsInterface::freeCommandInterface();
+}
+
+void Test::testFileCommandSender() {
+	CommunicationsInterface::GetInstance()->setTesting(true);
+	int id = CommunicationsInterface::GetInstance()->addCommandSender(new FileSender("test.log", "inputFileData.txt"));
+	CommunicationsInterface::GetInstance()->getCommandSender(id)->connect();
+
+	LOG(INFO) << "receiving strings";
+	for (int i = 0; i < 40; i++) {
+		CommandSender* com = CommunicationsInterface::GetInstance()->getCommandSender(id);
+		com->sendString("testing");
+		Sleep(100);
+		LOG(INFO) << com->readUntil('\n');
+	}
+
+	CommunicationsInterface::GetInstance()->getCommandSender(id)->disconnect();
+	CommunicationsInterface::freeCommandInterface();
+}
+
+void Test::testMappingTest() {
+	CommunicationsInterface::GetInstance()->setTesting(true);
+
+	int idCom = CommunicationsInterface::GetInstance()->addCommandSender(new FileSender("test.log", "inputFileData.txt"));
+	std::vector<int> v;
+	v.push_back(idCom);
+
+	ExecutableMachineGraph* exMachine = makeSimpleMachine(idCom);
+
+	boost::shared_ptr<VariableTable> t(new VariableTable());
+	boost::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
+	ProtocolGraph* protocol = MakeTurbidostat(t,map);
+
+	LOG(INFO) << "printing graphs...";
+	protocol->printProtocol("protocol");
+	map->printSketch("sketch");
+	exMachine->printMachine("machine");
+
+	EvoCoder* evo = new EvoCoder(protocol, t, map.get());
+
+	LOG(INFO) << "Executing test...";
+	bool correct = evo->test();
+	LOG(INFO) << "result: " << correct;
+}
+
+void Test::testMappingExec() {
+	CommunicationsInterface::GetInstance()->setTesting(false);
+	int idCom = CommunicationsInterface::GetInstance()->addCommandSender(
+			new SerialSender("\\\\.\\COM3"));
+
+	std::vector<int> v;
+	v.push_back(idCom);
+
+	ExecutableMachineGraph* exMachine = makeSimpleMachine(idCom);
+
+	boost::shared_ptr<VariableTable> t(new VariableTable());
+	boost::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
+	ProtocolGraph* protocol = MakeTurbidostat(t, map);
+
+	LOG(INFO)<< "printing graphs...";
+	protocol->printProtocol("protocol");
+	map->printSketch("sketch");
+	exMachine->printMachine("machine");
+
+	EvoCoder* evo = new EvoCoder(protocol, t, map.get());
+
+	LOG(INFO)<< "Executing test...";
+	bool correct = evo->exec_general();
+	LOG(INFO)<< "result: " << correct;
 }

@@ -7,7 +7,7 @@
 
 #include "EvoprogMixer.h"
 
-EvoprogMixer::EvoprogMixer(CommandSender* communications, int pinNumber) : Mixer(communications) {
+EvoprogMixer::EvoprogMixer(int communications, int pinNumber) : Mixer(communications) {
 	this->pinNumber = pinNumber;
 }
 
@@ -23,7 +23,8 @@ void EvoprogMixer::mix(double intensity) {
 	std::string command = "PWD " + patch::to_string(pinNumber) + " "
 			+ patch::to_string(
 					fabs(intensity) > 255 ? 255 : round(fabs(intensity)));
-	this->communications->sendString(command);
+	CommandSender* com = CommunicationsInterface::GetInstance()->getCommandSender(this->communications);
+	com->sendString(command);
 	Sleep(60);
-	this->communications->receiveString();
+	com->synch();
 }

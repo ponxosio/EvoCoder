@@ -42,4 +42,5 @@ void DivergeNode::loadNode(const string& line) throw (invalid_argument) {
 }
 
 void DivergeNode::execute() {
+	LOG(DEBUG) << "execute: " << conditionIN.get()->toString();
 }

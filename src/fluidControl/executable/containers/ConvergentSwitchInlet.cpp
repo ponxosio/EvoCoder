@@ -48,15 +48,21 @@ void ConvergentSwitchInlet::loadNode(const std::string& line)
 	//TODO: JSON
 }
 
-void ConvergentSwitchInlet::receiveLiquid(int source, int target, double rate)
+void ConvergentSwitchInlet::receiveLiquid(double rate)
 		throw (std::invalid_argument) {
-	this->control.get()->setConnection(source, target);
-	this->insert.get()->injectLiquid(target);
+	this->insert.get()->injectLiquid(rate);
 }
 
-void ConvergentSwitchInlet::extractLiquid(int source, int target, double rate)
+void ConvergentSwitchInlet::extractLiquid(double rate)
 		throw (std::invalid_argument) {
 	this->extractor.get()->extractLiquid(rate);
+}
+
+void ConvergentSwitchInlet::setPositionInject(int source, int target) {
+	this->control.get()->setConnection(source, target);
+}
+
+void ConvergentSwitchInlet::setPositionExtract(int source, int target) {
 }
 
 void ConvergentSwitchInlet::connectContainer(int source, int target) {

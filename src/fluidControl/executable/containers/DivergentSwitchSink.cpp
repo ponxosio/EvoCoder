@@ -48,15 +48,21 @@ void DivergentSwitchSink::loadNode(const std::string& line)
 	//TODO: JSON
 }
 
-void DivergentSwitchSink::receiveLiquid(int source, int target, double rate)
+void DivergentSwitchSink::receiveLiquid(double rate)
 		throw (std::invalid_argument) {
 	this->insert.get()->injectLiquid(rate);
 }
 
-void DivergentSwitchSink::extractLiquid(int source, int target, double rate)
+void DivergentSwitchSink::extractLiquid(double rate)
 		throw (std::invalid_argument) {
-	this->control.get()->setConnection(source, target);
 	this->extractor.get()->extractLiquid(rate);
+}
+
+void DivergentSwitchSink::setPositionInject(int source, int target) {
+}
+
+void DivergentSwitchSink::setPositionExtract(int source, int target) {
+	this->control.get()->setConnection(source, target);
 }
 
 void DivergentSwitchSink::connectContainer(int source, int target) {

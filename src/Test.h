@@ -57,6 +57,9 @@
 #include "fluidControl/executable/containers/actuators/extras/ODSensor.h"
 #include "fluidControl/executable/containers/actuators/extras/Light.h"
 #include "fluidControl/executable/containers/actuators/extras/Mixer.h"
+#include "fluidControl/executable/containers/actuators/communications/CommunicationsInterface.h"
+#include "fluidControl/executable/containers/actuators/communications/CommandSender.h"
+#include "fluidControl/executable/containers/actuators/communications/FileSender.h"
 #include "fluidControl/executable/containers/InletContainer.h"
 #include "fluidControl/executable/containers/BidirectionalSwitch.h"
 #include "fluidControl/executable/containers/ConvergentSwitch.h"
@@ -109,9 +112,9 @@ public:
 	static ProtocolGraph* makeSimpleProtocol(
 				boost::shared_ptr<VariableTable> table,
 				boost::shared_ptr<Mapping> map);
-	static ExecutableMachineGraph* makeSimpleMachine(CommandSender* communications);
-	static ExecutableMachineGraph* makeMatrixMachine(CommandSender* communications, int size);
-	static ExecutableMachineGraph* makeMappingMachine(CommandSender* communications);
+	static ExecutableMachineGraph* makeSimpleMachine(int communications);
+	static ExecutableMachineGraph* makeMatrixMachine(int communications, int size);
+	static ExecutableMachineGraph* makeMappingMachine(int communications);
 	static MachineGraph* makeTurbidostatSketch();
 	static MachineGraph* makeMatrixSketch(int size);
 
@@ -140,7 +143,11 @@ public:
 	void testCompatibleSubgraph();
 	void testMappingEngine();
 	void testMappingEnginePerformance();
+	void testCommunicationsInterface();
+	void testFileCommandSender();
 
+	void testMappingTest();
+	void testMappingExec();
 };
 
 #endif /* SRC_TEST_H_ */

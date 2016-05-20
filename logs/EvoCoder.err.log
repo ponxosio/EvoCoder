@@ -18,3 +18,39 @@
 15/03 15:53:55 783 ERROR graph/Graph.h[318]static Graph<NodeType, EdgeType>* Graph<NodeType, EdgeType>::loadGraph(std::string) [with NodeType = Node; EdgeType = Edge; std::string = std::basic_string<char>]:  Graph::loadGraph-> unable to open file: X:\codigo\EvoCoder_Release_v1\EvoCoder\test.graph
 
 15/03 15:53:55 783 ERROR Test.cpp[58]void Test::testGraph():  error loading graph
+17/05 11:30:21 844 ERROR EvoCoder.cpp[80]bool EvoCoder::test():  exception while executing, mapping cannot be done
+18/05 12:14:45 790 ERROR EvoCoder.cpp[83]bool EvoCoder::test():  exception while executing, The returned data sended by the controlled is not a number, is 0
+50
+100
+150
+200
+250
+300
+350
+400
+450
+500
+550
+600
+650
+600
+630
+600
+610
+600
+600
+600
+610
+600
+600ÖØG
+18/05 12:40:42 999 ERROR EvoCoder.cpp[39]bool EvoCoder::exec_general():  exception while executing, The returned data sended by the controlled is not a number, is 0
+
+18/05 12:42:52 772 ERROR EvoCoder.cpp[39]bool EvoCoder::exec_general():  exception while executing, The returned data sended by the controlled is not a number, is 50
+
+18/05 12:44:39 329 ERROR EvoCoder.cpp[39]bool EvoCoder::exec_general():  exception while executing, The returned data sended by the controlled is not a number, is 
+18/05 12:45:42 662 ERROR EvoCoder.cpp[39]bool EvoCoder::exec_general():  exception while executing, The returned data sended by the controlled is not a number, is 0
+
+18/05 12:54:27 847 ERROR EvoCoder.cpp[39]bool EvoCoder::exec_general():  exception while executing, The returned data sended by the controlled is not a number, is 0
+18/05 12:58:50 512 ERROR EvoCoder.cpp[39]bool EvoCoder::exec_general():  exception while executing, The returned data sended by the controlled is not a number, is 50
+18/05 13:01:54 932 ERROR EvoCoder.cpp[39]bool EvoCoder::exec_general():  exception while executing, The returned data sended by the controlled is not a number, is 100
+18/05 13:09:29 616 ERROR EvoCoder.cpp[39]bool EvoCoder::exec_general():  exception while executing, The returned data sent by the controlled is not a number, is 150

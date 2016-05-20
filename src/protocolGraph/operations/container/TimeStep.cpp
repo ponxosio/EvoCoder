@@ -36,4 +36,5 @@ void TimeStep::loadNode(const std::string& line) throw (invalid_argument) {
 void TimeStep::execute() {
 	receiver.get()->setValue(
 			receiver.get()->getValue() + executable.get()->timeStept());
+	LOG(DEBUG) << "time variable: " << receiver.get()->getValue();
 }

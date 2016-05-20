@@ -9,11 +9,10 @@
 #define SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_EXTRAS_TEMPERATURE_H_
 
 #include "../Instructable.h"
-#include "X:\\codigo\\EvoCoder_Release_v1\\EvoCoder\\src\\fluidControl\\executable\\containers\\actuators\\communications\\CommandSender.h"
 
 class Temperature: public Instructable {
 public:
-	Temperature(CommandSender* communications) :
+	Temperature(int communications) :
 			Instructable() {
 		this->communications = communications;
 	}
@@ -23,7 +22,7 @@ public:
 	virtual std::string getInstructions() = 0;
 	virtual void apply(double degrees) = 0;
 protected:
-	CommandSender* communications;
+	int communications;
 };
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_EXTRAS_TEMPERATURE_H_ */

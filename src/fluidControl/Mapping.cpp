@@ -7,14 +7,23 @@
 
 #include "Mapping.h"
 
-Mapping::Mapping(ExecutableMachineGraph* machine, const string & name) {
+Mapping::Mapping(ExecutableMachineGraph* machine, const string & name, const std::vector<int> & communicationInterface) {
 	this->machine = machine;
 	this->sketch = new MachineGraph(name);
 	this->operation = mapping::sketch;
+	this->engine = new MappingEngine(this->sketch, machine);
+
+	this->communicationsInterfaces = new std::vector<int>();
+	for (auto it = communicationInterface.begin(); it != communicationInterface.end(); ++it) {
+		this->communicationsInterfaces->push_back(*it);
+	}
+
 }
 
 Mapping::~Mapping() {
 	delete sketch;
+	delete engine;
+	delete communicationsInterfaces;
 }
 
 //OPERATIONS
@@ -24,14 +33,6 @@ bool Mapping::isSketching() {
 
 void Mapping::setSketching() {
 	operation = mapping::sketch;
-}
-
-bool Mapping::isTest() {
-	return (operation == mapping::test);
-}
-
-void Mapping::setTest() {
-	operation = mapping::test;
 }
 
 bool Mapping::isExec_ep() {
@@ -50,14 +51,18 @@ void Mapping::setExec_general() {
 	operation = mapping::exec_general;
 }
 
+void Mapping::doMapping() throw (std::invalid_argument) {
+	if (!engine->startMapping()) {
+		throw(std::invalid_argument("mapping cannot be done"));
+	}
+}
+
 //EXECUTIoN
 void Mapping::setContinuosFlow(int idSource, int idTarget, double rate) {
+
 	switch (operation) {
 	case mapping::sketch:
 		sketching_setContinuosFlow(idSource, idTarget, rate);
-		break;
-	case mapping::test:
-		test_setContinuosFlow(idSource, idTarget, rate);
 		break;
 	case mapping::exec_general:
 		exec_setContinuosFlow(idSource, idTarget, rate);
@@ -71,12 +76,10 @@ void Mapping::setContinuosFlow(int idSource, int idTarget, double rate) {
 }
 
 void Mapping::transfer(int idSource, int idTarget, double volume) {
+
 	switch (operation) {
 	case mapping::sketch:
 		sketching_transfer(idSource, idTarget, volume);
-		break;
-	case mapping::test:
-		test_transfer(idSource, idTarget, volume);
 		break;
 	case mapping::exec_general:
 		exec_transfer(idSource, idTarget, volume);
@@ -91,13 +94,9 @@ void Mapping::transfer(int idSource, int idTarget, double volume) {
 
 void Mapping::mix(int source1, int source2, int target, double volume1,
 		double volume2) {
-
 	switch (operation) {
 	case mapping::sketch:
 		sketching_mix(source1, source2, target, volume1, volume2);
-		break;
-	case mapping::test:
-		test_mix(source1, source2, target, volume1, volume2);
 		break;
 	case mapping::exec_general:
 		exec_mix(source1, source2, target, volume1, volume2);
@@ -115,9 +114,6 @@ void Mapping::applyLight(int id, double wavelength, double intensity) {
 	case mapping::sketch:
 		sketching_applyLight(id, wavelength, intensity);
 		break;
-	case mapping::test:
-		test_applyLight(id, wavelength, intensity);
-		break;
 	case mapping::exec_general:
 		exec_applyLight(id, wavelength, intensity);
 		break;
@@ -133,9 +129,6 @@ void Mapping::applyTemperature(int id, double degrees) {
 	switch (operation) {
 	case mapping::sketch:
 		sketching_applyTemperature(id, degrees);
-		break;
-	case mapping::test:
-		test_applyTemperature(id, degrees);
 		break;
 	case mapping::exec_general:
 		exec_applyTemperature(id, degrees);
@@ -153,9 +146,6 @@ void Mapping::stir(int id, double intensity) {
 	case mapping::sketch:
 		sketching_stir(id);
 		break;
-	case mapping::test:
-		test_stir(id, intensity);
-		break;
 	case mapping::exec_general:
 		exec_stir(id, intensity);
 		break;
@@ -172,9 +162,6 @@ double Mapping::getVolume(int id) {
 
 	switch (operation) {
 	case mapping::sketch:
-		break;
-	case mapping::test:
-		vuelta = test_getVolume(id);
 		break;
 	case mapping::exec_general:
 		vuelta = exec_getVolume(id);
@@ -195,9 +182,6 @@ double Mapping::measureOD(int id) {
 	case mapping::sketch:
 		sketching_measureOD(id);
 		break;
-	case mapping::test:
-		vuelta = test_measureOD(id);
-		break;
 	case mapping::exec_general:
 		vuelta = exec_measureOD(id);
 		break;
@@ -215,9 +199,6 @@ void Mapping::loadContainer(int containerID, double volume) {
 	case mapping::sketch:
 		sketching_loadContainer(containerID, volume);
 		break;
-	case mapping::test:
-		test_loadContainer(containerID, volume);
-		break;
 	case mapping::exec_general:
 		exec_loadContainer(containerID, volume);
 		break;
@@ -231,13 +212,9 @@ void Mapping::loadContainer(int containerID, double volume) {
 
 double Mapping::timeStept() {
 	double vuelta = -1.0;
-
 	switch (operation) {
 	case mapping::sketch:
 		vuelta = sketching_timeStep();
-		break;
-	case mapping::test:
-		vuelta = test_timeStep();
 		break;
 	case mapping::exec_general:
 		vuelta = exec_timeStep();
@@ -254,11 +231,9 @@ double Mapping::timeStept() {
 //SKETCH
 void Mapping::sketching_setContinuosFlow(int idSource, int idTarget,
 		double rate) {
-
 	LOG(DEBUG)<< "sketching setContinousFlow(" << patch::to_string(idSource) << ", "
-	<< patch::to_string(idTarget) << ", " + patch::to_string(rate)
-	<< ")";
-
+		<< patch::to_string(idTarget) << ", " + patch::to_string(rate)
+		<< ")";
 	//Update source node
 	if (sketch->existsContainer(idSource)) {
 		ContainerNode* sourceNode = sketch->getContainer(idSource);
@@ -283,11 +258,9 @@ void Mapping::sketching_setContinuosFlow(int idSource, int idTarget,
 }
 
 void Mapping::sketching_transfer(int idSource, int idTarget, double volume) {
-
 	LOG(DEBUG)<< "sketching transfer(" << patch::to_string(idSource) << ", "
-	<< patch::to_string(idTarget) << ", " << patch::to_string(volume)
-	<< ")";
-
+		<< patch::to_string(idTarget) << ", " << patch::to_string(volume)
+		<< ")";
 	//Update source node
 	if (sketch->existsContainer(idSource)) {
 		ContainerNode* sourceNode = sketch->getContainer(idSource);
@@ -354,7 +327,7 @@ void Mapping::transformSourceContainer(int idSource, int idTarget,
 void Mapping::transformTargetContainer(int idSource, int idTarget,
 		ContainerNode* targetNode) {
 
-	switch(targetNode->getType().get()->getContainerType()) {
+	switch (targetNode->getType().get()->getContainerType()) {
 	case ContainerType::unknow:
 		sketch->changeContainerType(idTarget, ContainerType::sink);
 		break;
@@ -390,21 +363,18 @@ void Mapping::transformTargetContainer(int idSource, int idTarget,
 
 void Mapping::sketching_mix(int source1, int source2, int target,
 		double volume1, double volume2) {
-
 	LOG(DEBUG)<< "sketching mix(" << patch::to_string(source1) << ", " << patch::to_string(source2) << ", "
-	<< patch::to_string(target) + ", " << patch::to_string(volume1) << ", " << patch::to_string(volume2)
-	<< ")";
+		<< patch::to_string(target) + ", " << patch::to_string(volume1) << ", " << patch::to_string(volume2)
+		<< ")";
 
 	sketching_transfer(source1, target, volume1);
 	sketching_transfer(source2, target, volume2);
 }
 
 void Mapping::sketching_loadContainer(int containerID, double volume) {
-
 	LOG(DEBUG)<< "sketching loadContainer(" << patch::to_string(containerID) << ", "
-	<< patch::to_string(volume)
-	<< ")";
-
+		<< patch::to_string(volume)
+		<< ")";
 	if (sketch->existsContainer(containerID)) {
 		ContainerNode* node = sketch->getContainer(containerID);
 		node->setVolume(node->getVolume() + volume);
@@ -415,10 +385,9 @@ void Mapping::sketching_loadContainer(int containerID, double volume) {
 
 void Mapping::sketching_applyLight(int id, double wavelength,
 		double intensity) {
-
 	LOG(DEBUG)<< "sketching applyLight(" << patch::to_string(id) << ", "
-	<< patch::to_string(wavelength) << ", " << patch::to_string(intensity)
-	<< ")";
+		<< patch::to_string(wavelength) << ", " << patch::to_string(intensity)
+		<< ")";
 
 	if (sketch->existsContainer(id)) {
 		ContainerNode* node = sketch->getContainer(id);
@@ -431,9 +400,8 @@ void Mapping::sketching_applyLight(int id, double wavelength,
 }
 
 void Mapping::sketching_applyTemperature(int id, double degres) {
-
 	LOG(DEBUG)<< "sketching applyTemperature(" << patch::to_string(id) << ", "
-	<< patch::to_string(degres) << ")";
+		<< patch::to_string(degres) << ")";
 
 	if (sketch->existsContainer(id)) {
 		ContainerNode* node = sketch->getContainer(id);
@@ -446,9 +414,7 @@ void Mapping::sketching_applyTemperature(int id, double degres) {
 }
 
 void Mapping::sketching_measureOD(int id) {
-
 	LOG(DEBUG)<< "sketching measureOD(" << patch::to_string(id) << ")";
-
 	if (sketch->existsContainer(id)) {
 		ContainerNode* node = sketch->getContainer(id);
 		node->getType().get()->addAddon(AddOnsType::OD_sensor);
@@ -460,8 +426,7 @@ void Mapping::sketching_measureOD(int id) {
 }
 
 void Mapping::sketching_stir(int id) {
-	LOG(DEBUG)<< "sketching measureOD(" << patch::to_string(id) << ")";
-
+	LOG(DEBUG)<< "sketching stir(" << patch::to_string(id) << "," << patch::to_string(-1) << ")";
 	if (sketch->existsContainer(id)) {
 		ContainerNode* node = sketch->getContainer(id);
 		node->getType().get()->addAddon(AddOnsType::mixer);
@@ -473,75 +438,171 @@ void Mapping::sketching_stir(int id) {
 }
 
 double Mapping::sketching_timeStep() {
-	return 1;
-}
-
-//TEST
-void Mapping::test_setContinuosFlow(int idSource, int idTarget, double rate) {
-}
-
-void Mapping::test_transfer(int idSource, int idTarget, double volume) {
-}
-
-void Mapping::test_mix(int source1, int source2, int target, double volume1,
-		double volume2) {
-}
-
-void Mapping::test_applyLight(int id, double wavelength, double intensity) {
-}
-
-void Mapping::test_applyTemperature(int id, double degres) {
-}
-
-double Mapping::test_getVolume(int id) {
-}
-
-double Mapping::test_measureOD(int id) {
-}
-
-void Mapping::test_stir(int id, double intensity) {
-}
-
-void Mapping::test_loadContainer(int containerID, double volume) {
-}
-
-double Mapping::test_timeStep() {
+	LOG(DEBUG) << "sketching timeStept";
 	return 1;
 }
 
 //EXEC
 void Mapping::exec_setContinuosFlow(int idSource, int idTarget, double rate) {
+	LOG(DEBUG)<< "exec setContinousFlow(" << patch::to_string(idSource) << ", "
+		<< patch::to_string(idTarget) << ", " + patch::to_string(rate)
+		<< ")";
+
+	Edge edge(idSource, idTarget);
+	Flow<Edge>* flow = engine->getMappedEdge(&edge);
+
+	for (auto it = flow->getPaths().begin(); it != flow->getPaths().end();
+			++it) {
+		Edge* actual = *it;
+		ExecutableContainerNode* source = machine->getContainer(
+				actual->getIdSource());
+		ExecutableContainerNode* target = machine->getContainer(
+				actual->getIdTarget());
+
+		if (source->getType()->hasMovementType(MovementType::continuous)) {
+			source->setPositionExtract(actual->getIdSource(), actual->getIdTarget());
+			target->setPositionInject(actual->getIdSource(), actual->getIdTarget());
+			source->extractLiquid(rate);
+			target->receiveLiquid(rate);
+		} else {
+			LOG(FATAL)<< "trying to do extract liquid with a continuous flow from a not continuous container, container id: " << patch::to_string(source->getContainerId());
+		}
+	}
 }
 
 void Mapping::exec_transfer(int idSource, int idTarget, double volume) {
+	LOG(DEBUG)<< "exec transfer(" << patch::to_string(idSource) << ", "
+		<< patch::to_string(idTarget) << ", " << patch::to_string(volume)
+		<< ")";
+
+	Edge edge(idSource, idTarget);
+	Flow<Edge>* flow = engine->getMappedEdge(&edge);
+
+	for (auto it = flow->getPaths().begin(); it != flow->getPaths().end();
+			++it) {
+		Edge* actual = *it;
+		ExecutableContainerNode* source = machine->getContainer(
+				actual->getIdSource());
+		ExecutableContainerNode* target = machine->getContainer(
+				actual->getIdTarget());
+
+		if (source->getType()->hasMovementType(MovementType::discrete)) {
+			source->setPositionExtract(actual->getIdSource(), actual->getIdTarget());
+			target->setPositionInject(actual->getIdSource(), actual->getIdTarget());
+			source->extractLiquid(volume);
+			target->receiveLiquid(volume);
+		} else {
+			LOG(FATAL)<< "trying to do extract liquid with a transfer flow from a not discrete container, container id: " << patch::to_string(source->getContainerId());
+		}
+	}
 }
 
 void Mapping::exec_mix(int source1, int source2, int target, double volume1,
 		double volume2) {
+	LOG(DEBUG)<< "exec mix(" << patch::to_string(source1) << ", " << patch::to_string(source2) << ", "
+		<< patch::to_string(target) + ", " << patch::to_string(volume1) << ", " << patch::to_string(volume2)
+		<< ")";
+
+	exec_transfer(source1, target, volume1);
+	exec_transfer(source2, target, volume2);
 }
 
 void Mapping::exec_applyLight(int id, double wavelength, double intensity) {
+	LOG(DEBUG)<< "exec applyLight(" << patch::to_string(id) << ", "
+		<< patch::to_string(wavelength) << ", " << patch::to_string(intensity)
+		<< ")";
+
+	ExecutableContainerNode* mappedContainer = machine->getContainer(engine->getMappedContainerId(id));
+	boost::shared_ptr<Light> light = mappedContainer->getLight();
+
+	if (light.get() != NULL) {
+		light.get()->applyLight(wavelength, intensity);
+	} else {
+		LOG(FATAL)<< "trying to apply light to a container without that add on, container id: " << patch::to_string(mappedContainer->getContainerId());
+	}
 }
 
 void Mapping::exec_applyTemperature(int id, double degres) {
+	LOG(DEBUG)<< "exec applyTemperature(" << patch::to_string(id) << ", "
+		<< patch::to_string(degres) << ")";
+
+	ExecutableContainerNode* mappedContainer = machine->getContainer(
+			engine->getMappedContainerId(id));
+	boost::shared_ptr<Temperature> temp = mappedContainer->getTemperature();
+
+	if (temp.get() != NULL) {
+		temp.get()->apply(degres);
+	} else {
+		LOG(FATAL)<< "trying to apply temperature to a container without that add on, container id: " << patch::to_string(mappedContainer->getContainerId());
+	}
 }
 
 double Mapping::exec_getVolume(int id) {
+	return machine->getContainer(engine->getMappedContainerId(id))->getVolume();
 }
 
 double Mapping::exec_measureOD(int id) {
+	double measureValued = -1;
+	ExecutableContainerNode* mappedContainer = machine->getContainer(
+			engine->getMappedContainerId(id));
+	boost::shared_ptr<ODSensor> od = mappedContainer->getOd();
+
+	if (od.get() != NULL) {
+		measureValued = od.get()->readOd();
+		LOG(DEBUG)<< "exec measureOD(" << patch::to_string(id) << ") = " << patch::to_string(measureValued);
+	} else {
+		LOG(FATAL)<< "trying to measure OD from a container without that add on, container id: " << patch::to_string(mappedContainer->getContainerId());
+	}
+	return measureValued;
 }
 
 void Mapping::exec_loadContainer(int containerID, double volume) {
+	LOG(DEBUG)<< "exec loadContainer(" << patch::to_string(containerID) << ", "
+		<< patch::to_string(volume)
+		<< ")";
+	ExecutableContainerNode* mappedContainer = machine->getContainer(
+				engine->getMappedContainerId(containerID));
+	mappedContainer->setVolume(volume);
 }
 
 void Mapping::exec_stir(int id, double intensity) {
+	LOG(DEBUG)<< "exec stir(" << patch::to_string(id) << "," << patch::to_string(intensity) << ")";
+	ExecutableContainerNode* mappedContainer = machine->getContainer(
+			engine->getMappedContainerId(id));
+	boost::shared_ptr<Mixer> mix = mappedContainer->getMix();
+
+	if (mix.get() != NULL) {
+		mix.get()->mix(intensity);
+	} else {
+		LOG(FATAL)<< "trying to stir a container without that add on, container id: " << patch::to_string(mappedContainer->getContainerId());
+	}
 }
 
 double Mapping::exec_timeStep() {
 	//TODO: el tiempo que pasa esperando o el sleep en caso de que se haga...
+	LOG(DEBUG) << "executing timeStept";
+	return 1;
 }
 
+//MISCELANEOUS
 void Mapping::printSketch(const std::string& path) {
 	sketch->printMachine(path);
+}
+
+void Mapping::startCommunications() {
+	for (auto it = communicationsInterfaces->begin();
+			it != communicationsInterfaces->end(); ++it) {
+		CommandSender* com =
+				CommunicationsInterface::GetInstance()->getCommandSender(*it);
+		com->connect();
+	}
+}
+
+void Mapping::stopCommunications() {
+	for (auto it = communicationsInterfaces->begin();
+			it != communicationsInterfaces->end(); ++it) {
+		CommandSender* com =
+				CommunicationsInterface::GetInstance()->getCommandSender(*it);
+		com->disconnect();
+	}
 }
