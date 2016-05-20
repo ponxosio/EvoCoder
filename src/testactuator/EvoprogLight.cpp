@@ -7,7 +7,7 @@
 
 #include "EvoprogLight.h"
 
-EvoprogLight::EvoprogLight(int communications, int pinWaveLength,
+EvoprogLight::EvoprogLight(CommandSender* communications, int pinWaveLength,
 		int pinIntensity) : Light(communications) {
 	this->pinIntensity = pinIntensity;
 	this->pinWaveLength = pinWaveLength;
@@ -27,9 +27,8 @@ void EvoprogLight::applyLight(double waveLength, double intensity) {
 	std::string commandIntensity = "PWD " + patch::to_string(pinIntensity) + " "
 				+ patch::to_string(
 						fabs(intensity) > 255 ? 255 : round(fabs(intensity)));
-	CommandSender* com = CommunicationsInterface::GetInstance()->getCommandSender(this->communications);
-	com->sendString(commandIntensity);
-	com->sendString(commandWave);
+	this->communications->sendString(commandIntensity);
+	this->communications->sendString(commandWave);
 	Sleep(60);
-	com->synch();
+	this->communications->receiveString();
 }

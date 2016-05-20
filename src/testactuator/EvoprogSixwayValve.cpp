@@ -7,7 +7,7 @@
 
 #include "EvoprogSixwayValve.h"
 
-EvoprogSixwayValve::EvoprogSixwayValve(int communications,
+EvoprogSixwayValve::EvoprogSixwayValve(CommandSender* communications,
 		int valveNumber) :
 		Control(6, communications) {
 	this->valveNumber = valveNumber;
@@ -28,11 +28,8 @@ void EvoprogSixwayValve::addConnection(int idSource, int idTraget) {
 void EvoprogSixwayValve::setConnection(int idSource, int idTraget) {
 	auto it  = containerValveMap.find(idTraget);
 	if (it != containerValveMap.end()) {
-		CommandSender* com = CommunicationsInterface::GetInstance()->getCommandSender(this->communications);
 		std::string command = "MOVE " + patch::to_string(valveNumber) + " " + patch::to_string(it->second);
-		com->sendString(command);
-		Sleep(60);
-		com->synch();
+		communications->sendString(command);
 	}
 }
 

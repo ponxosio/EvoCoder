@@ -75,7 +75,6 @@ public:
 
 	virtual void connect() throw (std::ios_base::failure);
 
-	virtual void synch() throw (std::ios_base::failure);
 protected:
 
 	bool connected;

@@ -8,17 +8,14 @@
 #ifndef TESTACTUATOR_EVOPROGSIXWAYVALVE_H_
 #define TESTACTUATOR_EVOPROGSIXWAYVALVE_H_
 
-#include <windows.h>
-
 #include <tr1/unordered_map>
 
 #include "../fluidControl/executable/containers/actuators/liquids/Control.h"
 #include "../util/Patch.h"
-#include "../fluidControl/executable/containers/actuators/communications/CommunicationsInterface.h"
 
 class EvoprogSixwayValve: public Control {
 public:
-	EvoprogSixwayValve(int communications, int valveNumber);
+	EvoprogSixwayValve(CommandSender* communications, int valveNumber);
 	virtual ~EvoprogSixwayValve();
 
 	virtual void addConnection(int idSource, int idTraget);

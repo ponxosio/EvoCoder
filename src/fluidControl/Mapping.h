@@ -8,28 +8,16 @@
 #ifndef SRC_FLUIDCONTROL_MAPPING_H_
 #define SRC_FLUIDCONTROL_MAPPING_H_
 
-#include <stdexcept>
-#include <vector>
-
-//boost
-#include <boost/shared_ptr.hpp>
-
 //lib
 #include "../../lib/easylogging++.h"
-
-//local
-#include "../graph/Edge.h"
-#include "../graph/Flow.h"
 #include "executable/ExecutableMachineGraph.h"
-#include "executable/containers/actuators/communications/CommunicationsInterface.h"
-#include "executable/containers/actuators/communications/CommandSender.h"
 #include "machineGraph/MachineGraph.h"
-#include "MappingEngine.h"
 
 namespace mapping {
 /*** Enum for the operation the mapping will do ***/
 enum MappingOperation {
 	sketch,
+	test,
 	exec_ep,
 	exec_general,
 };
@@ -37,7 +25,7 @@ enum MappingOperation {
 
 class Mapping {
 public:
-	Mapping(ExecutableMachineGraph* machine, const std::string & name, const std::vector<int> & communicationInterface);
+	Mapping(ExecutableMachineGraph* machine, const std::string & name);
 	virtual ~Mapping();
 
 	//execution
@@ -55,10 +43,11 @@ public:
 	double timeStept();
 
 	//operations
-	void doMapping() throw (std::invalid_argument);
-
 	bool isSketching();
 	void setSketching();
+
+	bool isTest();
+	void setTest();
 
 	bool isExec_ep();
 	void setExec_ep();
@@ -68,14 +57,11 @@ public:
 
 	//miscellaneous
 	void printSketch(const std::string & path);
-	void startCommunications();
-	void stopCommunications();
+
 protected:
 	mapping::MappingOperation operation;
-	MappingEngine* engine;
 	MachineGraph* sketch;
 	ExecutableMachineGraph* machine;
-	std::vector<int>* communicationsInterfaces;
 
 	//SKETCHING
 	void sketching_setContinuosFlow(int idSource, int idTarget, double rate);
@@ -93,6 +79,20 @@ protected:
 	void transformSourceContainer(int idSource, int idTarget, ContainerNode* sourceNode, MovementType desiredType);
 	void transformTargetContainer(int idSource, int idTarget, ContainerNode* targetNode);
 
+	//TEST
+	void test_setContinuosFlow(int idSource, int idTarget, double rate);
+	void test_transfer(int idSource, int idTarget, double volume);
+	void test_mix(int source1, int source2, int target, double volume1,
+			double volume2);
+	void test_applyLight(int id, double wavelength, double intensity);
+	void test_applyTemperature(int id, double degres);
+	void test_stir(int id, double intensity);
+	void test_loadContainer(int containerID, double volume);
+
+	double test_getVolume(int id);
+	double test_measureOD(int id);
+
+	double test_timeStep();
 	//EXEC
 	void exec_setContinuosFlow(int idSource, int idTarget, double rate);
 	void exec_transfer(int idSource, int idTarget, double volume);

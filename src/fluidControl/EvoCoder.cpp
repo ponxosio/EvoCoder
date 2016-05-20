@@ -21,70 +21,28 @@ EvoCoder::~EvoCoder() {
 	delete mapping;
 }
 
-bool EvoCoder::exec_general() throw (std::invalid_argument) {
-	bool correct = false;
-	CommunicationsInterface::GetInstance()->setTesting(false);
-	try {
-		sketcher();
-		mapping->doMapping();
+bool EvoCoder::exec_general() {
+	table.get()->clear();
+	initilizeTime();
+	mapping->setExec_general();
 
-		table.get()->clear();
-		initilizeTime();
-
-		mapping->setExec_general();
-		mapping->startCommunications();
-		correct = exec();
-		mapping->stopCommunications();
-	} catch (std::invalid_argument& e) {
-		LOG(ERROR) << "exception while executing, " << e.what();
-	} catch (std::ios_base::failure& e) {
-		LOG(ERROR) << "exception while connecting, " << e.what();
-	}
-	return correct;
+	return exec();
 }
 
-bool EvoCoder::exec_ep() throw (std::invalid_argument) {
-	bool correct = false;
-	CommunicationsInterface::GetInstance()->setTesting(false);
-	try {
-		sketcher();
-		mapping->doMapping();
+bool EvoCoder::exec_ep() {
+	table.get()->clear();
+	initilizeTime();
+	mapping->setExec_ep();
 
-		table.get()->clear();
-		initilizeTime();
-
-		mapping->setExec_ep();
-		mapping->startCommunications();
-		correct = exec();
-		mapping->stopCommunications();
-	} catch (std::invalid_argument& e) {
-		LOG(ERROR)<< "exception while executing, " << e.what();
-	} catch (std::ios_base::failure& e) {
-		LOG(ERROR) << "exception while connecting, " << e.what();
-	}
-	return correct;
+	return exec();
 }
 
-bool EvoCoder::test() throw (std::invalid_argument) {
-	bool correct = false;
-	CommunicationsInterface::GetInstance()->setTesting(true);
-	try {
-		sketcher();
-		mapping->doMapping();
+bool EvoCoder::test() {
+	table.get()->clear();
+	initilizeTime();
+	mapping->setTest();
 
-		table.get()->clear();
-		initilizeTime();
-
-		mapping->setExec_general();
-		mapping->startCommunications();
-		correct = exec();
-		mapping->stopCommunications();
-	} catch (std::invalid_argument& e) {
-		LOG(ERROR)<< "exception while executing, " << e.what();
-	} catch (std::ios_base::failure& e) {
-		LOG(ERROR) << "exception while connecting, " << e.what();
-	}
-	return correct;
+	return execRelaxed();
 }
 
 bool EvoCoder::sketcher() {
@@ -315,4 +273,7 @@ bool EvoCoder::isPresent(
 
 void EvoCoder::initilizeTime() {
 	table->setValue(TIME_VARIABLE , 0.0);
+}
+
+bool EvoCoder::doMapping() {
 }

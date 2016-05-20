@@ -10,11 +10,10 @@
 
 #include "../fluidControl/executable/containers/actuators/liquids/Extractor.h"
 #include "../fluidControl/machineGraph/ContainerNodeType.h"
-#include "../fluidControl/executable/containers/actuators/communications/CommunicationsInterface.h"
 
 class EvoprogDiscretePump: public Extractor {
 public:
-	EvoprogDiscretePump(int command, int pinNumber);
+	EvoprogDiscretePump(CommandSender* command, int pinNumber);
 	virtual ~EvoprogDiscretePump();
 
 	virtual void extractLiquid(double rate);

@@ -20,8 +20,6 @@
 //includes
 #include <algorithm>
 #include <string>
-#include <stdexcept>
-#include <ios>
 
 //data structures
 #include <queue>
@@ -38,7 +36,6 @@
 #include "Mapping.h"
 #include "machineGraph/MachineGraph.h"
 #include "executable/ExecutableMachineGraph.h"
-#include "executable/containers/actuators/communications/CommunicationsInterface.h"
 #include "../protocolGraph/ProtocolGraph.h"
 #include "../protocolGraph/OperationNode.h"
 #include "../protocolGraph/operations/LoopNode.h"
@@ -63,15 +60,15 @@ public:
 	 * Tries to execute the protocol on the machine
 	 * @return true if all was correct, false otherwise
 	 */
-	bool exec_general() throw (std::invalid_argument);
-	bool exec_ep() throw (std::invalid_argument);
+	bool exec_general();
+	bool exec_ep();
 
 	bool sketcher();
 	/**
 	 * Tries to execute a test of the protocol on the machine
 	 * @return true if all was correct, false otherwise
 	 */
-	bool test() throw (std::invalid_argument);
+	bool test();
 
 protected:
 	/**
@@ -90,6 +87,9 @@ protected:
 	 * actual node of the protocol
 	 */
 	OperationNode* actual;
+
+	//bool sketcher();
+	bool doMapping();
 
 	void initilizeTime();
 	void addAvailableEdges(std::queue<OperationNode*>* nodes);

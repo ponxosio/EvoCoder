@@ -10,11 +10,10 @@
 
 #include "../fluidControl/executable/containers/actuators/liquids/Injector.h"
 #include "../fluidControl/machineGraph/ContainerNodeType.h"
-#include "../fluidControl/executable/containers/actuators/communications/CommunicationsInterface.h"
 
 class EvoprogDummyInjector: public Injector {
 public:
-	EvoprogDummyInjector(int communications);
+	EvoprogDummyInjector(CommandSender* communications);
 	virtual ~EvoprogDummyInjector();
 
 	virtual void injectLiquid(double rate);

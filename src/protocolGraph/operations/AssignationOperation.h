@@ -13,9 +13,6 @@
 //boost
 #include <boost/shared_ptr.hpp>
 
-//lib
-#include "../../../lib/easylogging++.h"
-
 //local
 #include "../../util/Utils.h"
 #include "../../operables/mathematics/VariableEntry.h"

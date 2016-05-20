@@ -7,7 +7,7 @@
 
 #include "EvoprogDiscretePump.h"
 
-EvoprogDiscretePump::EvoprogDiscretePump(int command,
+EvoprogDiscretePump::EvoprogDiscretePump(CommandSender* command,
 		int pinNumber) : Extractor(command){
 	this->pinNumber = pinNumber;
 }
@@ -18,10 +18,9 @@ EvoprogDiscretePump::~EvoprogDiscretePump() {
 void EvoprogDiscretePump::extractLiquid(double rate) {
 	std::string command = "DIO " + patch::to_string(pinNumber) + " "
 			+ patch::to_string(rate > 0 ? 1 : 0);
-	CommandSender* com = CommunicationsInterface::GetInstance()->getCommandSender(this->communications);
-	com->sendString(command);
+	this->communications->sendString(command);
 	Sleep(60);
-	com->synch();
+	this->communications->receiveString();
 }
 
 std::string EvoprogDiscretePump::getInstructions() {

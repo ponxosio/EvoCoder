@@ -7,7 +7,7 @@
 
 #include "EvoprogContinuousPump.h"
 
-EvoprogContinuousPump::EvoprogContinuousPump(int communications,
+EvoprogContinuousPump::EvoprogContinuousPump(CommandSender* communications,
 		int pinNumber) :
 		Extractor(communications) {
 	this->pinNumber = pinNumber;
@@ -20,10 +20,9 @@ EvoprogContinuousPump::~EvoprogContinuousPump() {
 void EvoprogContinuousPump::extractLiquid(double rate) {
 	std::string command = "DIO " + patch::to_string(pinNumber) + " "
 			+ patch::to_string(rate > 0 ? 1 : 0);
-	CommandSender* com = CommunicationsInterface::GetInstance()->getCommandSender(this->communications);
-	com->sendString(command);
+	this->communications->sendString(command);
 	Sleep(60);
-	com->synch();
+	this->communications->receiveString();
 }
 
 std::string EvoprogContinuousPump::getInstructions() {

@@ -20,7 +20,6 @@ public:
 	virtual std::string readUntil(char endCharacter) throw (std::ios_base::failure) = 0;
 	virtual void disconnect() = 0;
 	virtual void connect() throw (std::ios_base::failure) = 0;
-	virtual void synch() throw (std::ios_base::failure) = 0;
 };
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_COMMUNICATIONS_COMMANDSENDER_H_ */

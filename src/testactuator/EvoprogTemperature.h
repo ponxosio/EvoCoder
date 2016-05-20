@@ -13,11 +13,10 @@
 
 #include "../util/Patch.h"
 #include "../fluidControl/executable/containers/actuators/extras/Temperature.h"
-#include "../fluidControl/executable/containers/actuators/communications/CommunicationsInterface.h"
 
 class EvoprogTemperature: public Temperature {
 public:
-	EvoprogTemperature(int communications, int pinNumber);
+	EvoprogTemperature(CommandSender* communications, int pinNumber);
 	virtual ~EvoprogTemperature();
 
 	virtual std::string getInstructions();

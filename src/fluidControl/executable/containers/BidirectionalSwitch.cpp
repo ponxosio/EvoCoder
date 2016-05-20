@@ -49,22 +49,16 @@ void BidirectionalSwitch::loadNode(const std::string& line)
 	//TODO: JSON
 }
 
-void BidirectionalSwitch::receiveLiquid(double rate)
+void BidirectionalSwitch::receiveLiquid(int source, int target, double rate)
 		throw (std::invalid_argument) {
+	controlIN.get()->setConnection(source, target);
 	insert.get()->injectLiquid(rate);
 }
 
-void BidirectionalSwitch::extractLiquid(double rate)
+void BidirectionalSwitch::extractLiquid(int source, int target, double rate)
 		throw (std::invalid_argument) {
-	extract.get()->extractLiquid(rate);
-}
-
-void BidirectionalSwitch::setPositionExtract(int source, int target) {
 	controlOUT.get()->setConnection(source, target);
-}
-
-void BidirectionalSwitch::setPositionInject(int source, int target) {
-	controlIN.get()->setConnection(source, target);
+	extract.get()->extractLiquid(rate);
 }
 
 void BidirectionalSwitch::connectContainer(int source, int target) {
