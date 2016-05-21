@@ -12,16 +12,20 @@
 #define DIVERGE_STRING "if"
 
 #include <string>
-
-//boost
 #include <memory>
 
 //lib
-#include "../../../lib/easylogging++.h"
+#include <easylogging++.h>
+
 //local
 #include "../../util/Utils.h"
 #include "../../operables/comparison/ComparisonOperable.h"
 #include "../OperationNode.h"
+
+//cereal
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/types/polymorphic.hpp>
 
 class DivergeNode: public OperationNode {
 public:
@@ -53,10 +57,30 @@ public:
 		this->endNode = endNode;
 	}
 
+	//SERIALIZATIoN
+	template<class Archive>
+	void serialize(Archive & ar, std::uint32_t const version);
 protected:
 	std::shared_ptr<ComparisonOperable> conditionIN;
 	std::shared_ptr<ComparisonOperable> conditionOUT;
 	OperationNode* endNode;
 };
 
+template<class Archive>
+inline void DivergeNode::serialize(Archive& ar, const std::uint32_t version) {
+	if (version <= 1) {
+		OperationNode::serialize(ar, version);
+		ar(CEREAL_NVP(conditionIN), CEREAL_NVP(conditionOUT));
+	}
+}
+
+// Associate some type with a version number
+CEREAL_CLASS_VERSION( DivergeNode, 1 );
+
+// Include any archives you plan on using with your type before you register it
+// Note that this could be done in any other location so long as it was prior
+// to this file being included
+#include <cereal/archives/json.hpp>
+// Register DerivedClass
+CEREAL_REGISTER_TYPE_WITH_NAME(DivergeNode,"DivergeNode");
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_DIVERGENODE_H_ */

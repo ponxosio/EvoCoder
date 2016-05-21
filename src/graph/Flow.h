@@ -9,6 +9,7 @@
 #define SRC_GRAPH_FLOW_H_
 
 #include <vector>
+#include <memory>
 
 // boost library
 #include <boost/static_assert.hpp>
@@ -25,12 +26,12 @@ template<class EdgeType> class Flow {
 public:
 	Flow(const Flow & flow);
 	Flow(int idStar, int idFinish);
-	Flow(int idStar, int idFinish, const std::vector<EdgeType*> & paths);
+	Flow(int idStar, int idFinish, const std::vector<std::shared_ptr<EdgeType>> & paths);
 	virtual ~Flow();
 
-	void prepend(EdgeType* edge);
-	void append(EdgeType* edge);
-	void removePath(EdgeType* edge);
+	void prepend(std::shared_ptr<EdgeType> edge);
+	void append(std::shared_ptr<EdgeType> edge);
+	void removePath(std::shared_ptr<EdgeType> edge);
 
 	bool checkLoop();
 	bool equals(const Flow & flow);
@@ -45,23 +46,22 @@ public:
 		return idStart;
 	}
 
-	inline const std::vector<EdgeType*>& getPaths() const {
+	inline const std::vector<std::shared_ptr<EdgeType>>& getPaths() const {
 		return paths;
 	}
 protected:
 	int idStart;
 	int idFinish;
-	std::vector<EdgeType*> paths;
+	std::vector<std::shared_ptr<EdgeType>> paths;
 };
 
 template<class EdgeType>
 Flow<EdgeType>::Flow(const Flow& flow) {
 	this->idStart = flow.idStart;
 	this->idFinish = flow.idFinish;
-	this->paths = std::vector<EdgeType*>();
 
 	for (auto it = flow.paths.begin(); it != flow.paths.end(); ++it) {
-		Edge* actual = *it;
+		std::shared_ptr<EdgeType> actual = *it;
 		this->paths.push_back(actual);
 	}
 }
@@ -70,19 +70,16 @@ template<class EdgeType>
 Flow<EdgeType>::Flow(int idStar, int idFinish) {
 	this->idStart = idStar;
 	this->idFinish = idFinish;
-	this->paths = std::vector<EdgeType*>();
 }
 
 template<class EdgeType>
 Flow<EdgeType>::Flow(int idStar, int idFinish,
-		const std::vector<EdgeType*> & paths) {
+		const std::vector<std::shared_ptr<EdgeType>> & paths) {
 	this->idStart = idStar;
 	this->idFinish = idFinish;
-	this->paths = std::vector<EdgeType*>();
 
 	for (auto it = paths.begin(); it != paths.end(); ++it) {
-		Edge* actual = *it;
-		this->paths.push_back(actual);
+		this->paths.push_back(*it);
 	}
 }
 
@@ -90,21 +87,21 @@ template<class EdgeType>
 Flow<EdgeType>::~Flow() {
 }
 template<class EdgeType>
-void Flow<EdgeType>::prepend(EdgeType* edge) {
+void Flow<EdgeType>::prepend(std::shared_ptr<EdgeType> edge) {
 	this->paths.insert(paths.begin(), edge);
 }
 
 template<class EdgeType>
-void Flow<EdgeType>::append(EdgeType* edge) {
+void Flow<EdgeType>::append(std::shared_ptr<EdgeType> edge) {
 	this->paths.push_back(edge);
 }
 
 template<class EdgeType>
-void Flow<EdgeType>::removePath(EdgeType* edge) {
+void Flow<EdgeType>::removePath(std::shared_ptr<EdgeType> edge) {
 	auto it = this->paths.begin();
 	while (it != this->paths.end()) {
 		Edge* actual = *it;
-		if (actual->equals(*edge)) {
+		if (actual->equals(*(edge.get()))) {
 			this->paths.erase(it);
 		} else {
 			++it;
@@ -119,8 +116,7 @@ bool Flow<EdgeType>::checkLoop() {
 	auto it = paths.begin();
 
 	while (!loop && it != paths.end()) {
-		Edge* actual = *it;
-		loop = (actual->getIdTarget() == idStart);
+		loop = ((*it)->getIdTarget() == idStart);
 		++it;
 	}
 	return loop;
@@ -144,8 +140,7 @@ std::string Flow<EdgeType>::toText() {
 	std::string text = patch::to_string(idStart) + "->"
 			+ patch::to_string(idFinish) + ":";
 	for (auto it = paths.begin(); it != paths.end(); ++it) {
-		Edge* actual = *it;
-		text += actual->toText();
+		text += (*it)->toText();
 	}
 	return text;
 }

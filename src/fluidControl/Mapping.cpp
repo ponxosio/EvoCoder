@@ -236,8 +236,8 @@ void Mapping::sketching_setContinuosFlow(int idSource, int idTarget,
 		<< ")";
 	//Update source node
 	if (sketch->existsContainer(idSource)) {
-		ContainerNode* sourceNode = sketch->getContainer(idSource);
-		if (sourceNode->getType().get()->isCompatibleMovement(MovementType::continuous)) {
+		std::shared_ptr<ContainerNode> sourceNode = sketch->getContainer(idSource);
+		if (sourceNode->getType()->isCompatibleMovement(MovementType::continuous)) {
 			transformSourceContainer(idSource, idTarget, sourceNode, MovementType::continuous);
 		} else {
 			LOG(FATAL)<< "container: " << patch::to_string(idTarget) << " cannot be continuous because already is" << sourceNode->getType().get()->getMovementTypeString();
@@ -248,7 +248,7 @@ void Mapping::sketching_setContinuosFlow(int idSource, int idTarget,
 
 	// Update target node
 	if (sketch->existsContainer(idTarget)) {
-		ContainerNode* targetNode = sketch->getContainer(idTarget);
+		std::shared_ptr<ContainerNode> targetNode = sketch->getContainer(idTarget);
 		transformTargetContainer(idSource, idTarget, targetNode);
 	} else {
 		sketch->addContainer(idTarget, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::sink)), 0.0);
@@ -263,8 +263,8 @@ void Mapping::sketching_transfer(int idSource, int idTarget, double volume) {
 		<< ")";
 	//Update source node
 	if (sketch->existsContainer(idSource)) {
-		ContainerNode* sourceNode = sketch->getContainer(idSource);
-		if (sourceNode->getType().get()->isCompatibleMovement(MovementType::discrete)) {
+		std::shared_ptr<ContainerNode> sourceNode = sketch->getContainer(idSource);
+		if (sourceNode->getType()->isCompatibleMovement(MovementType::discrete)) {
 			transformSourceContainer(idSource, idTarget, sourceNode, MovementType::discrete);
 		} else {
 			LOG(FATAL)<< "container: " << patch::to_string(idTarget) << " cannot be discrete because already is" << sourceNode->getType().get()->getMovementTypeString();
@@ -275,7 +275,7 @@ void Mapping::sketching_transfer(int idSource, int idTarget, double volume) {
 
 	// Update target node
 	if (sketch->existsContainer(idTarget)) {
-		ContainerNode* targetNode = sketch->getContainer(idTarget);
+		std::shared_ptr<ContainerNode> targetNode = sketch->getContainer(idTarget);
 		transformTargetContainer(idSource, idTarget, targetNode);
 	} else {
 		sketch->addContainer(idTarget, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::sink)), 0.0);
@@ -285,9 +285,9 @@ void Mapping::sketching_transfer(int idSource, int idTarget, double volume) {
 }
 
 void Mapping::transformSourceContainer(int idSource, int idTarget,
-		ContainerNode* sourceNode, MovementType desiredType) {
+		std::shared_ptr<ContainerNode> sourceNode, MovementType desiredType) {
 
-	switch (sourceNode->getType().get()->getContainerType()) {
+	switch (sourceNode->getType()->getContainerType()) {
 	case ContainerType::unknow:
 		sketch->changeContainerType(idSource, ContainerType::inlet);
 		sketch->changeMovementType(idSource, desiredType);
@@ -325,9 +325,9 @@ void Mapping::transformSourceContainer(int idSource, int idTarget,
 }
 
 void Mapping::transformTargetContainer(int idSource, int idTarget,
-		ContainerNode* targetNode) {
+		std::shared_ptr<ContainerNode> targetNode) {
 
-	switch (targetNode->getType().get()->getContainerType()) {
+	switch (targetNode->getType()->getContainerType()) {
 	case ContainerType::unknow:
 		sketch->changeContainerType(idTarget, ContainerType::sink);
 		break;
@@ -376,7 +376,7 @@ void Mapping::sketching_loadContainer(int containerID, double volume) {
 		<< patch::to_string(volume)
 		<< ")";
 	if (sketch->existsContainer(containerID)) {
-		ContainerNode* node = sketch->getContainer(containerID);
+		std::shared_ptr<ContainerNode> node = sketch->getContainer(containerID);
 		node->setVolume(node->getVolume() + volume);
 	} else {
 		sketch->addContainer(containerID, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow)), volume);
@@ -390,7 +390,7 @@ void Mapping::sketching_applyLight(int id, double wavelength,
 		<< ")";
 
 	if (sketch->existsContainer(id)) {
-		ContainerNode* node = sketch->getContainer(id);
+		std::shared_ptr<ContainerNode> node = sketch->getContainer(id);
 		node->getType().get()->addAddon(AddOnsType::light);
 	} else {
 		vector<AddOnsType> vect;
@@ -404,7 +404,7 @@ void Mapping::sketching_applyTemperature(int id, double degres) {
 		<< patch::to_string(degres) << ")";
 
 	if (sketch->existsContainer(id)) {
-		ContainerNode* node = sketch->getContainer(id);
+		std::shared_ptr<ContainerNode> node = sketch->getContainer(id);
 		node->getType().get()->addAddon(AddOnsType::temp);
 	} else {
 		vector<AddOnsType> vect;
@@ -416,7 +416,7 @@ void Mapping::sketching_applyTemperature(int id, double degres) {
 void Mapping::sketching_measureOD(int id) {
 	LOG(DEBUG)<< "sketching measureOD(" << patch::to_string(id) << ")";
 	if (sketch->existsContainer(id)) {
-		ContainerNode* node = sketch->getContainer(id);
+		std::shared_ptr<ContainerNode> node = sketch->getContainer(id);
 		node->getType().get()->addAddon(AddOnsType::OD_sensor);
 	} else {
 		vector<AddOnsType> vect;
@@ -428,7 +428,7 @@ void Mapping::sketching_measureOD(int id) {
 void Mapping::sketching_stir(int id) {
 	LOG(DEBUG)<< "sketching stir(" << patch::to_string(id) << "," << patch::to_string(-1) << ")";
 	if (sketch->existsContainer(id)) {
-		ContainerNode* node = sketch->getContainer(id);
+		std::shared_ptr<ContainerNode> node = sketch->getContainer(id);
 		node->getType().get()->addAddon(AddOnsType::mixer);
 	} else {
 		vector<AddOnsType> vect;

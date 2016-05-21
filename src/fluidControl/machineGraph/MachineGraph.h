@@ -9,9 +9,11 @@
 #define SRC_FLUIDCONTROL_MACHINEGRAPH_MACHINEGRAPH_H_
 
 #include <string>
+#include <memory>
+#include <tuple>
 
 //data structed
-#include <tr1/unordered_map>
+#include <unordered_map>
 
 //local
 #include "../../graph/Graph.h"
@@ -47,14 +49,21 @@ public:
 	 * @return true if the container is already in the machine, false otherwise
 	 */
 	inline bool existsContainer(int idContainer) {
-		return (machine->getNode(idContainer) != NULL);
+		bool vuelta = false;
+		try {
+			machine->getNode(idContainer);
+			vuelta = true;
+		} catch (std::invalid_argument& e) {
+
+		}
+		return vuelta;
 	}
 
-	inline ContainerNode* getContainer(int idContainer) {
+	inline std::shared_ptr<ContainerNode> getContainer(int idContainer) {
 		return (machine->getNode(idContainer));
 	}
 
-	inline std::vector<std::pair<vector<ContainerNode*>*,vector<Edge*>*>>* getSubgraphs() {
+	inline const std::vector<std::tuple<std::vector<std::shared_ptr<ContainerNode>>,std::vector<std::shared_ptr<Edge>>>> & getSubgraphs() {
 		return machine->getSubGraphs();
 	}
 

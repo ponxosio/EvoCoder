@@ -14,6 +14,11 @@
 #include "../../../operables/mathematics/MathematicOperable.h"
 #include "ContainerOperation.h"
 
+//cereal
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/types/polymorphic.hpp>
+
 class Transfer: public ContainerOperation {
 public:
 	//Node methods
@@ -30,10 +35,31 @@ public:
 
 	virtual void execute();
 
+	//SERIALIZATIoN
+	template<class Archive>
+	void serialize(Archive & ar, std::uint32_t const version);
 protected:
 	int idSource;
 	int idTarget;
 	std::shared_ptr<MathematicOperable> volume;
 };
+
+template<class Archive>
+inline void Transfer::serialize(Archive& ar, const std::uint32_t version) {
+	if (version <= 1) {
+		ContainerOperation::serialize(ar, version);
+		ar(CEREAL_NVP(idSource), CEREAL_NVP(idTarget), CEREAL_NVP(volume));
+	}
+}
+
+// Associate some type with a version number
+CEREAL_CLASS_VERSION( Transfer, 1 );
+
+// Include any archives you plan on using with your type before you register it
+// Note that this could be done in any other location so long as it was prior
+// to this file being included
+#include <cereal/archives/json.hpp>
+// Register DerivedClass
+CEREAL_REGISTER_TYPE_WITH_NAME(Transfer,"Transfer");
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONATINER_TRANSFER_H_ */

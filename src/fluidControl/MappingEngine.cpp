@@ -38,16 +38,16 @@ MappingEngine::~MappingEngine() {
 }*/
 
 bool MappingEngine::startMapping() {
-	std::vector<Edge*> sketchEdgeList(*(sketch->getGraph()->getEdgeList()));
-	std::vector<ExecutableContainerNode*> machineSubgraphs = machine->getGraph()->getAllNodes();
+	std::vector<std::shared_ptr<Edge>> sketchEdgeList(sketch->getGraph()->getEdgeList());
+	const std::vector<std::shared_ptr<ExecutableContainerNode>> machineSubgraphs = machine->getGraph()->getAllNodes();
 
-	return mapSubgraph(sketchEdgeList, &machineSubgraphs);
+	return mapSubgraph(sketchEdgeList, machineSubgraphs);
 }
 
-bool MappingEngine::mapSubgraph(std::vector<Edge*>& edges, std::vector<ExecutableContainerNode*>* machineNodes) {
+bool MappingEngine::mapSubgraph(std::vector<shared_ptr<Edge>>& edges, const std::vector<std::shared_ptr<ExecutableContainerNode>> & machineNodes) {
 	bool success = false;
 	if (!edges.empty()) {
-		Edge* actual = edges.back();
+		std::shared_ptr<Edge> actual = edges.back();
 		edges.pop_back();
 
 		FlowsHeap heap = getAvailableFlows(actual, machineNodes);
@@ -69,7 +69,7 @@ bool MappingEngine::mapSubgraph(std::vector<Edge*>& edges, std::vector<Executabl
 	return success;
 }
 
-void MappingEngine::addSolution(Edge* edge, const Flow<Edge> & flow) throw(std::invalid_argument){
+void MappingEngine::addSolution(std::shared_ptr<Edge> edge, const Flow<Edge> & flow) throw(std::invalid_argument){
 	Flow<Edge>* ptrFlow = new Flow<Edge>(flow);
 	edgeFlowMap->insert(make_pair(std::pair<int,int>(edge->getIdSource(), edge->getIdTarget()), ptrFlow));
 
@@ -107,7 +107,7 @@ void MappingEngine::addSolution(Edge* edge, const Flow<Edge> & flow) throw(std::
 	setNodesUsed(flow);
 }
 
-void MappingEngine::removeSolution(Edge* edge) {
+void MappingEngine::removeSolution(std::shared_ptr<Edge> edge) {
 	if (numberSolutionsMap->find(edge->getIdSource())->second == 1) {
 		containersMap->erase(edge->getIdSource());
 		numberSolutionsMap->erase(edge->getIdSource());
@@ -132,7 +132,7 @@ void MappingEngine::removeSolution(Edge* edge) {
 	edgeFlowMap->erase(flowsKey);
 }
 
-bool MappingEngine::trySubgraph(std::vector<SubGraphSketch>& sketchSubgraphs,
+/*bool MappingEngine::trySubgraph(std::vector<SubGraphSketch>& sketchSubgraphs,
 	std::vector<SubGraphMachine>* machineSubgraphs) {
 
 	bool success = false;
@@ -157,7 +157,7 @@ bool MappingEngine::trySubgraph(std::vector<SubGraphSketch>& sketchSubgraphs,
 		success = true;
 	}
 	return success;
-}
+}*/
 
 Flow<Edge>* MappingEngine::getMappedEdge(Edge* skectchEdge) throw(std::invalid_argument) {
 	auto it = edgeFlowMap->find(std::pair<int,int>(skectchEdge->getIdSource(), skectchEdge->getIdTarget()));
@@ -194,8 +194,8 @@ void MappingEngine::unsetNodesUsed(const Flow<Edge>& flow) {
 	}
 }
 
-FlowsHeap MappingEngine::getAvailableFlows(Edge* actual,
-		std::vector<ExecutableContainerNode*>* machineNodes) {
+FlowsHeap MappingEngine::getAvailableFlows(std::shared_ptr<Edge> actual,
+		const std::vector<std::shared_ptr<ExecutableContainerNode>> & machineNodes) {
 
 	if (!isMapped(actual->getIdSource()) && !isMapped(actual->getIdTarget())) {
 		ContainerNodeType* typeSource = sketch->getContainer(
@@ -203,7 +203,7 @@ FlowsHeap MappingEngine::getAvailableFlows(Edge* actual,
 		ContainerNodeType* typeTarget = sketch->getContainer(
 				actual->getIdTarget())->getType().get();
 		return machine->getAvailableFlows(*typeSource, *typeTarget,
-				*machineNodes);
+				machineNodes);
 	} else if (isMapped(actual->getIdSource())
 			&& !isMapped(actual->getIdTarget())) {
 		ContainerNodeType* typeTarget = sketch->getContainer(

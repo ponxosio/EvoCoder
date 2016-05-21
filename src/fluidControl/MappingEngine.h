@@ -26,8 +26,8 @@
 #include "../fluidControl/machineGraph/MachineGraph.h"
 #include "../fluidControl/executable/ExecutableMachineGraph.h"
 
-typedef std::pair<std::vector<ContainerNode*>*, std::vector<Edge*>*> SubGraphSketch;
-typedef std::pair<std::vector<ExecutableContainerNode*>*, std::vector<Edge*>*> SubGraphMachine;
+//typedef std::pair<std::vector<ContainerNode*>*, std::vector<Edge*>*> SubGraphSketch;
+//typedef std::pair<std::vector<ExecutableContainerNode*>*, std::vector<Edge*>*> SubGraphMachine;
 typedef std::priority_queue<Flow<Edge>, vector<Flow<Edge>>,FlowPtrComparator<Edge>> FlowsHeap;
 
 class MappingEngine {
@@ -47,15 +47,16 @@ protected:
 	MachineGraph* sketch;
 	ExecutableMachineGraph* machine;
 
-	bool trySubgraph(std::vector<SubGraphSketch>& sketchSubgraphs, std::vector<SubGraphMachine>* machineSubgraphs);
-	bool mapSubgraph(std::vector<Edge*>& edges, std::vector<ExecutableContainerNode*>* machineNodes);
+	//bool trySubgraph(std::vector<SubGraphSketch>& sketchSubgraphs, std::vector<SubGraphMachine>* machineSubgraphs);
+	bool mapSubgraph(std::vector<shared_ptr<Edge>>& edges, const std::vector<std::shared_ptr<ExecutableContainerNode>> & machineNodes);
 
-	void addSolution(Edge* edge, const Flow<Edge> & flow) throw(std::invalid_argument);
-	void removeSolution(Edge* edge);
+	void addSolution(std::shared_ptr<Edge> edge, const Flow<Edge> & flow) throw(std::invalid_argument);
+	void removeSolution(std::shared_ptr<Edge> edge);
 	void setNodesUsed(const Flow<Edge> & flow);
 	void unsetNodesUsed(const Flow<Edge> & flow);
 
-	FlowsHeap getAvailableFlows(Edge* actual, std::vector<ExecutableContainerNode*>* machineNodes);
+	FlowsHeap getAvailableFlows(std::shared_ptr<Edge> actual,
+			const std::vector<std::shared_ptr<ExecutableContainerNode>> & machineNodes);
 
 	inline bool isMapped(int idConatiner) {
 		return (containersMap->find(idConatiner) != containersMap->end());

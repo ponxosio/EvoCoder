@@ -11,11 +11,13 @@
 #include <string>
 #include <stdexcept>
 
-//vector
+//data structure
 #include <vector>
 #include <algorithm>
-#include <tr1/unordered_set>
+#include <unordered_set>
 #include <queue>
+#include <memory>
+#include <tuple>
 
 //local
 #include "../../util/Patch.h"
@@ -43,7 +45,7 @@ public:
 	std::priority_queue<Flow<Edge>, vector<Flow<Edge>>, FlowPtrComparator<Edge>> getAvailableFlows(
 			const ContainerNodeType & tipoIni,
 			const ContainerNodeType & tipofin,
-			const std::vector<ExecutableContainerNode*> & subgraph);
+			const std::vector<std::shared_ptr<ExecutableContainerNode>> & subgraph);
 	std::priority_queue<Flow<Edge>, vector<Flow<Edge>>, FlowPtrComparator<Edge>> getAvailableFlows(
 			int idConatinerInit, const ContainerNodeType & tipofin);
 	std::priority_queue<Flow<Edge>, vector<Flow<Edge>>, FlowPtrComparator<Edge>> getAvailableFlows(
@@ -71,7 +73,7 @@ public:
 	inline Graph<ExecutableContainerNode, Edge>* getGraph() {
 		return graph;
 	}
-	inline std::vector<std::pair<vector<ExecutableContainerNode*>*,vector<Edge*>*>>* getSubgraphs() {
+	inline const std::vector<std::tuple<std::vector<std::shared_ptr<ExecutableContainerNode>>,std::vector<std::shared_ptr<Edge>>>> & getSubgraphs() {
 		return graph->getSubGraphs();
 	}
 	inline std::tr1::unordered_set<int>* getUsedNodes() {

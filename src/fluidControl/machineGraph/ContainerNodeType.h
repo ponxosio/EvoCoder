@@ -51,10 +51,16 @@
 
 //data structures
 #include <vector>
+#include <array>
 
 //local
 #include "../../util/Patch.h"
 #include "../../util/Utils.h"
+
+//cereal
+#include <cereal/cereal.hpp>
+#include <cereal/types/array.hpp>
+
 
 /*** Enum for the type of fluid movement ***/
 typedef enum MovementType_ {
@@ -123,17 +129,32 @@ public:
 	}
 
 	bool operator == (const ContainerNodeType& n1);
+
+	//SERIALIZATIoN
+	template<class Archive>
+	void serialize(Archive & ar, std::uint32_t const version);
 protected:
 	MovementType movementType;
 	ContainerType containerType;
-	bool* addOns;
+	std::array<bool, AddOnsType::ADDONS_MAX> addOns;
 
 	bool isCompatibleContainer(ContainerType container);
-	bool isCompatibleAddOns(bool* addOns);
+	bool isCompatibleAddOns(const std::array<bool, AddOnsType::ADDONS_MAX> & addOns);
 
 	std::string getMovementPrefix();
 	std::string getContainerSubfix();
 	std::string getAddonsImg(AddOnsType addonType);
 };
+
+template<class Archive>
+inline void ContainerNodeType::serialize(Archive& ar,
+		const std::uint32_t version) {
+	if (version <= 1) {
+		ar(CEREAL_NVP(movementType), CEREAL_NVP(containerType), CEREAL_NVP(addOns));
+	}
+}
+
+// Associate some type with a version number
+CEREAL_CLASS_VERSION( ContainerNodeType, 1 );
 
 #endif /* SRC_FLUIDCONTROL_MACHINEGRAPH_CONTAINERNODETYPE_H_ */

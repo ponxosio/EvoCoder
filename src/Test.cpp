@@ -7,6 +7,8 @@
 
 #include "Test.h"
 
+using namespace std;
+
 //#define _QUESO
 Test::Test() {
 	// TODO Auto-generated constructor stub
@@ -55,7 +57,9 @@ int main(int argv, char* argc[]) {
 	//t.testMappingTest();
 	//t.testMappingExec();
 
-	t.testSerializaVariableTable();
+	//t.testSerializaVariableTable();
+	//t.testSerialize_MathematicOperable();
+	t.testSerialize_ExecutableConatinerNode();
 	LOG(INFO)<< "finished!";
 }
 
@@ -69,15 +73,15 @@ void Test::testGraph() {
 		LOG(ERROR)<< "error creating and saving graph";
 	}
 
-	const std::vector<Edge*>* arriving =  g->getArrivingEdges(1);
+	const std::vector<std::shared_ptr<Edge>> arriving =  g->getArrivingEdges(1);
 	LOG(INFO) << "arriving edges to 1: 0->1, 3->1";
-	for (auto it = arriving->begin(); it != arriving->end(); ++it) {
+	for (auto it = arriving.begin(); it != arriving.end(); ++it) {
 		LOG(INFO) << (*it)->toText();
 	}
 
-	const std::vector<Edge*>* leaving = g->getLeavingEdges(1);
+	const std::vector<std::shared_ptr<Edge>> leaving = g->getLeavingEdges(1);
 	LOG(INFO)<< "leaving edges to 1: 1->2";
-	for (auto it = leaving->begin(); it != leaving->end(); ++it) {
+	for (auto it = leaving.begin(); it != leaving.end(); ++it) {
 		LOG(INFO)<< (*it)->toText();
 	}
 
@@ -110,28 +114,6 @@ void Test::testContainerNode() {
 	} else {
 		LOG(ERROR)<< "error creating and saving graph";
 	}
-
-	Graph<ContainerNode, Edge>* loadG = Graph<ContainerNode, Edge>::loadGraph(
-			"X:\\codigo\\EvoCoder_Release_v1\\EvoCoder\\test_container.graph");
-
-	if ((loadG != NULL)) {
-		LOG(DEBUG)<< "Grafo cargado..." << endl;
-		LOG(DEBUG) << loadG->toString() << endl;
-
-		loadG->removeNode(0);
-		LOG(DEBUG) << "Grafo: borrar nodo 0..." << endl;
-		LOG(DEBUG) << loadG->toString() << endl;
-
-		Edge tempE(1, 2);
-		loadG->removeEdge(tempE);
-		LOG(DEBUG) << "Grafo: borrar arista 1->2..." << endl;
-		LOG(DEBUG) << loadG->toString() << endl;
-
-	} else {
-		LOG(ERROR) << "error loading graph";
-	}
-
-	delete loadG;
 	delete g;
 }
 
@@ -499,13 +481,13 @@ void Test::testFlow() {
 			FlowPtrComparator<Edge>> heap;
 
 	Flow<Edge>* f1 = new Flow<Edge>(1, 3);
-	Edge* edge13 = new Edge(1, 3);
+	shared_ptr<Edge> edge13 = new Edge(1, 3);
 	f1->append(edge13);
 
 	heap.push(f1);
 
 	Flow<Edge>* f2 = new Flow<Edge>(1, 3);
-	Edge* edge12 = new Edge(1, 2);
+	shared_ptr<Edge> edge12 = new Edge(1, 2);
 	f2->append(edge12);
 	f2->append(edge13);
 
@@ -883,14 +865,14 @@ void Test::testCalculateSubgraphs() {
 	g->addEdge(new Edge(9,10));
 	g->addEdge(new Edge(10,11));
 
-	std::vector<std::pair<vector<Node*>*,vector<Edge*>*>>* subGraph = g->getSubGraphs();
+	std::vector<std::tuple<vector<shared_ptr<Node>>,vector<shared_ptr<Edge>>>> subGraph = g->getSubGraphs();
 	int color = 0;
-	for (auto it = subGraph->begin(); it != subGraph->end(); ++it) {
+	for (auto it = subGraph.begin(); it != subGraph.end(); ++it) {
 		LOG(INFO) << "subGraph " << color << ": ";
-		std::vector<Node*>* actualSubgraph = (*it).first;
-		for (auto it1 = actualSubgraph->begin(); it1 != actualSubgraph->end(); ++it1) {
-			Node* actual = *it1;
-			LOG(INFO) << actual->toText();
+		std::vector<shared_ptr<Node>> actualSubgraph = get<0>(*it);
+		for (auto it1 = actualSubgraph.begin(); it1 != actualSubgraph.end(); ++it1) {
+			shared_ptr<Node> act = *it;
+			LOG(INFO) << act->toText();
 		}
 		color++;
 	}
@@ -1038,20 +1020,20 @@ void Test::testMappingEngine() {
 	sketch->printMachine("turbidostatSketch.graph");
 	machine->saveGraph("mappingSimpleMachine.graph");
 
-	LOG(INFO)<< "edge list size" << sketch->getGraph()->getEdgeList()->size();
+	LOG(INFO)<< "edge list size" << sketch->getGraph()->getEdgeList().size();
 	LOG(INFO)<< "making mapping... ";
 	if (map->startMapping()) {
-		LOG(INFO)<< "edge list size" << sketch->getGraph()->getEdgeList()->size();
+		LOG(INFO)<< "edge list size" << sketch->getGraph()->getEdgeList().size();
 
-		std::vector<Edge*>* edges = sketch->getGraph()->getEdgeList();
-		std::vector<ContainerNode*> nodes = sketch->getGraph()->getAllNodes();
+		const std::vector<shared_ptr<Edge>> edges = sketch->getGraph()->getEdgeList();
+		std::vector<shared_ptr<ContainerNode>> nodes = sketch->getGraph()->getAllNodes();
 
 		for (auto it = nodes.begin(); it != nodes.end(); ++it) {
 			ContainerNode* act = *it;
 			LOG(INFO)<< " sketch : " << patch::to_string(act->getContainerId()) << ", machine: " << patch::to_string(map->getMappedContainerId(act->getContainerId()));
 		}
 
-		for (auto it = edges->begin(); it != edges->end(); ++it) {
+		for (auto it = edges.begin(); it != edges.end(); ++it) {
 			Edge* act = *it;
 			LOG(INFO)<< " sketch : " << act->toText() << ", machine: " << map->getMappedEdge(act)->toText();
 		}
@@ -1142,17 +1124,17 @@ void Test::testMappingEnginePerformance() {
 	machine->saveGraph("mappingMachine.graph");
 	sketch->printMachine("sketchMapping.graph");
 
-	LOG(INFO)<< "edge list size" << sketch->getGraph()->getEdgeList()->size();
+	LOG(INFO)<< "edge list size" << sketch->getGraph()->getEdgeList().size();
 	LOG(INFO)<< "making mapping... ";
 	DWORD init = GetTickCount();
 	if (map->startMapping()) {
 		DWORD end = GetTickCount();
 		LOG(INFO) << "spend: " << ((end - init)) << " ms";
 
-		LOG(INFO)<< "edge list size" << sketch->getGraph()->getEdgeList()->size();
+		LOG(INFO)<< "edge list size" << sketch->getGraph()->getEdgeList().size();
 
-		std::vector<Edge*>* edges = sketch->getGraph()->getEdgeList();
-		std::vector<ContainerNode*> nodes = sketch->getGraph()->getAllNodes();
+		const vector<shared_ptr<Edge>> edges = sketch->getGraph()->getEdgeList();
+		vector<shared_ptr<ContainerNode>> nodes = sketch->getGraph()->getAllNodes();
 
 		for (auto it = nodes.begin(); it != nodes.end(); ++it) {
 			ContainerNode* act = *it;
@@ -1163,10 +1145,10 @@ void Test::testMappingEnginePerformance() {
 			}
 		}
 
-		for (auto it = edges->begin(); it != edges->end(); ++it) {
-			Edge* act = *it;
+		for (auto it = edges.begin(); it != edges.end(); ++it) {
+
 			try {
-				LOG(INFO)<< " sketch : " << act->toText() << ", machine: " << map->getMappedEdge(act)->toText();
+				LOG(INFO)<< " sketch : " << (*it)->toText() << ", machine: " << map->getMappedEdge((*it).get())->toText();
 			} catch (std::invalid_argument& e) {
 				LOG(INFO) << "exception " << e.what();
 			}
@@ -1297,4 +1279,99 @@ void Test::testDeserializaVariableTable(const std::string & json) {
 	LOG(INFO) << "dos: " << v.getVaue("dos") << ", " << v.getPhysical("dos");
 	LOG(INFO) << "tres: " << v.getVaue("tres") << ", " << v.getPhysical("tres");
 
+}
+
+void Test::testSerialize_MathematicOperable() {
+
+	{
+		vector<shared_ptr<MathematicOperable>> v;
+
+		shared_ptr<MathematicOperable> cn3(new ConstantNumber(3));
+		shared_ptr<MathematicOperable> cn5(new ConstantNumber(5));
+		shared_ptr<MathematicOperable> opPlus(
+				new ArithmeticOperation(cn3, arithmetic::plus, cn5));
+		shared_ptr<MathematicOperable> fabs5(
+				new UnaryOperation(opPlus, unaryOperations::absoluteValue));
+
+		v.push_back(cn3);
+		v.push_back(cn5);
+		v.push_back(opPlus);
+		v.push_back(fabs5);
+
+		ofstream o("test.json");
+		LOG(INFO)<< "serializating...";
+		cereal::JSONOutputArchive ar(o);
+		ar(CEREAL_NVP(v));
+	}
+
+	{
+		vector<shared_ptr<MathematicOperable>> v;
+		ifstream i("test.json");
+		cereal::JSONInputArchive arIn(i);
+		LOG(INFO)<< "created archive...";
+		arIn(v);
+
+		for (auto it = v.begin(); it != v.end(); ++it) {
+			LOG(INFO) << it->get()->toString();
+		}
+	}
+}
+
+void Test::testSerialize_ExecutableConatinerNode() {
+	CommunicationsInterface::GetInstance()->setTesting(true);
+	int communications =
+			CommunicationsInterface::GetInstance()->addCommandSender(
+					new FileSender("test.log", "inputFileData.txt"));
+
+	shared_ptr<Control> control(new EvoprogSixwayValve(communications, 7));
+	shared_ptr<Light> light(new EvoprogLight(communications, 2, 3));
+	shared_ptr<Temperature> temperature(
+			new EvoprogTemperature(communications, 1));
+	shared_ptr<Extractor> cExtractor13(
+			new EvoprogContinuousPump(communications, 13));
+	shared_ptr<Extractor> cExtractor14(
+			new EvoprogContinuousPump(communications, 14));
+	shared_ptr<Extractor> dExtractor(
+			new EvoprogDiscretePump(communications, 15));
+	shared_ptr<Injector> dummyInjector(
+			new EvoprogDummyInjector(communications));
+	shared_ptr<ODSensor> od(new EvoprogOdSensor(communications, 4));
+
+	shared_ptr<ExecutableContainerNode> cInlet1(
+			new InletContainer(1, 100.0, cExtractor13));
+	cInlet1->setLight(light);
+	shared_ptr<ExecutableContainerNode> dInlet2(
+			new InletContainer(2, 100.0, dExtractor));
+	dInlet2->setTemperature(temperature);
+	shared_ptr<ExecutableContainerNode> cSwtInlet3(
+			new ConvergentSwitchInlet(3, 100.0, dummyInjector, cExtractor14,
+					control));
+	cSwtInlet3->setOd(od);
+	shared_ptr<ExecutableContainerNode> sink(
+			new SinkContainer(4, 100.0, dummyInjector));
+
+	{
+		vector<shared_ptr< ExecutableContainerNode>> v;
+		v.push_back(cInlet1);
+		v.push_back(dInlet2);
+		v.push_back(cSwtInlet3);
+		v.push_back(sink);
+
+		ofstream o("test.json");
+		LOG(INFO)<< "serializating...";
+		cereal::JSONOutputArchive ar(o);
+		ar(CEREAL_NVP(v));
+	}
+
+	{
+		vector<shared_ptr<ExecutableContainerNode>> v;
+		ifstream i("test.json");
+		cereal::JSONInputArchive arIn(i);
+		LOG(INFO)<< "created archive...";
+		arIn(v);
+
+		for (auto it = v.begin(); it != v.end(); ++it) {
+			LOG(INFO)<< it->get()->toText();
+		}
+	}
 }

@@ -27,11 +27,7 @@
 
 //lib
 #include <easylogging++.h>
-#include <cereal/cereal.hpp>
-#include <cereal/archives/json.hpp>
-#include <cereal/types/unordered_map.hpp>
-#include <cereal/types/tuple.hpp>
-#include <cereal/types/string.hpp>
+
 
 //local
 #include "graph/Graph.h"
@@ -114,6 +110,16 @@
 #include "protocolGraph/operations/LoopNode.h"
 #include "protocolGraph/ProtocolGraph.h"
 
+//cereal
+#include <cereal/cereal.hpp>
+#include <cereal/archives/json.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/types/polymorphic.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/tuple.hpp>
+#include <cereal/types/unordered_map.hpp>
+#include <cereal/types/vector.hpp>
+
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -166,6 +172,9 @@ public:
 
 	void testSerializaVariableTable();
 	void testDeserializaVariableTable(const std::string & json);
+
+	void testSerialize_MathematicOperable();
+	void testSerialize_ExecutableConatinerNode();
 };
 
 #endif /* SRC_TEST_H_ */

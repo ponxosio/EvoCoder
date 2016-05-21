@@ -1,27 +1,261 @@
 {
-    "value0": {
-        "table": [
-            {
-                "key": "tres",
-                "value": {
-                    "tuple_element0": 3,
-                    "tuple_element1": true
-                }
-            },
-            {
-                "key": "dos",
-                "value": {
-                    "tuple_element0": 2,
-                    "tuple_element1": false
-                }
-            },
-            {
-                "key": "uno",
-                "value": {
-                    "tuple_element0": 1,
-                    "tuple_element1": false
+    "v": [
+        {
+            "polymorphic_id": 2147483649,
+            "polymorphic_name": "InletContainer",
+            "ptr_wrapper": {
+                "id": 2147483649,
+                "data": {
+                    "cereal_class_version": 1,
+                    "containerID": 1,
+                    "type": {
+                        "polymorphic_id": 1073741824,
+                        "ptr_wrapper": {
+                            "id": 2147483650,
+                            "data": {
+                                "cereal_class_version": 1,
+                                "movementType": 0,
+                                "containerType": 0,
+                                "addOns": {
+                                    "value0": false,
+                                    "value1": true,
+                                    "value2": false,
+                                    "value3": false
+                                }
+                            }
+                        }
+                    },
+                    "capacity": 100,
+                    "volume": 0,
+                    "od": {
+                        "polymorphic_id": 0
+                    },
+                    "mix": {
+                        "polymorphic_id": 0
+                    },
+                    "light": {
+                        "polymorphic_id": 2147483650,
+                        "polymorphic_name": "EvoprogLight",
+                        "ptr_wrapper": {
+                            "id": 2147483651,
+                            "data": {
+                                "cereal_class_version": 1,
+                                "communications": 0,
+                                "pinWaveLength": 2,
+                                "pinIntensity": 3
+                            }
+                        }
+                    },
+                    "temperature": {
+                        "polymorphic_id": 0
+                    },
+                    "ext": {
+                        "polymorphic_id": 2147483651,
+                        "polymorphic_name": "EvoprogContinuousPump",
+                        "ptr_wrapper": {
+                            "id": 2147483652,
+                            "data": {
+                                "cereal_class_version": 1,
+                                "communications": 0,
+                                "pinNumber": 13
+                            }
+                        }
+                    }
                 }
             }
-        ]
-    }
+        },
+        {
+            "polymorphic_id": 1,
+            "ptr_wrapper": {
+                "id": 2147483653,
+                "data": {
+                    "containerID": 2,
+                    "type": {
+                        "polymorphic_id": 1073741824,
+                        "ptr_wrapper": {
+                            "id": 2147483654,
+                            "data": {
+                                "movementType": 1,
+                                "containerType": 0,
+                                "addOns": {
+                                    "value0": false,
+                                    "value1": false,
+                                    "value2": true,
+                                    "value3": false
+                                }
+                            }
+                        }
+                    },
+                    "capacity": 100,
+                    "volume": 0,
+                    "od": {
+                        "polymorphic_id": 0
+                    },
+                    "mix": {
+                        "polymorphic_id": 0
+                    },
+                    "light": {
+                        "polymorphic_id": 0
+                    },
+                    "temperature": {
+                        "polymorphic_id": 2147483652,
+                        "polymorphic_name": "EvoprogTemperature",
+                        "ptr_wrapper": {
+                            "id": 2147483655,
+                            "data": {
+                                "cereal_class_version": 1,
+                                "communications": 0,
+                                "pinNumber": 1
+                            }
+                        }
+                    },
+                    "ext": {
+                        "polymorphic_id": 2147483653,
+                        "polymorphic_name": "EvoprogDiscretePump",
+                        "ptr_wrapper": {
+                            "id": 2147483656,
+                            "data": {
+                                "cereal_class_version": 1,
+                                "communications": 0,
+                                "pinNumber": 15
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "polymorphic_id": 2147483654,
+            "polymorphic_name": "ConvergentSwitchInlet",
+            "ptr_wrapper": {
+                "id": 2147483657,
+                "data": {
+                    "cereal_class_version": 1,
+                    "containerID": 3,
+                    "type": {
+                        "polymorphic_id": 1073741824,
+                        "ptr_wrapper": {
+                            "id": 2147483658,
+                            "data": {
+                                "movementType": 0,
+                                "containerType": 6,
+                                "addOns": {
+                                    "value0": false,
+                                    "value1": false,
+                                    "value2": false,
+                                    "value3": true
+                                }
+                            }
+                        }
+                    },
+                    "capacity": 100,
+                    "volume": 0,
+                    "od": {
+                        "polymorphic_id": 2147483655,
+                        "polymorphic_name": "EvoprogOdSensor",
+                        "ptr_wrapper": {
+                            "id": 2147483659,
+                            "data": {
+                                "cereal_class_version": 1,
+                                "communications": 0,
+                                "port": 4
+                            }
+                        }
+                    },
+                    "mix": {
+                        "polymorphic_id": 0
+                    },
+                    "light": {
+                        "polymorphic_id": 0
+                    },
+                    "temperature": {
+                        "polymorphic_id": 0
+                    },
+                    "insert": {
+                        "polymorphic_id": 2147483656,
+                        "polymorphic_name": "EvoprogDummyInjector",
+                        "ptr_wrapper": {
+                            "id": 2147483660,
+                            "data": {
+                                "cereal_class_version": 1,
+                                "communications": 0
+                            }
+                        }
+                    },
+                    "extractor": {
+                        "polymorphic_id": 3,
+                        "ptr_wrapper": {
+                            "id": 2147483661,
+                            "data": {
+                                "communications": 0,
+                                "pinNumber": 14
+                            }
+                        }
+                    },
+                    "control": {
+                        "polymorphic_id": 2147483657,
+                        "polymorphic_name": "EvoprogSixwayValve",
+                        "ptr_wrapper": {
+                            "id": 2147483662,
+                            "data": {
+                                "cereal_class_version": 1,
+                                "maxConexiones": 6,
+                                "communications": 0,
+                                "valveNumber": 7,
+                                "containerValveMap": [],
+                                "lastPos": 0
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "polymorphic_id": 2147483658,
+            "polymorphic_name": "SinkContainer",
+            "ptr_wrapper": {
+                "id": 2147483663,
+                "data": {
+                    "cereal_class_version": 1,
+                    "containerID": 4,
+                    "type": {
+                        "polymorphic_id": 1073741824,
+                        "ptr_wrapper": {
+                            "id": 2147483664,
+                            "data": {
+                                "movementType": 2,
+                                "containerType": 2,
+                                "addOns": {
+                                    "value0": false,
+                                    "value1": false,
+                                    "value2": false,
+                                    "value3": false
+                                }
+                            }
+                        }
+                    },
+                    "capacity": 100,
+                    "volume": 0,
+                    "od": {
+                        "polymorphic_id": 0
+                    },
+                    "mix": {
+                        "polymorphic_id": 0
+                    },
+                    "light": {
+                        "polymorphic_id": 0
+                    },
+                    "temperature": {
+                        "polymorphic_id": 0
+                    },
+                    "insert": {
+                        "polymorphic_id": 8,
+                        "ptr_wrapper": {
+                            "id": 12
+                        }
+                    }
+                }
+            }
+        }
+    ]
 }

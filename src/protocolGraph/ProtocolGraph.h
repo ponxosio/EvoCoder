@@ -34,16 +34,16 @@ public:
 	bool connectOperation(ConditionEdge* edge);
 	bool connectOperation(OperationNode* nodeSource, OperationNode* nodeTarget, std::shared_ptr<ComparisonOperable> comparison);
 
-	OperationNode* getStart();
+	std::shared_ptr<OperationNode> getStart();
 	void setStartNode(int idStart);
 
-	inline OperationNode* getNode(int idNode) {
+	inline std::shared_ptr<OperationNode> getNode(int idNode) {
 		return graph->getNode(idNode);
 	}
-	inline const std::vector<ConditionEdge*>* getProjectingEdges(int idNode) {
+	inline const std::vector<std::shared_ptr<ConditionEdge>> & getProjectingEdges(int idNode) {
 		return graph->getLeavingEdges(idNode);
 	}
-	inline std::vector<OperationNode*> getAllNodes() {
+	inline const std::vector<std::shared_ptr<OperationNode>> & getAllNodes() {
 		return graph->getAllNodes();
 	}
 

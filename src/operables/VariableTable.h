@@ -65,15 +65,20 @@ public:
 	inline void clear() {table.clear();}
 
 	template<class Archive>
-	void serialize(Archive & ar);
+	void serialize(Archive & ar, std::uint32_t const version);
 
 protected:
 	std::unordered_map<std::string, std::tuple<double,bool>> table;
 };
 
 template<class Archive>
-inline void VariableTable::serialize(Archive& ar) {
-	ar(CEREAL_NVP(table));
+inline void VariableTable::serialize(Archive& ar, std::uint32_t const version) {
+	if (version == 1) {
+		ar(CEREAL_NVP(table));
+	}
 }
+
+// Associate some type with a version number
+CEREAL_CLASS_VERSION( VariableTable, 1 );
 
 #endif /* SRC_OPERABLES_VARIABLETABLE_H_ */
