@@ -9,7 +9,7 @@
 
 ApplyTemperature::ApplyTemperature() : ContainerOperation() {
 	this->sourceId = -1;
-	this->degress = std::shared_ptr<MathematicOperable>();
+	this->degress = boost::shared_ptr<MathematicOperable>();
 }
 
 ApplyTemperature::ApplyTemperature(const ApplyTemperature& node) : ContainerOperation(node) {
@@ -29,8 +29,8 @@ void ApplyTemperature::loadNode(const std::string& line)
 }
 
 ApplyTemperature::ApplyTemperature(int containerId,
-		std::shared_ptr<Mapping> mapping, int sourceId,
-		std::shared_ptr<MathematicOperable> degress) :
+		boost::shared_ptr<Mapping> mapping, int sourceId,
+		boost::shared_ptr<MathematicOperable> degress) :
 		ContainerOperation(containerId, mapping) {
 
 	this->sourceId = sourceId;

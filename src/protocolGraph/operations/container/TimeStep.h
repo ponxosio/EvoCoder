@@ -9,7 +9,7 @@
 #define SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_TIMESTEP_H_
 
 //boost
-#include <memory>
+#include <boost/shared_ptr.hpp>
 
 //local
 #include "../../../operables/mathematics/VariableEntry.h"
@@ -24,13 +24,13 @@ public:
 	virtual std::string toText();
 	virtual void loadNode(const std::string & line) throw (invalid_argument);
 	//
-	TimeStep(int containerId, std::shared_ptr<Mapping> mapping, std::shared_ptr<VariableEntry> receiver);
+	TimeStep(int containerId, boost::shared_ptr<Mapping> mapping, boost::shared_ptr<VariableEntry> receiver);
 
 	virtual ~TimeStep();
 
 	virtual void execute();
 protected:
-	std::shared_ptr<VariableEntry> receiver;
+	boost::shared_ptr<VariableEntry> receiver;
 };
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_TIMESTEP_H_ */

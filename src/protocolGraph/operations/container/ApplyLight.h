@@ -25,17 +25,17 @@ public:
 	virtual void loadNode(const std::string & line)
 			throw (std::invalid_argument);
 	//
-	ApplyLight(int idContainer, std::shared_ptr<Mapping> mapping,
-			int sourceID, std::shared_ptr<MathematicOperable> wavelength,
-			std::shared_ptr<MathematicOperable> intensity);
+	ApplyLight(int idContainer, boost::shared_ptr<Mapping> mapping,
+			int sourceID, boost::shared_ptr<MathematicOperable> wavelength,
+			boost::shared_ptr<MathematicOperable> intensity);
 
 	virtual ~ApplyLight();
 
 	virtual void execute();
 protected:
 	int sourceId;
-	std::shared_ptr<MathematicOperable> wavelength;
-	std::shared_ptr<MathematicOperable> intensity;
+	boost::shared_ptr<MathematicOperable> wavelength;
+	boost::shared_ptr<MathematicOperable> intensity;
 };
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_APPLYLIGHT_H_ */

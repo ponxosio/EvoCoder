@@ -19,7 +19,7 @@
 
 //boost
 #include <boost/function.hpp>
-#include <memory>
+#include <boost/shared_ptr.hpp>
 
 //local
 #include "MathematicOperable.h"
@@ -40,9 +40,9 @@ enum ArithmeticOperator {
  */
 class ArithmeticOperation: public MathematicOperable {
 public:
-	ArithmeticOperation(std::shared_ptr<MathematicOperable> left,
+	ArithmeticOperation(boost::shared_ptr<MathematicOperable> left,
 			arithmetic::ArithmeticOperator op,
-			std::shared_ptr<MathematicOperable> right);
+			boost::shared_ptr<MathematicOperable> right);
 
 	virtual ~ArithmeticOperation();
 
@@ -79,11 +79,11 @@ protected:
 	/**
 	 * Variable on the left of the operation
 	 */
-	std::shared_ptr<MathematicOperable> leftVariable;
+	boost::shared_ptr<MathematicOperable> leftVariable;
 	/**
 	 * Variable on the right of the operation
 	 */
-	std::shared_ptr<MathematicOperable> rightVariable;
+	boost::shared_ptr<MathematicOperable> rightVariable;
 	/**
 	 * Operator between variables
 	 */

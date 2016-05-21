@@ -14,7 +14,7 @@
 #include <vector>
 
 //boost
-#include <memory>
+#include <boost/shared_ptr.hpp>
 
 //lib
 #include "../../lib/easylogging++.h"
@@ -32,7 +32,7 @@ public:
 
 	bool addOperation(OperationNode* node);
 	bool connectOperation(ConditionEdge* edge);
-	bool connectOperation(OperationNode* nodeSource, OperationNode* nodeTarget, std::shared_ptr<ComparisonOperable> comparison);
+	bool connectOperation(OperationNode* nodeSource, OperationNode* nodeTarget, boost::shared_ptr<ComparisonOperable> comparison);
 
 	OperationNode* getStart();
 	void setStartNode(int idStart);

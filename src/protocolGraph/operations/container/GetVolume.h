@@ -9,7 +9,7 @@
 #define SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_GETVOLUME_H_
 
 //boost
-#include <memory>
+#include <boost/shared_ptr.hpp>
 
 //local
 #include "../../../operables/mathematics/VariableEntry.h"
@@ -24,15 +24,15 @@ public:
 	virtual std::string toText();
 	virtual void loadNode(const std::string & line) throw (invalid_argument);
 	//
-	GetVolume(int containerId, std::shared_ptr<Mapping> mapping, int sourceId,
-			std::shared_ptr<VariableEntry> receiver);
+	GetVolume(int containerId, boost::shared_ptr<Mapping> mapping, int sourceId,
+			boost::shared_ptr<VariableEntry> receiver);
 
 	virtual ~GetVolume();
 
 	virtual void execute();
 protected:
 	int sourceId;
-	std::shared_ptr<VariableEntry> receiver;
+	boost::shared_ptr<VariableEntry> receiver;
 };
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_GETVOLUME_H_ */

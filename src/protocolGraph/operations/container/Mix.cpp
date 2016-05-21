@@ -12,8 +12,8 @@ Mix::Mix() :
 	this->idSource1 = -1;
 	this->idSource2 = -1;
 	this->idTarget = -1;
-	this->volume1 = std::shared_ptr<MathematicOperable>();
-	this->volume2 = std::shared_ptr<MathematicOperable>();
+	this->volume1 = boost::shared_ptr<MathematicOperable>();
+	this->volume2 = boost::shared_ptr<MathematicOperable>();
 }
 
 Mix::Mix(const Mix& node) :
@@ -25,10 +25,10 @@ Mix::Mix(const Mix& node) :
 	this->volume2 = node.volume2;
 }
 
-Mix::Mix(int idConatiner, std::shared_ptr<Mapping> mapping, int idSource1,
+Mix::Mix(int idConatiner, boost::shared_ptr<Mapping> mapping, int idSource1,
 		int idSource2, int idTarget,
-		std::shared_ptr<MathematicOperable> volume1,
-		std::shared_ptr<MathematicOperable> volume2) :
+		boost::shared_ptr<MathematicOperable> volume1,
+		boost::shared_ptr<MathematicOperable> volume2) :
 		ContainerOperation(idConatiner, mapping) {
 
 	this->idSource1 = idSource1;

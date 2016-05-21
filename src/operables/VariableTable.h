@@ -10,17 +10,9 @@
 
 #include <string>
 #include  <stdexcept>
-#include <memory>
 
 // data structures
-#include <tuple>
-#include <unordered_map>
-
-//lib
-#include <cereal/cereal.hpp>
-#include <cereal/types/unordered_map.hpp>
-#include <cereal/types/string.hpp>
-#include <cereal/types/tuple.hpp>
+#include <tr1/unordered_map>
 
 
 /**
@@ -62,18 +54,19 @@ public:
 	/**
 	 * Clears all variables at the table
 	 */
-	inline void clear() {table.clear();}
-
-	template<class Archive>
-	void serialize(Archive & ar);
+	inline void clear() {table->clear();}
+	/**
+	 * Transform this class into a serializable stream
+	 * @return
+	 */
+	std::string serialize();
+	/**
+	 * Loads this class from a serialized VariableTable
+	 */
+	void deserialize() throw (std::invalid_argument);
 
 protected:
-	std::unordered_map<std::string, std::tuple<double,bool>> table;
+	std::tr1::unordered_map<std::string, std::pair<double,bool>>* table;
 };
-
-template<class Archive>
-inline void VariableTable::serialize(Archive& ar) {
-	ar(CEREAL_NVP(table));
-}
 
 #endif /* SRC_OPERABLES_VARIABLETABLE_H_ */

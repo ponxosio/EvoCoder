@@ -25,15 +25,15 @@ public:
 	virtual void loadNode(const std::string & line)
 			throw (std::invalid_argument);
 	//
-	ApplyTemperature(int containerId, std::shared_ptr<Mapping>, int sourceId,
-			std::shared_ptr<MathematicOperable> degress);
+	ApplyTemperature(int containerId, boost::shared_ptr<Mapping>, int sourceId,
+			boost::shared_ptr<MathematicOperable> degress);
 
 	virtual ~ApplyTemperature();
 
 	virtual void execute();
 protected:
 	int sourceId;
-	std::shared_ptr<MathematicOperable> degress;
+	boost::shared_ptr<MathematicOperable> degress;
 };
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_APPLYTEMPERATURE_H_ */

@@ -7,9 +7,9 @@
 
 #include "BooleanComparison.h"
 
-BooleanComparison::BooleanComparison(bool negation, std::shared_ptr<ComparisonOperable> left,
+BooleanComparison::BooleanComparison(bool negation, boost::shared_ptr<ComparisonOperable> left,
 		logical::BooleanOperator op,
-		std::shared_ptr<ComparisonOperable> right) {
+		boost::shared_ptr<ComparisonOperable> right) {
 
 	this->left = left;
 	this->right = right;

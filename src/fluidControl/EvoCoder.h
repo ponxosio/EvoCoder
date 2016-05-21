@@ -31,7 +31,7 @@
 #include "../../lib/easylogging++.h"
 
 //boost
-#include <memory>
+#include <boost/shared_ptr.hpp>
 
 //local
 #include "../util/Utils.h"
@@ -56,7 +56,7 @@ public:
 	 * @param name name of the portocol
 	 */
 	EvoCoder(ProtocolGraph* protocol,
-			std::shared_ptr<VariableTable> table, Mapping* mapping);
+			boost::shared_ptr<VariableTable> table, Mapping* mapping);
 	virtual ~EvoCoder();
 
 	/**
@@ -85,7 +85,7 @@ protected:
 	/**
 	 * table table where the values of the variable of the protocol will be stored
 	 */
-	std::shared_ptr<VariableTable> table;
+	boost::shared_ptr<VariableTable> table;
 	/**
 	 * actual node of the protocol
 	 */

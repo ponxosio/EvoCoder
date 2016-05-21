@@ -9,7 +9,7 @@
 #define SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_INLETCONTAINER_H_
 
 //boost
-#include <memory>
+#include <boost/shared_ptr.hpp>
 
 //local
 #include "../../executable/containers/ExecutableContainerNode.h"
@@ -26,7 +26,7 @@ public:
 	virtual void loadNode(const std::string & line)
 			throw (std::invalid_argument);
 	//
-	InletContainer(int idConatiner, float capacity, std::shared_ptr<Extractor> ext);
+	InletContainer(int idConatiner, float capacity, boost::shared_ptr<Extractor> ext);
 
 	virtual ~InletContainer();
 
@@ -36,7 +36,7 @@ public:
 	virtual void extractLiquid(double rate) throw (std::invalid_argument);
 	virtual void connectContainer(int source, int target);
 protected:
-	std::shared_ptr<Extractor> ext;
+	boost::shared_ptr<Extractor> ext;
 };
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_INLETCONTAINER_H_ */

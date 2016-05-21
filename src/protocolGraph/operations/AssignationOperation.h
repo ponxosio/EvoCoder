@@ -11,7 +11,7 @@
 #include <string>
 
 //boost
-#include <memory>
+#include <boost/shared_ptr.hpp>
 
 //lib
 #include "../../../lib/easylogging++.h"
@@ -41,8 +41,8 @@ public:
 	 * @param value numeric value to assign to the variable
 	 */
 	AssignationOperation(int idContainer,
-			std::shared_ptr<VariableEntry> receiver,
-			std::shared_ptr<MathematicOperable> value);
+			boost::shared_ptr<VariableEntry> receiver,
+			boost::shared_ptr<MathematicOperable> value);
 
 	virtual ~AssignationOperation();
 
@@ -54,11 +54,11 @@ protected:
 	/**
 	 * variable whose value is going to be changed
 	 */
-	std::shared_ptr<VariableEntry> receiver;
+	boost::shared_ptr<VariableEntry> receiver;
 	/**
 	 * numeric value to assign to the variable
 	 */
-	std::shared_ptr<MathematicOperable> value;
+	boost::shared_ptr<MathematicOperable> value;
 };
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_ASSIGNATIONOPERATION_H_ */
