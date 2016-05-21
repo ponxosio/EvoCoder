@@ -9,9 +9,9 @@
 
 DivergentSwitchSink::DivergentSwitchSink() :
 		ExecutableContainerNode() {
-	this->insert = std::shared_ptr<Injector>();
-	this->extractor = std::shared_ptr<Extractor>();
-	this->control = std::shared_ptr<Control>();
+	this->insert = boost::shared_ptr<Injector>();
+	this->extractor = boost::shared_ptr<Extractor>();
+	this->control = boost::shared_ptr<Control>();
 }
 
 DivergentSwitchSink::DivergentSwitchSink(const DivergentSwitchSink& node) :
@@ -22,11 +22,11 @@ DivergentSwitchSink::DivergentSwitchSink(const DivergentSwitchSink& node) :
 }
 
 DivergentSwitchSink::DivergentSwitchSink(int idConatiner, float capacity,
-		std::shared_ptr<Injector> insert,
-		std::shared_ptr<Extractor> extractor,
-		std::shared_ptr<Control> control) :
+		boost::shared_ptr<Injector> insert,
+		boost::shared_ptr<Extractor> extractor,
+		boost::shared_ptr<Control> control) :
 		ExecutableContainerNode(idConatiner,
-				std::shared_ptr<ContainerNodeType>(new ContainerNodeType(
+				boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(
 						ContainerNodeType::fromIntToMovementType(extractor.get()->getMovementType()),
 						ContainerType::divergent_switch_sink)), capacity) {
 

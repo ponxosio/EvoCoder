@@ -29,8 +29,8 @@ int main(int argv, char* argc[]) {
 	 t.testComparisonVariable();
 	 t.testComparisonVariable();
 	 */
-	//std::shared_ptr<VariableTable> table(new VariableTable());
-	//t.testVariableTable(table, "wikiwiki");
+//	boost::shared_ptr<VariableTable> table(new VariableTable());
+//	t.testVariableTable(table, "wikiwiki");
 //	t.testMathematicVariable();
 	//t.testUnaryOperation();
 	//t.testSketcher();
@@ -53,9 +53,7 @@ int main(int argv, char* argc[]) {
 	//t.testFileCommandSender();
 
 	//t.testMappingTest();
-	//t.testMappingExec();
-
-	t.testSerializaVariableTable();
+	t.testMappingExec();
 	LOG(INFO)<< "finished!";
 }
 
@@ -90,18 +88,18 @@ void Test::testContainerNode() {
 
 	if (g->addNode(
 			new ContainerNode(0,
-					std::shared_ptr<ContainerNodeType>(
+					boost::shared_ptr<ContainerNodeType>(
 							new ContainerNodeType(MovementType::continuous,
 									ContainerType::inlet)), 10.0f))
 			&& g->addNode(
 					new ContainerNode(1,
-							std::shared_ptr<ContainerNodeType>(
+							boost::shared_ptr<ContainerNodeType>(
 									new ContainerNodeType(
 											MovementType::continuous,
 											ContainerType::flow)), 10.0f))
 			&& g->addNode(
 					new ContainerNode(2,
-							std::shared_ptr<ContainerNodeType>(
+							boost::shared_ptr<ContainerNodeType>(
 									new ContainerNodeType(
 											MovementType::irrelevant,
 											ContainerType::sink)), 10.0f))
@@ -152,38 +150,34 @@ void Test::testUtils() {
 	}
 }
 
-void Test::testVariableTable(std::shared_ptr<VariableTable> t,
+void Test::testVariableTable(boost::shared_ptr<VariableTable> t,
 		const std::string & name) {
 	t->setValue("tiempo", 0.0);
-	LOG(INFO)<< "valor para tiempo(0.0) = " << patch::to_string(t->getVaue("tiempo"));
+	LOG(DEBUG)<< "valor para tiempo(0.0) = " << patch::to_string(t->getVaue("tiempo"));
 	t->setValue("tiempo", 1.0);
-	LOG(INFO)<< "valor para tiempo(1.0) = " << patch::to_string(t->getVaue("tiempo"));
-
-	LOG(INFO)<< "physical para tiempo(0) = " << patch::to_string(t->getPhysical("tiempo"));
-	t->setPhysical("tiempo", true);
-	LOG(INFO)<< "physical para tiempo(1) = " << patch::to_string(t->getPhysical("tiempo"));
+	LOG(DEBUG)<< "valor para tiempo(1.0) = " << patch::to_string(t->getVaue("tiempo"));
 
 	try {
 		t->getVaue(name);
 	} catch (invalid_argument & e) {
-		LOG(INFO)<< "excepcion invalid_argument = " << e.what();
+		LOG(DEBUG)<< "excepcion invalid_argument = " << e.what();
 	}
 }
 
 void Test::testMathematicVariable() {
 	LOG(INFO)<< "TEST MATHEMATIC VARIABLE...";
-	std::shared_ptr<VariableTable> t(new VariableTable());
+	boost::shared_ptr<VariableTable> t(new VariableTable());
 
-	std::shared_ptr<MathematicOperable> ve(new VariableEntry("test", t));
-	std::shared_ptr<MathematicOperable> ve2(new VariableEntry("test2", t));
+	boost::shared_ptr<MathematicOperable> ve(new VariableEntry("test", t));
+	boost::shared_ptr<MathematicOperable> ve2(new VariableEntry("test2", t));
 
 	t->setValue("test",3.0);
 	t->setValue("test2",2.0);
 
-	std::shared_ptr<MathematicOperable> cn(new ConstantNumber(7.0));
-	std::shared_ptr<MathematicOperable> ao(new ArithmeticOperation(ve, arithmetic::minus, cn));
-	std::shared_ptr<MathematicOperable> ao2(new ArithmeticOperation(ve2, arithmetic::multiply, ao));
-	std::shared_ptr<MathematicOperable> ao22(new ArithmeticOperation(ve2, arithmetic::multiply, ao));
+	boost::shared_ptr<MathematicOperable> cn(new ConstantNumber(7.0));
+	boost::shared_ptr<MathematicOperable> ao(new ArithmeticOperation(ve, arithmetic::minus, cn));
+	boost::shared_ptr<MathematicOperable> ao2(new ArithmeticOperation(ve2, arithmetic::multiply, ao));
+	boost::shared_ptr<MathematicOperable> ao22(new ArithmeticOperation(ve2, arithmetic::multiply, ao));
 
 	LOG(INFO) << "test(3) - 7 = -4 : " << patch::to_string(ao.get()->getValue());
 	LOG(INFO) << "test2(2) * (test(3) - 7) = -8 : " << patch::to_string(ao2.get()->getValue());
@@ -194,31 +188,31 @@ void Test::testMathematicVariable() {
 	t->setValue("test", 5.0);
 	LOG(INFO) << "test(5) - 7 = -2 : " << patch::to_string(ao.get()->getValue());
 
-	std::shared_ptr<MathematicOperable> ao222 = ao22;
+	boost::shared_ptr<MathematicOperable> ao222 = ao22;
 	LOG(INFO) << "ao22 == ao22 : " << ao22.get()->equal(ao222.get());
 
 }
 
 void Test::testComparisonVariable() {
 	LOG(INFO)<< "TEST COMPARISON VARIABLE...";
-	std::shared_ptr<VariableTable> t(new VariableTable());
+	boost::shared_ptr<VariableTable> t(new VariableTable());
 	t->setValue("test", 3);
 	t->setValue("test2", 2);
 
-	std::shared_ptr<MathematicOperable> ve(new VariableEntry("test", t));
-	std::shared_ptr<MathematicOperable> ve2(new VariableEntry("test2", t));
-	std::shared_ptr<MathematicOperable> cn7(new ConstantNumber(7.0));
-	std::shared_ptr<MathematicOperable> cn1(new ConstantNumber(1.0));
-	std::shared_ptr<MathematicOperable> ao(new ArithmeticOperation(ve, arithmetic::minus, cn7));
+	boost::shared_ptr<MathematicOperable> ve(new VariableEntry("test", t));
+	boost::shared_ptr<MathematicOperable> ve2(new VariableEntry("test2", t));
+	boost::shared_ptr<MathematicOperable> cn7(new ConstantNumber(7.0));
+	boost::shared_ptr<MathematicOperable> cn1(new ConstantNumber(1.0));
+	boost::shared_ptr<MathematicOperable> ao(new ArithmeticOperation(ve, arithmetic::minus, cn7));
 
 	//test
 
-	std::shared_ptr<ComparisonOperable> sc1(new SimpleComparison(false,ve,comparison::greater_equal,cn7));
-	std::shared_ptr<ComparisonOperable> sc2(new SimpleComparison(false,ve,comparison::less,ve2));
+	boost::shared_ptr<ComparisonOperable> sc1(new SimpleComparison(false,ve,comparison::greater_equal,cn7));
+	boost::shared_ptr<ComparisonOperable> sc2(new SimpleComparison(false,ve,comparison::less,ve2));
 
-	std::shared_ptr<ComparisonOperable> sc3(new SimpleComparison(true,ve,comparison::greater_equal,cn7));
-	std::shared_ptr<ComparisonOperable> sc4(new SimpleComparison(false,ve,comparison::greater_equal,cn1));
-	std::shared_ptr<ComparisonOperable> bc(new BooleanComparison(false, sc4, logical::conjunction, sc3));
+	boost::shared_ptr<ComparisonOperable> sc3(new SimpleComparison(true,ve,comparison::greater_equal,cn7));
+	boost::shared_ptr<ComparisonOperable> sc4(new SimpleComparison(false,ve,comparison::greater_equal,cn1));
+	boost::shared_ptr<ComparisonOperable> bc(new BooleanComparison(false, sc4, logical::conjunction, sc3));
 
 	LOG(INFO) << "test(3) >= 7 : " << sc1.get()->conditionMet();
 	t->setValue("test", 7.0);
@@ -236,28 +230,28 @@ void Test::testComparisonVariable() {
 	LOG(INFO) << "sc1 == bc (FALSE) : " << sc1.get()->equal(bc.get());
 }
 
-ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
-		std::shared_ptr<Mapping> map) {
+ProtocolGraph* Test::MakeTurbidostat(boost::shared_ptr<VariableTable> table,
+		boost::shared_ptr<Mapping> map) {
 
 	AutoEnumerate serial;
 	ProtocolGraph* protocol = new ProtocolGraph("turbidostat");
 
-	std::shared_ptr<VariableEntry> epsilon(
+	boost::shared_ptr<VariableEntry> epsilon(
 			new VariableEntry("epsilon", table));
-	std::shared_ptr<VariableEntry> threshold(
+	boost::shared_ptr<VariableEntry> threshold(
 			new VariableEntry("threshold", table));
-	std::shared_ptr<VariableEntry> rate(new VariableEntry("rate", table));
+	boost::shared_ptr<VariableEntry> rate(new VariableEntry("rate", table));
 
-	std::shared_ptr<MathematicOperable> mepsilon(
+	boost::shared_ptr<MathematicOperable> mepsilon(
 			new VariableEntry("epsilon", table));
-	std::shared_ptr<MathematicOperable> mthreshold(
+	boost::shared_ptr<MathematicOperable> mthreshold(
 			new VariableEntry("threshold", table));
-	std::shared_ptr<MathematicOperable> mrate(
+	boost::shared_ptr<MathematicOperable> mrate(
 			new VariableEntry("rate", table));
 
-	std::shared_ptr<MathematicOperable> num0_1(new ConstantNumber(0.1));
-	std::shared_ptr<MathematicOperable> num600(new ConstantNumber(600));
-	std::shared_ptr<MathematicOperable> num2(new ConstantNumber(2));
+	boost::shared_ptr<MathematicOperable> num0_1(new ConstantNumber(0.1));
+	boost::shared_ptr<MathematicOperable> num600(new ConstantNumber(600));
+	boost::shared_ptr<MathematicOperable> num2(new ConstantNumber(2));
 
 	OperationNode* op1 = new AssignationOperation(serial.getNextValue(),
 			epsilon, num0_1); //epsilon = 1
@@ -272,11 +266,11 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 	protocol->addOperation(op2);
 	protocol->addOperation(op3);
 
-	std::shared_ptr<ComparisonOperable> tautology(new Tautology());
+	boost::shared_ptr<ComparisonOperable> tautology(new Tautology());
 	protocol->connectOperation(op1, op2, tautology);
 	protocol->connectOperation(op2, op3, tautology);
 
-	std::shared_ptr<MathematicOperable> num1000(new ConstantNumber(1000));
+	boost::shared_ptr<MathematicOperable> num1000(new ConstantNumber(1000));
 	OperationNode* op4 = new LoadContainerOperation(serial.getNextValue(), map,
 			1, num1000); //loadContainer(1, 1000ml)
 	OperationNode* op5 = new LoadContainerOperation(serial.getNextValue(), map,
@@ -292,39 +286,39 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 	protocol->connectOperation(op4, op5, tautology);
 	protocol->connectOperation(op5, op6, tautology);
 
-	std::shared_ptr<MathematicOperable> num20(new ConstantNumber(20));
-	std::shared_ptr<VariableEntry> time(
+	boost::shared_ptr<MathematicOperable> num20(new ConstantNumber(20));
+	boost::shared_ptr<VariableEntry> time(
 			new VariableEntry(TIME_VARIABLE, table));
-	std::shared_ptr<MathematicOperable> mtime(
+	boost::shared_ptr<MathematicOperable> mtime(
 			new VariableEntry(TIME_VARIABLE, table));
 
-	std::shared_ptr<ComparisonOperable> comp1(
+	boost::shared_ptr<ComparisonOperable> comp1(
 			new SimpleComparison(false, mtime, comparison::less, num20));
 
 	OperationNode* loop1 = new LoopNode(serial.getNextValue(), comp1,
-			std::shared_ptr<ComparisonOperable>(new Tautology())); //while (t < 20)
+			boost::shared_ptr<ComparisonOperable>(new Tautology())); //while (t < 20)
 
 	protocol->addOperation(loop1);
 	protocol->connectOperation(op6, loop1, comp1);
 
-	std::shared_ptr<VariableEntry> od(new VariableEntry("od", table));
-	std::shared_ptr<MathematicOperable> mod(new VariableEntry("od", table));
+	boost::shared_ptr<VariableEntry> od(new VariableEntry("od", table));
+	boost::shared_ptr<MathematicOperable> mod(new VariableEntry("od", table));
 	OperationNode* op7 = new MeasureOD(serial.getNextValue(), map, 2, od); //od = measureOd(2)
 
 	protocol->addOperation(op7);
 	protocol->connectOperation(loop1, op7, comp1);
 
-	std::shared_ptr<MathematicOperable> num1(new ConstantNumber(1.0));
-	std::shared_ptr<VariableEntry> normOD(new VariableEntry("normOD", table));
-	std::shared_ptr<MathematicOperable> mnormOD(
+	boost::shared_ptr<MathematicOperable> num1(new ConstantNumber(1.0));
+	boost::shared_ptr<VariableEntry> normOD(new VariableEntry("normOD", table));
+	boost::shared_ptr<MathematicOperable> mnormOD(
 			new VariableEntry("normOD", table));
 
-	std::shared_ptr<MathematicOperable> operation1_1( //(od - threshold)
+	boost::shared_ptr<MathematicOperable> operation1_1( //(od - threshold)
 			new ArithmeticOperation(mod, arithmetic::minus, mthreshold));
-	std::shared_ptr<MathematicOperable> operation1_2( //(od - threshold) /threshold
+	boost::shared_ptr<MathematicOperable> operation1_2( //(od - threshold) /threshold
 			new ArithmeticOperation(operation1_1, arithmetic::divide,
 					mthreshold));
-	std::shared_ptr<MathematicOperable> operation1( //1 + (od - threshold) /threshold
+	boost::shared_ptr<MathematicOperable> operation1( //1 + (od - threshold) /threshold
 			new ArithmeticOperation(num1, arithmetic::plus, operation1_2));
 
 	OperationNode* op8 = new AssignationOperation(serial.getNextValue(), normOD,
@@ -333,9 +327,9 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 	protocol->addOperation(op8);
 	protocol->connectOperation(op7, op8, tautology);
 
-	std::shared_ptr<ComparisonOperable> comp2in(
+	boost::shared_ptr<ComparisonOperable> comp2in(
 			new SimpleComparison(false, normOD, comparison::greater, num1));
-	std::shared_ptr<ComparisonOperable> comp2out(
+	boost::shared_ptr<ComparisonOperable> comp2out(
 			new SimpleComparison(true, normOD, comparison::greater, num1));
 	DivergeNode* if1 = new DivergeNode(serial.getNextValue(), comp2in,
 			comp2out); //if (normOD > 1)
@@ -343,20 +337,20 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 	protocol->addOperation(if1);
 	protocol->connectOperation(op8, if1, tautology);
 
-	std::shared_ptr<ComparisonOperable> comp3in(
+	boost::shared_ptr<ComparisonOperable> comp3in(
 			new SimpleComparison(false, normOD, comparison::less, num1));
-	std::shared_ptr<ComparisonOperable> comp3out(
+	boost::shared_ptr<ComparisonOperable> comp3out(
 			new SimpleComparison(true, normOD, comparison::less, num1));
 	DivergeNode* if2 = new DivergeNode(serial.getNextValue(), comp3in,
 			comp3out); //if (normOD < 1)
 
-	std::shared_ptr<MathematicOperable> operation2_1( //(normOD - 1)
+	boost::shared_ptr<MathematicOperable> operation2_1( //(normOD - 1)
 			new ArithmeticOperation(mnormOD, arithmetic::minus, num1));
-	std::shared_ptr<MathematicOperable> operation2( // 1 + (normOD - 1)
+	boost::shared_ptr<MathematicOperable> operation2( // 1 + (normOD - 1)
 			new ArithmeticOperation(num1, arithmetic::plus, operation2_1));
 
-	std::shared_ptr<VariableEntry> prop(new VariableEntry("prop", table));
-	std::shared_ptr<MathematicOperable> mprop(
+	boost::shared_ptr<VariableEntry> prop(new VariableEntry("prop", table));
+	boost::shared_ptr<MathematicOperable> mprop(
 			new VariableEntry("prop", table));
 	OperationNode* op9 = new AssignationOperation(serial.getNextValue(), prop,
 			operation2); // prop = 1 + (normOD - 1)
@@ -367,9 +361,9 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 	protocol->connectOperation(if1, op9, comp2in);
 	protocol->connectOperation(if1, if2, comp2out);
 
-	std::shared_ptr<MathematicOperable> operation3_1( //(normOD - 1)
+	boost::shared_ptr<MathematicOperable> operation3_1( //(normOD - 1)
 			new ArithmeticOperation(mnormOD, arithmetic::minus, num1));
-	std::shared_ptr<MathematicOperable> operation3( // 1 - (normOD - 1)
+	boost::shared_ptr<MathematicOperable> operation3( // 1 - (normOD - 1)
 			new ArithmeticOperation(num1, arithmetic::minus, operation2_1));
 
 	OperationNode* op10 = new AssignationOperation(serial.getNextValue(), prop,
@@ -384,15 +378,15 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 	protocol->connectOperation(if2, op10, comp3in);
 	protocol->connectOperation(if2, op11, comp3out);
 
-	std::shared_ptr<MathematicOperable> operation4_1(
+	boost::shared_ptr<MathematicOperable> operation4_1(
 			new ArithmeticOperation(mprop, arithmetic::minus, num1)); // prop -1
-	std::shared_ptr<MathematicOperable> operation4(
+	boost::shared_ptr<MathematicOperable> operation4(
 			new UnaryOperation(operation4_1, unaryOperations::absoluteValue)); // fabs(prop -1)
 
-	std::shared_ptr<ComparisonOperable> comp4in(
+	boost::shared_ptr<ComparisonOperable> comp4in(
 			new SimpleComparison(false, operation4, comparison::greater,
 					epsilon)); // fabs(prop -1) -1 > epsilon
-	std::shared_ptr<ComparisonOperable> comp4out(
+	boost::shared_ptr<ComparisonOperable> comp4out(
 			new SimpleComparison(true, operation4, comparison::greater,
 					epsilon)); // !(fabs(prop -1) -1 > epsilon)
 
@@ -407,7 +401,7 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 	protocol->connectOperation(op10, if3, tautology);
 	protocol->connectOperation(op11, if3, tautology);
 
-	std::shared_ptr<MathematicOperable> operation5(
+	boost::shared_ptr<MathematicOperable> operation5(
 			new ArithmeticOperation(prop, arithmetic::multiply, rate)); // prop * rate
 	OperationNode* op12 = new AssignationOperation(serial.getNextValue(), rate,
 			operation5); // rate = prop * rate
@@ -441,16 +435,16 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 }
 
 void Test::testUnaryOperation() {
-	std::shared_ptr<ConstantNumber> cn(new ConstantNumber(3.3));
+	boost::shared_ptr<ConstantNumber> cn(new ConstantNumber(3.3));
 	UnaryOperation op(cn, unaryOperations::absoluteValue);
 	LOG(INFO)<< "abs(3.3):" << patch::to_string(op.getValue());
 }
 
 void Test::testSketcher() {
-	std::shared_ptr<VariableTable> t(new VariableTable());
+	boost::shared_ptr<VariableTable> t(new VariableTable());
 	ExecutableMachineGraph* machine = new ExecutableMachineGraph("testMachine");
 	std::vector<int> v;
-	std::shared_ptr<Mapping> map(new Mapping(machine, "testMamchine", v));
+	boost::shared_ptr<Mapping> map(new Mapping(machine, "testMamchine", v));
 
 	ProtocolGraph* protocol = makeSimpleProtocol(t, map);
 
@@ -469,7 +463,7 @@ void Test::testSketcher() {
 }
 
 void Test::testMapping() {
-	std::shared_ptr<VariableTable> t(new VariableTable());
+	boost::shared_ptr<VariableTable> t(new VariableTable());
 	ProtocolGraph* protocol = new ProtocolGraph("testProtocol");
 	ExecutableMachineGraph* machine = new ExecutableMachineGraph("testMachine");
 	std::vector<int> v;
@@ -533,25 +527,25 @@ void Test::testSerialPort_send() {
 	}
 }
 
-ProtocolGraph* Test::makeSimpleProtocol(std::shared_ptr<VariableTable> table,
-		std::shared_ptr<Mapping> map) {
+ProtocolGraph* Test::makeSimpleProtocol(boost::shared_ptr<VariableTable> table,
+		boost::shared_ptr<Mapping> map) {
 
 	AutoEnumerate serial;
 	ProtocolGraph* protocol = new ProtocolGraph("simpleProtocol");
 
-	std::shared_ptr<ComparisonOperable> tautology(new Tautology());
+	boost::shared_ptr<ComparisonOperable> tautology(new Tautology());
 
-	std::shared_ptr<VariableEntry> epsilon(
+	boost::shared_ptr<VariableEntry> epsilon(
 			new VariableEntry("epsilon", table));
-	std::shared_ptr<MathematicOperable> mepsilon(
+	boost::shared_ptr<MathematicOperable> mepsilon(
 			new VariableEntry("epsilon", table));
-	std::shared_ptr<MathematicOperable> num0_5(new ConstantNumber(0.5));
-	std::shared_ptr<MathematicOperable> num10(new ConstantNumber(10));
+	boost::shared_ptr<MathematicOperable> num0_5(new ConstantNumber(0.5));
+	boost::shared_ptr<MathematicOperable> num10(new ConstantNumber(10));
 
 	OperationNode* op1 = new AssignationOperation(serial.getNextValue(),
 			epsilon, num0_5); //epsilon = 0.5
 
-	std::shared_ptr<MathematicOperable> num1000(new ConstantNumber(1000));
+	boost::shared_ptr<MathematicOperable> num1000(new ConstantNumber(1000));
 	OperationNode* op4 = new LoadContainerOperation(serial.getNextValue(), map,
 			1, num1000); //loadContainer(1, 1000ml)
 	OperationNode* op5 = new LoadContainerOperation(serial.getNextValue(), map,
@@ -568,23 +562,23 @@ ProtocolGraph* Test::makeSimpleProtocol(std::shared_ptr<VariableTable> table,
 	protocol->connectOperation(op4, op5, tautology);
 	protocol->connectOperation(op5, op6, tautology);
 
-	std::shared_ptr<ComparisonOperable> contradiction(new Tautology());
+	boost::shared_ptr<ComparisonOperable> contradiction(new Tautology());
 	OperationNode* loop1 = new LoopNode(serial.getNextValue(), tautology,
 			contradiction); //while (true)
 
 	protocol->addOperation(loop1);
 	protocol->connectOperation(op6, loop1, tautology);
 
-	std::shared_ptr<VariableEntry> od(new VariableEntry("od", table));
-	std::shared_ptr<MathematicOperable> mod(new VariableEntry("od", table));
+	boost::shared_ptr<VariableEntry> od(new VariableEntry("od", table));
+	boost::shared_ptr<MathematicOperable> mod(new VariableEntry("od", table));
 	OperationNode* op7 = new MeasureOD(serial.getNextValue(), map, 3, od); //od = measureOd(2)
 
 	protocol->addOperation(op7);
 	protocol->connectOperation(loop1, op7, tautology);
 
-	std::shared_ptr<ComparisonOperable> comp2in(
+	boost::shared_ptr<ComparisonOperable> comp2in(
 			new SimpleComparison(false, mod, comparison::greater, mepsilon));
-	std::shared_ptr<ComparisonOperable> comp2out(
+	boost::shared_ptr<ComparisonOperable> comp2out(
 			new SimpleComparison(true, mod, comparison::greater, mepsilon));
 	DivergeNode* if1 = new DivergeNode(serial.getNextValue(), comp2in,
 			comp2out); //if (od > 0.5)
@@ -699,19 +693,19 @@ ExecutableMachineGraph* Test::makeSimpleMachine(int communications) {
 	ExecutableMachineGraph* machine = new ExecutableMachineGraph(
 			"simpleMachine");
 
-	std::shared_ptr<Control> control(new EvoprogSixwayValve(communications,7));
-	std::shared_ptr<Light> light(new EvoprogLight(communications, 2, 3));
-	std::shared_ptr<Temperature> temperature(
+	boost::shared_ptr<Control> control(new EvoprogSixwayValve(communications,7));
+	boost::shared_ptr<Light> light(new EvoprogLight(communications, 2, 3));
+	boost::shared_ptr<Temperature> temperature(
 			new EvoprogTemperature(communications, 1));
-	std::shared_ptr<Extractor> cExtractor13(
+	boost::shared_ptr<Extractor> cExtractor13(
 			new EvoprogContinuousPump(communications, 13));
-	std::shared_ptr<Extractor> cExtractor14(
+	boost::shared_ptr<Extractor> cExtractor14(
 				new EvoprogContinuousPump(communications, 14));
-	std::shared_ptr<Extractor> dExtractor(
+	boost::shared_ptr<Extractor> dExtractor(
 			new EvoprogDiscretePump(communications, 15));
-	std::shared_ptr<Injector> dummyInjector(
+	boost::shared_ptr<Injector> dummyInjector(
 			new EvoprogDummyInjector(communications));
-	std::shared_ptr<ODSensor> od(new EvoprogOdSensor(communications, 4));
+	boost::shared_ptr<ODSensor> od(new EvoprogOdSensor(communications, 4));
 
 	ExecutableContainerNode* cInlet1 = new InletContainer(1,100.0,cExtractor13);
 	cInlet1->setLight(light);
@@ -743,50 +737,50 @@ ExecutableMachineGraph* Test::makeMatrixMachine(int communications,
 			ExecutableContainerNode* node;
 			if (i==0) {
 				if (j == 0) {
-					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
-					std::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
 					node = new ConvergentSwitch(i*size + j, 100.0, inject, ctrl);
 				} else if ( j == size-1) {
-					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
-					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
 					node = new FlowContainer(i*size + j, 100.0, extract, inject);
 				} else {
-					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
-					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
-					std::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					boost::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
 					node = new ConvergentSwitchInlet(i*size + j, 100.0, inject, extract, ctrl);
 				}
 			} else if (i==size -1) {
 				if (j == 0) {
-					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
-					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
 					node = new FlowContainer(i * size + j, 100.0, extract,inject);
 				} else if ( j == size-1) {
-					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
-					std::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					boost::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
 					node = new DivergentSwitch(i*size + j, 100.0, extract, ctrl);
 				} else {
-					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
-					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
-					std::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					boost::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
 					node = new DivergentSwitchSink(i*size + j, 100.0, inject, extract, ctrl);
 				}
 			} else {
 				if (j == 0) {
-					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
-					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
-					std::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					boost::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
 					node = new ConvergentSwitchInlet(i*size + j, 100.0, inject, extract, ctrl);
 				} else if ( j == size-1) {
-					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
-					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
-					std::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					boost::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications,3));
 					node = new DivergentSwitchSink(i*size + j, 100.0, inject, extract, ctrl);
 				} else {
-					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
-					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
-					std::shared_ptr<Control> ctrlIn(new EvoprogSixwayValve(communications,3));
-					std::shared_ptr<Control> ctrlOut(new EvoprogSixwayValve(communications,3));
+					boost::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
+					boost::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
+					boost::shared_ptr<Control> ctrlIn(new EvoprogSixwayValve(communications,3));
+					boost::shared_ptr<Control> ctrlOut(new EvoprogSixwayValve(communications,3));
 					node = new BidirectionalSwitch(i*size + j, 100.0, extract, inject, ctrlIn, ctrlOut);
 				}
 			}
@@ -916,15 +910,15 @@ void Test::testCompatibleSubgraph() {
 	std::vector<ContainerNode*> vect2;
 
 	ContainerNode* c1 = new ContainerNode(1,
-			std::shared_ptr<ContainerNodeType>(
+			boost::shared_ptr<ContainerNodeType>(
 					new ContainerNodeType(MovementType::continuous,
 							ContainerType::inlet)), 100.0);
 	ContainerNode* c2 = new ContainerNode(2,
-				std::shared_ptr<ContainerNodeType>(
+				boost::shared_ptr<ContainerNodeType>(
 						new ContainerNodeType(MovementType::continuous,
 								ContainerType::flow)), 100.0);
 	ContainerNode* c3 = new ContainerNode(3,
-				std::shared_ptr<ContainerNodeType>(
+				boost::shared_ptr<ContainerNodeType>(
 						new ContainerNodeType(MovementType::irrelevant,
 								ContainerType::sink)), 100.0);
 
@@ -933,15 +927,15 @@ void Test::testCompatibleSubgraph() {
 	vect1.push_back(c3);
 
 	ContainerNode* c4 = new ContainerNode(4,
-			std::shared_ptr<ContainerNodeType>(
+			boost::shared_ptr<ContainerNodeType>(
 					new ContainerNodeType(MovementType::continuous,
 							ContainerType::divergent_switch)), 100.0);
 	ContainerNode* c5 = new ContainerNode(5,
-			std::shared_ptr<ContainerNodeType>(
+			boost::shared_ptr<ContainerNodeType>(
 					new ContainerNodeType(MovementType::continuous,
 							ContainerType::bidirectional_switch)), 100.0);
 	ContainerNode* c6 = new ContainerNode(6,
-			std::shared_ptr<ContainerNodeType>(
+			boost::shared_ptr<ContainerNodeType>(
 					new ContainerNodeType(MovementType::irrelevant,
 							ContainerType::convergent_switch)), 100.0);
 	vect2.push_back(c4);
@@ -970,13 +964,13 @@ ExecutableMachineGraph* Test::makeMappingMachine(
 	ExecutableMachineGraph* machine = new ExecutableMachineGraph(
 			"mappingMachine");
 
-	std::shared_ptr<Control> control(
+	boost::shared_ptr<Control> control(
 			new EvoprogSixwayValve(communications, 7));
-	std::shared_ptr<Extractor> cExtractor(
+	boost::shared_ptr<Extractor> cExtractor(
 			new EvoprogContinuousPump(communications, 13));
-	std::shared_ptr<Injector> dummyInjector(
+	boost::shared_ptr<Injector> dummyInjector(
 			new EvoprogDummyInjector(communications));
-	std::shared_ptr<ODSensor> sensor(new EvoprogOdSensor(communications, 14));
+	boost::shared_ptr<ODSensor> sensor(new EvoprogOdSensor(communications, 14));
 
 	ExecutableContainerNode* cInlet1 = new InletContainer(1, 100.0, cExtractor);
 	ExecutableContainerNode* cInlet2 = new DivergentSwitch(2, 100.0, cExtractor, control);
@@ -1013,9 +1007,9 @@ ExecutableMachineGraph* Test::makeMappingMachine(
 MachineGraph* Test::makeTurbidostatSketch() {
 	MachineGraph* sketch = new MachineGraph("sketchTurbidostat");
 
-	std::shared_ptr<ContainerNodeType> cinlet(new ContainerNodeType(MovementType::continuous, ContainerType::inlet));
-	std::shared_ptr<ContainerNodeType> cFlow(new ContainerNodeType(MovementType::continuous, ContainerType::flow));
-	std::shared_ptr<ContainerNodeType> sink(new ContainerNodeType(MovementType::irrelevant, ContainerType::sink));
+	boost::shared_ptr<ContainerNodeType> cinlet(new ContainerNodeType(MovementType::continuous, ContainerType::inlet));
+	boost::shared_ptr<ContainerNodeType> cFlow(new ContainerNodeType(MovementType::continuous, ContainerType::flow));
+	boost::shared_ptr<ContainerNodeType> sink(new ContainerNodeType(MovementType::irrelevant, ContainerType::sink));
 
 	sketch->addContainer(1, cinlet, 100.0);
 	sketch->addContainer(2, cFlow, 100.0);
@@ -1072,47 +1066,47 @@ MachineGraph* Test::makeMatrixSketch(int size) {
 
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			std::shared_ptr<ContainerNodeType> type;
+			boost::shared_ptr<ContainerNodeType> type;
 			if (i == 0) {
 				if (j == 0) {
-					type = std::shared_ptr<ContainerNodeType>(
+					type = boost::shared_ptr<ContainerNodeType>(
 							new ContainerNodeType(MovementType::irrelevant,
 									ContainerType::convergent_switch));
 
 				} else if (j == size - 1) {
-					type = std::shared_ptr<ContainerNodeType>(
+					type = boost::shared_ptr<ContainerNodeType>(
 							new ContainerNodeType(MovementType::continuous,
 									ContainerType::flow));
 				} else {
-					type = std::shared_ptr<ContainerNodeType>(
+					type = boost::shared_ptr<ContainerNodeType>(
 							new ContainerNodeType(MovementType::continuous,
 									ContainerType::convergent_switch_inlet));
 				}
 			} else if (i == size - 1) {
 				if (j == 0) {
-					type = std::shared_ptr<ContainerNodeType>(
+					type = boost::shared_ptr<ContainerNodeType>(
 							new ContainerNodeType(MovementType::continuous,
 									ContainerType::flow));
 				} else if (j == size - 1) {
-					type = std::shared_ptr<ContainerNodeType>(
+					type = boost::shared_ptr<ContainerNodeType>(
 							new ContainerNodeType(MovementType::continuous,
 									ContainerType::divergent_switch));
 				} else {
-					type = std::shared_ptr<ContainerNodeType>(
+					type = boost::shared_ptr<ContainerNodeType>(
 							new ContainerNodeType(MovementType::continuous,
 									ContainerType::divergent_switch_sink));
 				}
 			} else {
 				if (j == 0) {
-					type = std::shared_ptr<ContainerNodeType>(
+					type = boost::shared_ptr<ContainerNodeType>(
 							new ContainerNodeType(MovementType::continuous,
 									ContainerType::convergent_switch_inlet));
 				} else if (j == size - 1) {
-					type = std::shared_ptr<ContainerNodeType>(
+					type = boost::shared_ptr<ContainerNodeType>(
 							new ContainerNodeType(MovementType::continuous,
 									ContainerType::divergent_switch_sink));
 				} else {
-					type = std::shared_ptr<ContainerNodeType>(
+					type = boost::shared_ptr<ContainerNodeType>(
 							new ContainerNodeType(MovementType::continuous,
 									ContainerType::bidirectional_switch));
 				}
@@ -1223,8 +1217,8 @@ void Test::testMappingTest() {
 
 	ExecutableMachineGraph* exMachine = makeSimpleMachine(idCom);
 
-	std::shared_ptr<VariableTable> t(new VariableTable());
-	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
+	boost::shared_ptr<VariableTable> t(new VariableTable());
+	boost::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
 	ProtocolGraph* protocol = MakeTurbidostat(t,map);
 
 	LOG(INFO) << "printing graphs...";
@@ -1249,8 +1243,8 @@ void Test::testMappingExec() {
 
 	ExecutableMachineGraph* exMachine = makeSimpleMachine(idCom);
 
-	std::shared_ptr<VariableTable> t(new VariableTable());
-	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
+	boost::shared_ptr<VariableTable> t(new VariableTable());
+	boost::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
 	ProtocolGraph* protocol = MakeTurbidostat(t, map);
 
 	LOG(INFO)<< "printing graphs...";
@@ -1263,38 +1257,4 @@ void Test::testMappingExec() {
 	LOG(INFO)<< "Executing test...";
 	bool correct = evo->exec_general();
 	LOG(INFO)<< "result: " << correct;
-}
-
-void Test::testSerializaVariableTable() {
-
-	VariableTable v;
-
-	v.setValue("uno", 1);
-	v.setValue("dos", 2);
-	v.setValue("tres", 3);
-	v.setPhysical("tres", true);
-	{
-		ofstream o("test.json");
-		LOG(INFO)<< "serializating...";
-		cereal::JSONOutputArchive ar(o);
-		ar(v);
-	}
-
-	testDeserializaVariableTable("");
-}
-
-void Test::testDeserializaVariableTable(const std::string & json) {
-	LOG(INFO) << "deserializating...";
-	VariableTable v;
-	{
-		ifstream i("test.json");
-		cereal::JSONInputArchive arIn(i);
-		LOG(INFO) << "created archive...";
-		arIn(v);
-	}
-
-	LOG(INFO) << "uno: " << v.getVaue("uno") << ", " << v.getPhysical("uno");
-	LOG(INFO) << "dos: " << v.getVaue("dos") << ", " << v.getPhysical("dos");
-	LOG(INFO) << "tres: " << v.getVaue("tres") << ", " << v.getPhysical("tres");
-
 }

@@ -8,10 +8,10 @@
 #include "../../executable/containers/BidirectionalSwitch.h"
 
 BidirectionalSwitch::BidirectionalSwitch() : ExecutableContainerNode() {
-	this->extract = std::shared_ptr<Extractor>();
-	this->insert = std::shared_ptr<Injector>();
-	this->controlIN = std::shared_ptr<Control>();
-	this->controlOUT = std::shared_ptr<Control>();
+	this->extract = boost::shared_ptr<Extractor>();
+	this->insert = boost::shared_ptr<Injector>();
+	this->controlIN = boost::shared_ptr<Control>();
+	this->controlOUT = boost::shared_ptr<Control>();
 }
 
 BidirectionalSwitch::BidirectionalSwitch(const BidirectionalSwitch& node) : ExecutableContainerNode(node) {
@@ -22,11 +22,11 @@ BidirectionalSwitch::BidirectionalSwitch(const BidirectionalSwitch& node) : Exec
 }
 
 BidirectionalSwitch::BidirectionalSwitch(int idContainer, float capacity,
-		std::shared_ptr<Extractor> extract,
-		std::shared_ptr<Injector> insert,
-		std::shared_ptr<Control> controlIN,
-		std::shared_ptr<Control> controlOUT) :
-		ExecutableContainerNode(idContainer, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(
+		boost::shared_ptr<Extractor> extract,
+		boost::shared_ptr<Injector> insert,
+		boost::shared_ptr<Control> controlIN,
+		boost::shared_ptr<Control> controlOUT) :
+		ExecutableContainerNode(idContainer, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(
 				ContainerNodeType::fromIntToMovementType(extract.get()->getMovementType()),
 				ContainerType::bidirectional_switch)), capacity) {
 

@@ -8,7 +8,7 @@
 #include "../../executable/containers/InletContainer.h"
 
 InletContainer::InletContainer() : ExecutableContainerNode() {
-	this->ext = std::shared_ptr<Extractor>();
+	this->ext = boost::shared_ptr<Extractor>();
 }
 
 InletContainer::InletContainer(const InletContainer& node) : ExecutableContainerNode(node) {
@@ -16,7 +16,7 @@ InletContainer::InletContainer(const InletContainer& node) : ExecutableContainer
 }
 
 InletContainer::InletContainer(int idContainer, float capacity,
-		std::shared_ptr<Extractor> ext) : ExecutableContainerNode(idContainer, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(
+		boost::shared_ptr<Extractor> ext) : ExecutableContainerNode(idContainer, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(
 				ContainerNodeType::fromIntToMovementType(ext.get()->getMovementType()),
 				ContainerType::inlet)), capacity) {
 	this->ext = ext;

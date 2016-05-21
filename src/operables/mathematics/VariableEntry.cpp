@@ -9,7 +9,7 @@
 
 using namespace std;
 
-VariableEntry::VariableEntry(const string & name, std::shared_ptr<VariableTable> sharedTable){
+VariableEntry::VariableEntry(const string & name, boost::shared_ptr<VariableTable> sharedTable){
 		this->name = name;
 		this->sharedTable = sharedTable;
 		/*

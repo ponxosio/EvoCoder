@@ -8,8 +8,8 @@
 #include "AssignationOperation.h"
 
 AssignationOperation::AssignationOperation() : OperationNode() {
-	receiver = std::shared_ptr<VariableEntry>();
-	value = std::shared_ptr<MathematicOperable>();
+	receiver = boost::shared_ptr<VariableEntry>();
+	value = boost::shared_ptr<MathematicOperable>();
 }
 
 AssignationOperation::AssignationOperation(const AssignationOperation& obj) :
@@ -19,8 +19,8 @@ AssignationOperation::AssignationOperation(const AssignationOperation& obj) :
 }
 
 AssignationOperation::AssignationOperation(int idContainer,
-		std::shared_ptr<VariableEntry> receiver,
-		std::shared_ptr<MathematicOperable> value) :
+		boost::shared_ptr<VariableEntry> receiver,
+		boost::shared_ptr<MathematicOperable> value) :
 		OperationNode(idContainer) {
 	this->receiver = receiver;
 	this->value = value;

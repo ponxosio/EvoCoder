@@ -9,8 +9,8 @@
 
 DivergeNode::DivergeNode() :
 		OperationNode() {
-	this->conditionIN = std::shared_ptr<ComparisonOperable>();
-	this->conditionOUT = std::shared_ptr<ComparisonOperable>();
+	this->conditionIN = boost::shared_ptr<ComparisonOperable>();
+	this->conditionOUT = boost::shared_ptr<ComparisonOperable>();
 	this->endNode = NULL;
 }
 
@@ -22,8 +22,8 @@ DivergeNode::DivergeNode(const DivergeNode& node) :
 }
 
 DivergeNode::DivergeNode(int containerId,
-		std::shared_ptr<ComparisonOperable> conditionIN,
-		std::shared_ptr<ComparisonOperable> conditionOUT) :
+		boost::shared_ptr<ComparisonOperable> conditionIN,
+		boost::shared_ptr<ComparisonOperable> conditionOUT) :
 		OperationNode(containerId) {
 	this->conditionIN = conditionIN;
 	this->conditionOUT = conditionOUT;

@@ -26,14 +26,14 @@ public:
 	virtual void loadNode(const std::string & line)
 			throw (std::invalid_argument);
 	//
-	Stir(int containerId, std::shared_ptr<Mapping> executable, int sourceId,
-				std::shared_ptr<MathematicOperable> intensity);
+	Stir(int containerId, boost::shared_ptr<Mapping> executable, int sourceId,
+				boost::shared_ptr<MathematicOperable> intensity);
 	virtual ~Stir();
 
 	virtual void execute();
 protected:
 	int sourceId;
-	std::shared_ptr<MathematicOperable> intensity;
+	boost::shared_ptr<MathematicOperable> intensity;
 };
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_STIR_H_ */

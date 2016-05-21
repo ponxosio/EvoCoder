@@ -9,7 +9,7 @@
 #define SRC_FLUIDCONTROL_PROTOCOLGRAPH_CONDITIONEDGE_H_
 
 //boost
-#include <memory>
+#include <boost/shared_ptr.hpp>
 
 //local
 #include "../graph/Edge.h"
@@ -30,7 +30,7 @@ public:
 	 * Makes internal copies of leftVariable and rightVariable
 	 * @param comparison comparison operation that must be met in order to use this edge
 	 */
-	ConditionEdge(int idSource, int idTarget, std::shared_ptr<ComparisonOperable> comparison);
+	ConditionEdge(int idSource, int idTarget, boost::shared_ptr<ComparisonOperable> comparison);
 	virtual ~ConditionEdge();
 
 	/**
@@ -62,7 +62,7 @@ public:
 	virtual std::string toText();
 
 protected:
-	std::shared_ptr<ComparisonOperable> comparison;
+	boost::shared_ptr<ComparisonOperable> comparison;
 
 };
 

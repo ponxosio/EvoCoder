@@ -7,9 +7,9 @@
 
 #include "SimpleComparison.h"
 
-SimpleComparison::SimpleComparison(bool negation,std::shared_ptr<MathematicOperable> left,
+SimpleComparison::SimpleComparison(bool negation,boost::shared_ptr<MathematicOperable> left,
 		comparison::ComparisonOperator op,
-		std::shared_ptr<MathematicOperable> right) {
+		boost::shared_ptr<MathematicOperable> right) {
 
 	this->left = left;
 	this->right = right;

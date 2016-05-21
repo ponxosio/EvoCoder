@@ -9,7 +9,7 @@
 #define SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_LOADCONTAINEROPERATION_H_
 
 //boost
-#include <memory>
+#include <boost/shared_ptr.hpp>
 
 //local
 #include "../../../util/Utils.h"
@@ -25,14 +25,14 @@ public:
 	virtual std::string toText();
 	virtual void loadNode(const std::string & line)	throw (std::invalid_argument);
 	//
-	LoadContainerOperation(int idConatiner, std::shared_ptr<Mapping> executable, int idSource, std::shared_ptr<MathematicOperable> value);
+	LoadContainerOperation(int idConatiner, boost::shared_ptr<Mapping> executable, int idSource, boost::shared_ptr<MathematicOperable> value);
 
 	virtual ~LoadContainerOperation();
 
 	virtual void execute();
 protected:
 	int idSource;
-	std::shared_ptr<MathematicOperable> value;
+	boost::shared_ptr<MathematicOperable> value;
 };
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_LOADCONTAINEROPERATION_H_ */

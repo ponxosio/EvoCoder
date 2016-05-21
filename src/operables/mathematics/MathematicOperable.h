@@ -8,7 +8,7 @@
 #ifndef SRC_OPERABLES_MATHEMATICS_MATHEMATICOPERABLE_H_
 #define SRC_OPERABLES_MATHEMATICS_MATHEMATICOPERABLE_H_
 
-#include <memory>
+#include <boost/shared_ptr.hpp>
 
 /**
  * Interface that represents a variable in a comparison operation:

@@ -25,15 +25,15 @@ public:
 	virtual void loadNode(const std::string & line) throw (std::invalid_argument);
 	//
 
-	Transfer(int idContainer, std::shared_ptr<Mapping> mapping, int idSource,
-			int idTarget, std::shared_ptr<MathematicOperable> volume);
+	Transfer(int idContainer, boost::shared_ptr<Mapping> mapping, int idSource,
+			int idTarget, boost::shared_ptr<MathematicOperable> volume);
 
 	virtual void execute();
 
 protected:
 	int idSource;
 	int idTarget;
-	std::shared_ptr<MathematicOperable> volume;
+	boost::shared_ptr<MathematicOperable> volume;
 };
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONATINER_TRANSFER_H_ */

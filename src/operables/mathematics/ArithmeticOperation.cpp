@@ -8,9 +8,9 @@
 #include "ArithmeticOperation.h"
 
 ArithmeticOperation::ArithmeticOperation(
-		std::shared_ptr<MathematicOperable> left,
+		boost::shared_ptr<MathematicOperable> left,
 		arithmetic::ArithmeticOperator op,
-		std::shared_ptr<MathematicOperable> right) {
+		boost::shared_ptr<MathematicOperable> right) {
 
 	this->leftVariable = left;
 	this->rightVariable = right;

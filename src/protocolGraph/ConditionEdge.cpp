@@ -8,7 +8,7 @@
 #include "ConditionEdge.h"
 
 ConditionEdge::ConditionEdge() : Edge() {
-	this->comparison = std::shared_ptr<ComparisonOperable>();
+	this->comparison = boost::shared_ptr<ComparisonOperable>();
 }
 
 ConditionEdge::ConditionEdge(const ConditionEdge& edge) : Edge(edge) {
@@ -16,7 +16,7 @@ ConditionEdge::ConditionEdge(const ConditionEdge& edge) : Edge(edge) {
 }
 
 ConditionEdge::ConditionEdge(int idSource, int idTarget,
-		std::shared_ptr<ComparisonOperable> comparison) :
+		boost::shared_ptr<ComparisonOperable> comparison) :
 		Edge(idSource, idTarget) {
 
 	this->comparison = comparison;

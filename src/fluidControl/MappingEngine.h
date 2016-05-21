@@ -15,7 +15,7 @@
 #include <utility>
 #include <queue>
 
-#include <memory>
+#include <boost/shared_ptr.hpp>
 
 #include "../util/Patch.h"
 #include "../util/Utils.h"

@@ -11,7 +11,7 @@
 #include <stdexcept>
 
 // boost
-#include <memory>
+#include <boost/shared_ptr.hpp>
 
 #include "../../executable/containers/ExecutableContainerNode.h"
 // local
@@ -31,9 +31,9 @@ public:
 			throw (std::invalid_argument);
 	//
 	DivergentSwitchSink(int idConatiner, float capacity,
-			std::shared_ptr<Injector> insert,
-			std::shared_ptr<Extractor> extractor,
-			std::shared_ptr<Control> control);
+			boost::shared_ptr<Injector> insert,
+			boost::shared_ptr<Extractor> extractor,
+			boost::shared_ptr<Control> control);
 
 	virtual ~DivergentSwitchSink();
 
@@ -43,9 +43,9 @@ public:
 	virtual void extractLiquid(double rate) throw (std::invalid_argument);
 	virtual void connectContainer(int source, int target);
 protected:
-	std::shared_ptr<Injector> insert;
-	std::shared_ptr<Extractor> extractor;
-	std::shared_ptr<Control> control;
+	boost::shared_ptr<Injector> insert;
+	boost::shared_ptr<Extractor> extractor;
+	boost::shared_ptr<Control> control;
 };
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_DIVERGENTSWITCHSINK_H_ */
