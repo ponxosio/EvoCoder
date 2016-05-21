@@ -9,8 +9,8 @@
 
 ConvergentSwitch::ConvergentSwitch() :
 		ExecutableContainerNode() {
-	this->insert = boost::shared_ptr<Injector>();
-	this->control = boost::shared_ptr<Control>();
+	this->insert = std::shared_ptr<Injector>();
+	this->control = std::shared_ptr<Control>();
 }
 
 ConvergentSwitch::ConvergentSwitch(const ConvergentSwitch& node) {
@@ -19,9 +19,9 @@ ConvergentSwitch::ConvergentSwitch(const ConvergentSwitch& node) {
 }
 
 ConvergentSwitch::ConvergentSwitch(int idConatiner, float capacity,
-		boost::shared_ptr<Injector> insert, boost::shared_ptr<Control> control) :
+		std::shared_ptr<Injector> insert, std::shared_ptr<Control> control) :
 		ExecutableContainerNode(idConatiner,
-				boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(
+				std::shared_ptr<ContainerNodeType>(new ContainerNodeType(
 						MovementType::irrelevant,
 						ContainerType::convergent_switch)), capacity) {
 	this->insert = insert;

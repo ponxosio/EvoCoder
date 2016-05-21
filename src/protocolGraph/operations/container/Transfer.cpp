@@ -11,7 +11,7 @@ Transfer::Transfer() :
 		ContainerOperation() {
 	this->idSource = -1;
 	this->idTarget = -1;
-	this->volume = boost::shared_ptr<MathematicOperable>();
+	this->volume = std::shared_ptr<MathematicOperable>();
 }
 
 Transfer::Transfer(const Transfer& obj)  :
@@ -22,9 +22,9 @@ Transfer::Transfer(const Transfer& obj)  :
 	this->volume = obj.volume;
 }
 
-Transfer::Transfer(int idContainer, boost::shared_ptr<Mapping> mapping,
+Transfer::Transfer(int idContainer, std::shared_ptr<Mapping> mapping,
 		int idSource, int idTarget,
-		boost::shared_ptr<MathematicOperable> volume) :
+		std::shared_ptr<MathematicOperable> volume) :
 		ContainerOperation(idContainer, mapping) {
 
 	this->idSource = idSource;

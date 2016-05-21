@@ -11,7 +11,7 @@
 #include <stdexcept>
 
 // boost
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 //local
 #include "../../executable/containers/ExecutableContainerNode.h"
@@ -29,7 +29,7 @@ public:
 			throw (std::invalid_argument);
 	//
 	FlowContainer(int idContainer, float capacity,
-			boost::shared_ptr<Extractor> extract, boost::shared_ptr<Injector> insert);
+			std::shared_ptr<Extractor> extract, std::shared_ptr<Injector> insert);
 
 	virtual ~FlowContainer();
 
@@ -39,8 +39,8 @@ public:
 	virtual void extractLiquid(double rate) throw (std::invalid_argument);
 	virtual void connectContainer(int source, int target);
 protected:
-	boost::shared_ptr<Extractor> extract;
-	boost::shared_ptr<Injector> insert;
+	std::shared_ptr<Extractor> extract;
+	std::shared_ptr<Injector> insert;
 };
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_FLOWCONTAINER_H_ */

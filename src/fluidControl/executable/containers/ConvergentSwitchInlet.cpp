@@ -9,9 +9,9 @@
 
 ConvergentSwitchInlet::ConvergentSwitchInlet() :
 		ExecutableContainerNode() {
-	this->insert = boost::shared_ptr<Injector>();
-	this->extractor = boost::shared_ptr<Extractor>();
-	this->control = boost::shared_ptr<Control>();
+	this->insert = std::shared_ptr<Injector>();
+	this->extractor = std::shared_ptr<Extractor>();
+	this->control = std::shared_ptr<Control>();
 }
 
 ConvergentSwitchInlet::ConvergentSwitchInlet(const ConvergentSwitchInlet& node) :
@@ -22,11 +22,11 @@ ConvergentSwitchInlet::ConvergentSwitchInlet(const ConvergentSwitchInlet& node) 
 }
 
 ConvergentSwitchInlet::ConvergentSwitchInlet(int idConatiner, float capacity,
-		boost::shared_ptr<Injector> insert,
-		boost::shared_ptr<Extractor> extractor,
-		boost::shared_ptr<Control> control) :
+		std::shared_ptr<Injector> insert,
+		std::shared_ptr<Extractor> extractor,
+		std::shared_ptr<Control> control) :
 		ExecutableContainerNode(idConatiner,
-				boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(
+				std::shared_ptr<ContainerNodeType>(new ContainerNodeType(
 						ContainerNodeType::fromIntToMovementType(extractor.get()->getMovementType()),
 						ContainerType::convergent_switch_inlet)), capacity) {
 

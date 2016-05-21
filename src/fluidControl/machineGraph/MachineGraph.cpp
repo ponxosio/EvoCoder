@@ -18,7 +18,7 @@ MachineGraph::~MachineGraph() {
 	delete machine;
 }
 
-bool MachineGraph::addContainer(int idContainer, boost::shared_ptr<ContainerNodeType> type,
+bool MachineGraph::addContainer(int idContainer, std::shared_ptr<ContainerNodeType> type,
 		float capacity) {
 	bool vuelta = false;
 	if (!existsContainer(idContainer)) {

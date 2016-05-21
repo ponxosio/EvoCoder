@@ -9,7 +9,7 @@
 #define SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_MEASUREOD_H_
 
 //boost
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 //local
 #include "../../../operables/mathematics/VariableEntry.h"
@@ -24,14 +24,14 @@ public:
 	virtual std::string toText();
 	virtual void loadNode(const std::string & line) throw (invalid_argument);
 	//
-	MeasureOD(int containerId, boost::shared_ptr<Mapping> mapping, int sourceId, boost::shared_ptr<VariableEntry> receiver);
+	MeasureOD(int containerId, std::shared_ptr<Mapping> mapping, int sourceId, std::shared_ptr<VariableEntry> receiver);
 
 	virtual ~MeasureOD();
 
 	virtual void execute();
 protected:
 	int sourceId;
-	boost::shared_ptr<VariableEntry> receiver;
+	std::shared_ptr<VariableEntry> receiver;
 };
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_MEASUREOD_H_ */

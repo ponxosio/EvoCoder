@@ -9,8 +9,8 @@
 
 DivergentSwitch::DivergentSwitch() :
 		ExecutableContainerNode() {
-	this->extract = boost::shared_ptr<Extractor>();
-	this->control = boost::shared_ptr<Control>();
+	this->extract = std::shared_ptr<Extractor>();
+	this->control = std::shared_ptr<Control>();
 }
 
 DivergentSwitch::DivergentSwitch(const DivergentSwitch& node) :
@@ -20,9 +20,9 @@ DivergentSwitch::DivergentSwitch(const DivergentSwitch& node) :
 }
 
 DivergentSwitch::DivergentSwitch(int idConatiner, float capacity,
-		boost::shared_ptr<Extractor> extract,
-		boost::shared_ptr<Control> control) :
-		ExecutableContainerNode(idConatiner, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(
+		std::shared_ptr<Extractor> extract,
+		std::shared_ptr<Control> control) :
+		ExecutableContainerNode(idConatiner, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(
 				ContainerNodeType::fromIntToMovementType(extract.get()->getMovementType()),
 				ContainerType::divergent_switch)),
 				capacity) {

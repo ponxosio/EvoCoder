@@ -16,7 +16,7 @@
 #define EQUAL_STRING "="
 
 //boost
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/function.hpp>
 
 //local
@@ -40,9 +40,9 @@ enum ComparisonOperator {
 class SimpleComparison: public ComparisonOperable {
 public:
 	SimpleComparison(bool negation,
-			boost::shared_ptr<MathematicOperable> left,
+			std::shared_ptr<MathematicOperable> left,
 			comparison::ComparisonOperator op,
-			boost::shared_ptr<MathematicOperable> right);
+			std::shared_ptr<MathematicOperable> right);
 	virtual ~SimpleComparison();
 
 	/**
@@ -85,8 +85,8 @@ protected:
 			comparison::ComparisonOperator op);
 
 	//ATRIBUTES
-	boost::shared_ptr<MathematicOperable> left;
-	boost::shared_ptr<MathematicOperable> right;
+	std::shared_ptr<MathematicOperable> left;
+	std::shared_ptr<MathematicOperable> right;
 	comparison::ComparisonOperator op;
 	bool negation;
 };

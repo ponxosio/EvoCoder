@@ -9,7 +9,7 @@
 #define SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_CONVERGENTSWITCH_H_
 
 // boost
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 //local
 #include "../../executable/containers/ExecutableContainerNode.h"
@@ -27,8 +27,8 @@ public:
 			throw (std::invalid_argument);
 	//
 	ConvergentSwitch(int idConatiner, float capacity,
-			boost::shared_ptr<Injector> insert,
-			boost::shared_ptr<Control> control);
+			std::shared_ptr<Injector> insert,
+			std::shared_ptr<Control> control);
 
 	virtual ~ConvergentSwitch();
 
@@ -38,8 +38,8 @@ public:
 	virtual void extractLiquid(double rate) throw (std::invalid_argument);
 	virtual void connectContainer(int source, int target);
 protected:
-	boost::shared_ptr<Injector> insert;
-	boost::shared_ptr<Control> control;
+	std::shared_ptr<Injector> insert;
+	std::shared_ptr<Control> control;
 };
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_CONVERGENTSWITCH_H_ */

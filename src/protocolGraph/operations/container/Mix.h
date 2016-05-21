@@ -9,7 +9,7 @@
 #define SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_MIX_H_
 
 //boost
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 //local
 #include "../../../operables/mathematics/MathematicOperable.h"
@@ -25,10 +25,10 @@ public:
 	virtual void loadNode(const std::string & line) throw (invalid_argument);
 	//
 
-	Mix(int idConatiner, boost::shared_ptr<Mapping> mapping, int idSource1,
+	Mix(int idConatiner, std::shared_ptr<Mapping> mapping, int idSource1,
 			int idSource2, int idTarget,
-			boost::shared_ptr<MathematicOperable> volume1,
-			boost::shared_ptr<MathematicOperable> volume2);
+			std::shared_ptr<MathematicOperable> volume1,
+			std::shared_ptr<MathematicOperable> volume2);
 
 	virtual ~Mix();
 
@@ -37,8 +37,8 @@ protected:
 	int idSource1;
 	int idSource2;
 	int idTarget;
-	boost::shared_ptr<MathematicOperable> volume1;
-	boost::shared_ptr<MathematicOperable> volume2;
+	std::shared_ptr<MathematicOperable> volume1;
+	std::shared_ptr<MathematicOperable> volume2;
 };
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_MIX_H_ */

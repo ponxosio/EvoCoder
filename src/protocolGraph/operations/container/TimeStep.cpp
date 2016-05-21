@@ -9,7 +9,7 @@
 
 TimeStep::TimeStep() :
 		ContainerOperation() {
-	this->receiver = boost::shared_ptr<VariableEntry>();
+	this->receiver = std::shared_ptr<VariableEntry>();
 }
 
 TimeStep::TimeStep(const TimeStep& node) :
@@ -17,7 +17,7 @@ TimeStep::TimeStep(const TimeStep& node) :
 	this->receiver = node.receiver;
 }
 
-TimeStep::TimeStep(int containerId, boost::shared_ptr<Mapping> mapping, boost::shared_ptr<VariableEntry> receiver) :
+TimeStep::TimeStep(int containerId, std::shared_ptr<Mapping> mapping, std::shared_ptr<VariableEntry> receiver) :
 		ContainerOperation(containerId, mapping) {
 	this->receiver = receiver;
 }

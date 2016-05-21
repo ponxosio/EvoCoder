@@ -22,7 +22,7 @@ public:
 			throw (std::invalid_argument);
 	//
 	SinkContainer(int idContainer, float capacity,
-			 boost::shared_ptr<Injector> insert);
+			 std::shared_ptr<Injector> insert);
 
 	virtual ~SinkContainer();
 
@@ -32,7 +32,7 @@ public:
 	virtual void extractLiquid(double rate) throw (std::invalid_argument);
 	virtual void connectContainer(int source, int target);
 protected:
-	boost::shared_ptr<Injector> insert;
+	std::shared_ptr<Injector> insert;
 };
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_SINKCONTAINER_H_ */

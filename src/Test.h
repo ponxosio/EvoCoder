@@ -8,21 +8,30 @@
 #ifndef SRC_TEST_H_
 #define SRC_TEST_H_
 
-#include <string>
-#include <vector>
-#include <queue>
-#include <thread>
-#include <iostream>
 #include <functional>
+#include <iostream>
+#include <sstream>
+#include <memory>
+#include <queue>
+#include <string>
+#include <thread>
+#include <vector>
 #include <windows.h>
+
+#include <unordered_map>
+#include <tuple>
 
 //boost
 #include <boost/function.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 //lib
-#include "../lib/easylogging++.h"
-#include "fluidControl/executable/containers/actuators/communications/SerialSender.h"
+#include <easylogging++.h>
+#include <cereal/cereal.hpp>
+#include <cereal/archives/json.hpp>
+#include <cereal/types/unordered_map.hpp>
+#include <cereal/types/tuple.hpp>
+#include <cereal/types/string.hpp>
 
 //local
 #include "graph/Graph.h"
@@ -53,13 +62,17 @@
 #include "fluidControl/executable/containers/actuators/liquids/Control.h"
 #include "fluidControl/executable/containers/actuators/liquids/Injector.h"
 #include "fluidControl/executable/containers/actuators/liquids/Extractor.h"
+
 #include "fluidControl/executable/containers/actuators/extras/Temperature.h"
 #include "fluidControl/executable/containers/actuators/extras/ODSensor.h"
 #include "fluidControl/executable/containers/actuators/extras/Light.h"
 #include "fluidControl/executable/containers/actuators/extras/Mixer.h"
+
 #include "fluidControl/executable/containers/actuators/communications/CommunicationsInterface.h"
 #include "fluidControl/executable/containers/actuators/communications/CommandSender.h"
 #include "fluidControl/executable/containers/actuators/communications/FileSender.h"
+#include "fluidControl/executable/containers/actuators/communications/SerialSender.h"
+
 #include "fluidControl/executable/containers/InletContainer.h"
 #include "fluidControl/executable/containers/BidirectionalSwitch.h"
 #include "fluidControl/executable/containers/ConvergentSwitch.h"
@@ -75,7 +88,9 @@
 #include "operables/mathematics/UnaryOperation.h"
 #include "operables/mathematics/MathematicOperable.h"
 #include "operables/mathematics/VariableEntry.h"
+
 #include "operables/VariableTable.h"
+
 #include "operables/comparison/ComparisonOperable.h"
 #include "operables/comparison/Tautology.h"
 #include "operables/comparison/SimpleComparison.h"
@@ -107,11 +122,11 @@ using namespace std;
 class Test {
 public:
 	static ProtocolGraph* MakeTurbidostat(
-			boost::shared_ptr<VariableTable> table,
-			boost::shared_ptr<Mapping> map);
+			std::shared_ptr<VariableTable> table,
+			std::shared_ptr<Mapping> map);
 	static ProtocolGraph* makeSimpleProtocol(
-				boost::shared_ptr<VariableTable> table,
-				boost::shared_ptr<Mapping> map);
+				std::shared_ptr<VariableTable> table,
+				std::shared_ptr<Mapping> map);
 	static ExecutableMachineGraph* makeSimpleMachine(int communications);
 	static ExecutableMachineGraph* makeMatrixMachine(int communications, int size);
 	static ExecutableMachineGraph* makeMappingMachine(int communications);
@@ -126,7 +141,7 @@ public:
 	void testGraph();
 	void testContainerNode();
 	void testUtils();
-	void testVariableTable(boost::shared_ptr<VariableTable> t,  const std::string & name);
+	void testVariableTable(std::shared_ptr<VariableTable> t,  const std::string & name);
 	void testMathematicVariable();
 	void testComparisonVariable();
 	void testUnaryOperation();
@@ -148,6 +163,9 @@ public:
 
 	void testMappingTest();
 	void testMappingExec();
+
+	void testSerializaVariableTable();
+	void testDeserializaVariableTable(const std::string & json);
 };
 
 #endif /* SRC_TEST_H_ */

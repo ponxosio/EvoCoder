@@ -7,7 +7,7 @@
 
 #include "UnaryOperation.h"
 
-UnaryOperation::UnaryOperation(boost::shared_ptr<MathematicOperable> variable,
+UnaryOperation::UnaryOperation(std::shared_ptr<MathematicOperable> variable,
 		unaryOperations::UnaryOperator op) {
 	this->variable = variable;
 	this->op = op;

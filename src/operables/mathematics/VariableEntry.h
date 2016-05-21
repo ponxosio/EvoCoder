@@ -11,7 +11,7 @@
 #include <string>
 
 //boost
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "../../protocolGraph/operations/container/ContainerOperation.h"
 //local
@@ -25,7 +25,7 @@
 class VariableEntry: public MathematicOperable {
 public:
 	VariableEntry(const std::string & name,
-			boost::shared_ptr<VariableTable> sharedTable);
+			std::shared_ptr<VariableTable> sharedTable);
 	/**
 	 * Does not deallocates the sharedTable
 	 */
@@ -65,7 +65,7 @@ protected:
 	/**
 	 * On delete does not deallocate this pointer to the variable table
 	 */
-	boost::shared_ptr<VariableTable> sharedTable;
+	std::shared_ptr<VariableTable> sharedTable;
 
 };
 
