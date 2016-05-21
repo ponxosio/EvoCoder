@@ -9,7 +9,7 @@
 #define SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_DIVERGENTSWITCH_H_
 
 //boost
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "../../executable/containers/ExecutableContainerNode.h"
 #include "actuators/liquids/Control.h"
@@ -26,7 +26,7 @@ public:
 			throw (std::invalid_argument);
 	//
 	DivergentSwitch(int idConatiner, float capacity,
-			boost::shared_ptr<Extractor> extract, boost::shared_ptr<Control> control);
+			std::shared_ptr<Extractor> extract, std::shared_ptr<Control> control);
 
 	virtual ~DivergentSwitch();
 
@@ -36,8 +36,8 @@ public:
 	virtual void extractLiquid(double rate) throw (std::invalid_argument);
 	virtual void connectContainer(int source, int target);
 protected:
-	boost::shared_ptr<Extractor> extract;
-	boost::shared_ptr<Control> control;
+	std::shared_ptr<Extractor> extract;
+	std::shared_ptr<Control> control;
 };
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_DIVERGENTSWITCH_H_ */

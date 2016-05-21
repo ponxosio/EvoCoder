@@ -14,7 +14,7 @@
 
 //boost
 #include <boost/function.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 //local
 #include "ComparisonOperable.h"
@@ -34,9 +34,9 @@ enum BooleanOperator {
 class BooleanComparison: public ComparisonOperable {
 public:
 	BooleanComparison(bool negation,
-			boost::shared_ptr<ComparisonOperable> left,
+			std::shared_ptr<ComparisonOperable> left,
 			logical::BooleanOperator op,
-			boost::shared_ptr<ComparisonOperable> right);
+			std::shared_ptr<ComparisonOperable> right);
 	virtual ~BooleanComparison();
 
 	/**
@@ -78,8 +78,8 @@ protected:
 			logical::BooleanOperator op);
 
 	//ATTRIBUTES
-	boost::shared_ptr<ComparisonOperable> left;
-	boost::shared_ptr<ComparisonOperable> right;
+	std::shared_ptr<ComparisonOperable> left;
+	std::shared_ptr<ComparisonOperable> right;
 	logical::BooleanOperator op;
 	bool negation;
 };

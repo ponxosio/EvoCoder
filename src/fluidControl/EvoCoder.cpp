@@ -10,7 +10,7 @@
 using namespace std;
 
 EvoCoder::EvoCoder(ProtocolGraph* protocol,
-		boost::shared_ptr<VariableTable> table, Mapping* mapping) {
+		std::shared_ptr<VariableTable> table, Mapping* mapping) {
 	this->protocol = protocol;
 	this->table = table;
 	this->mapping = mapping;
@@ -205,7 +205,7 @@ void EvoCoder::execRelaxed_ProcessLoopNode(LoopNode* node,
 		loopsBeingExecuted->erase(loopIterator);
 		const vector<ConditionEdge*>* neighbor = protocol->getProjectingEdges(
 				node->getContainerId());
-		boost::shared_ptr<ComparisonOperable> conditionOUT =
+		std::shared_ptr<ComparisonOperable> conditionOUT =
 				node->getConditionOUT();
 
 		for (auto it = neighbor->begin(); it != neighbor->end(); ++it) {
@@ -218,7 +218,7 @@ void EvoCoder::execRelaxed_ProcessLoopNode(LoopNode* node,
 	} else {
 		const vector<ConditionEdge*>* neighbor = protocol->getProjectingEdges(
 				node->getContainerId());
-		boost::shared_ptr<ComparisonOperable> conditionIN =
+		std::shared_ptr<ComparisonOperable> conditionIN =
 				node->getConditionIN();
 
 		for (auto it = neighbor->begin(); it != neighbor->end(); ++it) {
@@ -241,7 +241,7 @@ void EvoCoder::execRelaxed_ProcessDivergeNode(DivergeNode* node,
 		const vector<ConditionEdge*>* neighbor = protocol->getProjectingEdges(
 						node->getContainerId());
 		if (isPresent(branchChosen, node, branch)) {
-			boost::shared_ptr<ComparisonOperable> comparison;
+			std::shared_ptr<ComparisonOperable> comparison;
 			if (branch.second) {
 				comparison = node->getConditionIN();
 			} else {
@@ -254,8 +254,8 @@ void EvoCoder::execRelaxed_ProcessDivergeNode(DivergeNode* node,
 				}
 			}
 		} else {
-			boost::shared_ptr<ComparisonOperable> conditionIN = node->getConditionIN();
-			boost::shared_ptr<ComparisonOperable> conditionOut = node->getConditionOUT();
+			std::shared_ptr<ComparisonOperable> conditionIN = node->getConditionIN();
+			std::shared_ptr<ComparisonOperable> conditionOut = node->getConditionOUT();
 
 			for (auto it = neighbor->begin(); it != neighbor->end(); ++it) {
 				ConditionEdge* cast = *it;

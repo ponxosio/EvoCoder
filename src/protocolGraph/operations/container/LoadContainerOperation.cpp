@@ -8,7 +8,7 @@
 #include "LoadContainerOperation.h"
 
 LoadContainerOperation::LoadContainerOperation(): ContainerOperation() {
-	this->value = boost::shared_ptr<MathematicOperable>();
+	this->value = std::shared_ptr<MathematicOperable>();
 	this->idSource = -1;
 }
 
@@ -18,9 +18,9 @@ LoadContainerOperation::LoadContainerOperation(const LoadContainerOperation& obj
 }
 
 LoadContainerOperation::LoadContainerOperation(int idConatiner,
-		boost::shared_ptr<Mapping> executable,
+		std::shared_ptr<Mapping> executable,
 		int idSource,
-		boost::shared_ptr<MathematicOperable> value) : ContainerOperation(idConatiner, executable) {
+		std::shared_ptr<MathematicOperable> value) : ContainerOperation(idConatiner, executable) {
 
 	this->value = value;
 	this->idSource = idSource;

@@ -11,7 +11,7 @@ SetContinousFlow::SetContinousFlow() :
 		ContainerOperation() {
 	this->idSource = -1;
 	this->idTarget = -1;
-	this->rate = boost::shared_ptr<MathematicOperable>();
+	this->rate = std::shared_ptr<MathematicOperable>();
 }
 
 SetContinousFlow::SetContinousFlow(const SetContinousFlow& obj) :
@@ -22,8 +22,8 @@ SetContinousFlow::SetContinousFlow(const SetContinousFlow& obj) :
 }
 
 SetContinousFlow::SetContinousFlow(int idContainer,
-		boost::shared_ptr<Mapping> mapping, int idSource, int idTarget,
-		boost::shared_ptr<MathematicOperable> rate) :
+		std::shared_ptr<Mapping> mapping, int idSource, int idTarget,
+		std::shared_ptr<MathematicOperable> rate) :
 		ContainerOperation(idContainer, mapping) {
 
 	this->idSource = idSource;

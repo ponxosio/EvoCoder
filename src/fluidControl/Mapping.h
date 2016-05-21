@@ -12,7 +12,7 @@
 #include <vector>
 
 //boost
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 //lib
 #include "../../lib/easylogging++.h"

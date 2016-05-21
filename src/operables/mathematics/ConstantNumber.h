@@ -9,7 +9,7 @@
 #define SRC_OPERABLES_MATHEMATICS_CONSTANTNUMBER_H_
 
 //boost
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "../../util/Utils.h"
 #include "../../util/Patch.h"

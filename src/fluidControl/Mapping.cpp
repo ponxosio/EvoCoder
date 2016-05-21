@@ -243,7 +243,7 @@ void Mapping::sketching_setContinuosFlow(int idSource, int idTarget,
 			LOG(FATAL)<< "container: " << patch::to_string(idTarget) << " cannot be continuous because already is" << sourceNode->getType().get()->getMovementTypeString();
 		}
 	} else {
-		sketch->addContainer(idSource, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::continuous, ContainerType::inlet)), 0.0);
+		sketch->addContainer(idSource, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::continuous, ContainerType::inlet)), 0.0);
 	}
 
 	// Update target node
@@ -251,7 +251,7 @@ void Mapping::sketching_setContinuosFlow(int idSource, int idTarget,
 		ContainerNode* targetNode = sketch->getContainer(idTarget);
 		transformTargetContainer(idSource, idTarget, targetNode);
 	} else {
-		sketch->addContainer(idTarget, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::sink)), 0.0);
+		sketch->addContainer(idTarget, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::sink)), 0.0);
 	}
 	/**** Connect source and target nodes ****/
 	sketch->connectContainer(idSource, idTarget);
@@ -270,7 +270,7 @@ void Mapping::sketching_transfer(int idSource, int idTarget, double volume) {
 			LOG(FATAL)<< "container: " << patch::to_string(idTarget) << " cannot be discrete because already is" << sourceNode->getType().get()->getMovementTypeString();
 		}
 	} else {
-		sketch->addContainer(idSource, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::discrete, ContainerType::inlet)), 0.0);
+		sketch->addContainer(idSource, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::discrete, ContainerType::inlet)), 0.0);
 	}
 
 	// Update target node
@@ -278,7 +278,7 @@ void Mapping::sketching_transfer(int idSource, int idTarget, double volume) {
 		ContainerNode* targetNode = sketch->getContainer(idTarget);
 		transformTargetContainer(idSource, idTarget, targetNode);
 	} else {
-		sketch->addContainer(idTarget, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::sink)), 0.0);
+		sketch->addContainer(idTarget, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::sink)), 0.0);
 	}
 	/**** Connect source and target nodes ****/
 	sketch->connectContainer(idSource, idTarget);
@@ -379,7 +379,7 @@ void Mapping::sketching_loadContainer(int containerID, double volume) {
 		ContainerNode* node = sketch->getContainer(containerID);
 		node->setVolume(node->getVolume() + volume);
 	} else {
-		sketch->addContainer(containerID, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow)), volume);
+		sketch->addContainer(containerID, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow)), volume);
 	}
 }
 
@@ -395,7 +395,7 @@ void Mapping::sketching_applyLight(int id, double wavelength,
 	} else {
 		vector<AddOnsType> vect;
 		vect.push_back(AddOnsType::light);
-		sketch->addContainer(id, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
+		sketch->addContainer(id, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
 	}
 }
 
@@ -409,7 +409,7 @@ void Mapping::sketching_applyTemperature(int id, double degres) {
 	} else {
 		vector<AddOnsType> vect;
 		vect.push_back(AddOnsType::temp);
-		sketch->addContainer(id, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
+		sketch->addContainer(id, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
 	}
 }
 
@@ -421,7 +421,7 @@ void Mapping::sketching_measureOD(int id) {
 	} else {
 		vector<AddOnsType> vect;
 		vect.push_back(AddOnsType::OD_sensor);
-		sketch->addContainer(id, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
+		sketch->addContainer(id, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
 	}
 }
 
@@ -433,7 +433,7 @@ void Mapping::sketching_stir(int id) {
 	} else {
 		vector<AddOnsType> vect;
 		vect.push_back(AddOnsType::mixer);
-		sketch->addContainer(id, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
+		sketch->addContainer(id, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
 	}
 }
 
@@ -513,7 +513,7 @@ void Mapping::exec_applyLight(int id, double wavelength, double intensity) {
 		<< ")";
 
 	ExecutableContainerNode* mappedContainer = machine->getContainer(engine->getMappedContainerId(id));
-	boost::shared_ptr<Light> light = mappedContainer->getLight();
+	std::shared_ptr<Light> light = mappedContainer->getLight();
 
 	if (light.get() != NULL) {
 		light.get()->applyLight(wavelength, intensity);
@@ -528,7 +528,7 @@ void Mapping::exec_applyTemperature(int id, double degres) {
 
 	ExecutableContainerNode* mappedContainer = machine->getContainer(
 			engine->getMappedContainerId(id));
-	boost::shared_ptr<Temperature> temp = mappedContainer->getTemperature();
+	std::shared_ptr<Temperature> temp = mappedContainer->getTemperature();
 
 	if (temp.get() != NULL) {
 		temp.get()->apply(degres);
@@ -545,7 +545,7 @@ double Mapping::exec_measureOD(int id) {
 	double measureValued = -1;
 	ExecutableContainerNode* mappedContainer = machine->getContainer(
 			engine->getMappedContainerId(id));
-	boost::shared_ptr<ODSensor> od = mappedContainer->getOd();
+	std::shared_ptr<ODSensor> od = mappedContainer->getOd();
 
 	if (od.get() != NULL) {
 		measureValued = od.get()->readOd();
@@ -569,7 +569,7 @@ void Mapping::exec_stir(int id, double intensity) {
 	LOG(DEBUG)<< "exec stir(" << patch::to_string(id) << "," << patch::to_string(intensity) << ")";
 	ExecutableContainerNode* mappedContainer = machine->getContainer(
 			engine->getMappedContainerId(id));
-	boost::shared_ptr<Mixer> mix = mappedContainer->getMix();
+	std::shared_ptr<Mixer> mix = mappedContainer->getMix();
 
 	if (mix.get() != NULL) {
 		mix.get()->mix(intensity);

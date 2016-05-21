@@ -9,7 +9,7 @@
 
 SinkContainer::SinkContainer() :
 		ExecutableContainerNode() {
-	this->insert = boost::shared_ptr<Injector>();
+	this->insert = std::shared_ptr<Injector>();
 }
 
 SinkContainer::SinkContainer(const SinkContainer& node) :
@@ -18,8 +18,8 @@ SinkContainer::SinkContainer(const SinkContainer& node) :
 }
 
 SinkContainer::SinkContainer(int idContainer, float capacity,
-		boost::shared_ptr<Injector> insert) :
-		ExecutableContainerNode(idContainer, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(
+		std::shared_ptr<Injector> insert) :
+		ExecutableContainerNode(idContainer, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(
 				MovementType::irrelevant,
 				ContainerType::sink)), capacity) {
 	this->insert = insert;
