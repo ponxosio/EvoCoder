@@ -9592,3 +9592,10 @@ G
 22/05 21:46:03 INFO  : container node: 2 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_inlet.png"];
 22/05 21:46:03 INFO  : executable container node: executable: 2 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_bidirectionalswitch.png"];-11[image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\odsensor.png"];-11->2;
 22/05 21:46:03 INFO  : finished!
+22/05 21:54:51 INFO  : started!...
+22/05 21:54:51 INFO  : serializating...
+22/05 21:54:51 INFO  : created archive...
+22/05 21:54:51 INFO  : node: 1;
+22/05 21:54:51 INFO  : container node: 2 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_inlet.png"];
+22/05 21:54:51 INFO  : executable container node: executable: 2 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_bidirectionalswitch.png"];-11[image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\odsensor.png"];-11->2;
+22/05 21:54:51 INFO  : finished!
