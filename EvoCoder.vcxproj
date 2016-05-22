@@ -97,6 +97,12 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\lib;D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\boost_1_60_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\fluidcontrol\EvoCoder.cpp" />
     <ClCompile Include="src\fluidcontrol\executable\containers\actuators\communications\CommunicationsInterface.cpp" />
