@@ -67,7 +67,7 @@ inline void DivergentSwitchSink::serialize(Archive& ar,
 }
 
 // Associate some type with a version number
-CEREAL_CLASS_VERSION( DivergentSwitchSink, 1 );
+CEREAL_CLASS_VERSION( DivergentSwitchSink, (int)1 );
 
 // Include any archives you plan on using with your type before you register it
 // Note that this could be done in any other location so long as it was prior

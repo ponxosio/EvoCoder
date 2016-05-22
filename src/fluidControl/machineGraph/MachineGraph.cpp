@@ -22,7 +22,8 @@ bool MachineGraph::addContainer(int idContainer, std::shared_ptr<ContainerNodeTy
 		float capacity) {
 	bool vuelta = false;
 	if (!existsContainer(idContainer)) {
-		machine->addNode(std::make_shared<ContainerNode>(new ContainerNode(idContainer, type, capacity)));
+		ContainerNode* newNode = new ContainerNode(idContainer, type, capacity);
+		machine->addNode(newNode);
 		vuelta = true;
 	}
 	return vuelta;
@@ -32,7 +33,8 @@ bool MachineGraph::connectContainer(int idSource, int idTarget) {
 	bool vuelta = false;
 	if (existsContainer(idSource) && existsContainer(idTarget)
 			&& !areConected(idSource, idTarget)) {
-		machine->addEdge(std::make_shared<Edge>(new Edge(idSource, idTarget)));
+		Edge* newEdge = new Edge(idSource, idTarget);
+		machine->addEdge(newEdge);
 		vuelta = true;
 	}
 	return vuelta;
@@ -40,11 +42,10 @@ bool MachineGraph::connectContainer(int idSource, int idTarget) {
 
 float MachineGraph::getVolume(int idContainer) {
 	float vuelta = -1.0f;
-	try {
-		std::shared_ptr<ContainerNode> cont = machine->getNode(idContainer);
+
+	ContainerNode* cont = machine->getNode(idContainer);
+	if (cont != NULL) {
 		vuelta = cont->getVolume();
-	} catch (std::invalid_argument& e) {
-		LOG(ERROR) << "error while getting volume, " + e.what();
 	}
 	return vuelta;
 }
@@ -52,20 +53,17 @@ float MachineGraph::getVolume(int idContainer) {
 bool MachineGraph::addVolume(int idContainer, float volume) {
 	bool vuelta = false;
 
-	try {
-		std::shared_ptr<ContainerNode> cont = machine->getNode(idContainer);
+	ContainerNode* cont = machine->getNode(idContainer);
+	if (cont != NULL) {
 		if ((cont->getVolume() + volume) <= cont->getCapacity()) {
 			cont->setVolume(cont->getVolume() + volume);
 			vuelta = true;
 		} else {
-			LOG(WARNING)<< " container "
-			<< patch::to_string(cont->getContainerId())
-			<< " is fill over capacity";
+			LOG(WARNING) << " container "
+					<< patch::to_string(cont->getContainerId())
+					<< " is fill over capacity";
 		}
-	} catch (std::invalid_argument& e) {
-		LOG(ERROR) << "error while adding volume, " + e.what();
 	}
-
 	return vuelta;
 }
 
@@ -93,64 +91,55 @@ bool MachineGraph::areConected(int idSource, int idTarget) {
 
 bool MachineGraph::hasConections(int idContainer) {
 	bool vuelta = false;
-	try {
-		shared_ptr<ContainerNode> cont = machine->getNode(idContainer);
-		const vector<shared_ptr<Edge>> neighbors = machine->getLeavingEdges(
-				idContainer);
-		vuelta = !neighbors.empty();
-	} catch (std::invalid_argument& e) {
-		LOG(ERROR)<< e.what();
-	}
+	ContainerNode* cont = machine->getNode(idContainer);
 
+	if (cont != NULL) {
+		const vector<Edge*>* neighbors = machine->getLeavingEdges(idContainer);
+		vuelta = !neighbors->empty();
+	}
 	return vuelta;
 }
 
 bool MachineGraph::changeContainerType(int idContainer, ContainerType type) {
 	bool vuelta = false;
 
-	try {
-		shared_ptr<ContainerNode> cont = machine->getNode(idContainer);
+	ContainerNode* cont = machine->getNode(idContainer);
+	if (cont != NULL) {
 		cont->changeContainerType(type);
 		vuelta = true;
-	} catch (std::invalid_argument& e) {
-		LOG(ERROR)<< e.what();
 	}
-
 	return vuelta;
 }
 
 bool MachineGraph::changeMovementType(int idContainer, MovementType type) {
 	bool vuelta = false;
-	try {
-		shared_ptr<ContainerNode> cont = machine->getNode(idContainer);
+
+	ContainerNode* cont = machine->getNode(idContainer);
+	if (cont != NULL) {
 		cont->changeMovementType(type);
 		vuelta = true;
-	} catch (std::invalid_argument& e) {
-		LOG(ERROR)<< e.what();
 	}
 	return vuelta;
 }
 
 bool MachineGraph::addAddon(int idContainer, AddOnsType type) {
 	bool vuelta = false;
-	try {
-		shared_ptr<ContainerNode> cont = machine->getNode(idContainer);
+
+	ContainerNode* cont = machine->getNode(idContainer);
+	if (cont != NULL) {
 		cont->addAddon(type);
 		vuelta = true;
-	} catch (std::invalid_argument& e) {
-		LOG(ERROR)<< e.what();
 	}
 	return vuelta;
 }
 
 bool MachineGraph::removeAddon(int idContainer, AddOnsType type) {
 	bool vuelta = false;
-	try {
-		shared_ptr<ContainerNode> cont = machine->getNode(idContainer);
+
+	ContainerNode* cont = machine->getNode(idContainer);
+	if (cont != NULL) {
 		cont->removeAddon(type);
 		vuelta = true;
-	} catch (std::invalid_argument& e) {
-		LOG(ERROR)<< e.what();
 	}
 	return vuelta;
 }

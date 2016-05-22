@@ -170,11 +170,13 @@ public:
 	void testMappingTest();
 	void testMappingExec();
 
-	void testSerializaVariableTable();
+	void testSerializeNode();
+
+	/*void testSerializaVariableTable();
 	void testDeserializaVariableTable(const std::string & json);
 
 	void testSerialize_MathematicOperable();
-	void testSerialize_ExecutableConatinerNode();
+	void testSerialize_ExecutableConatinerNode();*/
 };
 
 #endif /* SRC_TEST_H_ */

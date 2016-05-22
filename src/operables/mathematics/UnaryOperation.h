@@ -11,14 +11,13 @@
 #define ABSOLUTE_VALUE_STRING "fabs"
 
 //boost
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
 #include <memory>
 
-//cereal
-#include <cereal/cereal.hpp>
-#include <cereal/types/polymorphic.hpp>
-#include <cereal/types/memory.hpp>
-
 //local
+#include "../../../lib/easylogging++.h"
+
 #include "../../util/Utils.h"
 #include "MathematicOperable.h"
 
@@ -30,7 +29,6 @@ enum UnaryOperator {
 }
 class UnaryOperation: public MathematicOperable {
 public:
-	UnaryOperation();
 	UnaryOperation(std::shared_ptr<MathematicOperable> variable,
 			unaryOperations::UnaryOperator op);
 
@@ -57,33 +55,12 @@ public:
 		return getStringOp() + "(" + variable.get()->toString() + ")";
 	}
 
-	//SERIALIZATIoN
-	template<class Archive>
-	void serialize(Archive & ar, std::uint32_t const version);
-
 protected:
 	std::shared_ptr<MathematicOperable> variable;
 	unaryOperations::UnaryOperator op;
 
 	std::string getStringOp();
+	double dummy (double a);
 };
-
-template<class Archive>
-inline void UnaryOperation::serialize(Archive& ar,
-		const std::uint32_t version) {
-	if (version == 1) {
-		ar(CEREAL_NVP(variable), CEREAL_NVP(op));
-	}
-}
-
-// Associate some type with a version number
-CEREAL_CLASS_VERSION( UnaryOperation, 1 );
-
-// Include any archives you plan on using with your type before you register it
-// Note that this could be done in any other location so long as it was prior
-// to this file being included
-#include <cereal/archives/json.hpp>
-// Register DerivedClass
-CEREAL_REGISTER_TYPE_WITH_NAME(UnaryOperation, "UnaryOperation");
 
 #endif /* SRC_OPERABLES_MATHEMATICS_UNARYOPERATION_H_ */

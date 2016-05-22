@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{42ABC1A5-578C-4EF3-ADFC-20C2DE898926}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\lib;D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\boost_1_60_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\fluidcontrol\EvoCoder.cpp" />
+    <ClCompile Include="src\fluidcontrol\executable\containers\actuators\communications\CommunicationsInterface.cpp" />
+    <ClCompile Include="src\fluidcontrol\executable\containers\actuators\communications\FileSender.cpp" />
+    <ClCompile Include="src\fluidcontrol\executable\containers\actuators\communications\SerialSender.cpp" />
+    <ClCompile Include="src\fluidcontrol\executable\containers\BidirectionalSwitch.cpp" />
+    <ClCompile Include="src\fluidcontrol\executable\containers\ConvergentSwitch.cpp" />
+    <ClCompile Include="src\fluidcontrol\executable\containers\ConvergentSwitchInlet.cpp" />
+    <ClCompile Include="src\fluidcontrol\executable\containers\DivergentSwitch.cpp" />
+    <ClCompile Include="src\fluidcontrol\executable\containers\DivergentSwitchSink.cpp" />
+    <ClCompile Include="src\fluidcontrol\executable\containers\FlowContainer.cpp" />
+    <ClCompile Include="src\fluidcontrol\executable\containers\InletContainer.cpp" />
+    <ClCompile Include="src\fluidcontrol\executable\containers\SinkContainer.cpp" />
+    <ClCompile Include="src\fluidcontrol\executable\ExecutableMachineGraph.cpp" />
+    <ClCompile Include="src\fluidcontrol\machinegraph\ContainerNode.cpp" />
+    <ClCompile Include="src\fluidcontrol\machinegraph\ContainerNodeType.cpp" />
+    <ClCompile Include="src\fluidcontrol\machinegraph\MachineGraph.cpp" />
+    <ClCompile Include="src\fluidcontrol\Mapping.cpp" />
+    <ClCompile Include="src\fluidcontrol\MappingEngine.cpp" />
+    <ClCompile Include="src\operables\comparison\BooleanComparison.cpp" />
+    <ClCompile Include="src\operables\comparison\SimpleComparison.cpp" />
+    <ClCompile Include="src\operables\mathematics\ArithmeticOperation.cpp" />
+    <ClCompile Include="src\operables\mathematics\ConstantNumber.cpp" />
+    <ClCompile Include="src\operables\mathematics\UnaryOperation.cpp" />
+    <ClCompile Include="src\operables\mathematics\VariableEntry.cpp" />
+    <ClCompile Include="src\operables\VariableTable.cpp" />
+    <ClCompile Include="src\protocolgraph\ConditionEdge.cpp" />
+    <ClCompile Include="src\protocolgraph\operations\AssignationOperation.cpp" />
+    <ClCompile Include="src\protocolgraph\operations\container\ApplyLight.cpp" />
+    <ClCompile Include="src\protocolgraph\operations\container\ApplyTemperature.cpp" />
+    <ClCompile Include="src\protocolgraph\operations\container\GetVolume.cpp" />
+    <ClCompile Include="src\protocolgraph\operations\container\LoadContainerOperation.cpp" />
+    <ClCompile Include="src\protocolgraph\operations\container\MeasureOD.cpp" />
+    <ClCompile Include="src\protocolgraph\operations\container\Mix.cpp" />
+    <ClCompile Include="src\protocolgraph\operations\container\SetContinousFlow.cpp" />
+    <ClCompile Include="src\protocolgraph\operations\container\Stir.cpp" />
+    <ClCompile Include="src\protocolgraph\operations\container\TimeStep.cpp" />
+    <ClCompile Include="src\protocolgraph\operations\container\Transfer.cpp" />
+    <ClCompile Include="src\protocolgraph\operations\DivergeNode.cpp" />
+    <ClCompile Include="src\protocolgraph\operations\LoopNode.cpp" />
+    <ClCompile Include="src\protocolgraph\ProtocolGraph.cpp" />
+    <ClCompile Include="src\Test.cpp" />
+    <ClCompile Include="src\testactuator\EvoprogContinuousPump.cpp" />
+    <ClCompile Include="src\testactuator\EvoprogDiscretePump.cpp" />
+    <ClCompile Include="src\testactuator\EvoprogDummyInjector.cpp" />
+    <ClCompile Include="src\testactuator\EvoprogLight.cpp" />
+    <ClCompile Include="src\testactuator\EvoprogMixer.cpp" />
+    <ClCompile Include="src\testactuator\EvoprogOdSensor.cpp" />
+    <ClCompile Include="src\testactuator\EvoprogSixwayValve.cpp" />
+    <ClCompile Include="src\testactuator\EvoprogTemperature.cpp" />
+    <ClCompile Include="src\util\AutoEnumerate.cpp" />
+    <ClCompile Include="src\util\Utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="lib\easylogging++.h" />
+    <ClInclude Include="src\fluidcontrol\EvoCoder.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\actuators\communications\CommandSender.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\actuators\communications\CommunicationsInterface.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\actuators\communications\FileSender.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\actuators\communications\SerialSender.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\actuators\extras\Light.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\actuators\extras\Mixer.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\actuators\extras\ODSensor.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\actuators\extras\Temperature.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\actuators\Instructable.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\actuators\liquids\Control.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\actuators\liquids\Extractor.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\actuators\liquids\Injector.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\BidirectionalSwitch.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\ConvergentSwitch.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\ConvergentSwitchInlet.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\DivergentSwitch.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\DivergentSwitchSink.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\ExecutableContainerNode.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\FlowContainer.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\InletContainer.h" />
+    <ClInclude Include="src\fluidcontrol\executable\containers\SinkContainer.h" />
+    <ClInclude Include="src\fluidcontrol\executable\ExecutableMachineGraph.h" />
+    <ClInclude Include="src\fluidcontrol\machinegraph\ContainerNode.h" />
+    <ClInclude Include="src\fluidcontrol\machinegraph\ContainerNodeType.h" />
+    <ClInclude Include="src\fluidcontrol\machinegraph\MachineGraph.h" />
+    <ClInclude Include="src\fluidcontrol\Mapping.h" />
+    <ClInclude Include="src\fluidcontrol\MappingEngine.h" />
+    <ClInclude Include="src\graph\Edge.h" />
+    <ClInclude Include="src\graph\Flow.h" />
+    <ClInclude Include="src\graph\FlowPtrComparator.h" />
+    <ClInclude Include="src\graph\Graph.h" />
+    <ClInclude Include="src\graph\Node.h" />
+    <ClInclude Include="src\operables\comparison\BooleanComparison.h" />
+    <ClInclude Include="src\operables\comparison\ComparisonOperable.h" />
+    <ClInclude Include="src\operables\comparison\SimpleComparison.h" />
+    <ClInclude Include="src\operables\comparison\Tautology.h" />
+    <ClInclude Include="src\operables\mathematics\ArithmeticOperation.h" />
+    <ClInclude Include="src\operables\mathematics\ConstantNumber.h" />
+    <ClInclude Include="src\operables\mathematics\MathematicOperable.h" />
+    <ClInclude Include="src\operables\mathematics\UnaryOperation.h" />
+    <ClInclude Include="src\operables\mathematics\VariableEntry.h" />
+    <ClInclude Include="src\operables\VariableTable.h" />
+    <ClInclude Include="src\protocolgraph\ConditionEdge.h" />
+    <ClInclude Include="src\protocolgraph\OperationNode.h" />
+    <ClInclude Include="src\protocolgraph\operations\AssignationOperation.h" />
+    <ClInclude Include="src\protocolgraph\operations\container\ApplyLight.h" />
+    <ClInclude Include="src\protocolgraph\operations\container\ApplyTemperature.h" />
+    <ClInclude Include="src\protocolgraph\operations\container\ContainerOperation.h" />
+    <ClInclude Include="src\protocolgraph\operations\container\GetVolume.h" />
+    <ClInclude Include="src\protocolgraph\operations\container\LoadContainerOperation.h" />
+    <ClInclude Include="src\protocolgraph\operations\container\MeasureOD.h" />
+    <ClInclude Include="src\protocolgraph\operations\container\Mix.h" />
+    <ClInclude Include="src\protocolgraph\operations\container\SetContinousFlow.h" />
+    <ClInclude Include="src\protocolgraph\operations\container\Stir.h" />
+    <ClInclude Include="src\protocolgraph\operations\container\TimeStep.h" />
+    <ClInclude Include="src\protocolgraph\operations\container\Transfer.h" />
+    <ClInclude Include="src\protocolgraph\operations\DivergeNode.h" />
+    <ClInclude Include="src\protocolgraph\operations\LoopNode.h" />
+    <ClInclude Include="src\protocolgraph\ProtocolGraph.h" />
+    <ClInclude Include="src\Test.h" />
+    <ClInclude Include="src\testactuator\EvoprogContinuousPump.h" />
+    <ClInclude Include="src\testactuator\EvoprogDiscretePump.h" />
+    <ClInclude Include="src\testactuator\EvoprogDummyInjector.h" />
+    <ClInclude Include="src\testactuator\EvoprogLight.h" />
+    <ClInclude Include="src\testactuator\EvoprogMixer.h" />
+    <ClInclude Include="src\testactuator\EvoprogOdSensor.h" />
+    <ClInclude Include="src\testactuator\EvoprogSixwayValve.h" />
+    <ClInclude Include="src\testactuator\EvoprogTemperature.h" />
+    <ClInclude Include="src\util\AutoEnumerate.h" />
+    <ClInclude Include="src\util\ContainersUtils.h" />
+    <ClInclude Include="src\util\Patch.h" />
+    <ClInclude Include="src\util\Utils.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

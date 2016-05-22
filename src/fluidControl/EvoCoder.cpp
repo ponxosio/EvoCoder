@@ -95,7 +95,12 @@ bool EvoCoder::sketcher() {
 	vector<OperationNode*> operations = protocol->getAllNodes();
 	for (auto it = operations.begin(); it != operations.end(); ++it) {
 		OperationNode* cast = *it;
-		cast->execute();
+		try {
+			cast->execute();
+		}
+		catch (std::invalid_argument& e) {
+			LOG(WARNING) << e.what();
+		}
 	}
 	return true;
 }

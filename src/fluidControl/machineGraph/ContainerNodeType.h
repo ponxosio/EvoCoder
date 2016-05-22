@@ -155,6 +155,6 @@ inline void ContainerNodeType::serialize(Archive& ar,
 }
 
 // Associate some type with a version number
-CEREAL_CLASS_VERSION( ContainerNodeType, 1 );
+CEREAL_CLASS_VERSION( ContainerNodeType, (int)1 );
 
 #endif /* SRC_FLUIDCONTROL_MACHINEGRAPH_CONTAINERNODETYPE_H_ */

@@ -7,9 +7,7 @@
 
 #include "../mathematics/ConstantNumber.h"
 
-ConstantNumber::ConstantNumber() {
-	this->value = -1.0;
-}
+
 ConstantNumber::ConstantNumber(int value) {
 	this->value = value;
 }

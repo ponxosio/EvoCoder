@@ -9,11 +9,6 @@
 
 using namespace std;
 
-VariableEntry::VariableEntry() {
-	this->name = "";
-	this->sharedTable = shared_ptr<VariableTable>();
-}
-
 VariableEntry::VariableEntry(const string & name, std::shared_ptr<VariableTable> sharedTable){
 		this->name = name;
 		this->sharedTable = sharedTable;

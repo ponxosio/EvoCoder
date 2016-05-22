@@ -11,10 +11,6 @@
 #include "ComparisonOperable.h"
 #include "../../util/Utils.h"
 
-//cereal
-#include <cereal/cereal.hpp>
-#include <cereal/types/polymorphic.hpp>
-
 class Tautology: public ComparisonOperable {
 public:
 	Tautology() {
@@ -60,29 +56,8 @@ public:
 		std::string neg = negation ? "!" : "";
 		return neg + "true";
 	}
-
-	//SERIALIZATIoN
-	template<class Archive>
-	void serialize(Archive & ar, std::uint32_t const version);
 protected:
 	bool negation;
 };
-
-template<class Archive>
-inline void Tautology::serialize(Archive& ar, const std::uint32_t version) {
-	if (version == 1) {
-		ar(CEREAL_NVP(negation));
-	}
-}
-
-// Associate some type with a version number
-CEREAL_CLASS_VERSION( Tautology, 1 );
-
-// Include any archives you plan on using with your type before you register it
-// Note that this could be done in any other location so long as it was prior
-// to this file being included
-#include <cereal/archives/json.hpp>
-// Register DerivedClass
-CEREAL_REGISTER_TYPE_WITH_NAME(Tautology, "Tautology");
 
 #endif /* SRC_OPERABLES_COMPARISON_TAUTOLOGY_H_ */

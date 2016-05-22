@@ -14,8 +14,8 @@ void CommunicationsInterface::freeCommandInterface() {
 }
 
 CommunicationsInterface::CommunicationsInterface() {
-	this->communicationMap = new std::tr1::unordered_map<int, CommandSender*>();
-	this->testCommunicationMap = new std::tr1::unordered_map<int, CommandSender*>();
+	this->communicationMap = new std::unordered_map<int, CommandSender*>();
+	this->testCommunicationMap = new std::unordered_map<int, CommandSender*>();
 	this->testing = false;
 	this->lastId = 0;
 	this->testLastId = 0;
@@ -52,16 +52,17 @@ int CommunicationsInterface::addCommandSender(CommandSender* communications) {
 }
 
 CommandSender* CommunicationsInterface::getCommandSender(int communicationId) {
-	typename std::tr1::unordered_map<int, CommandSender*>::iterator it;
-	CommandSender* finded = NULL;
-
+	
+	std::unordered_map<int, CommandSender*>* selected;
 	if (!testing) {
-		it = communicationMap->find(communicationId);
+		selected = communicationMap;
 	} else {
-		it = testCommunicationMap->find(communicationId);
+		selected = testCommunicationMap;
 	}
 
-	if (it != communicationMap->end()) {
+	CommandSender* finded = NULL;
+	typename std::unordered_map<int, CommandSender*>::iterator it = selected->find(communicationId);
+	if (it != selected->end()) {
 		finded = (*it).second;
 	}
 	return finded;

@@ -335,13 +335,6 @@
 #include <iostream>
 #include <sstream>
 #include <memory>
-
-//xtras
-#include <direct.h>
-#include <windows.h>
-#include <winsock2.h>
-#include <winsock.h>
-
 #include <type_traits>
 #if ELPP_THREADING_ENABLED
 #   if ELPP_USE_STD_THREADING

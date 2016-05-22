@@ -64,7 +64,7 @@ inline void ConvergentSwitchInlet::serialize(Archive& ar,
 }
 
 // Associate some type with a version number
-CEREAL_CLASS_VERSION( ConvergentSwitchInlet, 1 );
+CEREAL_CLASS_VERSION( ConvergentSwitchInlet, (int)1 );
 
 // Include any archives you plan on using with your type before you register it
 // Note that this could be done in any other location so long as it was prior

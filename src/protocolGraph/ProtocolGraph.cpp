@@ -18,14 +18,14 @@ ProtocolGraph::~ProtocolGraph() {
 }
 
 bool ProtocolGraph::addOperation(OperationNode* node) {
-	return graph->addNode(std::make_shared<OperationNode>(node));
+	return graph->addNode(node);
 }
 
 bool ProtocolGraph::connectOperation(ConditionEdge* edge) {
-	return graph->addEdge(std::make_shared<ConditionEdge>(edge));
+	return graph->addEdge(edge);
 }
 
-std::shared_ptr<OperationNode> ProtocolGraph::getStart() {
+OperationNode* ProtocolGraph::getStart() {
 	return graph->getNode(idStart);
 }
 

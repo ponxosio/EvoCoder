@@ -24,11 +24,6 @@
 #include "../mathematics/MathematicOperable.h"
 #include "ComparisonOperable.h"
 
-//cereal
-#include <cereal/cereal.hpp>
-#include <cereal/types/polymorphic.hpp>
-#include <cereal/types/memory.hpp>
-
 namespace comparison {
 /*** Enum for the type of comparison operator ***/
 enum ComparisonOperator {
@@ -44,12 +39,6 @@ enum ComparisonOperator {
  */
 class SimpleComparison: public ComparisonOperable {
 public:
-	SimpleComparison() {
-		this->left = std::shared_ptr<MathematicOperable>();
-		this->right = std::shared_ptr<MathematicOperable>();
-		this->op = comparison::less_equal;
-		this->negation = false;
-	}
 	SimpleComparison(bool negation,
 			std::shared_ptr<MathematicOperable> left,
 			comparison::ComparisonOperator op,
@@ -85,9 +74,6 @@ public:
 		return  neg + left.get()->toString() + " " + getStingOp() + " " + right.get()->toString();
 	}
 
-	//SERIALIZATIoN
-	template<class Archive>
-	void serialize(Archive & ar, std::uint32_t const version);
 protected:
 	std::string getStingOp();
 	/**
@@ -105,21 +91,4 @@ protected:
 	bool negation;
 };
 
-template<class Archive>
-inline void SimpleComparison::serialize(Archive& ar,
-		const std::uint32_t version) {
-	if (version == 1) {
-		ar(CEREAL_NVP(left), CEREAL_NVP(right), CEREAL_NVP(op), CEREAL_NVP(negation));
-	}
-}
-
-// Associate some type with a version number
-CEREAL_CLASS_VERSION( SimpleComparison, 1 );
-
-// Include any archives you plan on using with your type before you register it
-// Note that this could be done in any other location so long as it was prior
-// to this file being included
-#include <cereal/archives/json.hpp>
-// Register DerivedClass
-CEREAL_REGISTER_TYPE_WITH_NAME(SimpleComparison, "SimpleComparison");
 #endif /* SRC_OPERABLES_COMPARISON_SIMPLECOMPARISON_H_ */

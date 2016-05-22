@@ -6244,7 +6244,8 @@
 18/05 12:58:50 511: read 1 bytes
 18/05 12:58:50 512: read 1 bytes
 18/05 12:58:50 512: read 1 bytes
-18/05 12:58:50 512: dada received 50
+18/05 12:58:50 512: dada received 50
+
 18/05 13:01:53 825: executing: epsilon = 0.1
 18/05 13:01:53 825: executing: threshold = 600
 18/05 13:01:53 825: executing: rate = 2
@@ -6294,7 +6295,8 @@
 18/05 13:01:54 932: read 1 bytes
 18/05 13:01:54 932: read 1 bytes
 18/05 13:01:54 932: read 1 bytes
-18/05 13:01:54 932: dada received 100
+18/05 13:01:54 932: dada received 100
+
 18/05 13:09:28 508: executing: epsilon = 0.1
 18/05 13:09:28 508: executing: threshold = 600
 18/05 13:09:28 508: executing: rate = 2
@@ -6344,7 +6346,8 @@
 18/05 13:09:29 615: read 1 bytes
 18/05 13:09:29 615: read 1 bytes
 18/05 13:09:29 616: read 1 bytes
-18/05 13:09:29 616: data received: 150
+18/05 13:09:29 616: data received: 150
+
 18/05 13:11:38 356: executing: epsilon = 0.1
 18/05 13:11:38 356: executing: threshold = 600
 18/05 13:11:38 356: executing: rate = 2
@@ -6394,7 +6397,8 @@
 18/05 13:11:39 464: read 1 bytes
 18/05 13:11:39 464: read 1 bytes
 18/05 13:11:39 464: read 1 bytes
-18/05 13:11:39 464: data received: 200
+18/05 13:11:39 464: data received: 200
+
 18/05 13:11:39 464: exec measureOD(2) = 200
 18/05 13:11:39 464: adding 1 neighbors...
 18/05 13:11:39 464: executing: normOD = 1 + od - threshold / threshold
@@ -6512,7 +6516,8 @@
 18/05 13:13:09 874: waiting for data for 900 ms
 18/05 13:13:09 974: read 1 bytes
 18/05 13:13:09 974: read 1 bytes
-18/05 13:13:09 974: data received: 0
+18/05 13:13:09 974: data received: 0
+
 18/05 13:13:09 975: exec measureOD(2) = 0
 18/05 13:13:09 975: adding 1 neighbors...
 18/05 13:13:09 976: executing: normOD = 1 + od - threshold / threshold
@@ -6633,7 +6638,8 @@
 18/05 13:14:57 708: read 1 bytes
 18/05 13:14:57 708: read 1 bytes
 18/05 13:14:57 708: read 1 bytes
-18/05 13:14:57 708: data received: 50
+18/05 13:14:57 708: data received: 50
+
 18/05 13:14:57 708: exec measureOD(2) = 50
 18/05 13:14:57 708: adding 1 neighbors...
 18/05 13:14:57 708: executing: normOD = 1 + od - threshold / threshold
@@ -6754,7 +6760,8 @@
 18/05 13:16:41 659: read 1 bytes
 18/05 13:16:41 659: read 1 bytes
 18/05 13:16:41 659: read 1 bytes
-18/05 13:16:41 659: data received: 100
+18/05 13:16:41 659: data received: 100
+
 18/05 13:16:41 660: exec measureOD(2) = 100
 18/05 13:16:41 660: adding 1 neighbors...
 18/05 13:16:41 660: executing: normOD = 1 + od - threshold / threshold
@@ -6872,7 +6879,8 @@
 18/05 13:25:14 688: waiting for data for 900 ms
 18/05 13:25:14 788: read 1 bytes
 18/05 13:25:14 788: read 1 bytes
-18/05 13:25:14 788: data received: 0
+18/05 13:25:14 788: data received: 0
+
 18/05 13:25:14 788: exec measureOD(2) = 0
 18/05 13:25:14 789: adding 1 neighbors...
 18/05 13:25:14 789: executing: normOD = 1 + od - threshold / threshold
@@ -6967,7 +6975,8 @@
 18/05 13:25:19 196: read 1 bytes
 18/05 13:25:19 196: read 1 bytes
 18/05 13:25:19 196: read 1 bytes
-18/05 13:25:19 196: data received: 50
+18/05 13:25:19 196: data received: 50
+
 18/05 13:25:19 196: exec measureOD(2) = 50
 18/05 13:25:19 196: adding 1 neighbors...
 18/05 13:25:19 196: executing: normOD = 1 + od - threshold / threshold
@@ -7063,7 +7072,8 @@
 18/05 13:25:23 601: read 1 bytes
 18/05 13:25:23 601: read 1 bytes
 18/05 13:25:23 601: read 1 bytes
-18/05 13:25:23 601: data received: 100
+18/05 13:25:23 601: data received: 100
+
 18/05 13:25:23 601: exec measureOD(2) = 100
 18/05 13:25:23 601: adding 1 neighbors...
 18/05 13:25:23 601: executing: normOD = 1 + od - threshold / threshold
@@ -7159,7 +7169,8 @@
 18/05 13:25:28 004: read 1 bytes
 18/05 13:25:28 004: read 1 bytes
 18/05 13:25:28 004: read 1 bytes
-18/05 13:25:28 004: data received: 150
+18/05 13:25:28 004: data received: 150
+
 18/05 13:25:28 004: exec measureOD(2) = 150
 18/05 13:25:28 005: adding 1 neighbors...
 18/05 13:25:28 005: executing: normOD = 1 + od - threshold / threshold
@@ -7255,7 +7266,8 @@
 18/05 13:25:32 412: read 1 bytes
 18/05 13:25:32 412: read 1 bytes
 18/05 13:25:32 412: read 1 bytes
-18/05 13:25:32 412: data received: 200
+18/05 13:25:32 412: data received: 200
+
 18/05 13:25:32 412: exec measureOD(2) = 200
 18/05 13:25:32 412: adding 1 neighbors...
 18/05 13:25:32 412: executing: normOD = 1 + od - threshold / threshold
@@ -7351,7 +7363,8 @@
 18/05 13:25:36 821: read 1 bytes
 18/05 13:25:36 821: read 1 bytes
 18/05 13:25:36 821: read 1 bytes
-18/05 13:25:36 821: data received: 250
+18/05 13:25:36 821: data received: 250
+
 18/05 13:25:36 821: exec measureOD(2) = 250
 18/05 13:25:36 821: adding 1 neighbors...
 18/05 13:25:36 821: executing: normOD = 1 + od - threshold / threshold
@@ -7447,7 +7460,8 @@
 18/05 13:25:41 228: read 1 bytes
 18/05 13:25:41 228: read 1 bytes
 18/05 13:25:41 228: read 1 bytes
-18/05 13:25:41 228: data received: 300
+18/05 13:25:41 228: data received: 300
+
 18/05 13:25:41 228: exec measureOD(2) = 300
 18/05 13:25:41 228: adding 1 neighbors...
 18/05 13:25:41 228: executing: normOD = 1 + od - threshold / threshold
@@ -7543,7 +7557,8 @@
 18/05 13:25:45 638: read 1 bytes
 18/05 13:25:45 639: read 1 bytes
 18/05 13:25:45 639: read 1 bytes
-18/05 13:25:45 639: data received: 350
+18/05 13:25:45 639: data received: 350
+
 18/05 13:25:45 639: exec measureOD(2) = 350
 18/05 13:25:45 639: adding 1 neighbors...
 18/05 13:25:45 639: executing: normOD = 1 + od - threshold / threshold
@@ -7639,7 +7654,8 @@
 18/05 13:25:50 046: read 1 bytes
 18/05 13:25:50 046: read 1 bytes
 18/05 13:25:50 046: read 1 bytes
-18/05 13:25:50 046: data received: 400
+18/05 13:25:50 046: data received: 400
+
 18/05 13:25:50 047: exec measureOD(2) = 400
 18/05 13:25:50 047: adding 1 neighbors...
 18/05 13:25:50 047: executing: normOD = 1 + od - threshold / threshold
@@ -7735,7 +7751,8 @@
 18/05 13:25:54 456: read 1 bytes
 18/05 13:25:54 456: read 1 bytes
 18/05 13:25:54 456: read 1 bytes
-18/05 13:25:54 456: data received: 450
+18/05 13:25:54 456: data received: 450
+
 18/05 13:25:54 456: exec measureOD(2) = 450
 18/05 13:25:54 456: adding 1 neighbors...
 18/05 13:25:54 456: executing: normOD = 1 + od - threshold / threshold
@@ -7831,7 +7848,8 @@
 18/05 13:25:58 861: read 1 bytes
 18/05 13:25:58 861: read 1 bytes
 18/05 13:25:58 861: read 1 bytes
-18/05 13:25:58 861: data received: 500
+18/05 13:25:58 861: data received: 500
+
 18/05 13:25:58 861: exec measureOD(2) = 500
 18/05 13:25:58 861: adding 1 neighbors...
 18/05 13:25:58 862: executing: normOD = 1 + od - threshold / threshold
@@ -7927,7 +7945,8 @@
 18/05 13:26:03 269: read 1 bytes
 18/05 13:26:03 269: read 1 bytes
 18/05 13:26:03 269: read 1 bytes
-18/05 13:26:03 269: data received: 550
+18/05 13:26:03 269: data received: 550
+
 18/05 13:26:03 269: exec measureOD(2) = 550
 18/05 13:26:03 269: adding 1 neighbors...
 18/05 13:26:03 269: executing: normOD = 1 + od - threshold / threshold
@@ -7960,7 +7979,8 @@
 18/05 13:26:04 324: read 1 bytes
 18/05 13:26:04 325: read 1 bytes
 18/05 13:26:04 325: read 1 bytes
-18/05 13:26:04 325: data received: 600
+18/05 13:26:04 325: data received: 600
+
 18/05 13:26:04 325: exec measureOD(2) = 600
 18/05 13:26:04 325: adding 1 neighbors...
 18/05 13:26:04 325: executing: normOD = 1 + od - threshold / threshold
@@ -7993,7 +8013,8 @@
 18/05 13:26:05 382: read 1 bytes
 18/05 13:26:05 382: read 1 bytes
 18/05 13:26:05 382: read 1 bytes
-18/05 13:26:05 382: data received: 625
+18/05 13:26:05 382: data received: 625
+
 18/05 13:26:05 382: exec measureOD(2) = 625
 18/05 13:26:05 383: adding 1 neighbors...
 18/05 13:26:05 383: executing: normOD = 1 + od - threshold / threshold
@@ -8024,7 +8045,8 @@
 18/05 13:26:06 438: read 1 bytes
 18/05 13:26:06 438: read 1 bytes
 18/05 13:26:06 438: read 1 bytes
-18/05 13:26:06 438: data received: 613
+18/05 13:26:06 438: data received: 613
+
 18/05 13:26:06 439: exec measureOD(2) = 613
 18/05 13:26:06 439: adding 1 neighbors...
 18/05 13:26:06 439: executing: normOD = 1 + od - threshold / threshold
@@ -8055,7 +8077,8 @@
 18/05 13:26:07 495: read 1 bytes
 18/05 13:26:07 495: read 1 bytes
 18/05 13:26:07 495: read 1 bytes
-18/05 13:26:07 495: data received: 607
+18/05 13:26:07 495: data received: 607
+
 18/05 13:26:07 496: exec measureOD(2) = 607
 18/05 13:26:07 496: adding 1 neighbors...
 18/05 13:26:07 496: executing: normOD = 1 + od - threshold / threshold
@@ -8086,7 +8109,8 @@
 18/05 13:26:08 552: read 1 bytes
 18/05 13:26:08 552: read 1 bytes
 18/05 13:26:08 552: read 1 bytes
-18/05 13:26:08 552: data received: 604
+18/05 13:26:08 552: data received: 604
+
 18/05 13:26:08 552: exec measureOD(2) = 604
 18/05 13:26:08 552: adding 1 neighbors...
 18/05 13:26:08 552: executing: normOD = 1 + od - threshold / threshold
@@ -8117,7 +8141,8 @@
 18/05 13:26:09 607: read 1 bytes
 18/05 13:26:09 607: read 1 bytes
 18/05 13:26:09 607: read 1 bytes
-18/05 13:26:09 607: data received: 603
+18/05 13:26:09 607: data received: 603
+
 18/05 13:26:09 607: exec measureOD(2) = 603
 18/05 13:26:09 607: adding 1 neighbors...
 18/05 13:26:09 607: executing: normOD = 1 + od - threshold / threshold
@@ -8148,7 +8173,8 @@
 18/05 13:26:10 663: read 1 bytes
 18/05 13:26:10 663: read 1 bytes
 18/05 13:26:10 663: read 1 bytes
-18/05 13:26:10 663: data received: 603
+18/05 13:26:10 663: data received: 603
+
 18/05 13:26:10 664: exec measureOD(2) = 603
 18/05 13:26:10 664: adding 1 neighbors...
 18/05 13:26:10 664: executing: normOD = 1 + od - threshold / threshold
@@ -8179,7 +8205,8 @@
 18/05 13:26:11 721: read 1 bytes
 18/05 13:26:11 721: read 1 bytes
 18/05 13:26:11 721: read 1 bytes
-18/05 13:26:11 721: data received: 603
+18/05 13:26:11 721: data received: 603
+
 18/05 13:26:11 721: exec measureOD(2) = 603
 18/05 13:26:11 721: adding 1 neighbors...
 18/05 13:26:11 722: executing: normOD = 1 + od - threshold / threshold
@@ -8244,7 +8271,8 @@
 18/05 13:47:48 705: read 1 bytes
 18/05 13:47:48 705: read 1 bytes
 18/05 13:47:48 705: read 1 bytes
-18/05 13:47:48 705: data received: 603
+18/05 13:47:48 705: data received: 603
+
 18/05 13:47:48 706: exec measureOD(2) = 603
 18/05 13:47:48 706: adding 1 neighbors...
 18/05 13:47:48 706: executing: normOD = 1 + od - threshold / threshold
@@ -8275,7 +8303,8 @@
 18/05 13:47:49 760: read 1 bytes
 18/05 13:47:49 760: read 1 bytes
 18/05 13:47:49 760: read 1 bytes
-18/05 13:47:49 760: data received: 603
+18/05 13:47:49 760: data received: 603
+
 18/05 13:47:49 760: exec measureOD(2) = 603
 18/05 13:47:49 761: adding 1 neighbors...
 18/05 13:47:49 761: executing: normOD = 1 + od - threshold / threshold
@@ -8306,7 +8335,8 @@
 18/05 13:47:50 818: read 1 bytes
 18/05 13:47:50 818: read 1 bytes
 18/05 13:47:50 818: read 1 bytes
-18/05 13:47:50 818: data received: 603
+18/05 13:47:50 818: data received: 603
+
 18/05 13:47:50 818: exec measureOD(2) = 603
 18/05 13:47:50 818: adding 1 neighbors...
 18/05 13:47:50 818: executing: normOD = 1 + od - threshold / threshold
@@ -8337,7 +8367,8 @@
 18/05 13:47:51 874: read 1 bytes
 18/05 13:47:51 874: read 1 bytes
 18/05 13:47:51 874: read 1 bytes
-18/05 13:47:51 874: data received: 603
+18/05 13:47:51 874: data received: 603
+
 18/05 13:47:51 875: exec measureOD(2) = 603
 18/05 13:47:51 875: adding 1 neighbors...
 18/05 13:47:51 875: executing: normOD = 1 + od - threshold / threshold
@@ -8368,7 +8399,8 @@
 18/05 13:47:52 931: read 1 bytes
 18/05 13:47:52 931: read 1 bytes
 18/05 13:47:52 931: read 1 bytes
-18/05 13:47:52 931: data received: 603
+18/05 13:47:52 931: data received: 603
+
 18/05 13:47:52 931: exec measureOD(2) = 603
 18/05 13:47:52 931: adding 1 neighbors...
 18/05 13:47:52 931: executing: normOD = 1 + od - threshold / threshold
@@ -8399,7 +8431,8 @@
 18/05 13:47:53 987: read 1 bytes
 18/05 13:47:53 987: read 1 bytes
 18/05 13:47:53 987: read 1 bytes
-18/05 13:47:53 987: data received: 603
+18/05 13:47:53 987: data received: 603
+
 18/05 13:47:53 987: exec measureOD(2) = 603
 18/05 13:47:53 988: adding 1 neighbors...
 18/05 13:47:53 988: executing: normOD = 1 + od - threshold / threshold
@@ -8430,7 +8463,8 @@
 18/05 13:47:55 044: read 1 bytes
 18/05 13:47:55 044: read 1 bytes
 18/05 13:47:55 044: read 1 bytes
-18/05 13:47:55 044: data received: 603
+18/05 13:47:55 044: data received: 603
+
 18/05 13:47:55 044: exec measureOD(2) = 603
 18/05 13:47:55 044: adding 1 neighbors...
 18/05 13:47:55 044: executing: normOD = 1 + od - threshold / threshold
@@ -8461,7 +8495,8 @@
 18/05 13:47:56 100: read 1 bytes
 18/05 13:47:56 100: read 1 bytes
 18/05 13:47:56 100: read 1 bytes
-18/05 13:47:56 100: data received: 603
+18/05 13:47:56 100: data received: 603
+
 18/05 13:47:56 100: exec measureOD(2) = 603
 18/05 13:47:56 100: adding 1 neighbors...
 18/05 13:47:56 101: executing: normOD = 1 + od - threshold / threshold
@@ -8492,7 +8527,8 @@
 18/05 13:47:57 157: read 1 bytes
 18/05 13:47:57 157: read 1 bytes
 18/05 13:47:57 157: read 1 bytes
-18/05 13:47:57 157: data received: 603
+18/05 13:47:57 157: data received: 603
+
 18/05 13:47:57 157: exec measureOD(2) = 603
 18/05 13:47:57 157: adding 1 neighbors...
 18/05 13:47:57 157: executing: normOD = 1 + od - threshold / threshold
@@ -8523,7 +8559,8 @@
 18/05 13:47:58 214: read 1 bytes
 18/05 13:47:58 214: read 1 bytes
 18/05 13:47:58 214: read 1 bytes
-18/05 13:47:58 214: data received: 603
+18/05 13:47:58 214: data received: 603
+
 18/05 13:47:58 214: exec measureOD(2) = 603
 18/05 13:47:58 214: adding 1 neighbors...
 18/05 13:47:58 214: executing: normOD = 1 + od - threshold / threshold
@@ -8554,7 +8591,8 @@
 18/05 13:47:59 269: read 1 bytes
 18/05 13:47:59 269: read 1 bytes
 18/05 13:47:59 269: read 1 bytes
-18/05 13:47:59 269: data received: 603
+18/05 13:47:59 269: data received: 603
+
 18/05 13:47:59 270: exec measureOD(2) = 603
 18/05 13:47:59 270: adding 1 neighbors...
 18/05 13:47:59 270: executing: normOD = 1 + od - threshold / threshold
@@ -8585,7 +8623,8 @@
 18/05 13:48:00 325: read 1 bytes
 18/05 13:48:00 325: read 1 bytes
 18/05 13:48:00 325: read 1 bytes
-18/05 13:48:00 325: data received: 603
+18/05 13:48:00 325: data received: 603
+
 18/05 13:48:00 325: exec measureOD(2) = 603
 18/05 13:48:00 326: adding 1 neighbors...
 18/05 13:48:00 326: executing: normOD = 1 + od - threshold / threshold
@@ -8616,7 +8655,8 @@
 18/05 13:48:01 380: read 1 bytes
 18/05 13:48:01 380: read 1 bytes
 18/05 13:48:01 380: read 1 bytes
-18/05 13:48:01 380: data received: 603
+18/05 13:48:01 380: data received: 603
+
 18/05 13:48:01 380: exec measureOD(2) = 603
 18/05 13:48:01 380: adding 1 neighbors...
 18/05 13:48:01 380: executing: normOD = 1 + od - threshold / threshold
@@ -8647,7 +8687,8 @@
 18/05 13:48:02 436: read 1 bytes
 18/05 13:48:02 436: read 1 bytes
 18/05 13:48:02 436: read 1 bytes
-18/05 13:48:02 436: data received: 603
+18/05 13:48:02 436: data received: 603
+
 18/05 13:48:02 436: exec measureOD(2) = 603
 18/05 13:48:02 437: adding 1 neighbors...
 18/05 13:48:02 437: executing: normOD = 1 + od - threshold / threshold
@@ -8678,7 +8719,8 @@
 18/05 13:48:03 492: read 1 bytes
 18/05 13:48:03 492: read 1 bytes
 18/05 13:48:03 492: read 1 bytes
-18/05 13:48:03 492: data received: 603
+18/05 13:48:03 492: data received: 603
+
 18/05 13:48:03 492: exec measureOD(2) = 603
 18/05 13:48:03 492: adding 1 neighbors...
 18/05 13:48:03 492: executing: normOD = 1 + od - threshold / threshold
@@ -8709,7 +8751,8 @@
 18/05 13:48:04 547: read 1 bytes
 18/05 13:48:04 547: read 1 bytes
 18/05 13:48:04 547: read 1 bytes
-18/05 13:48:04 547: data received: 603
+18/05 13:48:04 547: data received: 603
+
 18/05 13:48:04 547: exec measureOD(2) = 603
 18/05 13:48:04 547: adding 1 neighbors...
 18/05 13:48:04 547: executing: normOD = 1 + od - threshold / threshold
@@ -8740,7 +8783,8 @@
 18/05 13:48:05 603: read 1 bytes
 18/05 13:48:05 603: read 1 bytes
 18/05 13:48:05 603: read 1 bytes
-18/05 13:48:05 603: data received: 603
+18/05 13:48:05 603: data received: 603
+
 18/05 13:48:05 603: exec measureOD(2) = 603
 18/05 13:48:05 603: adding 1 neighbors...
 18/05 13:48:05 604: executing: normOD = 1 + od - threshold / threshold
@@ -8771,7 +8815,8 @@
 18/05 13:48:06 660: read 1 bytes
 18/05 13:48:06 660: read 1 bytes
 18/05 13:48:06 660: read 1 bytes
-18/05 13:48:06 660: data received: 603
+18/05 13:48:06 660: data received: 603
+
 18/05 13:48:06 660: exec measureOD(2) = 603
 18/05 13:48:06 660: adding 1 neighbors...
 18/05 13:48:06 660: executing: normOD = 1 + od - threshold / threshold
@@ -8802,7 +8847,8 @@
 18/05 13:48:07 717: read 1 bytes
 18/05 13:48:07 717: read 1 bytes
 18/05 13:48:07 717: read 1 bytes
-18/05 13:48:07 717: data received: 603
+18/05 13:48:07 717: data received: 603
+
 18/05 13:48:07 717: exec measureOD(2) = 603
 18/05 13:48:07 717: adding 1 neighbors...
 18/05 13:48:07 717: executing: normOD = 1 + od - threshold / threshold
@@ -8833,7 +8879,8 @@
 18/05 13:48:08 773: read 1 bytes
 18/05 13:48:08 773: read 1 bytes
 18/05 13:48:08 773: read 1 bytes
-18/05 13:48:08 773: data received: 603
+18/05 13:48:08 773: data received: 603
+
 18/05 13:48:08 773: exec measureOD(2) = 603
 18/05 13:48:08 773: adding 1 neighbors...
 18/05 13:48:08 773: executing: normOD = 1 + od - threshold / threshold
@@ -8897,7 +8944,8 @@
 18/05 13:48:48 259: waiting for data for 1000 ms
 18/05 13:48:48 360: read 1 bytes
 18/05 13:48:48 360: read 1 bytes
-18/05 13:48:48 360: data received: 0
+18/05 13:48:48 360: data received: 0
+
 18/05 13:48:48 361: exec measureOD(2) = 0
 18/05 13:48:48 361: adding 1 neighbors...
 18/05 13:48:48 361: executing: normOD = 1 + od - threshold / threshold
@@ -8990,7 +9038,8 @@
 18/05 13:48:53 166: read 1 bytes
 18/05 13:48:53 166: read 1 bytes
 18/05 13:48:53 166: read 1 bytes
-18/05 13:48:53 166: data received: 50
+18/05 13:48:53 166: data received: 50
+
 18/05 13:48:53 167: exec measureOD(2) = 50
 18/05 13:48:53 167: adding 1 neighbors...
 18/05 13:48:53 167: executing: normOD = 1 + od - threshold / threshold
@@ -9086,7 +9135,8 @@
 18/05 13:48:57 881: read 1 bytes
 18/05 13:48:57 881: read 1 bytes
 18/05 13:48:57 881: read 1 bytes
-18/05 13:48:57 881: data received: 100
+18/05 13:48:57 881: data received: 100
+
 18/05 13:48:57 881: exec measureOD(2) = 100
 18/05 13:48:57 881: adding 1 neighbors...
 18/05 13:48:57 881: executing: normOD = 1 + od - threshold / threshold
@@ -9183,7 +9233,8 @@
 18/05 13:49:02 689: read 1 bytes
 18/05 13:49:02 689: read 1 bytes
 18/05 13:49:02 689: read 1 bytes
-18/05 13:49:02 689: data received: 150
+18/05 13:49:02 689: data received: 150
+
 18/05 13:49:02 689: exec measureOD(2) = 150
 18/05 13:49:02 689: adding 1 neighbors...
 18/05 13:49:02 689: executing: normOD = 1 + od - threshold / threshold
@@ -9279,7 +9330,8 @@
 18/05 13:49:07 403: read 1 bytes
 18/05 13:49:07 403: read 1 bytes
 18/05 13:49:07 403: read 1 bytes
-18/05 13:49:07 403: data received: 200
+18/05 13:49:07 403: data received: 200
+
 18/05 13:49:07 403: exec measureOD(2) = 200
 18/05 13:49:07 403: adding 1 neighbors...
 18/05 13:49:07 403: executing: normOD = 1 + od - threshold / threshold
@@ -9376,7 +9428,8 @@
 18/05 13:49:12 211: read 1 bytes
 18/05 13:49:12 211: read 1 bytes
 18/05 13:49:12 211: read 1 bytes
-18/05 13:49:12 211: data received: 250
+18/05 13:49:12 211: data received: 250
+
 18/05 13:49:12 211: exec measureOD(2) = 250
 18/05 13:49:12 211: adding 1 neighbors...
 18/05 13:49:12 212: executing: normOD = 1 + od - threshold / threshold
@@ -9473,7 +9526,8 @@
 18/05 13:49:17 018: read 1 bytes
 18/05 13:49:17 018: read 1 bytes
 18/05 13:49:17 018: read 1 bytes
-18/05 13:49:17 018: data received: 300
+18/05 13:49:17 018: data received: 300
+
 18/05 13:49:17 018: exec measureOD(2) = 300
 18/05 13:49:17 018: adding 1 neighbors...
 18/05 13:49:17 018: executing: normOD = 1 + od - threshold / threshold
@@ -9569,7 +9623,8 @@
 18/05 13:49:21 738: read 1 bytes
 18/05 13:49:21 738: read 1 bytes
 18/05 13:49:21 738: read 1 bytes
-18/05 13:49:21 738: data received: 350
+18/05 13:49:21 738: data received: 350
+
 18/05 13:49:21 738: exec measureOD(2) = 350
 18/05 13:49:21 738: adding 1 neighbors...
 18/05 13:49:21 738: executing: normOD = 1 + od - threshold / threshold
@@ -9665,7 +9720,8 @@
 18/05 13:49:26 453: read 1 bytes
 18/05 13:49:26 453: read 1 bytes
 18/05 13:49:26 453: read 1 bytes
-18/05 13:49:26 453: data received: 400
+18/05 13:49:26 453: data received: 400
+
 18/05 13:49:26 454: exec measureOD(2) = 400
 18/05 13:49:26 454: adding 1 neighbors...
 18/05 13:49:26 454: executing: normOD = 1 + od - threshold / threshold
@@ -9761,7 +9817,8 @@
 18/05 13:49:31 174: read 1 bytes
 18/05 13:49:31 174: read 1 bytes
 18/05 13:49:31 174: read 1 bytes
-18/05 13:49:31 174: data received: 450
+18/05 13:49:31 174: data received: 450
+
 18/05 13:49:31 174: exec measureOD(2) = 450
 18/05 13:49:31 174: adding 1 neighbors...
 18/05 13:49:31 174: executing: normOD = 1 + od - threshold / threshold
@@ -9857,7 +9914,8 @@
 18/05 13:49:35 889: read 1 bytes
 18/05 13:49:35 889: read 1 bytes
 18/05 13:49:35 889: read 1 bytes
-18/05 13:49:35 889: data received: 500
+18/05 13:49:35 889: data received: 500
+
 18/05 13:49:35 889: exec measureOD(2) = 500
 18/05 13:49:35 889: adding 1 neighbors...
 18/05 13:49:35 889: executing: normOD = 1 + od - threshold / threshold
@@ -9953,7 +10011,8 @@
 18/05 13:49:40 606: read 1 bytes
 18/05 13:49:40 606: read 1 bytes
 18/05 13:49:40 606: read 1 bytes
-18/05 13:49:40 606: data received: 550
+18/05 13:49:40 606: data received: 550
+
 18/05 13:49:40 606: exec measureOD(2) = 550
 18/05 13:49:40 606: adding 1 neighbors...
 18/05 13:49:40 606: executing: normOD = 1 + od - threshold / threshold
@@ -9987,7 +10046,8 @@
 18/05 13:49:41 763: read 1 bytes
 18/05 13:49:41 763: read 1 bytes
 18/05 13:49:41 763: read 1 bytes
-18/05 13:49:41 763: data received: 600
+18/05 13:49:41 763: data received: 600
+
 18/05 13:49:41 763: exec measureOD(2) = 600
 18/05 13:49:41 764: adding 1 neighbors...
 18/05 13:49:41 764: executing: normOD = 1 + od - threshold / threshold
@@ -10021,7 +10081,8 @@
 18/05 13:49:42 920: read 1 bytes
 18/05 13:49:42 920: read 1 bytes
 18/05 13:49:42 920: read 1 bytes
-18/05 13:49:42 920: data received: 625
+18/05 13:49:42 920: data received: 625
+
 18/05 13:49:42 920: exec measureOD(2) = 625
 18/05 13:49:42 920: adding 1 neighbors...
 18/05 13:49:42 920: executing: normOD = 1 + od - threshold / threshold
@@ -10053,7 +10114,8 @@
 18/05 13:49:44 078: read 1 bytes
 18/05 13:49:44 078: read 1 bytes
 18/05 13:49:44 078: read 1 bytes
-18/05 13:49:44 078: data received: 613
+18/05 13:49:44 078: data received: 613
+
 18/05 13:49:44 078: exec measureOD(2) = 613
 18/05 13:49:44 078: adding 1 neighbors...
 18/05 13:49:44 078: executing: normOD = 1 + od - threshold / threshold
@@ -10085,7 +10147,8 @@
 18/05 13:49:45 236: read 1 bytes
 18/05 13:49:45 236: read 1 bytes
 18/05 13:49:45 236: read 1 bytes
-18/05 13:49:45 236: data received: 607
+18/05 13:49:45 236: data received: 607
+
 18/05 13:49:45 236: exec measureOD(2) = 607
 18/05 13:49:45 236: adding 1 neighbors...
 18/05 13:49:45 236: executing: normOD = 1 + od - threshold / threshold
@@ -10117,7 +10180,8 @@
 18/05 13:49:46 393: read 1 bytes
 18/05 13:49:46 393: read 1 bytes
 18/05 13:49:46 393: read 1 bytes
-18/05 13:49:46 393: data received: 604
+18/05 13:49:46 393: data received: 604
+
 18/05 13:49:46 393: exec measureOD(2) = 604
 18/05 13:49:46 393: adding 1 neighbors...
 18/05 13:49:46 393: executing: normOD = 1 + od - threshold / threshold
@@ -10149,7 +10213,8 @@
 18/05 13:49:47 552: read 1 bytes
 18/05 13:49:47 552: read 1 bytes
 18/05 13:49:47 552: read 1 bytes
-18/05 13:49:47 552: data received: 603
+18/05 13:49:47 552: data received: 603
+
 18/05 13:49:47 552: exec measureOD(2) = 603
 18/05 13:49:47 552: adding 1 neighbors...
 18/05 13:49:47 553: executing: normOD = 1 + od - threshold / threshold
@@ -10181,7 +10246,8 @@
 18/05 13:49:48 709: read 1 bytes
 18/05 13:49:48 709: read 1 bytes
 18/05 13:49:48 709: read 1 bytes
-18/05 13:49:48 709: data received: 603
+18/05 13:49:48 709: data received: 603
+
 18/05 13:49:48 710: exec measureOD(2) = 603
 18/05 13:49:48 710: adding 1 neighbors...
 18/05 13:49:48 710: executing: normOD = 1 + od - threshold / threshold
@@ -10213,7 +10279,8 @@
 18/05 13:49:49 865: read 1 bytes
 18/05 13:49:49 865: read 1 bytes
 18/05 13:49:49 865: read 1 bytes
-18/05 13:49:49 865: data received: 603
+18/05 13:49:49 865: data received: 603
+
 18/05 13:49:49 865: exec measureOD(2) = 603
 18/05 13:49:49 865: adding 1 neighbors...
 18/05 13:49:49 866: executing: normOD = 1 + od - threshold / threshold
@@ -11185,7 +11252,8 @@
 18/05 14:01:32 427: waiting for data for 1000 ms
 18/05 14:01:32 527: read 1 bytes
 18/05 14:01:32 527: read 1 bytes
-18/05 14:01:32 527: data received: 0
+18/05 14:01:32 527: data received: 0
+
 18/05 14:01:32 527: exec measureOD(2) = 0
 18/05 14:01:32 527: adding 1 neighbors...
 18/05 14:01:32 528: executing: normOD = 1 + od - threshold / threshold
@@ -11281,7 +11349,8 @@
 18/05 14:01:37 336: read 1 bytes
 18/05 14:01:37 336: read 1 bytes
 18/05 14:01:37 336: read 1 bytes
-18/05 14:01:37 336: data received: 50
+18/05 14:01:37 336: data received: 50
+
 18/05 14:01:37 336: exec measureOD(2) = 50
 18/05 14:01:37 336: adding 1 neighbors...
 18/05 14:01:37 336: executing: normOD = 1 + od - threshold / threshold
@@ -11378,7 +11447,8 @@
 18/05 14:01:42 145: read 1 bytes
 18/05 14:01:42 145: read 1 bytes
 18/05 14:01:42 145: read 1 bytes
-18/05 14:01:42 145: data received: 100
+18/05 14:01:42 145: data received: 100
+
 18/05 14:01:42 145: exec measureOD(2) = 100
 18/05 14:01:42 145: adding 1 neighbors...
 18/05 14:01:42 145: executing: normOD = 1 + od - threshold / threshold
@@ -11475,7 +11545,8 @@
 18/05 14:01:46 953: read 1 bytes
 18/05 14:01:46 953: read 1 bytes
 18/05 14:01:46 954: read 1 bytes
-18/05 14:01:46 954: data received: 150
+18/05 14:01:46 954: data received: 150
+
 18/05 14:01:46 954: exec measureOD(2) = 150
 18/05 14:01:46 954: adding 1 neighbors...
 18/05 14:01:46 954: executing: normOD = 1 + od - threshold / threshold
@@ -11570,7 +11641,8 @@
 18/05 14:01:51 575: read 1 bytes
 18/05 14:01:51 575: read 1 bytes
 18/05 14:01:51 575: read 1 bytes
-18/05 14:01:51 575: data received: 200
+18/05 14:01:51 575: data received: 200
+
 18/05 14:01:51 575: exec measureOD(2) = 200
 18/05 14:01:51 576: adding 1 neighbors...
 18/05 14:01:51 576: executing: normOD = 1 + od - threshold / threshold
@@ -11667,7 +11739,8 @@
 18/05 14:01:56 382: read 1 bytes
 18/05 14:01:56 382: read 1 bytes
 18/05 14:01:56 382: read 1 bytes
-18/05 14:01:56 382: data received: 250
+18/05 14:01:56 382: data received: 250
+
 18/05 14:01:56 383: exec measureOD(2) = 250
 18/05 14:01:56 383: adding 1 neighbors...
 18/05 14:01:56 383: executing: normOD = 1 + od - threshold / threshold
@@ -11763,7 +11836,8 @@
 18/05 14:02:01 095: read 1 bytes
 18/05 14:02:01 095: read 1 bytes
 18/05 14:02:01 095: read 1 bytes
-18/05 14:02:01 095: data received: 300
+18/05 14:02:01 095: data received: 300
+
 18/05 14:02:01 095: exec measureOD(2) = 300
 18/05 14:02:01 095: adding 1 neighbors...
 18/05 14:02:01 096: executing: normOD = 1 + od - threshold / threshold
@@ -11859,7 +11933,8 @@
 18/05 14:02:05 816: read 1 bytes
 18/05 14:02:05 816: read 1 bytes
 18/05 14:02:05 816: read 1 bytes
-18/05 14:02:05 816: data received: 350
+18/05 14:02:05 816: data received: 350
+
 18/05 14:02:05 816: exec measureOD(2) = 350
 18/05 14:02:05 816: adding 1 neighbors...
 18/05 14:02:05 816: executing: normOD = 1 + od - threshold / threshold
@@ -11955,7 +12030,8 @@
 18/05 14:02:10 531: read 1 bytes
 18/05 14:02:10 531: read 1 bytes
 18/05 14:02:10 531: read 1 bytes
-18/05 14:02:10 531: data received: 400
+18/05 14:02:10 531: data received: 400
+
 18/05 14:02:10 531: exec measureOD(2) = 400
 18/05 14:02:10 531: adding 1 neighbors...
 18/05 14:02:10 531: executing: normOD = 1 + od - threshold / threshold
@@ -12052,7 +12128,8 @@
 18/05 14:02:15 342: read 1 bytes
 18/05 14:02:15 342: read 1 bytes
 18/05 14:02:15 342: read 1 bytes
-18/05 14:02:15 342: data received: 450
+18/05 14:02:15 342: data received: 450
+
 18/05 14:02:15 342: exec measureOD(2) = 450
 18/05 14:02:15 342: adding 1 neighbors...
 18/05 14:02:15 342: executing: normOD = 1 + od - threshold / threshold
@@ -12149,7 +12226,8 @@
 18/05 14:02:20 148: read 1 bytes
 18/05 14:02:20 148: read 1 bytes
 18/05 14:02:20 148: read 1 bytes
-18/05 14:02:20 148: data received: 500
+18/05 14:02:20 148: data received: 500
+
 18/05 14:02:20 148: exec measureOD(2) = 500
 18/05 14:02:20 149: adding 1 neighbors...
 18/05 14:02:20 149: executing: normOD = 1 + od - threshold / threshold
@@ -12245,7 +12323,8 @@
 18/05 14:02:24 863: read 1 bytes
 18/05 14:02:24 863: read 1 bytes
 18/05 14:02:24 863: read 1 bytes
-18/05 14:02:24 863: data received: 550
+18/05 14:02:24 863: data received: 550
+
 18/05 14:02:24 863: exec measureOD(2) = 550
 18/05 14:02:24 863: adding 1 neighbors...
 18/05 14:02:24 863: executing: normOD = 1 + od - threshold / threshold
@@ -12279,7 +12358,8 @@
 18/05 14:02:26 019: read 1 bytes
 18/05 14:02:26 019: read 1 bytes
 18/05 14:02:26 019: read 1 bytes
-18/05 14:02:26 019: data received: 600
+18/05 14:02:26 019: data received: 600
+
 18/05 14:02:26 019: exec measureOD(2) = 600
 18/05 14:02:26 019: adding 1 neighbors...
 18/05 14:02:26 019: executing: normOD = 1 + od - threshold / threshold
@@ -12313,7 +12393,8 @@
 18/05 14:02:27 175: read 1 bytes
 18/05 14:02:27 175: read 1 bytes
 18/05 14:02:27 175: read 1 bytes
-18/05 14:02:27 175: data received: 625
+18/05 14:02:27 175: data received: 625
+
 18/05 14:02:27 175: exec measureOD(2) = 625
 18/05 14:02:27 175: adding 1 neighbors...
 18/05 14:02:27 175: executing: normOD = 1 + od - threshold / threshold
@@ -12345,7 +12426,8 @@
 18/05 14:02:28 330: read 1 bytes
 18/05 14:02:28 330: read 1 bytes
 18/05 14:02:28 330: read 1 bytes
-18/05 14:02:28 330: data received: 613
+18/05 14:02:28 330: data received: 613
+
 18/05 14:02:28 330: exec measureOD(2) = 613
 18/05 14:02:28 330: adding 1 neighbors...
 18/05 14:02:28 330: executing: normOD = 1 + od - threshold / threshold
@@ -12377,7 +12459,8 @@
 18/05 14:02:29 487: read 1 bytes
 18/05 14:02:29 487: read 1 bytes
 18/05 14:02:29 487: read 1 bytes
-18/05 14:02:29 487: data received: 607
+18/05 14:02:29 487: data received: 607
+
 18/05 14:02:29 487: exec measureOD(2) = 607
 18/05 14:02:29 488: adding 1 neighbors...
 18/05 14:02:29 488: executing: normOD = 1 + od - threshold / threshold
@@ -12409,7 +12492,8 @@
 18/05 14:02:30 644: read 1 bytes
 18/05 14:02:30 644: read 1 bytes
 18/05 14:02:30 644: read 1 bytes
-18/05 14:02:30 644: data received: 604
+18/05 14:02:30 644: data received: 604
+
 18/05 14:02:30 644: exec measureOD(2) = 604
 18/05 14:02:30 644: adding 1 neighbors...
 18/05 14:02:30 645: executing: normOD = 1 + od - threshold / threshold
@@ -12441,7 +12525,8 @@
 18/05 14:02:31 801: read 1 bytes
 18/05 14:02:31 801: read 1 bytes
 18/05 14:02:31 801: read 1 bytes
-18/05 14:02:31 801: data received: 603
+18/05 14:02:31 801: data received: 603
+
 18/05 14:02:31 801: exec measureOD(2) = 603
 18/05 14:02:31 801: adding 1 neighbors...
 18/05 14:02:31 801: executing: normOD = 1 + od - threshold / threshold
@@ -12473,7 +12558,8 @@
 18/05 14:02:32 957: read 1 bytes
 18/05 14:02:32 957: read 1 bytes
 18/05 14:02:32 957: read 1 bytes
-18/05 14:02:32 957: data received: 603
+18/05 14:02:32 957: data received: 603
+
 18/05 14:02:32 957: exec measureOD(2) = 603
 18/05 14:02:32 957: adding 1 neighbors...
 18/05 14:02:32 958: executing: normOD = 1 + od - threshold / threshold
@@ -12505,7 +12591,8 @@
 18/05 14:02:34 114: read 1 bytes
 18/05 14:02:34 114: read 1 bytes
 18/05 14:02:34 114: read 1 bytes
-18/05 14:02:34 114: data received: 603
+18/05 14:02:34 114: data received: 603
+
 18/05 14:02:34 114: exec measureOD(2) = 603
 18/05 14:02:34 114: adding 1 neighbors...
 18/05 14:02:34 114: executing: normOD = 1 + od - threshold / threshold
@@ -12521,457 +12608,979 @@
 18/05 14:02:34 115: adding 1 neighbors...
 18/05 14:02:34 115: executing loop: actualTime < 20
 18/05 14:02:34 115: adding 1 neighbors...
-20/05 20:07:10 795: executing: epsilon = 0.1
-20/05 20:07:10 795: executing: threshold = 600
-20/05 20:07:10 795: executing: rate = 2
-20/05 20:07:10 795: sketching loadContainer(1, 1000)
-20/05 20:07:10 795: sketching loadContainer(2, 1000)
-20/05 20:07:10 795: sketching loadContainer(3, 1000)
-20/05 20:07:10 795: executing loop: actualTime < 20
-20/05 20:07:10 795: sketching measureOD(2)
-20/05 20:07:10 866: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:10 866: execute: normOD > 1
-20/05 20:07:10 866: execute: normOD < 1
-20/05 20:07:10 866: executing: prop = 1 + normOD - 1
-20/05 20:07:10 866: executing: prop = 1 - normOD - 1
-20/05 20:07:10 866: executing: prop = 1
-20/05 20:07:10 866: execute: fabs(prop - 1) > epsilon
-20/05 20:07:10 866: executing: rate = prop * rate
-20/05 20:07:10 866: sketching setContinousFlow(1, 2, 2)
-20/05 20:07:10 866: sketching setContinousFlow(2, 3, 2)
-20/05 20:07:10 866: sketching timeStept
-20/05 20:07:10 866: time variable: 1
-20/05 20:07:10 867: executing: epsilon = 0.1
-20/05 20:07:10 867: adding 1 neighbors...
-20/05 20:07:10 867: executing: threshold = 600
-20/05 20:07:10 867: adding 1 neighbors...
-20/05 20:07:10 867: executing: rate = 2
-20/05 20:07:10 867: adding 1 neighbors...
-20/05 20:07:10 867: exec loadContainer(1, 1000)
-20/05 20:07:10 867: adding 1 neighbors...
-20/05 20:07:10 867: exec loadContainer(2, 1000)
-20/05 20:07:10 867: adding 1 neighbors...
-20/05 20:07:10 867: exec loadContainer(3, 1000)
-20/05 20:07:10 867: adding 1 neighbors...
-20/05 20:07:10 867: executing loop: actualTime < 20
-20/05 20:07:10 867: adding 1 neighbors...
-20/05 20:07:10 918: data received: 0
-20/05 20:07:10 918: exec measureOD(2) = 0
-20/05 20:07:10 918: adding 1 neighbors...
-20/05 20:07:10 918: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:10 918: adding 1 neighbors...
-20/05 20:07:10 918: execute: normOD > 1
-20/05 20:07:10 918: adding 2 neighbors...
-20/05 20:07:10 918: execute: normOD < 1
-20/05 20:07:10 918: adding 2 neighbors...
-20/05 20:07:10 918: executing: prop = 1 - normOD - 1
-20/05 20:07:10 918: adding 1 neighbors...
-20/05 20:07:10 918: execute: fabs(prop - 1) > epsilon
-20/05 20:07:10 918: adding 2 neighbors...
-20/05 20:07:10 918: executing: rate = prop * rate
-20/05 20:07:10 918: adding 1 neighbors...
-20/05 20:07:10 918: exec setContinousFlow(1, 2, 4)
-20/05 20:07:11 039: adding 1 neighbors...
-20/05 20:07:11 039: exec setContinousFlow(2, 3, 4)
-20/05 20:07:11 099: adding 1 neighbors...
-20/05 20:07:11 099: executing timeStept
-20/05 20:07:11 099: time variable: 1
-20/05 20:07:11 099: adding 1 neighbors...
-20/05 20:07:11 099: executing loop: actualTime < 20
-20/05 20:07:11 099: adding 1 neighbors...
-20/05 20:07:11 150: data received: 50
-20/05 20:07:11 150: exec measureOD(2) = 50
-20/05 20:07:11 150: adding 1 neighbors...
-20/05 20:07:11 150: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:11 150: adding 1 neighbors...
-20/05 20:07:11 150: execute: normOD > 1
-20/05 20:07:11 150: adding 2 neighbors...
-20/05 20:07:11 150: execute: normOD < 1
-20/05 20:07:11 150: adding 2 neighbors...
-20/05 20:07:11 150: executing: prop = 1 - normOD - 1
-20/05 20:07:11 150: adding 1 neighbors...
-20/05 20:07:11 150: execute: fabs(prop - 1) > epsilon
-20/05 20:07:11 150: adding 2 neighbors...
-20/05 20:07:11 150: executing: rate = prop * rate
-20/05 20:07:11 150: adding 1 neighbors...
-20/05 20:07:11 150: exec setContinousFlow(1, 2, 7.66667)
-20/05 20:07:11 272: adding 1 neighbors...
-20/05 20:07:11 272: exec setContinousFlow(2, 3, 7.66667)
-20/05 20:07:11 333: adding 1 neighbors...
-20/05 20:07:11 333: executing timeStept
-20/05 20:07:11 333: time variable: 2
-20/05 20:07:11 333: adding 1 neighbors...
-20/05 20:07:11 333: executing loop: actualTime < 20
-20/05 20:07:11 333: adding 1 neighbors...
-20/05 20:07:11 384: data received: 100
-20/05 20:07:11 384: exec measureOD(2) = 100
-20/05 20:07:11 384: adding 1 neighbors...
-20/05 20:07:11 384: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:11 384: adding 1 neighbors...
-20/05 20:07:11 384: execute: normOD > 1
-20/05 20:07:11 384: adding 2 neighbors...
-20/05 20:07:11 384: execute: normOD < 1
-20/05 20:07:11 384: adding 2 neighbors...
-20/05 20:07:11 384: executing: prop = 1 - normOD - 1
-20/05 20:07:11 384: adding 1 neighbors...
-20/05 20:07:11 384: execute: fabs(prop - 1) > epsilon
-20/05 20:07:11 384: adding 2 neighbors...
-20/05 20:07:11 384: executing: rate = prop * rate
-20/05 20:07:11 384: adding 1 neighbors...
-20/05 20:07:11 384: exec setContinousFlow(1, 2, 14.0556)
-20/05 20:07:11 506: adding 1 neighbors...
-20/05 20:07:11 506: exec setContinousFlow(2, 3, 14.0556)
-20/05 20:07:11 566: adding 1 neighbors...
-20/05 20:07:11 566: executing timeStept
-20/05 20:07:11 566: time variable: 3
-20/05 20:07:11 566: adding 1 neighbors...
-20/05 20:07:11 566: executing loop: actualTime < 20
-20/05 20:07:11 566: adding 1 neighbors...
-20/05 20:07:11 617: data received: 150
-20/05 20:07:11 617: exec measureOD(2) = 150
-20/05 20:07:11 617: adding 1 neighbors...
-20/05 20:07:11 617: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:11 617: adding 1 neighbors...
-20/05 20:07:11 617: execute: normOD > 1
-20/05 20:07:11 617: adding 2 neighbors...
-20/05 20:07:11 617: execute: normOD < 1
-20/05 20:07:11 617: adding 2 neighbors...
-20/05 20:07:11 617: executing: prop = 1 - normOD - 1
-20/05 20:07:11 617: adding 1 neighbors...
-20/05 20:07:11 617: execute: fabs(prop - 1) > epsilon
-20/05 20:07:11 617: adding 2 neighbors...
-20/05 20:07:11 617: executing: rate = prop * rate
-20/05 20:07:11 617: adding 1 neighbors...
-20/05 20:07:11 617: exec setContinousFlow(1, 2, 24.5972)
-20/05 20:07:11 739: adding 1 neighbors...
-20/05 20:07:11 739: exec setContinousFlow(2, 3, 24.5972)
-20/05 20:07:11 800: adding 1 neighbors...
-20/05 20:07:11 800: executing timeStept
-20/05 20:07:11 800: time variable: 4
-20/05 20:07:11 800: adding 1 neighbors...
-20/05 20:07:11 800: executing loop: actualTime < 20
-20/05 20:07:11 800: adding 1 neighbors...
-20/05 20:07:11 851: data received: 200
-20/05 20:07:11 851: exec measureOD(2) = 200
-20/05 20:07:11 851: adding 1 neighbors...
-20/05 20:07:11 851: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:11 851: adding 1 neighbors...
-20/05 20:07:11 851: execute: normOD > 1
-20/05 20:07:11 851: adding 2 neighbors...
-20/05 20:07:11 851: execute: normOD < 1
-20/05 20:07:11 851: adding 2 neighbors...
-20/05 20:07:11 851: executing: prop = 1 - normOD - 1
-20/05 20:07:11 851: adding 1 neighbors...
-20/05 20:07:11 851: execute: fabs(prop - 1) > epsilon
-20/05 20:07:11 851: adding 2 neighbors...
-20/05 20:07:11 851: executing: rate = prop * rate
-20/05 20:07:11 851: adding 1 neighbors...
-20/05 20:07:11 851: exec setContinousFlow(1, 2, 40.9954)
-20/05 20:07:11 972: adding 1 neighbors...
-20/05 20:07:11 972: exec setContinousFlow(2, 3, 40.9954)
-20/05 20:07:12 033: adding 1 neighbors...
-20/05 20:07:12 033: executing timeStept
-20/05 20:07:12 033: time variable: 5
-20/05 20:07:12 033: adding 1 neighbors...
-20/05 20:07:12 033: executing loop: actualTime < 20
-20/05 20:07:12 033: adding 1 neighbors...
-20/05 20:07:12 084: data received: 250
-20/05 20:07:12 084: exec measureOD(2) = 250
-20/05 20:07:12 084: adding 1 neighbors...
-20/05 20:07:12 084: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:12 084: adding 1 neighbors...
-20/05 20:07:12 084: execute: normOD > 1
-20/05 20:07:12 084: adding 2 neighbors...
-20/05 20:07:12 084: execute: normOD < 1
-20/05 20:07:12 084: adding 2 neighbors...
-20/05 20:07:12 084: executing: prop = 1 - normOD - 1
-20/05 20:07:12 084: adding 1 neighbors...
-20/05 20:07:12 084: execute: fabs(prop - 1) > epsilon
-20/05 20:07:12 084: adding 2 neighbors...
-20/05 20:07:12 084: executing: rate = prop * rate
-20/05 20:07:12 084: adding 1 neighbors...
-20/05 20:07:12 084: exec setContinousFlow(1, 2, 64.9093)
-20/05 20:07:12 205: adding 1 neighbors...
-20/05 20:07:12 205: exec setContinousFlow(2, 3, 64.9093)
-20/05 20:07:12 266: adding 1 neighbors...
-20/05 20:07:12 266: executing timeStept
-20/05 20:07:12 266: time variable: 6
-20/05 20:07:12 266: adding 1 neighbors...
-20/05 20:07:12 266: executing loop: actualTime < 20
-20/05 20:07:12 266: adding 1 neighbors...
-20/05 20:07:12 317: data received: 300
-20/05 20:07:12 317: exec measureOD(2) = 300
-20/05 20:07:12 317: adding 1 neighbors...
-20/05 20:07:12 317: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:12 317: adding 1 neighbors...
-20/05 20:07:12 317: execute: normOD > 1
-20/05 20:07:12 317: adding 2 neighbors...
-20/05 20:07:12 317: execute: normOD < 1
-20/05 20:07:12 317: adding 2 neighbors...
-20/05 20:07:12 317: executing: prop = 1 - normOD - 1
-20/05 20:07:12 317: adding 1 neighbors...
-20/05 20:07:12 317: execute: fabs(prop - 1) > epsilon
-20/05 20:07:12 317: adding 2 neighbors...
-20/05 20:07:12 317: executing: rate = prop * rate
-20/05 20:07:12 317: adding 1 neighbors...
-20/05 20:07:12 317: exec setContinousFlow(1, 2, 97.364)
-20/05 20:07:12 438: adding 1 neighbors...
-20/05 20:07:12 438: exec setContinousFlow(2, 3, 97.364)
-20/05 20:07:12 499: adding 1 neighbors...
-20/05 20:07:12 499: executing timeStept
-20/05 20:07:12 499: time variable: 7
-20/05 20:07:12 499: adding 1 neighbors...
-20/05 20:07:12 499: executing loop: actualTime < 20
-20/05 20:07:12 499: adding 1 neighbors...
-20/05 20:07:12 550: data received: 350
-20/05 20:07:12 550: exec measureOD(2) = 350
-20/05 20:07:12 550: adding 1 neighbors...
-20/05 20:07:12 550: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:12 550: adding 1 neighbors...
-20/05 20:07:12 550: execute: normOD > 1
-20/05 20:07:12 550: adding 2 neighbors...
-20/05 20:07:12 550: execute: normOD < 1
-20/05 20:07:12 550: adding 2 neighbors...
-20/05 20:07:12 550: executing: prop = 1 - normOD - 1
-20/05 20:07:12 550: adding 1 neighbors...
-20/05 20:07:12 550: execute: fabs(prop - 1) > epsilon
-20/05 20:07:12 550: adding 2 neighbors...
-20/05 20:07:12 550: executing: rate = prop * rate
-20/05 20:07:12 550: adding 1 neighbors...
-20/05 20:07:12 550: exec setContinousFlow(1, 2, 137.932)
-20/05 20:07:12 671: adding 1 neighbors...
-20/05 20:07:12 671: exec setContinousFlow(2, 3, 137.932)
-20/05 20:07:12 732: adding 1 neighbors...
-20/05 20:07:12 732: executing timeStept
-20/05 20:07:12 732: time variable: 8
-20/05 20:07:12 732: adding 1 neighbors...
-20/05 20:07:12 732: executing loop: actualTime < 20
-20/05 20:07:12 732: adding 1 neighbors...
-20/05 20:07:12 783: data received: 400
-20/05 20:07:12 783: exec measureOD(2) = 400
-20/05 20:07:12 783: adding 1 neighbors...
-20/05 20:07:12 783: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:12 783: adding 1 neighbors...
-20/05 20:07:12 783: execute: normOD > 1
-20/05 20:07:12 783: adding 2 neighbors...
-20/05 20:07:12 783: execute: normOD < 1
-20/05 20:07:12 783: adding 2 neighbors...
-20/05 20:07:12 783: executing: prop = 1 - normOD - 1
-20/05 20:07:12 783: adding 1 neighbors...
-20/05 20:07:12 783: execute: fabs(prop - 1) > epsilon
-20/05 20:07:12 783: adding 2 neighbors...
-20/05 20:07:12 783: executing: rate = prop * rate
-20/05 20:07:12 783: adding 1 neighbors...
-20/05 20:07:12 783: exec setContinousFlow(1, 2, 183.91)
-20/05 20:07:12 905: adding 1 neighbors...
-20/05 20:07:12 905: exec setContinousFlow(2, 3, 183.91)
-20/05 20:07:12 966: adding 1 neighbors...
-20/05 20:07:12 966: executing timeStept
-20/05 20:07:12 966: time variable: 9
-20/05 20:07:12 966: adding 1 neighbors...
-20/05 20:07:12 966: executing loop: actualTime < 20
-20/05 20:07:12 966: adding 1 neighbors...
-20/05 20:07:13 017: data received: 450
-20/05 20:07:13 017: exec measureOD(2) = 450
-20/05 20:07:13 017: adding 1 neighbors...
-20/05 20:07:13 017: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:13 017: adding 1 neighbors...
-20/05 20:07:13 017: execute: normOD > 1
-20/05 20:07:13 017: adding 2 neighbors...
-20/05 20:07:13 017: execute: normOD < 1
-20/05 20:07:13 017: adding 2 neighbors...
-20/05 20:07:13 017: executing: prop = 1 - normOD - 1
-20/05 20:07:13 017: adding 1 neighbors...
-20/05 20:07:13 017: execute: fabs(prop - 1) > epsilon
-20/05 20:07:13 017: adding 2 neighbors...
-20/05 20:07:13 017: executing: rate = prop * rate
-20/05 20:07:13 019: adding 1 neighbors...
-20/05 20:07:13 019: exec setContinousFlow(1, 2, 229.887)
-20/05 20:07:13 140: adding 1 neighbors...
-20/05 20:07:13 140: exec setContinousFlow(2, 3, 229.887)
-20/05 20:07:13 201: adding 1 neighbors...
-20/05 20:07:13 201: executing timeStept
-20/05 20:07:13 201: time variable: 10
-20/05 20:07:13 201: adding 1 neighbors...
-20/05 20:07:13 201: executing loop: actualTime < 20
-20/05 20:07:13 201: adding 1 neighbors...
-20/05 20:07:13 252: data received: 500
-20/05 20:07:13 252: exec measureOD(2) = 500
-20/05 20:07:13 252: adding 1 neighbors...
-20/05 20:07:13 252: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:13 252: adding 1 neighbors...
-20/05 20:07:13 252: execute: normOD > 1
-20/05 20:07:13 252: adding 2 neighbors...
-20/05 20:07:13 252: execute: normOD < 1
-20/05 20:07:13 252: adding 2 neighbors...
-20/05 20:07:13 252: executing: prop = 1 - normOD - 1
-20/05 20:07:13 252: adding 1 neighbors...
-20/05 20:07:13 252: execute: fabs(prop - 1) > epsilon
-20/05 20:07:13 252: adding 2 neighbors...
-20/05 20:07:13 252: executing: rate = prop * rate
-20/05 20:07:13 252: adding 1 neighbors...
-20/05 20:07:13 252: exec setContinousFlow(1, 2, 268.202)
-20/05 20:07:13 373: adding 1 neighbors...
-20/05 20:07:13 373: exec setContinousFlow(2, 3, 268.202)
-20/05 20:07:13 434: adding 1 neighbors...
-20/05 20:07:13 434: executing timeStept
-20/05 20:07:13 434: time variable: 11
-20/05 20:07:13 434: adding 1 neighbors...
-20/05 20:07:13 434: executing loop: actualTime < 20
-20/05 20:07:13 434: adding 1 neighbors...
-20/05 20:07:13 484: data received: 550
-20/05 20:07:13 484: exec measureOD(2) = 550
-20/05 20:07:13 484: adding 1 neighbors...
-20/05 20:07:13 484: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:13 484: adding 1 neighbors...
-20/05 20:07:13 484: execute: normOD > 1
-20/05 20:07:13 484: adding 2 neighbors...
-20/05 20:07:13 484: execute: normOD < 1
-20/05 20:07:13 484: adding 2 neighbors...
-20/05 20:07:13 484: executing: prop = 1 - normOD - 1
-20/05 20:07:13 484: adding 1 neighbors...
-20/05 20:07:13 484: execute: fabs(prop - 1) > epsilon
-20/05 20:07:13 484: adding 2 neighbors...
-20/05 20:07:13 484: executing timeStept
-20/05 20:07:13 484: time variable: 12
-20/05 20:07:13 484: adding 1 neighbors...
-20/05 20:07:13 484: executing loop: actualTime < 20
-20/05 20:07:13 484: adding 1 neighbors...
-20/05 20:07:13 535: data received: 600
-20/05 20:07:13 535: exec measureOD(2) = 600
-20/05 20:07:13 535: adding 1 neighbors...
-20/05 20:07:13 535: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:13 535: adding 1 neighbors...
-20/05 20:07:13 535: execute: normOD > 1
-20/05 20:07:13 535: adding 2 neighbors...
-20/05 20:07:13 535: execute: normOD < 1
-20/05 20:07:13 535: adding 2 neighbors...
-20/05 20:07:13 535: executing: prop = 1
-20/05 20:07:13 535: adding 1 neighbors...
-20/05 20:07:13 535: execute: fabs(prop - 1) > epsilon
-20/05 20:07:13 535: adding 2 neighbors...
-20/05 20:07:13 535: executing timeStept
-20/05 20:07:13 535: time variable: 13
-20/05 20:07:13 535: adding 1 neighbors...
-20/05 20:07:13 535: executing loop: actualTime < 20
-20/05 20:07:13 535: adding 1 neighbors...
-20/05 20:07:13 586: data received: 650
-20/05 20:07:13 586: exec measureOD(2) = 650
-20/05 20:07:13 586: adding 1 neighbors...
-20/05 20:07:13 586: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:13 586: adding 1 neighbors...
-20/05 20:07:13 586: execute: normOD > 1
-20/05 20:07:13 586: adding 2 neighbors...
-20/05 20:07:13 586: executing: prop = 1 + normOD - 1
-20/05 20:07:13 586: adding 1 neighbors...
-20/05 20:07:13 586: execute: fabs(prop - 1) > epsilon
-20/05 20:07:13 586: adding 2 neighbors...
-20/05 20:07:13 586: executing timeStept
-20/05 20:07:13 586: time variable: 14
-20/05 20:07:13 586: adding 1 neighbors...
-20/05 20:07:13 586: executing loop: actualTime < 20
-20/05 20:07:13 586: adding 1 neighbors...
-20/05 20:07:13 636: data received: 600
-20/05 20:07:13 636: exec measureOD(2) = 600
-20/05 20:07:13 636: adding 1 neighbors...
-20/05 20:07:13 636: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:13 636: adding 1 neighbors...
-20/05 20:07:13 636: execute: normOD > 1
-20/05 20:07:13 636: adding 2 neighbors...
-20/05 20:07:13 636: execute: normOD < 1
-20/05 20:07:13 636: adding 2 neighbors...
-20/05 20:07:13 636: executing: prop = 1
-20/05 20:07:13 636: adding 1 neighbors...
-20/05 20:07:13 636: execute: fabs(prop - 1) > epsilon
-20/05 20:07:13 636: adding 2 neighbors...
-20/05 20:07:13 636: executing timeStept
-20/05 20:07:13 636: time variable: 15
-20/05 20:07:13 636: adding 1 neighbors...
-20/05 20:07:13 636: executing loop: actualTime < 20
-20/05 20:07:13 636: adding 1 neighbors...
-20/05 20:07:13 687: data received: 630
-20/05 20:07:13 687: exec measureOD(2) = 630
-20/05 20:07:13 687: adding 1 neighbors...
-20/05 20:07:13 687: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:13 687: adding 1 neighbors...
-20/05 20:07:13 687: execute: normOD > 1
-20/05 20:07:13 687: adding 2 neighbors...
-20/05 20:07:13 687: executing: prop = 1 + normOD - 1
-20/05 20:07:13 687: adding 1 neighbors...
-20/05 20:07:13 687: execute: fabs(prop - 1) > epsilon
-20/05 20:07:13 687: adding 2 neighbors...
-20/05 20:07:13 687: executing timeStept
-20/05 20:07:13 687: time variable: 16
-20/05 20:07:13 687: adding 1 neighbors...
-20/05 20:07:13 687: executing loop: actualTime < 20
-20/05 20:07:13 687: adding 1 neighbors...
-20/05 20:07:13 738: data received: 600
-20/05 20:07:13 738: exec measureOD(2) = 600
-20/05 20:07:13 738: adding 1 neighbors...
-20/05 20:07:13 738: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:13 738: adding 1 neighbors...
-20/05 20:07:13 738: execute: normOD > 1
-20/05 20:07:13 738: adding 2 neighbors...
-20/05 20:07:13 738: execute: normOD < 1
-20/05 20:07:13 738: adding 2 neighbors...
-20/05 20:07:13 738: executing: prop = 1
-20/05 20:07:13 739: adding 1 neighbors...
-20/05 20:07:13 739: execute: fabs(prop - 1) > epsilon
-20/05 20:07:13 739: adding 2 neighbors...
-20/05 20:07:13 739: executing timeStept
-20/05 20:07:13 739: time variable: 17
-20/05 20:07:13 739: adding 1 neighbors...
-20/05 20:07:13 739: executing loop: actualTime < 20
-20/05 20:07:13 739: adding 1 neighbors...
-20/05 20:07:13 789: data received: 610
-20/05 20:07:13 789: exec measureOD(2) = 610
-20/05 20:07:13 789: adding 1 neighbors...
-20/05 20:07:13 789: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:13 789: adding 1 neighbors...
-20/05 20:07:13 789: execute: normOD > 1
-20/05 20:07:13 789: adding 2 neighbors...
-20/05 20:07:13 789: executing: prop = 1 + normOD - 1
-20/05 20:07:13 789: adding 1 neighbors...
-20/05 20:07:13 789: execute: fabs(prop - 1) > epsilon
-20/05 20:07:13 789: adding 2 neighbors...
-20/05 20:07:13 789: executing timeStept
-20/05 20:07:13 789: time variable: 18
-20/05 20:07:13 789: adding 1 neighbors...
-20/05 20:07:13 789: executing loop: actualTime < 20
-20/05 20:07:13 789: adding 1 neighbors...
-20/05 20:07:13 840: data received: 600
-20/05 20:07:13 840: exec measureOD(2) = 600
-20/05 20:07:13 840: adding 1 neighbors...
-20/05 20:07:13 840: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:13 840: adding 1 neighbors...
-20/05 20:07:13 840: execute: normOD > 1
-20/05 20:07:13 840: adding 2 neighbors...
-20/05 20:07:13 840: execute: normOD < 1
-20/05 20:07:13 840: adding 2 neighbors...
-20/05 20:07:13 840: executing: prop = 1
-20/05 20:07:13 840: adding 1 neighbors...
-20/05 20:07:13 840: execute: fabs(prop - 1) > epsilon
-20/05 20:07:13 840: adding 2 neighbors...
-20/05 20:07:13 840: executing timeStept
-20/05 20:07:13 840: time variable: 19
-20/05 20:07:13 840: adding 1 neighbors...
-20/05 20:07:13 840: executing loop: actualTime < 20
-20/05 20:07:13 840: adding 1 neighbors...
-20/05 20:07:13 890: data received: 600
-20/05 20:07:13 890: exec measureOD(2) = 600
-20/05 20:07:13 890: adding 1 neighbors...
-20/05 20:07:13 890: executing: normOD = 1 + od - threshold / threshold
-20/05 20:07:13 890: adding 1 neighbors...
-20/05 20:07:13 890: execute: normOD > 1
-20/05 20:07:13 890: adding 2 neighbors...
-20/05 20:07:13 890: execute: normOD < 1
-20/05 20:07:13 890: adding 2 neighbors...
-20/05 20:07:13 890: executing: prop = 1
-20/05 20:07:13 890: adding 1 neighbors...
-20/05 20:07:13 890: execute: fabs(prop - 1) > epsilon
-20/05 20:07:13 890: adding 2 neighbors...
-20/05 20:07:13 890: executing timeStept
-20/05 20:07:13 890: time variable: 20
-20/05 20:07:13 890: adding 1 neighbors...
-20/05 20:07:13 890: executing loop: actualTime < 20
-20/05 20:07:13 890: adding 1 neighbors...
+22/05 18:41:00 770: executing: normOD = 1 + od - threshold / threshold
+22/05 18:41:35 738: executing: normOD = 1 + od - threshold / threshold
+22/05 18:46:26 578: executing: normOD = 1 + od - threshold / threshold
+22/05 18:47:26 116: valor para tiempo(0.0) = 0
+22/05 18:47:26 117: valor para tiempo(1.0) = 1
+22/05 18:47:26 118: excepcion invalid_argument = the key:"wikiwiki" does not exits
+22/05 19:04:21 535: executing: normOD = 1 + od - threshold / threshold
+22/05 19:04:21 545: executing: epsilon = 0.1
+22/05 19:04:21 546: executing: threshold = 600
+22/05 19:04:21 547: executing: rate = 2
+22/05 19:04:21 548: sketching loadContainer(1, 1000)
+22/05 19:04:21 550: sketching loadContainer(2, 1000)
+22/05 19:04:21 551: sketching loadContainer(3, 1000)
+22/05 19:04:21 552: executing loop: actualTime < 20
+22/05 19:04:21 554: sketching measureOD(2)
+22/05 19:04:21 555: execute: normOD > 1
+22/05 19:04:21 557: execute: normOD < 1
+22/05 19:04:21 558: executing: prop = 1 + normOD - 1
+22/05 19:04:21 562: executing: prop = 1 - normOD - 1
+22/05 19:04:21 567: executing: prop = 1
+22/05 19:04:21 568: execute: fabs(prop - 1) > epsilon
+22/05 19:04:21 570: executing: rate = prop * rate
+22/05 19:04:21 571: sketching setContinousFlow(1, 2, 2)
+22/05 19:04:21 572: sketching setContinousFlow(2, 3, 2)
+22/05 19:04:21 574: sketching timeStept
+22/05 19:04:21 575: time variable: 1
+22/05 19:06:14 014: executing: normOD = 1 + od - threshold / threshold
+22/05 19:06:14 075: executing: epsilon = 0.1
+22/05 19:06:14 077: executing: threshold = 600
+22/05 19:06:14 078: executing: rate = 2
+22/05 19:06:14 080: sketching loadContainer(1, 1000)
+22/05 19:06:14 081: sketching loadContainer(2, 1000)
+22/05 19:06:14 083: sketching loadContainer(3, 1000)
+22/05 19:06:14 084: executing loop: actualTime < 20
+22/05 19:06:14 086: sketching measureOD(2)
+22/05 19:06:14 087: execute: normOD > 1
+22/05 19:06:14 088: execute: normOD < 1
+22/05 19:06:14 090: executing: prop = 1 + normOD - 1
+22/05 19:06:14 111: executing: prop = 1 - normOD - 1
+22/05 19:06:14 130: executing: prop = 1
+22/05 19:06:14 131: execute: fabs(prop - 1) > epsilon
+22/05 19:06:14 132: executing: rate = prop * rate
+22/05 19:06:14 133: sketching setContinousFlow(1, 2, 2)
+22/05 19:06:14 135: sketching setContinousFlow(2, 3, 2)
+22/05 19:06:14 137: sketching timeStept
+22/05 19:06:14 138: time variable: 1
+22/05 19:07:22 661: executing: normOD = 1 + od - threshold / threshold
+22/05 19:07:22 668: executing: epsilon = 0.1
+22/05 19:07:22 669: executing: threshold = 600
+22/05 19:07:22 670: executing: rate = 2
+22/05 19:07:22 671: sketching loadContainer(1, 1000)
+22/05 19:07:22 673: sketching loadContainer(2, 1000)
+22/05 19:07:22 674: sketching loadContainer(3, 1000)
+22/05 19:07:22 675: executing loop: actualTime < 20
+22/05 19:07:22 676: sketching measureOD(2)
+22/05 19:07:22 677: execute: normOD > 1
+22/05 19:07:22 679: execute: normOD < 1
+22/05 19:07:22 680: executing: prop = 1 + normOD - 1
+22/05 19:07:22 689: executing: prop = 1 - normOD - 1
+22/05 19:07:22 694: executing: prop = 1
+22/05 19:07:22 695: execute: fabs(prop - 1) > epsilon
+22/05 19:07:22 696: executing: rate = prop * rate
+22/05 19:07:22 698: sketching setContinousFlow(1, 2, 2)
+22/05 19:07:22 699: sketching setContinousFlow(2, 3, 2)
+22/05 19:07:22 701: sketching timeStept
+22/05 19:07:22 702: time variable: 1
+22/05 19:20:13 018: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:13 024: executing: epsilon = 0.1
+22/05 19:20:13 025: executing: threshold = 600
+22/05 19:20:13 026: executing: rate = 2
+22/05 19:20:13 027: sketching loadContainer(1, 1000)
+22/05 19:20:13 029: sketching loadContainer(2, 1000)
+22/05 19:20:13 030: sketching loadContainer(3, 1000)
+22/05 19:20:13 032: executing loop: actualTime < 20
+22/05 19:20:13 034: sketching measureOD(2)
+22/05 19:20:13 035: execute: normOD > 1
+22/05 19:20:13 036: execute: normOD < 1
+22/05 19:20:13 037: executing: prop = 1 + normOD - 1
+22/05 19:20:13 041: executing: prop = 1 - normOD - 1
+22/05 19:20:13 046: executing: prop = 1
+22/05 19:20:13 047: execute: fabs(prop - 1) > epsilon
+22/05 19:20:13 049: executing: rate = prop * rate
+22/05 19:20:13 050: sketching setContinousFlow(1, 2, 2)
+22/05 19:20:13 052: sketching setContinousFlow(2, 3, 2)
+22/05 19:20:13 053: sketching timeStept
+22/05 19:20:13 054: time variable: 1
+22/05 19:20:13 057: executing: epsilon = 0.1
+22/05 19:20:13 058: adding 1 neighbors...
+22/05 19:20:13 059: executing: threshold = 600
+22/05 19:20:13 060: adding 1 neighbors...
+22/05 19:20:13 061: executing: rate = 2
+22/05 19:20:13 062: adding 1 neighbors...
+22/05 19:20:13 063: exec loadContainer(1, 1000)
+22/05 19:20:13 064: adding 1 neighbors...
+22/05 19:20:13 066: exec loadContainer(2, 1000)
+22/05 19:20:13 067: adding 1 neighbors...
+22/05 19:20:13 068: exec loadContainer(3, 1000)
+22/05 19:20:13 069: adding 1 neighbors...
+22/05 19:20:13 070: executing loop: actualTime < 20
+22/05 19:20:13 081: adding 1 neighbors...
+22/05 19:20:13 135: data received: 0
+22/05 19:20:13 138: exec measureOD(2) = 0
+22/05 19:20:13 139: adding 1 neighbors...
+22/05 19:20:13 140: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:13 142: adding 1 neighbors...
+22/05 19:20:13 143: execute: normOD > 1
+22/05 19:20:13 144: adding 2 neighbors...
+22/05 19:20:13 145: execute: normOD < 1
+22/05 19:20:13 146: adding 2 neighbors...
+22/05 19:20:13 148: executing: prop = 1 - normOD - 1
+22/05 19:20:13 149: adding 1 neighbors...
+22/05 19:20:13 151: execute: fabs(prop - 1) > epsilon
+22/05 19:20:13 152: adding 2 neighbors...
+22/05 19:20:13 154: executing: rate = prop * rate
+22/05 19:20:13 161: adding 1 neighbors...
+22/05 19:20:13 162: exec setContinousFlow(1, 2, 4)
+22/05 19:20:13 285: adding 1 neighbors...
+22/05 19:20:13 291: exec setContinousFlow(2, 3, 4)
+22/05 19:20:13 357: adding 1 neighbors...
+22/05 19:20:13 362: executing timeStept
+22/05 19:20:13 368: time variable: 1
+22/05 19:20:13 373: adding 1 neighbors...
+22/05 19:20:13 378: executing loop: actualTime < 20
+22/05 19:20:13 384: adding 1 neighbors...
+22/05 19:20:13 439: data received: 50
+22/05 19:20:13 442: exec measureOD(2) = 50
+22/05 19:20:13 445: adding 1 neighbors...
+22/05 19:20:13 448: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:13 453: adding 1 neighbors...
+22/05 19:20:13 456: execute: normOD > 1
+22/05 19:20:13 458: adding 2 neighbors...
+22/05 19:20:13 461: execute: normOD < 1
+22/05 19:20:13 464: adding 2 neighbors...
+22/05 19:20:13 467: executing: prop = 1 - normOD - 1
+22/05 19:20:13 470: adding 1 neighbors...
+22/05 19:20:13 473: execute: fabs(prop - 1) > epsilon
+22/05 19:20:13 476: adding 2 neighbors...
+22/05 19:20:13 477: executing: rate = prop * rate
+22/05 19:20:13 479: adding 1 neighbors...
+22/05 19:20:13 481: exec setContinousFlow(1, 2, 7.66667)
+22/05 19:20:13 606: adding 1 neighbors...
+22/05 19:20:13 609: exec setContinousFlow(2, 3, 7.66667)
+22/05 19:20:13 673: adding 1 neighbors...
+22/05 19:20:13 674: executing timeStept
+22/05 19:20:13 676: time variable: 2
+22/05 19:20:13 677: adding 1 neighbors...
+22/05 19:20:13 678: executing loop: actualTime < 20
+22/05 19:20:13 679: adding 1 neighbors...
+22/05 19:20:13 731: data received: 100
+22/05 19:20:13 736: exec measureOD(2) = 100
+22/05 19:20:13 741: adding 1 neighbors...
+22/05 19:20:13 746: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:13 756: adding 1 neighbors...
+22/05 19:20:13 763: execute: normOD > 1
+22/05 19:20:13 769: adding 2 neighbors...
+22/05 19:20:13 775: execute: normOD < 1
+22/05 19:20:13 777: adding 2 neighbors...
+22/05 19:20:13 781: executing: prop = 1 - normOD - 1
+22/05 19:20:13 784: adding 1 neighbors...
+22/05 19:20:13 790: execute: fabs(prop - 1) > epsilon
+22/05 19:20:13 793: adding 2 neighbors...
+22/05 19:20:13 796: executing: rate = prop * rate
+22/05 19:20:13 798: adding 1 neighbors...
+22/05 19:20:13 802: exec setContinousFlow(1, 2, 14.0556)
+22/05 19:20:13 926: adding 1 neighbors...
+22/05 19:20:13 931: exec setContinousFlow(2, 3, 14.0556)
+22/05 19:20:13 999: adding 1 neighbors...
+22/05 19:20:14 005: executing timeStept
+22/05 19:20:14 011: time variable: 3
+22/05 19:20:14 017: adding 1 neighbors...
+22/05 19:20:14 022: executing loop: actualTime < 20
+22/05 19:20:14 029: adding 1 neighbors...
+22/05 19:20:14 087: data received: 150
+22/05 19:20:14 088: exec measureOD(2) = 150
+22/05 19:20:14 090: adding 1 neighbors...
+22/05 19:20:14 091: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:14 093: adding 1 neighbors...
+22/05 19:20:14 094: execute: normOD > 1
+22/05 19:20:14 096: adding 2 neighbors...
+22/05 19:20:14 097: execute: normOD < 1
+22/05 19:20:14 098: adding 2 neighbors...
+22/05 19:20:14 100: executing: prop = 1 - normOD - 1
+22/05 19:20:14 102: adding 1 neighbors...
+22/05 19:20:14 103: execute: fabs(prop - 1) > epsilon
+22/05 19:20:14 105: adding 2 neighbors...
+22/05 19:20:14 106: executing: rate = prop * rate
+22/05 19:20:14 108: adding 1 neighbors...
+22/05 19:20:14 109: exec setContinousFlow(1, 2, 24.5972)
+22/05 19:20:14 233: adding 1 neighbors...
+22/05 19:20:14 236: exec setContinousFlow(2, 3, 24.5972)
+22/05 19:20:14 300: adding 1 neighbors...
+22/05 19:20:14 302: executing timeStept
+22/05 19:20:14 303: time variable: 4
+22/05 19:20:14 304: adding 1 neighbors...
+22/05 19:20:14 306: executing loop: actualTime < 20
+22/05 19:20:14 308: adding 1 neighbors...
+22/05 19:20:14 360: data received: 200
+22/05 19:20:14 365: exec measureOD(2) = 200
+22/05 19:20:14 369: adding 1 neighbors...
+22/05 19:20:14 374: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:14 379: adding 1 neighbors...
+22/05 19:20:14 384: execute: normOD > 1
+22/05 19:20:14 391: adding 2 neighbors...
+22/05 19:20:14 395: execute: normOD < 1
+22/05 19:20:14 398: adding 2 neighbors...
+22/05 19:20:14 403: executing: prop = 1 - normOD - 1
+22/05 19:20:14 406: adding 1 neighbors...
+22/05 19:20:14 408: execute: fabs(prop - 1) > epsilon
+22/05 19:20:14 412: adding 2 neighbors...
+22/05 19:20:14 413: executing: rate = prop * rate
+22/05 19:20:14 416: adding 1 neighbors...
+22/05 19:20:14 419: exec setContinousFlow(1, 2, 40.9954)
+22/05 19:20:14 543: adding 1 neighbors...
+22/05 19:20:14 549: exec setContinousFlow(2, 3, 40.9954)
+22/05 19:20:14 618: adding 1 neighbors...
+22/05 19:20:14 623: executing timeStept
+22/05 19:20:14 628: time variable: 5
+22/05 19:20:14 632: adding 1 neighbors...
+22/05 19:20:14 637: executing loop: actualTime < 20
+22/05 19:20:14 644: adding 1 neighbors...
+22/05 19:20:14 697: data received: 250
+22/05 19:20:14 700: exec measureOD(2) = 250
+22/05 19:20:14 703: adding 1 neighbors...
+22/05 19:20:14 706: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:14 710: adding 1 neighbors...
+22/05 19:20:14 713: execute: normOD > 1
+22/05 19:20:14 716: adding 2 neighbors...
+22/05 19:20:14 720: execute: normOD < 1
+22/05 19:20:14 722: adding 2 neighbors...
+22/05 19:20:14 725: executing: prop = 1 - normOD - 1
+22/05 19:20:14 728: adding 1 neighbors...
+22/05 19:20:14 732: execute: fabs(prop - 1) > epsilon
+22/05 19:20:14 735: adding 2 neighbors...
+22/05 19:20:14 741: executing: rate = prop * rate
+22/05 19:20:14 743: adding 1 neighbors...
+22/05 19:20:14 745: exec setContinousFlow(1, 2, 64.9093)
+22/05 19:20:14 868: adding 1 neighbors...
+22/05 19:20:14 874: exec setContinousFlow(2, 3, 64.9093)
+22/05 19:20:14 940: adding 1 neighbors...
+22/05 19:20:14 945: executing timeStept
+22/05 19:20:14 951: time variable: 6
+22/05 19:20:14 956: adding 1 neighbors...
+22/05 19:20:14 960: executing loop: actualTime < 20
+22/05 19:20:14 967: adding 1 neighbors...
+22/05 19:20:15 023: data received: 300
+22/05 19:20:15 026: exec measureOD(2) = 300
+22/05 19:20:15 029: adding 1 neighbors...
+22/05 19:20:15 033: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:15 040: adding 1 neighbors...
+22/05 19:20:15 044: execute: normOD > 1
+22/05 19:20:15 046: adding 2 neighbors...
+22/05 19:20:15 050: execute: normOD < 1
+22/05 19:20:15 053: adding 2 neighbors...
+22/05 19:20:15 057: executing: prop = 1 - normOD - 1
+22/05 19:20:15 060: adding 1 neighbors...
+22/05 19:20:15 063: execute: fabs(prop - 1) > epsilon
+22/05 19:20:15 066: adding 2 neighbors...
+22/05 19:20:15 068: executing: rate = prop * rate
+22/05 19:20:15 070: adding 1 neighbors...
+22/05 19:20:15 072: exec setContinousFlow(1, 2, 97.364)
+22/05 19:20:15 196: adding 1 neighbors...
+22/05 19:20:15 201: exec setContinousFlow(2, 3, 97.364)
+22/05 19:20:15 269: adding 1 neighbors...
+22/05 19:20:15 273: executing timeStept
+22/05 19:20:15 278: time variable: 7
+22/05 19:20:15 282: adding 1 neighbors...
+22/05 19:20:15 288: executing loop: actualTime < 20
+22/05 19:20:15 295: adding 1 neighbors...
+22/05 19:20:15 350: data received: 350
+22/05 19:20:15 353: exec measureOD(2) = 350
+22/05 19:20:15 356: adding 1 neighbors...
+22/05 19:20:15 360: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:15 363: adding 1 neighbors...
+22/05 19:20:15 367: execute: normOD > 1
+22/05 19:20:15 369: adding 2 neighbors...
+22/05 19:20:15 373: execute: normOD < 1
+22/05 19:20:15 375: adding 2 neighbors...
+22/05 19:20:15 378: executing: prop = 1 - normOD - 1
+22/05 19:20:15 381: adding 1 neighbors...
+22/05 19:20:15 384: execute: fabs(prop - 1) > epsilon
+22/05 19:20:15 388: adding 2 neighbors...
+22/05 19:20:15 390: executing: rate = prop * rate
+22/05 19:20:15 393: adding 1 neighbors...
+22/05 19:20:15 395: exec setContinousFlow(1, 2, 137.932)
+22/05 19:20:15 519: adding 1 neighbors...
+22/05 19:20:15 523: exec setContinousFlow(2, 3, 137.932)
+22/05 19:20:15 591: adding 1 neighbors...
+22/05 19:20:15 596: executing timeStept
+22/05 19:20:15 602: time variable: 8
+22/05 19:20:15 607: adding 1 neighbors...
+22/05 19:20:15 613: executing loop: actualTime < 20
+22/05 19:20:15 620: adding 1 neighbors...
+22/05 19:20:15 676: data received: 400
+22/05 19:20:15 681: exec measureOD(2) = 400
+22/05 19:20:15 687: adding 1 neighbors...
+22/05 19:20:15 692: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:15 700: adding 1 neighbors...
+22/05 19:20:15 706: execute: normOD > 1
+22/05 19:20:15 711: adding 2 neighbors...
+22/05 19:20:15 716: execute: normOD < 1
+22/05 19:20:15 721: adding 2 neighbors...
+22/05 19:20:15 726: executing: prop = 1 - normOD - 1
+22/05 19:20:15 728: adding 1 neighbors...
+22/05 19:20:15 731: execute: fabs(prop - 1) > epsilon
+22/05 19:20:15 734: adding 2 neighbors...
+22/05 19:20:15 737: executing: rate = prop * rate
+22/05 19:20:15 740: adding 1 neighbors...
+22/05 19:20:15 743: exec setContinousFlow(1, 2, 183.91)
+22/05 19:20:15 868: adding 1 neighbors...
+22/05 19:20:15 871: exec setContinousFlow(2, 3, 183.91)
+22/05 19:20:15 936: adding 1 neighbors...
+22/05 19:20:15 937: executing timeStept
+22/05 19:20:15 938: time variable: 9
+22/05 19:20:15 939: adding 1 neighbors...
+22/05 19:20:15 940: executing loop: actualTime < 20
+22/05 19:20:15 942: adding 1 neighbors...
+22/05 19:20:15 995: data received: 450
+22/05 19:20:16 000: exec measureOD(2) = 450
+22/05 19:20:16 005: adding 1 neighbors...
+22/05 19:20:16 009: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:16 015: adding 1 neighbors...
+22/05 19:20:16 020: execute: normOD > 1
+22/05 19:20:16 024: adding 2 neighbors...
+22/05 19:20:16 027: execute: normOD < 1
+22/05 19:20:16 029: adding 2 neighbors...
+22/05 19:20:16 031: executing: prop = 1 - normOD - 1
+22/05 19:20:16 034: adding 1 neighbors...
+22/05 19:20:16 037: execute: fabs(prop - 1) > epsilon
+22/05 19:20:16 040: adding 2 neighbors...
+22/05 19:20:16 042: executing: rate = prop * rate
+22/05 19:20:16 045: adding 1 neighbors...
+22/05 19:20:16 047: exec setContinousFlow(1, 2, 229.887)
+22/05 19:20:16 172: adding 1 neighbors...
+22/05 19:20:16 177: exec setContinousFlow(2, 3, 229.887)
+22/05 19:20:16 245: adding 1 neighbors...
+22/05 19:20:16 250: executing timeStept
+22/05 19:20:16 256: time variable: 10
+22/05 19:20:16 260: adding 1 neighbors...
+22/05 19:20:16 266: executing loop: actualTime < 20
+22/05 19:20:16 272: adding 1 neighbors...
+22/05 19:20:16 328: data received: 500
+22/05 19:20:16 333: exec measureOD(2) = 500
+22/05 19:20:16 338: adding 1 neighbors...
+22/05 19:20:16 343: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:16 352: adding 1 neighbors...
+22/05 19:20:16 357: execute: normOD > 1
+22/05 19:20:16 360: adding 2 neighbors...
+22/05 19:20:16 363: execute: normOD < 1
+22/05 19:20:16 367: adding 2 neighbors...
+22/05 19:20:16 370: executing: prop = 1 - normOD - 1
+22/05 19:20:16 374: adding 1 neighbors...
+22/05 19:20:16 377: execute: fabs(prop - 1) > epsilon
+22/05 19:20:16 382: adding 2 neighbors...
+22/05 19:20:16 385: executing: rate = prop * rate
+22/05 19:20:16 387: adding 1 neighbors...
+22/05 19:20:16 388: exec setContinousFlow(1, 2, 268.202)
+22/05 19:20:16 512: adding 1 neighbors...
+22/05 19:20:16 518: exec setContinousFlow(2, 3, 268.202)
+22/05 19:20:16 585: adding 1 neighbors...
+22/05 19:20:16 589: executing timeStept
+22/05 19:20:16 594: time variable: 11
+22/05 19:20:16 600: adding 1 neighbors...
+22/05 19:20:16 605: executing loop: actualTime < 20
+22/05 19:20:16 610: adding 1 neighbors...
+22/05 19:20:16 667: data received: 550
+22/05 19:20:16 671: exec measureOD(2) = 550
+22/05 19:20:16 675: adding 1 neighbors...
+22/05 19:20:16 678: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:16 685: adding 1 neighbors...
+22/05 19:20:16 689: execute: normOD > 1
+22/05 19:20:16 692: adding 2 neighbors...
+22/05 19:20:16 696: execute: normOD < 1
+22/05 19:20:16 700: adding 2 neighbors...
+22/05 19:20:16 705: executing: prop = 1 - normOD - 1
+22/05 19:20:16 709: adding 1 neighbors...
+22/05 19:20:16 713: execute: fabs(prop - 1) > epsilon
+22/05 19:20:16 717: adding 2 neighbors...
+22/05 19:20:16 719: executing timeStept
+22/05 19:20:16 721: time variable: 12
+22/05 19:20:16 723: adding 1 neighbors...
+22/05 19:20:16 726: executing loop: actualTime < 20
+22/05 19:20:16 728: adding 1 neighbors...
+22/05 19:20:16 782: data received: 600
+22/05 19:20:16 787: exec measureOD(2) = 600
+22/05 19:20:16 793: adding 1 neighbors...
+22/05 19:20:16 799: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:16 808: adding 1 neighbors...
+22/05 19:20:16 814: execute: normOD > 1
+22/05 19:20:16 820: adding 2 neighbors...
+22/05 19:20:16 826: execute: normOD < 1
+22/05 19:20:16 831: adding 2 neighbors...
+22/05 19:20:16 836: executing: prop = 1
+22/05 19:20:16 839: adding 1 neighbors...
+22/05 19:20:16 842: execute: fabs(prop - 1) > epsilon
+22/05 19:20:16 846: adding 2 neighbors...
+22/05 19:20:16 848: executing timeStept
+22/05 19:20:16 851: time variable: 13
+22/05 19:20:16 855: adding 1 neighbors...
+22/05 19:20:16 858: executing loop: actualTime < 20
+22/05 19:20:16 862: adding 1 neighbors...
+22/05 19:20:16 915: data received: 650
+22/05 19:20:16 917: exec measureOD(2) = 650
+22/05 19:20:16 918: adding 1 neighbors...
+22/05 19:20:16 920: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:16 923: adding 1 neighbors...
+22/05 19:20:16 924: execute: normOD > 1
+22/05 19:20:16 926: adding 2 neighbors...
+22/05 19:20:16 928: executing: prop = 1 + normOD - 1
+22/05 19:20:16 930: adding 1 neighbors...
+22/05 19:20:16 931: execute: fabs(prop - 1) > epsilon
+22/05 19:20:16 942: adding 2 neighbors...
+22/05 19:20:16 944: executing timeStept
+22/05 19:20:16 946: time variable: 14
+22/05 19:20:16 948: adding 1 neighbors...
+22/05 19:20:16 950: executing loop: actualTime < 20
+22/05 19:20:16 952: adding 1 neighbors...
+22/05 19:20:17 005: data received: 600
+22/05 19:20:17 006: exec measureOD(2) = 600
+22/05 19:20:17 008: adding 1 neighbors...
+22/05 19:20:17 009: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:17 011: adding 1 neighbors...
+22/05 19:20:17 012: execute: normOD > 1
+22/05 19:20:17 013: adding 2 neighbors...
+22/05 19:20:17 015: execute: normOD < 1
+22/05 19:20:17 016: adding 2 neighbors...
+22/05 19:20:17 018: executing: prop = 1
+22/05 19:20:17 019: adding 1 neighbors...
+22/05 19:20:17 021: execute: fabs(prop - 1) > epsilon
+22/05 19:20:17 022: adding 2 neighbors...
+22/05 19:20:17 023: executing timeStept
+22/05 19:20:17 024: time variable: 15
+22/05 19:20:17 025: adding 1 neighbors...
+22/05 19:20:17 027: executing loop: actualTime < 20
+22/05 19:20:17 028: adding 1 neighbors...
+22/05 19:20:17 080: data received: 630
+22/05 19:20:17 084: exec measureOD(2) = 630
+22/05 19:20:17 087: adding 1 neighbors...
+22/05 19:20:17 091: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:17 095: adding 1 neighbors...
+22/05 19:20:17 098: execute: normOD > 1
+22/05 19:20:17 101: adding 2 neighbors...
+22/05 19:20:17 104: executing: prop = 1 + normOD - 1
+22/05 19:20:17 107: adding 1 neighbors...
+22/05 19:20:17 110: execute: fabs(prop - 1) > epsilon
+22/05 19:20:17 113: adding 2 neighbors...
+22/05 19:20:17 116: executing timeStept
+22/05 19:20:17 119: time variable: 16
+22/05 19:20:17 125: adding 1 neighbors...
+22/05 19:20:17 128: executing loop: actualTime < 20
+22/05 19:20:17 131: adding 1 neighbors...
+22/05 19:20:17 185: data received: 600
+22/05 19:20:17 189: exec measureOD(2) = 600
+22/05 19:20:17 195: adding 1 neighbors...
+22/05 19:20:17 200: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:17 208: adding 1 neighbors...
+22/05 19:20:17 213: execute: normOD > 1
+22/05 19:20:17 219: adding 2 neighbors...
+22/05 19:20:17 224: execute: normOD < 1
+22/05 19:20:17 226: adding 2 neighbors...
+22/05 19:20:17 229: executing: prop = 1
+22/05 19:20:17 232: adding 1 neighbors...
+22/05 19:20:17 235: execute: fabs(prop - 1) > epsilon
+22/05 19:20:17 239: adding 2 neighbors...
+22/05 19:20:17 242: executing timeStept
+22/05 19:20:17 245: time variable: 17
+22/05 19:20:17 247: adding 1 neighbors...
+22/05 19:20:17 251: executing loop: actualTime < 20
+22/05 19:20:17 254: adding 1 neighbors...
+22/05 19:20:17 306: data received: 610
+22/05 19:20:17 308: exec measureOD(2) = 610
+22/05 19:20:17 309: adding 1 neighbors...
+22/05 19:20:17 311: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:17 314: adding 1 neighbors...
+22/05 19:20:17 315: execute: normOD > 1
+22/05 19:20:17 317: adding 2 neighbors...
+22/05 19:20:17 318: executing: prop = 1 + normOD - 1
+22/05 19:20:17 320: adding 1 neighbors...
+22/05 19:20:17 322: execute: fabs(prop - 1) > epsilon
+22/05 19:20:17 324: adding 2 neighbors...
+22/05 19:20:17 325: executing timeStept
+22/05 19:20:17 327: time variable: 18
+22/05 19:20:17 328: adding 1 neighbors...
+22/05 19:20:17 330: executing loop: actualTime < 20
+22/05 19:20:17 332: adding 1 neighbors...
+22/05 19:20:17 384: data received: 600
+22/05 19:20:17 389: exec measureOD(2) = 600
+22/05 19:20:17 394: adding 1 neighbors...
+22/05 19:20:17 400: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:17 407: adding 1 neighbors...
+22/05 19:20:17 412: execute: normOD > 1
+22/05 19:20:17 417: adding 2 neighbors...
+22/05 19:20:17 423: execute: normOD < 1
+22/05 19:20:17 428: adding 2 neighbors...
+22/05 19:20:17 436: executing: prop = 1
+22/05 19:20:17 439: adding 1 neighbors...
+22/05 19:20:17 443: execute: fabs(prop - 1) > epsilon
+22/05 19:20:17 446: adding 2 neighbors...
+22/05 19:20:17 449: executing timeStept
+22/05 19:20:17 451: time variable: 19
+22/05 19:20:17 454: adding 1 neighbors...
+22/05 19:20:17 457: executing loop: actualTime < 20
+22/05 19:20:17 460: adding 1 neighbors...
+22/05 19:20:17 514: data received: 600
+22/05 19:20:17 520: exec measureOD(2) = 600
+22/05 19:20:17 525: adding 1 neighbors...
+22/05 19:20:17 531: executing: normOD = 1 + od - threshold / threshold
+22/05 19:20:17 542: adding 1 neighbors...
+22/05 19:20:17 547: execute: normOD > 1
+22/05 19:20:17 554: adding 2 neighbors...
+22/05 19:20:17 557: execute: normOD < 1
+22/05 19:20:17 560: adding 2 neighbors...
+22/05 19:20:17 562: executing: prop = 1
+22/05 19:20:17 565: adding 1 neighbors...
+22/05 19:20:17 568: execute: fabs(prop - 1) > epsilon
+22/05 19:20:17 572: adding 2 neighbors...
+22/05 19:20:17 574: executing timeStept
+22/05 19:20:17 577: time variable: 20
+22/05 19:20:17 579: adding 1 neighbors...
+22/05 19:20:17 582: executing loop: actualTime < 20
+22/05 19:20:17 585: adding 1 neighbors...
+22/05 19:35:40 734: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:40 739: executing: epsilon = 0.1
+22/05 19:35:40 742: executing: threshold = 600
+22/05 19:35:40 743: executing: rate = 2
+22/05 19:35:40 744: sketching loadContainer(1, 1000)
+22/05 19:35:40 745: sketching loadContainer(2, 1000)
+22/05 19:35:40 746: sketching loadContainer(3, 1000)
+22/05 19:35:40 748: executing loop: actualTime < 20
+22/05 19:35:40 749: sketching measureOD(2)
+22/05 19:35:40 749: execute: normOD > 1
+22/05 19:35:40 750: execute: normOD < 1
+22/05 19:35:40 751: executing: prop = 1 + normOD - 1
+22/05 19:35:40 755: executing: prop = 1 - normOD - 1
+22/05 19:35:40 760: executing: prop = 1
+22/05 19:35:40 761: execute: fabs(prop - 1) > epsilon
+22/05 19:35:40 762: executing: rate = prop * rate
+22/05 19:35:40 763: sketching setContinousFlow(1, 2, 2)
+22/05 19:35:40 764: sketching setContinousFlow(2, 3, 2)
+22/05 19:35:40 765: sketching timeStept
+22/05 19:35:40 766: time variable: 1
+22/05 19:35:40 768: executing: epsilon = 0.1
+22/05 19:35:40 769: adding 1 neighbors...
+22/05 19:35:40 770: executing: threshold = 600
+22/05 19:35:40 771: adding 1 neighbors...
+22/05 19:35:40 772: executing: rate = 2
+22/05 19:35:40 773: adding 1 neighbors...
+22/05 19:35:40 781: exec loadContainer(1, 1000)
+22/05 19:35:40 783: adding 1 neighbors...
+22/05 19:35:40 784: exec loadContainer(2, 1000)
+22/05 19:35:40 785: adding 1 neighbors...
+22/05 19:35:40 787: exec loadContainer(3, 1000)
+22/05 19:35:40 788: adding 1 neighbors...
+22/05 19:35:40 789: executing loop: actualTime < 20
+22/05 19:35:40 791: adding 1 neighbors...
+22/05 19:35:40 843: data received: 0
+22/05 19:35:40 844: exec measureOD(2) = 0
+22/05 19:35:40 846: adding 1 neighbors...
+22/05 19:35:40 847: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:40 848: adding 1 neighbors...
+22/05 19:35:40 849: execute: normOD > 1
+22/05 19:35:40 850: adding 2 neighbors...
+22/05 19:35:40 852: execute: normOD < 1
+22/05 19:35:40 853: adding 2 neighbors...
+22/05 19:35:40 854: executing: prop = 1 - normOD - 1
+22/05 19:35:40 855: adding 1 neighbors...
+22/05 19:35:40 856: execute: fabs(prop - 1) > epsilon
+22/05 19:35:40 858: adding 2 neighbors...
+22/05 19:35:40 859: executing: rate = prop * rate
+22/05 19:35:40 870: adding 1 neighbors...
+22/05 19:35:40 871: exec setContinousFlow(1, 2, 4)
+22/05 19:35:40 994: adding 1 neighbors...
+22/05 19:35:40 997: exec setContinousFlow(2, 3, 4)
+22/05 19:35:41 060: adding 1 neighbors...
+22/05 19:35:41 063: executing timeStept
+22/05 19:35:41 066: time variable: 1
+22/05 19:35:41 068: adding 1 neighbors...
+22/05 19:35:41 072: executing loop: actualTime < 20
+22/05 19:35:41 077: adding 1 neighbors...
+22/05 19:35:41 133: data received: 50
+22/05 19:35:41 136: exec measureOD(2) = 50
+22/05 19:35:41 139: adding 1 neighbors...
+22/05 19:35:41 142: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:41 147: adding 1 neighbors...
+22/05 19:35:41 150: execute: normOD > 1
+22/05 19:35:41 152: adding 2 neighbors...
+22/05 19:35:41 155: execute: normOD < 1
+22/05 19:35:41 158: adding 2 neighbors...
+22/05 19:35:41 161: executing: prop = 1 - normOD - 1
+22/05 19:35:41 164: adding 1 neighbors...
+22/05 19:35:41 166: execute: fabs(prop - 1) > epsilon
+22/05 19:35:41 168: adding 2 neighbors...
+22/05 19:35:41 170: executing: rate = prop * rate
+22/05 19:35:41 172: adding 1 neighbors...
+22/05 19:35:41 173: exec setContinousFlow(1, 2, 7.66667)
+22/05 19:35:41 297: adding 1 neighbors...
+22/05 19:35:41 302: exec setContinousFlow(2, 3, 7.66667)
+22/05 19:35:41 371: adding 1 neighbors...
+22/05 19:35:41 377: executing timeStept
+22/05 19:35:41 389: time variable: 2
+22/05 19:35:41 395: adding 1 neighbors...
+22/05 19:35:41 401: executing loop: actualTime < 20
+22/05 19:35:41 406: adding 1 neighbors...
+22/05 19:35:41 460: data received: 100
+22/05 19:35:41 462: exec measureOD(2) = 100
+22/05 19:35:41 464: adding 1 neighbors...
+22/05 19:35:41 465: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:41 467: adding 1 neighbors...
+22/05 19:35:41 468: execute: normOD > 1
+22/05 19:35:41 469: adding 2 neighbors...
+22/05 19:35:41 471: execute: normOD < 1
+22/05 19:35:41 472: adding 2 neighbors...
+22/05 19:35:41 473: executing: prop = 1 - normOD - 1
+22/05 19:35:41 475: adding 1 neighbors...
+22/05 19:35:41 482: execute: fabs(prop - 1) > epsilon
+22/05 19:35:41 484: adding 2 neighbors...
+22/05 19:35:41 485: executing: rate = prop * rate
+22/05 19:35:41 486: adding 1 neighbors...
+22/05 19:35:41 487: exec setContinousFlow(1, 2, 14.0556)
+22/05 19:35:41 610: adding 1 neighbors...
+22/05 19:35:41 614: exec setContinousFlow(2, 3, 14.0556)
+22/05 19:35:41 682: adding 1 neighbors...
+22/05 19:35:41 687: executing timeStept
+22/05 19:35:41 694: time variable: 3
+22/05 19:35:41 699: adding 1 neighbors...
+22/05 19:35:41 704: executing loop: actualTime < 20
+22/05 19:35:41 707: adding 1 neighbors...
+22/05 19:35:41 760: data received: 150
+22/05 19:35:41 761: exec measureOD(2) = 150
+22/05 19:35:41 762: adding 1 neighbors...
+22/05 19:35:41 764: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:41 765: adding 1 neighbors...
+22/05 19:35:41 766: execute: normOD > 1
+22/05 19:35:41 767: adding 2 neighbors...
+22/05 19:35:41 768: execute: normOD < 1
+22/05 19:35:41 770: adding 2 neighbors...
+22/05 19:35:41 771: executing: prop = 1 - normOD - 1
+22/05 19:35:41 773: adding 1 neighbors...
+22/05 19:35:41 775: execute: fabs(prop - 1) > epsilon
+22/05 19:35:41 777: adding 2 neighbors...
+22/05 19:35:41 778: executing: rate = prop * rate
+22/05 19:35:41 780: adding 1 neighbors...
+22/05 19:35:41 781: exec setContinousFlow(1, 2, 24.5972)
+22/05 19:35:41 905: adding 1 neighbors...
+22/05 19:35:41 906: exec setContinousFlow(2, 3, 24.5972)
+22/05 19:35:41 969: adding 1 neighbors...
+22/05 19:35:41 970: executing timeStept
+22/05 19:35:41 971: time variable: 4
+22/05 19:35:41 973: adding 1 neighbors...
+22/05 19:35:41 977: executing loop: actualTime < 20
+22/05 19:35:41 978: adding 1 neighbors...
+22/05 19:35:42 031: data received: 200
+22/05 19:35:42 032: exec measureOD(2) = 200
+22/05 19:35:42 034: adding 1 neighbors...
+22/05 19:35:42 035: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:42 037: adding 1 neighbors...
+22/05 19:35:42 038: execute: normOD > 1
+22/05 19:35:42 039: adding 2 neighbors...
+22/05 19:35:42 040: execute: normOD < 1
+22/05 19:35:42 041: adding 2 neighbors...
+22/05 19:35:42 043: executing: prop = 1 - normOD - 1
+22/05 19:35:42 044: adding 1 neighbors...
+22/05 19:35:42 045: execute: fabs(prop - 1) > epsilon
+22/05 19:35:42 046: adding 2 neighbors...
+22/05 19:35:42 048: executing: rate = prop * rate
+22/05 19:35:42 049: adding 1 neighbors...
+22/05 19:35:42 051: exec setContinousFlow(1, 2, 40.9954)
+22/05 19:35:42 174: adding 1 neighbors...
+22/05 19:35:42 175: exec setContinousFlow(2, 3, 40.9954)
+22/05 19:35:42 238: adding 1 neighbors...
+22/05 19:35:42 239: executing timeStept
+22/05 19:35:42 241: time variable: 5
+22/05 19:35:42 243: adding 1 neighbors...
+22/05 19:35:42 245: executing loop: actualTime < 20
+22/05 19:35:42 246: adding 1 neighbors...
+22/05 19:35:42 297: data received: 250
+22/05 19:35:42 299: exec measureOD(2) = 250
+22/05 19:35:42 300: adding 1 neighbors...
+22/05 19:35:42 301: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:42 303: adding 1 neighbors...
+22/05 19:35:42 304: execute: normOD > 1
+22/05 19:35:42 305: adding 2 neighbors...
+22/05 19:35:42 306: execute: normOD < 1
+22/05 19:35:42 308: adding 2 neighbors...
+22/05 19:35:42 309: executing: prop = 1 - normOD - 1
+22/05 19:35:42 310: adding 1 neighbors...
+22/05 19:35:42 311: execute: fabs(prop - 1) > epsilon
+22/05 19:35:42 313: adding 2 neighbors...
+22/05 19:35:42 314: executing: rate = prop * rate
+22/05 19:35:42 315: adding 1 neighbors...
+22/05 19:35:42 316: exec setContinousFlow(1, 2, 64.9093)
+22/05 19:35:42 438: adding 1 neighbors...
+22/05 19:35:42 443: exec setContinousFlow(2, 3, 64.9093)
+22/05 19:35:42 511: adding 1 neighbors...
+22/05 19:35:42 516: executing timeStept
+22/05 19:35:42 521: time variable: 6
+22/05 19:35:42 526: adding 1 neighbors...
+22/05 19:35:42 531: executing loop: actualTime < 20
+22/05 19:35:42 537: adding 1 neighbors...
+22/05 19:35:42 593: data received: 300
+22/05 19:35:42 597: exec measureOD(2) = 300
+22/05 19:35:42 602: adding 1 neighbors...
+22/05 19:35:42 608: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:42 619: adding 1 neighbors...
+22/05 19:35:42 624: execute: normOD > 1
+22/05 19:35:42 629: adding 2 neighbors...
+22/05 19:35:42 634: execute: normOD < 1
+22/05 19:35:42 636: adding 2 neighbors...
+22/05 19:35:42 639: executing: prop = 1 - normOD - 1
+22/05 19:35:42 643: adding 1 neighbors...
+22/05 19:35:42 648: execute: fabs(prop - 1) > epsilon
+22/05 19:35:42 651: adding 2 neighbors...
+22/05 19:35:42 654: executing: rate = prop * rate
+22/05 19:35:42 657: adding 1 neighbors...
+22/05 19:35:42 660: exec setContinousFlow(1, 2, 97.364)
+22/05 19:35:42 786: adding 1 neighbors...
+22/05 19:35:42 787: exec setContinousFlow(2, 3, 97.364)
+22/05 19:35:42 850: adding 1 neighbors...
+22/05 19:35:42 851: executing timeStept
+22/05 19:35:42 852: time variable: 7
+22/05 19:35:42 854: adding 1 neighbors...
+22/05 19:35:42 855: executing loop: actualTime < 20
+22/05 19:35:42 857: adding 1 neighbors...
+22/05 19:35:42 909: data received: 350
+22/05 19:35:42 910: exec measureOD(2) = 350
+22/05 19:35:42 912: adding 1 neighbors...
+22/05 19:35:42 913: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:42 914: adding 1 neighbors...
+22/05 19:35:42 915: execute: normOD > 1
+22/05 19:35:42 916: adding 2 neighbors...
+22/05 19:35:42 917: execute: normOD < 1
+22/05 19:35:42 919: adding 2 neighbors...
+22/05 19:35:42 920: executing: prop = 1 - normOD - 1
+22/05 19:35:42 922: adding 1 neighbors...
+22/05 19:35:42 923: execute: fabs(prop - 1) > epsilon
+22/05 19:35:42 925: adding 2 neighbors...
+22/05 19:35:42 926: executing: rate = prop * rate
+22/05 19:35:42 928: adding 1 neighbors...
+22/05 19:35:42 929: exec setContinousFlow(1, 2, 137.932)
+22/05 19:35:43 053: adding 1 neighbors...
+22/05 19:35:43 054: exec setContinousFlow(2, 3, 137.932)
+22/05 19:35:43 117: adding 1 neighbors...
+22/05 19:35:43 118: executing timeStept
+22/05 19:35:43 119: time variable: 8
+22/05 19:35:43 120: adding 1 neighbors...
+22/05 19:35:43 121: executing loop: actualTime < 20
+22/05 19:35:43 123: adding 1 neighbors...
+22/05 19:35:43 175: data received: 400
+22/05 19:35:43 176: exec measureOD(2) = 400
+22/05 19:35:43 177: adding 1 neighbors...
+22/05 19:35:43 179: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:43 180: adding 1 neighbors...
+22/05 19:35:43 181: execute: normOD > 1
+22/05 19:35:43 183: adding 2 neighbors...
+22/05 19:35:43 184: execute: normOD < 1
+22/05 19:35:43 185: adding 2 neighbors...
+22/05 19:35:43 186: executing: prop = 1 - normOD - 1
+22/05 19:35:43 187: adding 1 neighbors...
+22/05 19:35:43 188: execute: fabs(prop - 1) > epsilon
+22/05 19:35:43 190: adding 2 neighbors...
+22/05 19:35:43 191: executing: rate = prop * rate
+22/05 19:35:43 201: adding 1 neighbors...
+22/05 19:35:43 202: exec setContinousFlow(1, 2, 183.91)
+22/05 19:35:43 325: adding 1 neighbors...
+22/05 19:35:43 329: exec setContinousFlow(2, 3, 183.91)
+22/05 19:35:43 397: adding 1 neighbors...
+22/05 19:35:43 402: executing timeStept
+22/05 19:35:43 408: time variable: 9
+22/05 19:35:43 413: adding 1 neighbors...
+22/05 19:35:43 419: executing loop: actualTime < 20
+22/05 19:35:43 426: adding 1 neighbors...
+22/05 19:35:43 483: data received: 450
+22/05 19:35:43 487: exec measureOD(2) = 450
+22/05 19:35:43 493: adding 1 neighbors...
+22/05 19:35:43 498: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:43 505: adding 1 neighbors...
+22/05 19:35:43 511: execute: normOD > 1
+22/05 19:35:43 515: adding 2 neighbors...
+22/05 19:35:43 520: execute: normOD < 1
+22/05 19:35:43 525: adding 2 neighbors...
+22/05 19:35:43 530: executing: prop = 1 - normOD - 1
+22/05 19:35:43 535: adding 1 neighbors...
+22/05 19:35:43 538: execute: fabs(prop - 1) > epsilon
+22/05 19:35:43 542: adding 2 neighbors...
+22/05 19:35:43 549: executing: rate = prop * rate
+22/05 19:35:43 552: adding 1 neighbors...
+22/05 19:35:43 554: exec setContinousFlow(1, 2, 229.887)
+22/05 19:35:43 679: adding 1 neighbors...
+22/05 19:35:43 684: exec setContinousFlow(2, 3, 229.887)
+22/05 19:35:43 753: adding 1 neighbors...
+22/05 19:35:43 756: executing timeStept
+22/05 19:35:43 760: time variable: 10
+22/05 19:35:43 763: adding 1 neighbors...
+22/05 19:35:43 766: executing loop: actualTime < 20
+22/05 19:35:43 770: adding 1 neighbors...
+22/05 19:35:43 825: data received: 500
+22/05 19:35:43 826: exec measureOD(2) = 500
+22/05 19:35:43 827: adding 1 neighbors...
+22/05 19:35:43 829: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:43 831: adding 1 neighbors...
+22/05 19:35:43 832: execute: normOD > 1
+22/05 19:35:43 833: adding 2 neighbors...
+22/05 19:35:43 834: execute: normOD < 1
+22/05 19:35:43 835: adding 2 neighbors...
+22/05 19:35:43 837: executing: prop = 1 - normOD - 1
+22/05 19:35:43 838: adding 1 neighbors...
+22/05 19:35:43 841: execute: fabs(prop - 1) > epsilon
+22/05 19:35:43 843: adding 2 neighbors...
+22/05 19:35:43 844: executing: rate = prop * rate
+22/05 19:35:43 845: adding 1 neighbors...
+22/05 19:35:43 846: exec setContinousFlow(1, 2, 268.202)
+22/05 19:35:43 970: adding 1 neighbors...
+22/05 19:35:43 971: exec setContinousFlow(2, 3, 268.202)
+22/05 19:35:44 034: adding 1 neighbors...
+22/05 19:35:44 035: executing timeStept
+22/05 19:35:44 037: time variable: 11
+22/05 19:35:44 038: adding 1 neighbors...
+22/05 19:35:44 040: executing loop: actualTime < 20
+22/05 19:35:44 041: adding 1 neighbors...
+22/05 19:35:44 093: data received: 550
+22/05 19:35:44 094: exec measureOD(2) = 550
+22/05 19:35:44 095: adding 1 neighbors...
+22/05 19:35:44 097: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:44 098: adding 1 neighbors...
+22/05 19:35:44 099: execute: normOD > 1
+22/05 19:35:44 100: adding 2 neighbors...
+22/05 19:35:44 101: execute: normOD < 1
+22/05 19:35:44 103: adding 2 neighbors...
+22/05 19:35:44 104: executing: prop = 1 - normOD - 1
+22/05 19:35:44 105: adding 1 neighbors...
+22/05 19:35:44 106: execute: fabs(prop - 1) > epsilon
+22/05 19:35:44 109: adding 2 neighbors...
+22/05 19:35:44 110: executing timeStept
+22/05 19:35:44 112: time variable: 12
+22/05 19:35:44 116: adding 1 neighbors...
+22/05 19:35:44 118: executing loop: actualTime < 20
+22/05 19:35:44 120: adding 1 neighbors...
+22/05 19:35:44 172: data received: 600
+22/05 19:35:44 174: exec measureOD(2) = 600
+22/05 19:35:44 175: adding 1 neighbors...
+22/05 19:35:44 177: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:44 178: adding 1 neighbors...
+22/05 19:35:44 179: execute: normOD > 1
+22/05 19:35:44 180: adding 2 neighbors...
+22/05 19:35:44 182: execute: normOD < 1
+22/05 19:35:44 183: adding 2 neighbors...
+22/05 19:35:44 184: executing: prop = 1
+22/05 19:35:44 185: adding 1 neighbors...
+22/05 19:35:44 186: execute: fabs(prop - 1) > epsilon
+22/05 19:35:44 188: adding 2 neighbors...
+22/05 19:35:44 189: executing timeStept
+22/05 19:35:44 191: time variable: 13
+22/05 19:35:44 192: adding 1 neighbors...
+22/05 19:35:44 193: executing loop: actualTime < 20
+22/05 19:35:44 194: adding 1 neighbors...
+22/05 19:35:44 246: data received: 650
+22/05 19:35:44 247: exec measureOD(2) = 650
+22/05 19:35:44 248: adding 1 neighbors...
+22/05 19:35:44 249: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:44 251: adding 1 neighbors...
+22/05 19:35:44 252: execute: normOD > 1
+22/05 19:35:44 253: adding 2 neighbors...
+22/05 19:35:44 254: executing: prop = 1 + normOD - 1
+22/05 19:35:44 255: adding 1 neighbors...
+22/05 19:35:44 256: execute: fabs(prop - 1) > epsilon
+22/05 19:35:44 258: adding 2 neighbors...
+22/05 19:35:44 259: executing timeStept
+22/05 19:35:44 260: time variable: 14
+22/05 19:35:44 261: adding 1 neighbors...
+22/05 19:35:44 262: executing loop: actualTime < 20
+22/05 19:35:44 264: adding 1 neighbors...
+22/05 19:35:44 315: data received: 600
+22/05 19:35:44 320: exec measureOD(2) = 600
+22/05 19:35:44 326: adding 1 neighbors...
+22/05 19:35:44 331: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:44 338: adding 1 neighbors...
+22/05 19:35:44 344: execute: normOD > 1
+22/05 19:35:44 347: adding 2 neighbors...
+22/05 19:35:44 349: execute: normOD < 1
+22/05 19:35:44 352: adding 2 neighbors...
+22/05 19:35:44 355: executing: prop = 1
+22/05 19:35:44 358: adding 1 neighbors...
+22/05 19:35:44 361: execute: fabs(prop - 1) > epsilon
+22/05 19:35:44 364: adding 2 neighbors...
+22/05 19:35:44 367: executing timeStept
+22/05 19:35:44 370: time variable: 15
+22/05 19:35:44 372: adding 1 neighbors...
+22/05 19:35:44 375: executing loop: actualTime < 20
+22/05 19:35:44 377: adding 1 neighbors...
+22/05 19:35:44 429: data received: 625
+22/05 19:35:44 430: exec measureOD(2) = 625
+22/05 19:35:44 432: adding 1 neighbors...
+22/05 19:35:44 435: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:44 437: adding 1 neighbors...
+22/05 19:35:44 438: execute: normOD > 1
+22/05 19:35:44 440: adding 2 neighbors...
+22/05 19:35:44 441: executing: prop = 1 + normOD - 1
+22/05 19:35:44 443: adding 1 neighbors...
+22/05 19:35:44 445: execute: fabs(prop - 1) > epsilon
+22/05 19:35:44 446: adding 2 neighbors...
+22/05 19:35:44 448: executing timeStept
+22/05 19:35:44 449: time variable: 16
+22/05 19:35:44 451: adding 1 neighbors...
+22/05 19:35:44 452: executing loop: actualTime < 20
+22/05 19:35:44 454: adding 1 neighbors...
+22/05 19:35:44 506: data received: 600
+22/05 19:35:44 511: exec measureOD(2) = 600
+22/05 19:35:44 517: adding 1 neighbors...
+22/05 19:35:44 522: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:44 532: adding 1 neighbors...
+22/05 19:35:44 538: execute: normOD > 1
+22/05 19:35:44 544: adding 2 neighbors...
+22/05 19:35:44 550: execute: normOD < 1
+22/05 19:35:44 554: adding 2 neighbors...
+22/05 19:35:44 558: executing: prop = 1
+22/05 19:35:44 561: adding 1 neighbors...
+22/05 19:35:44 565: execute: fabs(prop - 1) > epsilon
+22/05 19:35:44 569: adding 2 neighbors...
+22/05 19:35:44 572: executing timeStept
+22/05 19:35:44 576: time variable: 17
+22/05 19:35:44 578: adding 1 neighbors...
+22/05 19:35:44 582: executing loop: actualTime < 20
+22/05 19:35:44 585: adding 1 neighbors...
+22/05 19:35:44 638: data received: 600
+22/05 19:35:44 641: exec measureOD(2) = 600
+22/05 19:35:44 643: adding 1 neighbors...
+22/05 19:35:44 644: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:44 647: adding 1 neighbors...
+22/05 19:35:44 649: execute: normOD > 1
+22/05 19:35:44 650: adding 2 neighbors...
+22/05 19:35:44 652: execute: normOD < 1
+22/05 19:35:44 653: adding 2 neighbors...
+22/05 19:35:44 655: executing: prop = 1
+22/05 19:35:44 657: adding 1 neighbors...
+22/05 19:35:44 659: execute: fabs(prop - 1) > epsilon
+22/05 19:35:44 661: adding 2 neighbors...
+22/05 19:35:44 662: executing timeStept
+22/05 19:35:44 664: time variable: 18
+22/05 19:35:44 666: adding 1 neighbors...
+22/05 19:35:44 667: executing loop: actualTime < 20
+22/05 19:35:44 669: adding 1 neighbors...
+22/05 19:35:44 722: data received: 600
+22/05 19:35:44 727: exec measureOD(2) = 600
+22/05 19:35:44 732: adding 1 neighbors...
+22/05 19:35:44 735: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:44 738: adding 1 neighbors...
+22/05 19:35:44 741: execute: normOD > 1
+22/05 19:35:44 743: adding 2 neighbors...
+22/05 19:35:44 749: execute: normOD < 1
+22/05 19:35:44 751: adding 2 neighbors...
+22/05 19:35:44 754: executing: prop = 1
+22/05 19:35:44 756: adding 1 neighbors...
+22/05 19:35:44 759: execute: fabs(prop - 1) > epsilon
+22/05 19:35:44 763: adding 2 neighbors...
+22/05 19:35:44 764: executing timeStept
+22/05 19:35:44 766: time variable: 19
+22/05 19:35:44 767: adding 1 neighbors...
+22/05 19:35:44 769: executing loop: actualTime < 20
+22/05 19:35:44 770: adding 1 neighbors...
+22/05 19:35:44 823: data received: 600
+22/05 19:35:44 824: exec measureOD(2) = 600
+22/05 19:35:44 826: adding 1 neighbors...
+22/05 19:35:44 827: executing: normOD = 1 + od - threshold / threshold
+22/05 19:35:44 829: adding 1 neighbors...
+22/05 19:35:44 830: execute: normOD > 1
+22/05 19:35:44 831: adding 2 neighbors...
+22/05 19:35:44 832: execute: normOD < 1
+22/05 19:35:44 833: adding 2 neighbors...
+22/05 19:35:44 834: executing: prop = 1
+22/05 19:35:44 835: adding 1 neighbors...
+22/05 19:35:44 836: execute: fabs(prop - 1) > epsilon
+22/05 19:35:44 837: adding 2 neighbors...
+22/05 19:35:44 839: executing timeStept
+22/05 19:35:44 840: time variable: 20
+22/05 19:35:44 841: adding 1 neighbors...
+22/05 19:35:44 842: executing loop: actualTime < 20
+22/05 19:35:44 843: adding 1 neighbors...

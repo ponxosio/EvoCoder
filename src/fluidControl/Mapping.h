@@ -15,7 +15,7 @@
 #include <memory>
 
 //lib
-#include <easylogging++.h>
+#include "../../lib/easylogging++.h"
 
 //local
 #include "../graph/Edge.h"
@@ -24,7 +24,6 @@
 #include "executable/containers/actuators/communications/CommunicationsInterface.h"
 #include "executable/containers/actuators/communications/CommandSender.h"
 #include "machineGraph/MachineGraph.h"
-#include "machineGraph/ContainerNode.h"
 #include "MappingEngine.h"
 
 namespace mapping {
@@ -91,8 +90,8 @@ protected:
 	void sketching_measureOD(int id);
 	double sketching_timeStep();
 
-	void transformSourceContainer(int idSource, int idTarget, std::shared_ptr<ContainerNode> sourceNode, MovementType desiredType);
-	void transformTargetContainer(int idSource, int idTarget, std::shared_ptr<ContainerNode> targetNode);
+	void transformSourceContainer(int idSource, int idTarget, ContainerNode* sourceNode, MovementType desiredType);
+	void transformTargetContainer(int idSource, int idTarget, ContainerNode* targetNode);
 
 	//EXEC
 	void exec_setContinuosFlow(int idSource, int idTarget, double rate);

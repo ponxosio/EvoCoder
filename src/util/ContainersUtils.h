@@ -9,7 +9,7 @@
 #define UTIL_CONTAINERSUTILS_H_
 
 #include <vector>
-#include <tr1/unordered_set>
+#include <unordered_set>
 #include <algorithm>
 
 // boost library
@@ -28,9 +28,9 @@ public:
 	 * @param v2 vector to be checked against
 	 * @return true if v1 is compatible with v2, false otherwise
 	 */
-	/*template<class NodeType1,class NodeType2> static bool areSubgraphCompatible(
+	template<class NodeType1,class NodeType2> static bool areSubgraphCompatible(
 			const std::vector<NodeType1*> & v1,const std::vector<NodeType2*> & v2,
-			const std::tr1::unordered_set<int> & v2UsedNodes);*/
+			const std::tr1::unordered_set<int> & v2UsedNodes);
 
 
 	template <class NodeType1> static bool isNodeInVector(NodeType1* node, const vector<int> & nodesIds);
@@ -91,7 +91,7 @@ inline bool ContainersUtils::isNodeInVector(int node,
 		return finded;
 }
 
-/*template<class NodeType1, class NodeType2>
+template<class NodeType1, class NodeType2>
 inline bool ContainersUtils::areSubgraphCompatible(
 		const std::vector<NodeType1*>& v1, const std::vector<NodeType2*>& v2,
 		const std::tr1::unordered_set<int>& v2UsedNodes) {
@@ -121,6 +121,6 @@ inline bool ContainersUtils::areSubgraphCompatible(
 		}
 	}
 	return compatble;
-}*/
+}
 
 #endif /* UTIL_CONTAINERSUTILS_H_ */

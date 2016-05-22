@@ -7,11 +7,6 @@
 
 #include "UnaryOperation.h"
 
-UnaryOperation::UnaryOperation() {
-	this->variable = shared_ptr<MathematicOperable>();
-	this->op = unaryOperations::absoluteValue;
-}
-
 UnaryOperation::UnaryOperation(std::shared_ptr<MathematicOperable> variable,
 		unaryOperations::UnaryOperator op) {
 	this->variable = variable;
@@ -19,6 +14,7 @@ UnaryOperation::UnaryOperation(std::shared_ptr<MathematicOperable> variable,
 }
 
 UnaryOperation::~UnaryOperation() {
+
 }
 
 double UnaryOperation::getValue() {

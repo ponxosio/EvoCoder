@@ -97,6 +97,6 @@ inline void Node::serialize(Archive& ar, const std::uint32_t version) {
 }
 
 // Associate some type with a version number
-CEREAL_CLASS_VERSION( Node, 1 );
+CEREAL_CLASS_VERSION( Node, (int)1 );
 
 #endif /* SRC_GRAPH_NODE_H_ */
