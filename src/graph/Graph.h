@@ -24,7 +24,7 @@
 #include <vector>
 #include <queue>
 #include <utility>
-#include <tr1/unordered_map>
+#include <unordered_map>
 
 // boost library
 #include <boost/static_assert.hpp>
@@ -85,9 +85,9 @@ public:
 	string toString();
 protected:
 	//attributes
-	tr1::unordered_map<int, NodeType*>* nodeMap;
-	tr1::unordered_map<int, vector<EdgeType*>* >* leavingEdges;
-	tr1::unordered_map<int, vector<EdgeType*>* >* arrivingEdges;
+	unordered_map<int, NodeType*>* nodeMap;
+	unordered_map<int, vector<EdgeType*>* >* leavingEdges;
+	unordered_map<int, vector<EdgeType*>* >* arrivingEdges;
 	vector<std::pair<vector<NodeType*>*,vector<EdgeType*>*>>* subGraphs;
 	vector<EdgeType*> *edgeList;
 
@@ -99,9 +99,9 @@ protected:
 
 template <class NodeType, class EdgeType>
 Graph<NodeType,EdgeType>::Graph() {
-	nodeMap = new tr1::unordered_map<int, NodeType*>();
-	leavingEdges = new tr1::unordered_map<int, vector<EdgeType*>*>();
-	arrivingEdges = new tr1::unordered_map<int, vector<EdgeType*>*>();
+	nodeMap = new unordered_map<int, NodeType*>();
+	leavingEdges = new unordered_map<int, vector<EdgeType*>*>();
+	arrivingEdges = new unordered_map<int, vector<EdgeType*>*>();
 	subGraphs = NULL;
 	edgeList = new vector<EdgeType*>();
 }
@@ -131,19 +131,19 @@ void Graph<NodeType,EdgeType>::clear() {
 	edgeList->clear();
 
 	//free the nodes
-	for (typename tr1::unordered_map<int, NodeType* >::iterator it = nodeMap->begin();
+	for (typename unordered_map<int, NodeType* >::iterator it = nodeMap->begin();
 			it != nodeMap->end(); ++it) {
 		delete it->second;
 	}
 	nodeMap->clear();
 
 	//free the neighbor map
-	for (typename tr1::unordered_map<int, vector<EdgeType*>*>::iterator it = leavingEdges->begin();
+	for (typename unordered_map<int, vector<EdgeType*>*>::iterator it = leavingEdges->begin();
 			it != leavingEdges->end(); ++it) {
 		delete it->second;
 	}
 	leavingEdges->clear();
-	for (typename tr1::unordered_map<int, vector<EdgeType*>*>::iterator it =
+	for (typename unordered_map<int, vector<EdgeType*>*>::iterator it =
 			arrivingEdges->begin(); it != arrivingEdges->end(); ++it) {
 		delete it->second;
 	}
@@ -192,7 +192,7 @@ bool Graph<NodeType,EdgeType>::addEdge(EdgeType* edge) {
 	Edge* edgeCast = dynamic_cast<Edge*>(edge);
 	bool vuelta = false;
 
-	typename tr1::unordered_map<int, NodeType*>::iterator nodeSource = nodeMap->find(edgeCast->getIdSource());
+	typename unordered_map<int, NodeType*>::iterator nodeSource = nodeMap->find(edgeCast->getIdSource());
 	// if the two node that the edge connects exits
 	if ((nodeSource != nodeMap->end())
 			&& (nodeMap->find(edgeCast->getIdTarget()) != nodeMap->end())) {
@@ -216,7 +216,7 @@ template <class NodeType, class EdgeType>
 NodeType* Graph<NodeType,EdgeType>::getNode(int containerId) {
 	NodeType* vuelta = NULL;
 
-	typename tr1::unordered_map<int, NodeType*>::iterator nodeContainer = nodeMap->find(containerId);
+	typename unordered_map<int, NodeType*>::iterator nodeContainer = nodeMap->find(containerId);
 	if (nodeContainer != nodeMap->end()) {
 		vuelta = nodeContainer->second;
 	}
@@ -234,7 +234,7 @@ template <class NodeType, class EdgeType>
 const vector<EdgeType*>* Graph<NodeType,EdgeType>::getLeavingEdges(int idSource) {
 	vector<EdgeType*>* vuelta = NULL;
 
-	typename tr1::unordered_map<int, vector<EdgeType*>*>::iterator it = leavingEdges->find(idSource);
+	typename unordered_map<int, vector<EdgeType*>*>::iterator it = leavingEdges->find(idSource);
 	if (it != leavingEdges->end()) {
 		vuelta = it->second;
 	}
@@ -244,7 +244,7 @@ template <class NodeType, class EdgeType>
 const vector<NodeType*> Graph<NodeType,EdgeType>::getAllNodes() {
 	vector<NodeType*> vuelta;
 
-	for (typename tr1::unordered_map<int, NodeType* >::iterator it = nodeMap->begin();
+	for (typename unordered_map<int, NodeType* >::iterator it = nodeMap->begin();
 				it != nodeMap->end(); ++it) {
 		vuelta.push_back(it->second);
 	}
@@ -260,7 +260,7 @@ template <class NodeType, class EdgeType>
 bool Graph<NodeType,EdgeType>::removeNode(int nodeID) {
 	bool vuelta = false;
 
-	typename tr1::unordered_map<int, NodeType*>::iterator nodeRemove = nodeMap->find(nodeID);
+	typename unordered_map<int, NodeType*>::iterator nodeRemove = nodeMap->find(nodeID);
 	if (nodeRemove != nodeMap->end()) {
 		//removes the node
 		delete nodeRemove->second;
@@ -321,7 +321,7 @@ bool Graph<NodeType,EdgeType>::saveGraph(const string& filename) {
 		myfile << "digraph G {" << endl;
 
 		// writing the nodes...
-		for (typename tr1::unordered_map<int, NodeType*>::iterator it = nodeMap->begin();
+		for (typename unordered_map<int, NodeType*>::iterator it = nodeMap->begin();
 				it != nodeMap->end(); ++it) {
 			NodeType* actual = it->second;
 			myfile << actual->toText()<< endl;
@@ -383,7 +383,7 @@ const vector<EdgeType*>* Graph<NodeType, EdgeType>::getArrivingEdges(
 		int idSource) {
 	vector<EdgeType*>* vuelta = NULL;
 
-	typename tr1::unordered_map<int, vector<EdgeType*>*>::iterator it =
+	typename unordered_map<int, vector<EdgeType*>*>::iterator it =
 			arrivingEdges->find(idSource);
 	if (it != arrivingEdges->end()) {
 		vuelta = it->second;
@@ -403,7 +403,7 @@ const vector<EdgeType*>* Graph<NodeType, EdgeType>::getArrivingEdges(
 template<class NodeType, class EdgeType>
 void Graph<NodeType, EdgeType>::calculateSubgraphs() {
 	subGraphs = new vector<std::pair<vector<NodeType*>*,vector<EdgeType*>*>>();
-	tr1::unordered_map<int,int> node_colorMap;
+	unordered_map<int,int> node_colorMap;
 	int lastColor = 0;
 
 	for (auto it = edgeList->begin(); it != edgeList->end(); ++it) {
@@ -443,7 +443,7 @@ void Graph<NodeType, EdgeType>::calculateSubgraphs() {
 			}
 		}
 	}
-	tr1::unordered_map<int,std::pair<vector<NodeType*>*,vector<EdgeType*>*>> temp_color_nodeMap;
+	unordered_map<int,std::pair<vector<NodeType*>*,vector<EdgeType*>*>> temp_color_nodeMap;
 	for (auto it = node_colorMap.begin(); it != node_colorMap.end(); ++it) {
 		int color = it->second;
 		int idNode = it->first;
@@ -527,7 +527,7 @@ string Graph<NodeType, EdgeType>::toString() {
 	myfile << "digraph{";
 
 	//print the nodes
-	for (typename tr1::unordered_map<int, NodeType*>::iterator it =
+	for (typename unordered_map<int, NodeType*>::iterator it =
 			nodeMap->begin(); it != nodeMap->end(); ++it) {
 		NodeType* actual = it->second;
 		myfile << actual->toText();

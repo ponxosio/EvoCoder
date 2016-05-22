@@ -9,7 +9,7 @@
 
 Stir::Stir() : ContainerOperation() {
 	this->sourceId = -1;
-	this->intensity = boost::shared_ptr<MathematicOperable>();
+	this->intensity = std::shared_ptr<MathematicOperable>();
 }
 
 Stir::Stir(const Stir& node) :
@@ -18,8 +18,8 @@ Stir::Stir(const Stir& node) :
 	this->intensity = node.intensity;
 }
 
-Stir::Stir(int containerId, boost::shared_ptr<Mapping> executable, int sourceId,
-		boost::shared_ptr<MathematicOperable> intensity) :
+Stir::Stir(int containerId, std::shared_ptr<Mapping> executable, int sourceId,
+		std::shared_ptr<MathematicOperable> intensity) :
 		ContainerOperation(containerId, executable) {
 	this->sourceId = sourceId;
 	this->intensity = intensity;

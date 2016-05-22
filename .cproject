@@ -26,6 +26,7 @@
 								<option id="gnu.cpp.compiler.mingw.exe.debug.option.debugging.level.924329963" name="Debug Level" superClass="gnu.cpp.compiler.mingw.exe.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1015709655" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;X:\boost_1_60_0&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/EvoCoder/lib}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.384257752" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-std=c++0x -c -fmessage-length=0 " valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1319773407" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">

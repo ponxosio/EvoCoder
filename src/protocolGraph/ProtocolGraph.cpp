@@ -35,7 +35,7 @@ void ProtocolGraph::setStartNode(int idStart) {
 
 bool ProtocolGraph::connectOperation(OperationNode* nodeSource,
 		OperationNode* nodeTarget,
-		boost::shared_ptr<ComparisonOperable> comparison) {
+		std::shared_ptr<ComparisonOperable> comparison) {
 
 	ConditionEdge* edge = new ConditionEdge(nodeSource->getContainerId(), nodeTarget->getContainerId(), comparison);
 	return connectOperation(edge);

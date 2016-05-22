@@ -8,8 +8,8 @@
 #include "../../executable/containers/FlowContainer.h"
 
 FlowContainer::FlowContainer() : ExecutableContainerNode() {
-	this->extract = boost::shared_ptr<Extractor>();
-	this->insert = boost::shared_ptr<Injector>();
+	this->extract = std::shared_ptr<Extractor>();
+	this->insert = std::shared_ptr<Injector>();
 }
 
 FlowContainer::FlowContainer(const FlowContainer& node) : ExecutableContainerNode(node) {
@@ -18,8 +18,8 @@ FlowContainer::FlowContainer(const FlowContainer& node) : ExecutableContainerNod
 }
 
 FlowContainer::FlowContainer(int idContainer, float capacity,
-		boost::shared_ptr<Extractor> extract, boost::shared_ptr<Injector> insert) :
-		ExecutableContainerNode(idContainer, boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(
+		std::shared_ptr<Extractor> extract, std::shared_ptr<Injector> insert) :
+		ExecutableContainerNode(idContainer, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(
 				ContainerNodeType::fromIntToMovementType(extract.get()->getMovementType()),
 				ContainerType::flow)),
 				capacity) {

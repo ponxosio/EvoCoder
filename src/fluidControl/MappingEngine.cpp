@@ -12,9 +12,9 @@ MappingEngine::MappingEngine(MachineGraph* sketch,
 	this->sketch = sketch;
 	this->machine = machine;
 
-	this->containersMap = new std::tr1::unordered_map<int,int>();
-	this->numberSolutionsMap = new std::tr1::unordered_map<int,int>();
-	this->edgeFlowMap = new std::tr1::unordered_map<std::pair<int,int>, Flow<Edge>*, PairIntIntHashFunction>();
+	this->containersMap = new std::unordered_map<int,int>();
+	this->numberSolutionsMap = new std::unordered_map<int,int>();
+	this->edgeFlowMap = new std::unordered_map<std::pair<int,int>, Flow<Edge>*, PairIntIntHashFunction>();
 }
 
 MappingEngine::~MappingEngine() {

@@ -9,13 +9,13 @@
 #define FLUIDCONTROL_MAPPINGENGINE_H_
 
 #include <stdexcept>
-#include <tr1/unordered_map>
-#include <tr1/unordered_set>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <utility>
 #include <queue>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "../util/Patch.h"
 #include "../util/Utils.h"
@@ -40,9 +40,9 @@ public:
 	Flow<Edge>* getMappedEdge(Edge* skectchEdge)throw(std::invalid_argument);
 	int getMappedContainerId(int sketchContainerId) throw(std::invalid_argument);
 protected:
-	std::tr1::unordered_map<int,int>* containersMap;
-	std::tr1::unordered_map<int,int>* numberSolutionsMap;
-	std::tr1::unordered_map<std::pair<int,int>, Flow<Edge>*, PairIntIntHashFunction>* edgeFlowMap;
+	std::unordered_map<int,int>* containersMap;
+	std::unordered_map<int,int>* numberSolutionsMap;
+	std::unordered_map<std::pair<int,int>, Flow<Edge>*, PairIntIntHashFunction>* edgeFlowMap;
 
 	MachineGraph* sketch;
 	ExecutableMachineGraph* machine;

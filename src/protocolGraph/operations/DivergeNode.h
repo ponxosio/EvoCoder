@@ -14,7 +14,7 @@
 #include <string>
 
 //boost
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 //lib
 #include "../../../lib/easylogging++.h"
@@ -33,17 +33,17 @@ public:
 	virtual void loadNode(const string & line) throw (invalid_argument);
 	//
 	DivergeNode(int containerId,
-			boost::shared_ptr<ComparisonOperable> conditionIN,
-			boost::shared_ptr<ComparisonOperable> conditionOUT);
+			std::shared_ptr<ComparisonOperable> conditionIN,
+			std::shared_ptr<ComparisonOperable> conditionOUT);
 	virtual ~DivergeNode();
 
 	virtual void execute();
 
 	//GETTERS & SETTERS
-	const boost::shared_ptr<ComparisonOperable>& getConditionIN() const {
+	const std::shared_ptr<ComparisonOperable>& getConditionIN() const {
 		return conditionIN;
 	}
-	const boost::shared_ptr<ComparisonOperable>& getConditionOUT() const {
+	const std::shared_ptr<ComparisonOperable>& getConditionOUT() const {
 		return conditionOUT;
 	}
 	OperationNode* getEndNode() const {
@@ -54,8 +54,8 @@ public:
 	}
 
 protected:
-	boost::shared_ptr<ComparisonOperable> conditionIN;
-	boost::shared_ptr<ComparisonOperable> conditionOUT;
+	std::shared_ptr<ComparisonOperable> conditionIN;
+	std::shared_ptr<ComparisonOperable> conditionOUT;
 	OperationNode* endNode;
 };
 

@@ -50,7 +50,8 @@ void Utils::initLogs(int argc, const char** argv) {
 }
 
 long Utils::getCurrentTimeMilis() {
-	struct timeval tp;
-	gettimeofday(&tp, NULL);
-	return tp.tv_sec * 1000 + tp.tv_usec / 1000;
+	using namespace std::chrono;
+	milliseconds ms = duration_cast<milliseconds>(
+		system_clock::now().time_since_epoch());
+	return ms.count();
 }

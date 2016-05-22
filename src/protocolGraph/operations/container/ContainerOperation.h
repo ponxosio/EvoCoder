@@ -11,7 +11,7 @@
 #include <string>
 
 //boost
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 //local
 #include "../../../util/Utils.h"
@@ -25,13 +25,13 @@
 class ContainerOperation: public OperationNode {
 public:
 	ContainerOperation() : OperationNode() {
-		this->executable = boost::shared_ptr<Mapping>();
+		this->executable = std::shared_ptr<Mapping>();
 	}
 	ContainerOperation(const ContainerOperation & obj) :
 			OperationNode(obj) {
 		this->executable = obj.executable;
 	}
-	ContainerOperation(int idConatiner, boost::shared_ptr<Mapping> executable) : OperationNode(idConatiner) {
+	ContainerOperation(int idConatiner, std::shared_ptr<Mapping> executable) : OperationNode(idConatiner) {
 		this->executable = executable;
 	}
 
@@ -42,7 +42,7 @@ protected:
 	/**
 	 * mapping where the operation can be executed
 	 */
-	boost::shared_ptr<Mapping> executable;
+	std::shared_ptr<Mapping> executable;
 };
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONATINER_CONTAINEROPERATION_H_ */

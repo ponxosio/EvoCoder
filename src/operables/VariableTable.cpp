@@ -10,7 +10,7 @@
 using namespace std;
 
 VariableTable::VariableTable() {
-	table = new tr1::unordered_map<string,  std::pair<double,bool>>();
+	table = new unordered_map<string,  std::pair<double,bool>>();
 }
 
 VariableTable::~VariableTable() {
@@ -21,7 +21,7 @@ VariableTable::~VariableTable() {
 double VariableTable::getVaue(const std::string& name)
 		throw (std::invalid_argument) {
 
-	double vuelta = 0.0d;
+	double vuelta = 0.0;
 	auto entry = table->find(name);
 	if (entry != table->end()) {
 		vuelta = entry->second.first;
@@ -64,6 +64,7 @@ void VariableTable::setPhysical(const std::string& name, bool physical) {
 
 std::string VariableTable::serialize() {
 	//TODO: implementar cuando se decida el formato
+	return "";
 }
 
 void VariableTable::deserialize() throw (std::invalid_argument) {

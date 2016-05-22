@@ -9,7 +9,7 @@
 
 MeasureOD::MeasureOD() : ContainerOperation(){
 	this->sourceId = -1;
-	this->receiver = boost::shared_ptr<VariableEntry>();
+	this->receiver = std::shared_ptr<VariableEntry>();
 }
 
 MeasureOD::MeasureOD(const MeasureOD& node) : ContainerOperation(node) {
@@ -17,8 +17,8 @@ MeasureOD::MeasureOD(const MeasureOD& node) : ContainerOperation(node) {
 	this->receiver = node.receiver;
 }
 
-MeasureOD::MeasureOD(int containerId, boost::shared_ptr<Mapping> mapping,
-		int sourceId, boost::shared_ptr<VariableEntry> receiver) :
+MeasureOD::MeasureOD(int containerId, std::shared_ptr<Mapping> mapping,
+		int sourceId, std::shared_ptr<VariableEntry> receiver) :
 		ContainerOperation(containerId, mapping) {
 	this->sourceId = sourceId;
 	this->receiver = receiver;

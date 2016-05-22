@@ -11,7 +11,7 @@
 #include <string>
 
 //data structed
-#include <tr1/unordered_map>
+#include <unordered_map>
 
 //local
 #include "../../graph/Graph.h"
@@ -24,7 +24,7 @@ public:
 	MachineGraph(std::string name);
 	virtual ~MachineGraph();
 
-	bool addContainer(int idContainer, boost::shared_ptr<ContainerNodeType> type, float capacity);
+	bool addContainer(int idContainer, std::shared_ptr<ContainerNodeType> type, float capacity);
 	bool connectContainer(int idSource, int idTarget);
 
 	bool changeContainerType(int idContainer, ContainerType type);

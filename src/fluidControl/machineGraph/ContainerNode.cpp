@@ -9,7 +9,7 @@
 
 using namespace std;
 
-ContainerNode::ContainerNode(int idConatiner, boost::shared_ptr<ContainerNodeType> type, float capacity) :
+ContainerNode::ContainerNode(int idConatiner, std::shared_ptr<ContainerNodeType> type, float capacity) :
 		Node(idConatiner) {
 	this->type = type;
 	this->capacity = capacity;
@@ -18,7 +18,7 @@ ContainerNode::ContainerNode(int idConatiner, boost::shared_ptr<ContainerNodeTyp
 
 ContainerNode::ContainerNode() :
 		Node() {
-	this->type = boost::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow));
+	this->type = std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow));
 	this->volume = 0.0f;
 	this->capacity = 0.0f;
 }

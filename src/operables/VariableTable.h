@@ -12,7 +12,7 @@
 #include  <stdexcept>
 
 // data structures
-#include <tr1/unordered_map>
+#include <unordered_map>
 
 
 /**
@@ -66,7 +66,7 @@ public:
 	void deserialize() throw (std::invalid_argument);
 
 protected:
-	std::tr1::unordered_map<std::string, std::pair<double,bool>>* table;
+	std::unordered_map<std::string, std::pair<double,bool>>* table;
 };
 
 #endif /* SRC_OPERABLES_VARIABLETABLE_H_ */

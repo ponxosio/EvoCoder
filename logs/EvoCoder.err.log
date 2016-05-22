@@ -54,3 +54,18 @@
 18/05 12:58:50 512 ERROR EvoCoder.cpp[39]bool EvoCoder::exec_general():  exception while executing, The returned data sended by the controlled is not a number, is 50
 18/05 13:01:54 932 ERROR EvoCoder.cpp[39]bool EvoCoder::exec_general():  exception while executing, The returned data sended by the controlled is not a number, is 100
 18/05 13:09:29 616 ERROR EvoCoder.cpp[39]bool EvoCoder::exec_general():  exception while executing, The returned data sent by the controlled is not a number, is 150
+22/05 18:41:00 773 ERROR EvoCoder.cpp[39]bool __thiscall EvoCoder::exec_general(void) throw(class std::invalid_argument):  exception while executing, the key:"threshold" does not exits
+22/05 18:41:35 740 ERROR EvoCoder.cpp[39]bool __thiscall EvoCoder::exec_general(void) throw(class std::invalid_argument):  exception while executing, the key:"threshold" does not exits
+22/05 18:46:26 580 ERROR EvoCoder.cpp[83]bool __thiscall EvoCoder::test(void) throw(class std::invalid_argument):  exception while executing, the key:"threshold" does not exits
+22/05 19:06:14 057 WARN  EvoCoder.cpp[102]bool __thiscall EvoCoder::sketcher(void):  the key:"threshold" does not exits
+22/05 19:06:14 102 WARN  EvoCoder.cpp[102]bool __thiscall EvoCoder::sketcher(void):  the key:"normOD" does not exits
+22/05 19:06:14 122 WARN  EvoCoder.cpp[102]bool __thiscall EvoCoder::sketcher(void):  the key:"normOD" does not exits
+22/05 19:07:22 664 WARN  EvoCoder.cpp[102]bool __thiscall EvoCoder::sketcher(void):  the key:"threshold" does not exits
+22/05 19:07:22 686 WARN  EvoCoder.cpp[102]bool __thiscall EvoCoder::sketcher(void):  the key:"normOD" does not exits
+22/05 19:07:22 691 WARN  EvoCoder.cpp[102]bool __thiscall EvoCoder::sketcher(void):  the key:"normOD" does not exits
+22/05 19:20:13 021 WARN  EvoCoder.cpp[102]bool __thiscall EvoCoder::sketcher(void):  the key:"threshold" does not exits
+22/05 19:20:13 038 WARN  EvoCoder.cpp[102]bool __thiscall EvoCoder::sketcher(void):  the key:"normOD" does not exits
+22/05 19:20:13 042 WARN  EvoCoder.cpp[102]bool __thiscall EvoCoder::sketcher(void):  the key:"normOD" does not exits
+22/05 19:35:40 736 WARN  EvoCoder.cpp[102]bool __thiscall EvoCoder::sketcher(void):  the key:"threshold" does not exits
+22/05 19:35:40 752 WARN  EvoCoder.cpp[102]bool __thiscall EvoCoder::sketcher(void):  the key:"normOD" does not exits
+22/05 19:35:40 757 WARN  EvoCoder.cpp[102]bool __thiscall EvoCoder::sketcher(void):  the key:"normOD" does not exits

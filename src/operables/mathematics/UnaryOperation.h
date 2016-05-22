@@ -13,7 +13,7 @@
 //boost
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 //local
 #include "../../../lib/easylogging++.h"
@@ -29,7 +29,7 @@ enum UnaryOperator {
 }
 class UnaryOperation: public MathematicOperable {
 public:
-	UnaryOperation(boost::shared_ptr<MathematicOperable> variable,
+	UnaryOperation(std::shared_ptr<MathematicOperable> variable,
 			unaryOperations::UnaryOperator op);
 
 	virtual ~UnaryOperation();
@@ -56,7 +56,7 @@ public:
 	}
 
 protected:
-	boost::shared_ptr<MathematicOperable> variable;
+	std::shared_ptr<MathematicOperable> variable;
 	unaryOperations::UnaryOperator op;
 
 	std::string getStringOp();

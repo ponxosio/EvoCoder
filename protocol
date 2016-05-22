@@ -1,4 +1,5 @@
 digraph G {
+8[label="normOD = 1 + od - threshold / threshold"];
 0[label="epsilon = 0.1"];
 1[label="threshold = 600"];
 2[label="rate = 2"];
@@ -7,7 +8,6 @@ digraph G {
 5[label="loadContainer(3, 1000)"];
 6[ label ="loop(actualTime < 20)"];
 7[label="od = measureOD(2)"];
-8[label="normOD = 1 + od - threshold / threshold"];
 9[ label ="if(normOD > 1)"];
 10[ label ="if(normOD < 1)"];
 11[label="prop = 1 + normOD - 1"];

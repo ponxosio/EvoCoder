@@ -10,7 +10,7 @@
 
 #include <windows.h>
 
-#include <tr1/unordered_map>
+#include <unordered_map>
 
 #include "../fluidControl/executable/containers/actuators/liquids/Control.h"
 #include "../util/Patch.h"
@@ -26,7 +26,7 @@ public:
 	virtual std::string getInstructions();
 protected:
 	int valveNumber;
-	std::tr1::unordered_map<int, int> containerValveMap;
+	std::unordered_map<int, int> containerValveMap;
 	int lastPos;
 
 };

@@ -14,7 +14,7 @@
 
 //boost
 #include <boost/algorithm/string/trim.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 //local
 #include "../../util/Patch.h"
@@ -29,7 +29,7 @@ public:
 	ContainerNode();
 	ContainerNode(const ContainerNode & node);
 	//
-	ContainerNode(int idConatiner, boost::shared_ptr<ContainerNodeType> type, float capacity);
+	ContainerNode(int idConatiner, std::shared_ptr<ContainerNodeType> type, float capacity);
 
 	virtual ~ContainerNode();
 
@@ -40,10 +40,10 @@ public:
 	void removeAddon(AddOnsType type);
 
 	//getters and setters
-	inline boost::shared_ptr<ContainerNodeType> getType() {
+	inline std::shared_ptr<ContainerNodeType> getType() {
 		return type;
 	}
-	inline void setType(boost::shared_ptr<ContainerNodeType> type) {
+	inline void setType(std::shared_ptr<ContainerNodeType> type) {
 		this->type = type;
 	}
 
@@ -80,7 +80,7 @@ protected:
 	/**
 	 * Container type
 	 */
-	boost::shared_ptr<ContainerNodeType> type;
+	std::shared_ptr<ContainerNodeType> type;
 	/**
 	 * Maximum volume capacity of the container
 	 */

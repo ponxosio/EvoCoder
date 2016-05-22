@@ -14,7 +14,7 @@
 //vector
 #include <vector>
 #include <algorithm>
-#include <tr1/unordered_set>
+#include <unordered_set>
 #include <queue>
 
 //local

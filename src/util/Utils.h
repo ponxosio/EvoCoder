@@ -9,20 +9,15 @@
 #define SRC_UTIL_UTILS_H_
 
 #include <stdio.h>
-#include <sys/time.h>
+#include <chrono>
 #include <string>
 #include <iostream>
 #include <sstream>
 
 #include <vector>
 
-#ifdef WINDOWS
-    #include <direct.h>
-    #define GetCurrentDir _getcwd
-#else
-    #include <unistd.h>
-    #define GetCurrentDir getcwd
- #endif
+#include <direct.h>
+#define GetCurrentDir _getcwd
 
 //local
 #include "../../lib/easylogging++.h"

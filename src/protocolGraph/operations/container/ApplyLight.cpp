@@ -9,8 +9,8 @@
 
 ApplyLight::ApplyLight() : ContainerOperation() {
 	this->sourceId = -1;
-	this->wavelength = boost::shared_ptr<MathematicOperable>();
-	this->intensity = boost::shared_ptr<MathematicOperable>();
+	this->wavelength = std::shared_ptr<MathematicOperable>();
+	this->intensity = std::shared_ptr<MathematicOperable>();
 }
 
 ApplyLight::ApplyLight(const ApplyLight& node) : ContainerOperation(node) {
@@ -29,9 +29,9 @@ void ApplyLight::loadNode(const std::string& line) throw (std::invalid_argument)
 	//TODO: JSON
 }
 
-ApplyLight::ApplyLight(int idContainer,boost::shared_ptr<Mapping> mapping, int sourceID,
-		boost::shared_ptr<MathematicOperable> wavelength,
-		boost::shared_ptr<MathematicOperable> intensity) :
+ApplyLight::ApplyLight(int idContainer,std::shared_ptr<Mapping> mapping, int sourceID,
+		std::shared_ptr<MathematicOperable> wavelength,
+		std::shared_ptr<MathematicOperable> intensity) :
 			ContainerOperation(idContainer, mapping){
 	this->sourceId = sourceID;
 	this->wavelength = wavelength;

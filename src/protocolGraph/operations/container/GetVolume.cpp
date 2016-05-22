@@ -9,7 +9,7 @@
 
 GetVolume::GetVolume() : ContainerOperation() {
 	this->sourceId = -1;
-	this->receiver = boost::shared_ptr<VariableEntry>();
+	this->receiver = std::shared_ptr<VariableEntry>();
 }
 
 GetVolume::GetVolume(const GetVolume& node) : ContainerOperation(node){
@@ -17,8 +17,8 @@ GetVolume::GetVolume(const GetVolume& node) : ContainerOperation(node){
 	this->receiver = node.receiver;
 }
 
-GetVolume::GetVolume(int containerId, boost::shared_ptr<Mapping> mapping,
-		int sourceId, boost::shared_ptr<VariableEntry> receiver) :
+GetVolume::GetVolume(int containerId, std::shared_ptr<Mapping> mapping,
+		int sourceId, std::shared_ptr<VariableEntry> receiver) :
 		ContainerOperation(containerId, mapping) {
 	this->sourceId = sourceId;
 	this->receiver = receiver;

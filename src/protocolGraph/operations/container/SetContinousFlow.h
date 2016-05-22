@@ -24,14 +24,14 @@ public:
 	virtual void loadNode(const std::string & line) throw (invalid_argument);
 	//
 
-	SetContinousFlow(int idContainer, boost::shared_ptr<Mapping> mapping, int idSource, int idTarget, boost::shared_ptr<MathematicOperable> rate);
+	SetContinousFlow(int idContainer, std::shared_ptr<Mapping> mapping, int idSource, int idTarget, std::shared_ptr<MathematicOperable> rate);
 	virtual ~SetContinousFlow();
 
 	virtual void execute();
 protected:
 	int idSource;
 	int idTarget;
-	boost::shared_ptr<MathematicOperable> rate;
+	std::shared_ptr<MathematicOperable> rate;
 };
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONATINER_SETCONTINOUSFLOW_H_ */

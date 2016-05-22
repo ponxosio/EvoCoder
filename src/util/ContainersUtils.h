@@ -9,7 +9,7 @@
 #define UTIL_CONTAINERSUTILS_H_
 
 #include <vector>
-#include <tr1/unordered_set>
+#include <unordered_set>
 #include <algorithm>
 
 // boost library

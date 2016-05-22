@@ -215,6 +215,7 @@ bool ContainerNodeType::hasAddOns(AddOnsType addOn) {
 
 std::string ContainerNodeType::getTypeString() {
 	//TODO: por definir
+	return "";
 }
 
 std::string ContainerNodeType::makeAddonsNodes(int idContainer) {

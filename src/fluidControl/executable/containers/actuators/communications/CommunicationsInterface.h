@@ -8,7 +8,7 @@
 #ifndef FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_COMMUNICATIONS_COMMUNICATIONSINTERFACE_H_
 #define FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_COMMUNICATIONS_COMMUNICATIONSINTERFACE_H_
 
-#include <tr1/unordered_map>
+#include <unordered_map>
 
 #include "CommandSender.h"
 
@@ -37,8 +37,8 @@ private:
 
 	static CommunicationsInterface *m_pInstance;
 
-	std::tr1::unordered_map<int, CommandSender*>* communicationMap;
-	std::tr1::unordered_map<int, CommandSender*>* testCommunicationMap;
+	std::unordered_map<int, CommandSender*>* communicationMap;
+	std::unordered_map<int, CommandSender*>* testCommunicationMap;
 	bool testing;
 	int lastId;
 	int testLastId;

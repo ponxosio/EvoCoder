@@ -18,7 +18,7 @@
 
 //boost
 #include <boost/function.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 //lib
 #include "../lib/easylogging++.h"
@@ -107,11 +107,11 @@ using namespace std;
 class Test {
 public:
 	static ProtocolGraph* MakeTurbidostat(
-			boost::shared_ptr<VariableTable> table,
-			boost::shared_ptr<Mapping> map);
+			std::shared_ptr<VariableTable> table,
+			std::shared_ptr<Mapping> map);
 	static ProtocolGraph* makeSimpleProtocol(
-				boost::shared_ptr<VariableTable> table,
-				boost::shared_ptr<Mapping> map);
+				std::shared_ptr<VariableTable> table,
+				std::shared_ptr<Mapping> map);
 	static ExecutableMachineGraph* makeSimpleMachine(int communications);
 	static ExecutableMachineGraph* makeMatrixMachine(int communications, int size);
 	static ExecutableMachineGraph* makeMappingMachine(int communications);
@@ -126,7 +126,7 @@ public:
 	void testGraph();
 	void testContainerNode();
 	void testUtils();
-	void testVariableTable(boost::shared_ptr<VariableTable> t,  const std::string & name);
+	void testVariableTable(std::shared_ptr<VariableTable> t,  const std::string & name);
 	void testMathematicVariable();
 	void testComparisonVariable();
 	void testUnaryOperation();
