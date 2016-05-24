@@ -10,21 +10,19 @@
 LoopNode::LoopNode() :
 		OperationNode() {
 	this->conditionIN = std::shared_ptr<ComparisonOperable>();
-	this->conditionOUT = std::shared_ptr<ComparisonOperable>();
+	
 }
 
 LoopNode::LoopNode(const LoopNode& obj) :
 		OperationNode(obj) {
 	this->conditionIN = obj.conditionIN;
-	this->conditionOUT = obj.conditionOUT;
+	
 }
 
 LoopNode::LoopNode(int containerId,
-		std::shared_ptr<ComparisonOperable> conditionIN,
-		std::shared_ptr<ComparisonOperable> conditionOUT) :
+		std::shared_ptr<ComparisonOperable> conditionIN) :
 		OperationNode(containerId) {
 	this->conditionIN = conditionIN;
-	this->conditionOUT = conditionOUT;
 }
 
 LoopNode::~LoopNode() {

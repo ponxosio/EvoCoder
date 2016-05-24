@@ -36,8 +36,7 @@ public:
 	virtual string toText();
 	virtual void loadNode(const string & line) throw (invalid_argument);
 	//
-	LoopNode(int containerId, std::shared_ptr<ComparisonOperable> conditionIN,
-			std::shared_ptr<ComparisonOperable> conditionOUT);
+	LoopNode(int containerId, std::shared_ptr<ComparisonOperable> conditionIN);
 
 	virtual ~LoopNode();
 
@@ -47,13 +46,9 @@ public:
 	const std::shared_ptr<ComparisonOperable>& getConditionIN() const {
 		return conditionIN;
 	}
-	const std::shared_ptr<ComparisonOperable>& getConditionOUT() const {
-		return conditionOUT;
-	}
 
 protected:
 	std::shared_ptr<ComparisonOperable> conditionIN;
-	std::shared_ptr<ComparisonOperable> conditionOUT;
 };
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_LOOPNODE_H_ */

@@ -33,8 +33,7 @@ public:
 	virtual void loadNode(const string & line) throw (invalid_argument);
 	//
 	DivergeNode(int containerId,
-			std::shared_ptr<ComparisonOperable> conditionIN,
-			std::shared_ptr<ComparisonOperable> conditionOUT);
+			std::shared_ptr<ComparisonOperable> conditionIN);
 	virtual ~DivergeNode();
 
 	virtual void execute();
@@ -43,20 +42,9 @@ public:
 	const std::shared_ptr<ComparisonOperable>& getConditionIN() const {
 		return conditionIN;
 	}
-	const std::shared_ptr<ComparisonOperable>& getConditionOUT() const {
-		return conditionOUT;
-	}
-	OperationNode* getEndNode() const {
-		return endNode;
-	}
-	void setEndNode(OperationNode* endNode) {
-		this->endNode = endNode;
-	}
 
 protected:
 	std::shared_ptr<ComparisonOperable> conditionIN;
-	std::shared_ptr<ComparisonOperable> conditionOUT;
-	OperationNode* endNode;
 };
 
 #endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_DIVERGENODE_H_ */

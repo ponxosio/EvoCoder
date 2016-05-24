@@ -21,6 +21,18 @@
 
 class MachineGraph {
 public:
+	
+	typedef Graph<ContainerNode,Edge>::NodeTypePtr ContainerNodePtr;
+	typedef Graph<ContainerNode, Edge>::EdgeTypePtr ContainerEdgePtr;
+
+	typedef Graph<ContainerNode, Edge>::NodeVector ContainerNodeVector;
+	typedef Graph<ContainerNode, Edge>::EdgeVector ContainerEdgeVector;
+
+	typedef Graph<ContainerNode, Edge>::NodeVectorPtr ContainerNodeVectorPtr;
+	typedef Graph<ContainerNode, Edge>::EdgeVectorPtr ContainerEdgeVectorPtr;
+
+	typedef Graph<ContainerNode, Edge>::SubGraphPtr ContainerSubGraphPtr;
+	
 	MachineGraph(std::string name);
 	virtual ~MachineGraph();
 
@@ -50,11 +62,11 @@ public:
 		return (machine->getNode(idContainer) != NULL);
 	}
 
-	inline ContainerNode* getContainer(int idContainer) {
+	inline typename ContainerNodePtr getContainer(int idContainer) {
 		return (machine->getNode(idContainer));
 	}
 
-	inline std::vector<std::pair<vector<ContainerNode*>*,vector<Edge*>*>>* getSubgraphs() {
+	inline typename ContainerSubGraphPtr getSubgraphs() {
 		return machine->getSubGraphs();
 	}
 
@@ -65,6 +77,10 @@ public:
 protected:
 	std::string name;
 	Graph<ContainerNode, Edge>* machine;
+
+	ContainerNodePtr createContainerNode(int idContainer, std::shared_ptr<ContainerNodeType> type,
+		float capacity);
+	ContainerEdgePtr createContainerEdgePtr(int idSource, int idTarget);
 };
 
 #endif /* SRC_FLUIDCONTROL_MACHINEGRAPH_MACHINEGRAPH_H_ */

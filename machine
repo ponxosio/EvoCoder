@@ -1,8 +1,8 @@
 digraph G {
-1 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_inlet.png"];-5[image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\light.png"];-5->1;
-2 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\discrete_inlet.png"];-10[image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\temperature.png"];-10->2;
-3 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_convergentswitchinlet.png"];-15[image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\odsensor.png"];-15->3;
-4 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\sink.png"];
+executable: 1 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_inlet.png"];-5[image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\light.png"];-5->1;
+executable: 2 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\discrete_inlet.png"];-10[image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\temperature.png"];-10->2;
+executable: 3 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_convergentswitchinlet.png"];-15[image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\odsensor.png"];-15->3;
+executable: 4 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\sink.png"];
 1->3;
 2->3;
 3->4;

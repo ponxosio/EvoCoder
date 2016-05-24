@@ -47,6 +47,13 @@
 
 class EvoCoder {
 public:
+
+	//type defs
+
+	typedef queue<ProtocolGraph::ProtocolNodePtr> ProtocolNodeQueue;
+
+	//
+
 	/**
 	 *
 	 * @param protocol graph with the protocol being executed
@@ -89,34 +96,13 @@ protected:
 	/**
 	 * actual node of the protocol
 	 */
-	OperationNode* actual;
+	ProtocolGraph::ProtocolNodePtr actual;
 
 	void initilizeTime();
-	void addAvailableEdges(std::queue<OperationNode*>* nodes);
-	bool isLast(std::vector<std::pair<DivergeNode*,bool>>* branchChosen, DivergeNode* node);
-	bool isPresent(
-			std::vector<std::pair<DivergeNode*, bool>>* branchChosen,
-			DivergeNode* node,
-			std::pair<DivergeNode*, bool> & returned);
+	void addAvailableEdges(ProtocolNodeQueue & nodes);
 
 	//exec methods
 	bool exec();
-	bool execRelaxed();
-	void execRelaxed_newBranch(OperationNode* start,
-			std::vector<LoopNode*> loopsBeingExecuted,
-			std::queue<OperationNode*> pending,
-			std::vector<std::pair<DivergeNode*,bool>> branchChosen);
-
-	void execRelaxed_ProcessNode(std::vector<LoopNode*>* loopsBeingExecuted,
-			std::queue<OperationNode*>* pending,
-			std::vector<std::pair<DivergeNode*,bool>>* branchChosen);
-	void execRelaxed_ProcessLoopNode(LoopNode* node,
-			std::vector<LoopNode*>* loopsBeingExecuted,
-			std::queue<OperationNode*>* pending);
-	void execRelaxed_ProcessDivergeNode(DivergeNode* node,
-			std::vector<LoopNode*>* loopsBeingExecuted,
-			std::queue<OperationNode*>* pending,
-			std::vector<std::pair<DivergeNode*,bool>>* branchChosen);
 
 };
 

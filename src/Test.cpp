@@ -25,7 +25,7 @@ int main(int argv, char* argc[]) {
 
 	LOG(INFO) << "started!...";
 
-	//t.testGraph();
+	t.testGraph();
 	/* t.testContainerNode();
 	 t.testVariableTable();
 	 t.testComparisonVariable();
@@ -54,64 +54,87 @@ int main(int argv, char* argc[]) {
 	 //t.testCommunicationsInterface();
 	 //t.testFileCommandSender();
 
-	 //t.testMappingTest();
-	 //t.testMappingExec();
+	//t.testMappingTest();
+	//t.testMappingExec();
 
-	 //t.testSerializaVariableTable();
-	 //t.testSerialize_MathematicOperable();
-	 //t.testSerialize_ExecutableConatinerNode();
-	t.testSerializeNode();
+	//t.testSerializaVariableTable();
+	//t.testSerialize_MathematicOperable();
+	//t.testSerialize_ExecutableConatinerNode();
+   //t.testSerializeNode();
 	LOG(INFO) << "finished!";
 }
 
 void Test::testGraph() {
-	Graph<Node, Edge>* g = new Graph<Node, Edge>();
+	{
+		std::shared_ptr<Graph<Node, Edge>> g = std::make_shared<Graph<Node, Edge>>();
 
-	if (g->addNode(new Node(0)) && g->addNode(new Node(1))
-		&& g->addNode(new Node(2)) && g->addEdge(new Edge(0, 1))
-		&& g->addEdge(new Edge(1, 2)) && g->addNode(new Node(3)) && g->addEdge(new Edge(3, 1))) {
+		if (g->addNode(std::make_shared<Node>(0)) && g->addNode(std::make_shared<Node>(1))
+			&& g->addNode(std::make_shared<Node>(2)) && g->addEdge(std::make_shared<Edge>(0, 1))
+			&& g->addEdge(std::make_shared<Edge>(1, 2)) && g->addNode(std::make_shared<Node>(3)) && g->addEdge(std::make_shared<Edge>(3, 1)) && g->saveGraph("preserialize.graph")) {
+		}
+		else {
+			LOG(ERROR) << "error creating and saving graph";
+		}
+
+		const Graph<Node, Edge>::EdgeVectorPtr arriving = g->getArrivingEdges(1);
+		LOG(INFO) << "arriving edges to 1: 0->1, 3->1";
+		for (auto it = arriving->begin(); it != arriving->end(); ++it) {
+			LOG(INFO) << (*it)->toText();
+		}
+
+		const Graph<Node, Edge>::EdgeVectorPtr leaving = g->getLeavingEdges(1);
+		LOG(INFO) << "leaving edges to 1: 1->2";
+		for (auto it = leaving->begin(); it != leaving->end(); ++it) {
+			LOG(INFO) << (*it)->toText();
+		}
+
+
+		ofstream o("test.json");
+		LOG(INFO) << "serializating...";
+		try {
+			cereal::JSONOutputArchive ar(o);
+			ar(g);
+		}
+		catch (cereal::Exception & e) {
+			LOG(FATAL) << "exception while serializating, " << e.what();
+		}
 	}
-	else {
-		LOG(ERROR) << "error creating and saving graph";
+	{
+		std::shared_ptr<Graph<Node, Edge>> g;
+		ifstream i("test.json");
+		try {
+			cereal::JSONInputArchive arIn(i);
+			LOG(INFO) << "created archive...";
+			arIn(g);
+			g->saveGraph("postserilize.graph");
+		}
+		catch (cereal::Exception& e) {
+			LOG(FATAL) << "exception while de-serializating, " << e.what();
+		}
 	}
-
-	const std::vector<Edge*>* arriving = g->getArrivingEdges(1);
-	LOG(INFO) << "arriving edges to 1: 0->1, 3->1";
-	for (auto it = arriving->begin(); it != arriving->end(); ++it) {
-		LOG(INFO) << (*it)->toText();
-	}
-
-	const std::vector<Edge*>* leaving = g->getLeavingEdges(1);
-	LOG(INFO) << "leaving edges to 1: 1->2";
-	for (auto it = leaving->begin(); it != leaving->end(); ++it) {
-		LOG(INFO) << (*it)->toText();
-	}
-
-	delete g;
-
 }
 
 void Test::testContainerNode() {
 	Graph<ContainerNode, Edge>* g = new Graph<ContainerNode, Edge>();
 
 	if (g->addNode(
-		new ContainerNode(0,
+		std::make_shared<ContainerNode>(0,
 			std::shared_ptr<ContainerNodeType>(
 				new ContainerNodeType(MovementType::continuous,
 					ContainerType::inlet)), 10.0f))
 		&& g->addNode(
-			new ContainerNode(1,
+			std::make_shared<ContainerNode>(1,
 				std::shared_ptr<ContainerNodeType>(
 					new ContainerNodeType(
 						MovementType::continuous,
 						ContainerType::flow)), 10.0f))
 		&& g->addNode(
-			new ContainerNode(2,
+			std::make_shared<ContainerNode>(2,
 				std::shared_ptr<ContainerNodeType>(
 					new ContainerNodeType(
 						MovementType::irrelevant,
 						ContainerType::sink)), 10.0f))
-		&& g->addEdge(new Edge(0, 1)) && g->addEdge(new Edge(1, 2))
+		&& g->addEdge(std::make_shared<Edge>(0, 1)) && g->addEdge(std::make_shared<Edge>(1, 2))
 		&& g->saveGraph("test_container.graph")) {
 	}
 	else {
@@ -245,13 +268,13 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 	std::shared_ptr<MathematicOperable> num600(new ConstantNumber(600));
 	std::shared_ptr<MathematicOperable> num2(new ConstantNumber(2));
 
-	OperationNode* op1 = new AssignationOperation(serial.getNextValue(),
+	ProtocolGraph::ProtocolNodePtr op1 = std::make_shared<AssignationOperation>(serial.getNextValue(),
 		epsilon, num0_1); //epsilon = 1
 	protocol->setStartNode(op1->getContainerId());
 
-	OperationNode* op2 = new AssignationOperation(serial.getNextValue(),
+	ProtocolGraph::ProtocolNodePtr op2 = std::make_shared<AssignationOperation>(serial.getNextValue(),
 		threshold, num600); //threshold = 600
-	OperationNode* op3 = new AssignationOperation(serial.getNextValue(), rate,
+	ProtocolGraph::ProtocolNodePtr op3 = std::make_shared<AssignationOperation>(serial.getNextValue(), rate,
 		num2); //rate = 2
 
 	protocol->addOperation(op1);
@@ -263,11 +286,11 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 	protocol->connectOperation(op2, op3, tautology);
 
 	std::shared_ptr<MathematicOperable> num1000(new ConstantNumber(1000));
-	OperationNode* op4 = new LoadContainerOperation(serial.getNextValue(), map,
+	ProtocolGraph::ProtocolNodePtr op4 = std::make_shared<LoadContainerOperation>(serial.getNextValue(), map,
 		1, num1000); //loadContainer(1, 1000ml)
-	OperationNode* op5 = new LoadContainerOperation(serial.getNextValue(), map,
+	ProtocolGraph::ProtocolNodePtr op5 = std::make_shared<LoadContainerOperation>(serial.getNextValue(), map,
 		2, num1000); //loadContainer(2, 1000ml)
-	OperationNode* op6 = new LoadContainerOperation(serial.getNextValue(), map,
+	ProtocolGraph::ProtocolNodePtr op6 = std::make_shared<LoadContainerOperation>(serial.getNextValue(), map,
 		3, num1000); //loadContainer(3, 1000ml)
 
 	protocol->addOperation(op4);
@@ -287,15 +310,14 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 	std::shared_ptr<ComparisonOperable> comp1(
 		new SimpleComparison(false, mtime, comparison::less, num20));
 
-	OperationNode* loop1 = new LoopNode(serial.getNextValue(), comp1,
-		std::shared_ptr<ComparisonOperable>(new Tautology())); //while (t < 20)
+	ProtocolGraph::ProtocolNodePtr loop1 = std::make_shared<LoopNode>(serial.getNextValue(), comp1); //while (t < 20)
 
 	protocol->addOperation(loop1);
 	protocol->connectOperation(op6, loop1, comp1);
 
 	std::shared_ptr<VariableEntry> od(new VariableEntry("od", table));
 	std::shared_ptr<MathematicOperable> mod(new VariableEntry("od", table));
-	OperationNode* op7 = new MeasureOD(serial.getNextValue(), map, 2, od); //od = measureOd(2)
+	ProtocolGraph::ProtocolNodePtr op7 = std::make_shared<MeasureOD>(serial.getNextValue(), map, 2, od); //od = measureOd(2)
 
 	protocol->addOperation(op7);
 	protocol->connectOperation(loop1, op7, comp1);
@@ -313,7 +335,7 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 	std::shared_ptr<MathematicOperable> operation1( //1 + (od - threshold) /threshold
 		new ArithmeticOperation(num1, arithmetic::plus, operation1_2));
 
-	OperationNode* op8 = new AssignationOperation(serial.getNextValue(), normOD,
+	ProtocolGraph::ProtocolNodePtr op8 = std::make_shared<AssignationOperation>(serial.getNextValue(), normOD,
 		operation1); // normOD = 1 + (od - threshold) /threshold
 
 	protocol->addOperation(op8);
@@ -323,8 +345,7 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 		new SimpleComparison(false, normOD, comparison::greater, num1));
 	std::shared_ptr<ComparisonOperable> comp2out(
 		new SimpleComparison(true, normOD, comparison::greater, num1));
-	DivergeNode* if1 = new DivergeNode(serial.getNextValue(), comp2in,
-		comp2out); //if (normOD > 1)
+	ProtocolGraph::ProtocolNodePtr if1 = std::make_shared<DivergeNode>(serial.getNextValue(), comp2in); //if (normOD > 1)
 
 	protocol->addOperation(if1);
 	protocol->connectOperation(op8, if1, tautology);
@@ -333,8 +354,7 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 		new SimpleComparison(false, normOD, comparison::less, num1));
 	std::shared_ptr<ComparisonOperable> comp3out(
 		new SimpleComparison(true, normOD, comparison::less, num1));
-	DivergeNode* if2 = new DivergeNode(serial.getNextValue(), comp3in,
-		comp3out); //if (normOD < 1)
+	ProtocolGraph::ProtocolNodePtr if2 = std::make_shared<DivergeNode>(serial.getNextValue(), comp3in); //if (normOD < 1)
 
 	std::shared_ptr<MathematicOperable> operation2_1( //(normOD - 1)
 		new ArithmeticOperation(mnormOD, arithmetic::minus, num1));
@@ -344,7 +364,7 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 	std::shared_ptr<VariableEntry> prop(new VariableEntry("prop", table));
 	std::shared_ptr<MathematicOperable> mprop(
 		new VariableEntry("prop", table));
-	OperationNode* op9 = new AssignationOperation(serial.getNextValue(), prop,
+	ProtocolGraph::ProtocolNodePtr op9 = std::make_shared<AssignationOperation>(serial.getNextValue(), prop,
 		operation2); // prop = 1 + (normOD - 1)
 
 	protocol->addOperation(if2);
@@ -358,10 +378,10 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 	std::shared_ptr<MathematicOperable> operation3( // 1 - (normOD - 1)
 		new ArithmeticOperation(num1, arithmetic::minus, operation2_1));
 
-	OperationNode* op10 = new AssignationOperation(serial.getNextValue(), prop,
+	ProtocolGraph::ProtocolNodePtr op10 = std::make_shared<AssignationOperation>(serial.getNextValue(), prop,
 		operation3); // prop = 1 - (normOD - 1)
 
-	OperationNode* op11 = new AssignationOperation(serial.getNextValue(), prop,
+	ProtocolGraph::ProtocolNodePtr op11 = std::make_shared<AssignationOperation>(serial.getNextValue(), prop,
 		num1); //prop = 1
 
 	protocol->addOperation(op10);
@@ -382,10 +402,7 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 		new SimpleComparison(true, operation4, comparison::greater,
 			epsilon)); // !(fabs(prop -1) -1 > epsilon)
 
-	DivergeNode* if3 = new DivergeNode(serial.getNextValue(), comp4in,
-		comp4out); //if (fabs(prop -1) -1 > epsilon)
-	if2->setEndNode(if3);
-	if1->setEndNode(if3);
+	ProtocolGraph::ProtocolNodePtr if3 = std::make_shared<DivergeNode>(serial.getNextValue(), comp4in); //if (fabs(prop -1) -1 > epsilon)
 
 	protocol->addOperation(if3);
 
@@ -395,27 +412,25 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 
 	std::shared_ptr<MathematicOperable> operation5(
 		new ArithmeticOperation(prop, arithmetic::multiply, rate)); // prop * rate
-	OperationNode* op12 = new AssignationOperation(serial.getNextValue(), rate,
+	ProtocolGraph::ProtocolNodePtr op12 = std::make_shared<AssignationOperation>(serial.getNextValue(), rate,
 		operation5); // rate = prop * rate
 
 	protocol->addOperation(op12);
 	protocol->connectOperation(if3, op12, comp4in);
 
-	OperationNode* op13 = new SetContinousFlow(serial.getNextValue(), map, 1, 2,
+	ProtocolGraph::ProtocolNodePtr op13 = std::make_shared<SetContinousFlow>(serial.getNextValue(), map, 1, 2,
 		rate); // setcontinousFlow(1,2,rate)
 
 	protocol->addOperation(op13);
 	protocol->connectOperation(op12, op13, tautology);
 
-	OperationNode* op14 = new SetContinousFlow(serial.getNextValue(), map, 2, 3,
+	ProtocolGraph::ProtocolNodePtr op14 = std::make_shared<SetContinousFlow>(serial.getNextValue(), map, 2, 3,
 		rate); // setcontinousFlow(2,3,rate)
 
 	protocol->addOperation(op14);
 	protocol->connectOperation(op13, op14, tautology);
 
-	OperationNode* timeStep = new TimeStep(serial.getNextValue(), map, time);
-
-	if3->setEndNode(timeStep);
+	ProtocolGraph::ProtocolNodePtr timeStep = std::make_shared<TimeStep>(serial.getNextValue(), map, time);
 
 	protocol->addOperation(timeStep);
 
@@ -485,13 +500,13 @@ void Test::testFlow() {
 		FlowPtrComparator<Edge>> heap;
 
 	Flow<Edge>* f1 = new Flow<Edge>(1, 3);
-	Edge* edge13 = new Edge(1, 3);
+	Flow<Edge>::FlowEdgePtr edge13 = std::make_shared<Edge>(1, 3);
 	f1->append(edge13);
 
 	heap.push(f1);
 
 	Flow<Edge>* f2 = new Flow<Edge>(1, 3);
-	Edge* edge12 = new Edge(1, 2);
+	Flow<Edge>::FlowEdgePtr edge12 = std::make_shared<Edge>(1, 2);
 	f2->append(edge12);
 	f2->append(edge13);
 
@@ -535,15 +550,15 @@ ProtocolGraph* Test::makeSimpleProtocol(std::shared_ptr<VariableTable> table,
 	std::shared_ptr<MathematicOperable> num0_5(new ConstantNumber(0.5));
 	std::shared_ptr<MathematicOperable> num10(new ConstantNumber(10));
 
-	OperationNode* op1 = new AssignationOperation(serial.getNextValue(),
+	ProtocolGraph::ProtocolNodePtr op1 = std::make_shared<AssignationOperation>(serial.getNextValue(),
 		epsilon, num0_5); //epsilon = 0.5
 
 	std::shared_ptr<MathematicOperable> num1000(new ConstantNumber(1000));
-	OperationNode* op4 = new LoadContainerOperation(serial.getNextValue(), map,
+	ProtocolGraph::ProtocolNodePtr op4 = std::make_shared<LoadContainerOperation>(serial.getNextValue(), map,
 		1, num1000); //loadContainer(1, 1000ml)
-	OperationNode* op5 = new LoadContainerOperation(serial.getNextValue(), map,
+	ProtocolGraph::ProtocolNodePtr op5 = std::make_shared<LoadContainerOperation>(serial.getNextValue(), map,
 		2, num1000); //loadContainer(2, 1000ml)
-	OperationNode* op6 = new LoadContainerOperation(serial.getNextValue(), map,
+	ProtocolGraph::ProtocolNodePtr op6 = std::make_shared<LoadContainerOperation>(serial.getNextValue(), map,
 		3, num1000); //loadContainer(3, 1000ml)
 
 	protocol->addOperation(op1);
@@ -556,15 +571,14 @@ ProtocolGraph* Test::makeSimpleProtocol(std::shared_ptr<VariableTable> table,
 	protocol->connectOperation(op5, op6, tautology);
 
 	std::shared_ptr<ComparisonOperable> contradiction(new Tautology());
-	OperationNode* loop1 = new LoopNode(serial.getNextValue(), tautology,
-		contradiction); //while (true)
+	ProtocolGraph::ProtocolNodePtr loop1 = std::make_shared<LoopNode>(serial.getNextValue(), tautology); //while (true)
 
 	protocol->addOperation(loop1);
 	protocol->connectOperation(op6, loop1, tautology);
 
 	std::shared_ptr<VariableEntry> od(new VariableEntry("od", table));
 	std::shared_ptr<MathematicOperable> mod(new VariableEntry("od", table));
-	OperationNode* op7 = new MeasureOD(serial.getNextValue(), map, 3, od); //od = measureOd(2)
+	ProtocolGraph::ProtocolNodePtr op7 = std::make_shared<MeasureOD>(serial.getNextValue(), map, 3, od); //od = measureOd(2)
 
 	protocol->addOperation(op7);
 	protocol->connectOperation(loop1, op7, tautology);
@@ -573,14 +587,13 @@ ProtocolGraph* Test::makeSimpleProtocol(std::shared_ptr<VariableTable> table,
 		new SimpleComparison(false, mod, comparison::greater, mepsilon));
 	std::shared_ptr<ComparisonOperable> comp2out(
 		new SimpleComparison(true, mod, comparison::greater, mepsilon));
-	DivergeNode* if1 = new DivergeNode(serial.getNextValue(), comp2in,
-		comp2out); //if (od > 0.5)
+	ProtocolGraph::ProtocolNodePtr if1 = std::make_shared<DivergeNode>(serial.getNextValue(), comp2in); //if (od > 0.5)
 
 	protocol->addOperation(if1);
 	protocol->connectOperation(op7, if1, tautology);
 
-	OperationNode* op8 = new Transfer(serial.getNextValue(), map, 1, 3, num10);
-	OperationNode* op9 = new Transfer(serial.getNextValue(), map, 3, 4, num10);
+	ProtocolGraph::ProtocolNodePtr op8 = std::make_shared<Transfer>(serial.getNextValue(), map, 1, 3, num10);
+	ProtocolGraph::ProtocolNodePtr op9 = std::make_shared<Transfer>(serial.getNextValue(), map, 3, 4, num10);
 
 	protocol->addOperation(op8);
 	protocol->connectOperation(if1, op8, comp2in);
@@ -588,8 +601,8 @@ ProtocolGraph* Test::makeSimpleProtocol(std::shared_ptr<VariableTable> table,
 	protocol->connectOperation(op8, op9, tautology);
 	protocol->connectOperation(op9, loop1, tautology);
 
-	OperationNode* op10 = new Transfer(serial.getNextValue(), map, 2, 3, num10);
-	OperationNode* op11 = new Transfer(serial.getNextValue(), map, 3, 4, num10);
+	ProtocolGraph::ProtocolNodePtr op10 = std::make_shared<Transfer>(serial.getNextValue(), map, 2, 3, num10);
+	ProtocolGraph::ProtocolNodePtr op11 = std::make_shared<Transfer>(serial.getNextValue(), map, 3, 4, num10);
 
 	protocol->addOperation(op10);
 	protocol->connectOperation(if1, op10, comp2out);
@@ -635,7 +648,7 @@ void Test::testExecutableMachineGraph() {
 
 	LOG(INFO) << "getting flows flow to sink...";
 	std::priority_queue<Flow<Edge>, vector<Flow<Edge>>,
-		FlowPtrComparator<Edge>> f = machine->getAvailableFlows(cinlet, sink, machine->getGraph()->getAllNodes());
+		FlowPtrComparator<Edge>> f = machine->getAvailableFlows(cinlet, sink, *(machine->getGraph()->getAllNodes()));
 
 	int i = 0;
 	while (!f.empty()) {
@@ -701,13 +714,13 @@ ExecutableMachineGraph* Test::makeSimpleMachine(int communications) {
 		new EvoprogDummyInjector(communications));
 	std::shared_ptr<ODSensor> od(new EvoprogOdSensor(communications, 4));
 
-	ExecutableContainerNode* cInlet1 = new InletContainer(1, 100.0, cExtractor13);
+	ExecutableMachineGraph::ExecutableContainerNodePtr cInlet1 = std::make_shared<InletContainer>(1, 100.0, cExtractor13);
 	cInlet1->setLight(light);
-	ExecutableContainerNode* dInlet2 = new InletContainer(2, 100.0, dExtractor);
+	ExecutableMachineGraph::ExecutableContainerNodePtr dInlet2 = std::make_shared<InletContainer>(2, 100.0, dExtractor);
 	dInlet2->setTemperature(temperature);
-	ExecutableContainerNode* cSwtInlet3 = new ConvergentSwitchInlet(3, 100.0, dummyInjector, cExtractor14, control);
+	ExecutableMachineGraph::ExecutableContainerNodePtr cSwtInlet3 = std::make_shared<ConvergentSwitchInlet>(3, 100.0, dummyInjector, cExtractor14, control);
 	cSwtInlet3->setOd(od);
-	ExecutableContainerNode* sink = new SinkContainer(4, 100.0, dummyInjector);
+	ExecutableMachineGraph::ExecutableContainerNodePtr sink = std::make_shared<SinkContainer>(4, 100.0, dummyInjector);
 
 	machine->addContainer(cInlet1);
 	machine->addContainer(dInlet2);
@@ -728,41 +741,41 @@ ExecutableMachineGraph* Test::makeMatrixMachine(int communications,
 
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			ExecutableContainerNode* node;
+			ExecutableMachineGraph::ExecutableContainerNodePtr node;
 			if (i == 0) {
 				if (j == 0) {
 					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
 					std::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications, 3));
-					node = new ConvergentSwitch(i*size + j, 100.0, inject, ctrl);
+					node = std::make_shared<ConvergentSwitch>(i*size + j, 100.0, inject, ctrl);
 				}
 				else if (j == size - 1) {
 					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
 					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
-					node = new FlowContainer(i*size + j, 100.0, extract, inject);
+					node = std::make_shared<FlowContainer>(i*size + j, 100.0, extract, inject);
 				}
 				else {
 					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
 					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
 					std::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications, 3));
-					node = new ConvergentSwitchInlet(i*size + j, 100.0, inject, extract, ctrl);
+					node = std::make_shared<ConvergentSwitchInlet>(i*size + j, 100.0, inject, extract, ctrl);
 				}
 			}
 			else if (i == size - 1) {
 				if (j == 0) {
 					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
 					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
-					node = new FlowContainer(i * size + j, 100.0, extract, inject);
+					node = std::make_shared<FlowContainer>(i * size + j, 100.0, extract, inject);
 				}
 				else if (j == size - 1) {
 					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
 					std::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications, 3));
-					node = new DivergentSwitch(i*size + j, 100.0, extract, ctrl);
+					node = std::make_shared<DivergentSwitch>(i*size + j, 100.0, extract, ctrl);
 				}
 				else {
 					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
 					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
 					std::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications, 3));
-					node = new DivergentSwitchSink(i*size + j, 100.0, inject, extract, ctrl);
+					node = std::make_shared<DivergentSwitchSink>(i*size + j, 100.0, inject, extract, ctrl);
 				}
 			}
 			else {
@@ -770,20 +783,20 @@ ExecutableMachineGraph* Test::makeMatrixMachine(int communications,
 					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
 					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
 					std::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications, 3));
-					node = new ConvergentSwitchInlet(i*size + j, 100.0, inject, extract, ctrl);
+					node = std::make_shared<ConvergentSwitchInlet>(i*size + j, 100.0, inject, extract, ctrl);
 				}
 				else if (j == size - 1) {
 					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
 					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
 					std::shared_ptr<Control> ctrl(new EvoprogSixwayValve(communications, 3));
-					node = new DivergentSwitchSink(i*size + j, 100.0, inject, extract, ctrl);
+					node = std::make_shared<DivergentSwitchSink>(i*size + j, 100.0, inject, extract, ctrl);
 				}
 				else {
 					std::shared_ptr<Injector> inject(new EvoprogDummyInjector(communications));
 					std::shared_ptr<Extractor> extract(new EvoprogContinuousPump(communications, 1));
 					std::shared_ptr<Control> ctrlIn(new EvoprogSixwayValve(communications, 3));
 					std::shared_ptr<Control> ctrlOut(new EvoprogSixwayValve(communications, 3));
-					node = new BidirectionalSwitch(i*size + j, 100.0, extract, inject, ctrlIn, ctrlOut);
+					node = std::make_shared<BidirectionalSwitch>(i*size + j, 100.0, extract, inject, ctrlIn, ctrlOut);
 				}
 			}
 			machine->addContainer(node);
@@ -819,7 +832,7 @@ void Test::testExecutableMachineGraphPerformance() {
 	LOG(INFO) << "getting flows inlet to sink...";
 	std::priority_queue<Flow<Edge>, vector<Flow<Edge>>,
 		FlowPtrComparator<Edge>> f = machine->getAvailableFlows(cinlet,
-			sink, machine->getGraph()->getAllNodes());
+			sink, *(machine->getGraph()->getAllNodes()));
 	DWORD end = GetTickCount();
 
 	LOG(INFO) << "calculate " << f.size() << " flows, in " << ((end - init)) << " ms";
@@ -859,35 +872,35 @@ void Test::testEvoprogComponents() {
 void Test::testCalculateSubgraphs() {
 	Graph<Node, Edge>* g = new Graph<Node, Edge>();
 
-	g->addNode(new Node(1));
-	g->addNode(new Node(2));
-	g->addNode(new Node(3));
-	g->addNode(new Node(4));
-	g->addNode(new Node(5));
-	g->addNode(new Node(6));
-	g->addNode(new Node(7));
-	g->addNode(new Node(8));
-	g->addNode(new Node(9));
-	g->addNode(new Node(10));
-	g->addNode(new Node(11));
+	g->addNode(std::make_shared<Node>(1));
+	g->addNode(std::make_shared<Node>(2));
+	g->addNode(std::make_shared<Node>(3));
+	g->addNode(std::make_shared<Node>(4));
+	g->addNode(std::make_shared<Node>(5));
+	g->addNode(std::make_shared<Node>(6));
+	g->addNode(std::make_shared<Node>(7));
+	g->addNode(std::make_shared<Node>(8));
+	g->addNode(std::make_shared<Node>(9));
+	g->addNode(std::make_shared<Node>(10));
+	g->addNode(std::make_shared<Node>(11));
 
-	g->addEdge(new Edge(1, 2));
-	g->addEdge(new Edge(2, 3));
-	//g->addEdge(new Edge(2,4));
-	g->addEdge(new Edge(4, 5));
-	g->addEdge(new Edge(4, 6));
-	g->addEdge(new Edge(7, 8));
-	g->addEdge(new Edge(8, 9));
-	g->addEdge(new Edge(9, 10));
-	g->addEdge(new Edge(10, 11));
+	g->addEdge(std::make_shared<Edge>(1, 2));
+	g->addEdge(std::make_shared<Edge>(2, 3));
+	//g->addEdge(std::make_shared<Edge>(2,4));
+	g->addEdge(std::make_shared<Edge>(4, 5));
+	g->addEdge(std::make_shared<Edge>(4, 6));
+	g->addEdge(std::make_shared<Edge>(7, 8));
+	g->addEdge(std::make_shared<Edge>(8, 9));
+	g->addEdge(std::make_shared<Edge>(9, 10));
+	g->addEdge(std::make_shared<Edge>(10, 11));
 
-	std::vector<std::pair<vector<Node*>*, vector<Edge*>*>>* subGraph = g->getSubGraphs();
+	Graph<Node, Edge>::SubGraphPtr subGraph = g->getSubGraphs();
 	int color = 0;
 	for (auto it = subGraph->begin(); it != subGraph->end(); ++it) {
 		LOG(INFO) << "subGraph " << color << ": ";
-		std::vector<Node*>* actualSubgraph = it->first;
+		Graph<Node, Edge>::NodeVectorPtr actualSubgraph = get<0>(*it);
 		for (auto it1 = actualSubgraph->begin(); it1 != actualSubgraph->end(); ++it1) {
-			Node* act = *it1;
+			Graph<Node, Edge>::NodeTypePtr act = *it1;
 			LOG(INFO) << act->toText();
 		}
 		color++;
@@ -946,9 +959,6 @@ void Test::testCompatibleSubgraph() {
 	vect2.push_back(c5);
 	vect2.push_back(c6);
 
-	LOG(INFO) << "are v1 and v2 compatible? 1: " << ContainersUtils::areSubgraphCompatible<ContainerNode, ContainerNode>(vect1, vect2, used);
-	LOG(INFO) << "are v2 and v1 compatible? 0: " << ContainersUtils::areSubgraphCompatible<ContainerNode, ContainerNode>(vect2, vect1, used);
-
 	LOG(INFO) << "is 1 in v1 ? 1: " << ContainersUtils::isNodeInVector<ContainerNode>(1, vect1);
 	LOG(INFO) << "is 1 in v2 ? 0: " << ContainersUtils::isNodeInVector<ContainerNode>(1, vect2);
 	LOG(INFO) << "is c4 in v2 ? 1: " << ContainersUtils::isNodeInVector<ContainerNode, ContainerNode>(c4, vect2);
@@ -976,18 +986,18 @@ ExecutableMachineGraph* Test::makeMappingMachine(
 		new EvoprogDummyInjector(communications));
 	std::shared_ptr<ODSensor> sensor(new EvoprogOdSensor(communications, 14));
 
-	ExecutableContainerNode* cInlet1 = new InletContainer(1, 100.0, cExtractor);
-	ExecutableContainerNode* cInlet2 = new DivergentSwitch(2, 100.0, cExtractor, control);
-	ExecutableContainerNode* cInlet3 = new FlowContainer(3, 100.0, cExtractor, dummyInjector);
-	ExecutableContainerNode* cInlet4 = new InletContainer(4, 100.0, cExtractor);
+	ExecutableMachineGraph::ExecutableContainerNodePtr cInlet1 = std::make_shared<InletContainer>(1, 100.0, cExtractor);
+	ExecutableMachineGraph::ExecutableContainerNodePtr cInlet2 = std::make_shared<DivergentSwitch>(2, 100.0, cExtractor, control);
+	ExecutableMachineGraph::ExecutableContainerNodePtr cInlet3 = std::make_shared<FlowContainer>(3, 100.0, cExtractor, dummyInjector);
+	ExecutableMachineGraph::ExecutableContainerNodePtr cInlet4 = std::make_shared<InletContainer>(4, 100.0, cExtractor);
 
 
-	ExecutableContainerNode* cSwtInlet5 = new ConvergentSwitchInlet(5, 100.0,
+	ExecutableMachineGraph::ExecutableContainerNodePtr cSwtInlet5 = std::make_shared<ConvergentSwitchInlet>(5, 100.0,
 		dummyInjector, cExtractor, control);
-	ExecutableContainerNode* cSwtInlet6 = new ConvergentSwitchInlet(6, 100.0,
+	ExecutableMachineGraph::ExecutableContainerNodePtr cSwtInlet6 = std::make_shared<ConvergentSwitchInlet>(6, 100.0,
 		dummyInjector, cExtractor, control);
 	cSwtInlet6->setOd(sensor);
-	ExecutableContainerNode* cSwich7 = new ConvergentSwitch(7, 100.0, dummyInjector, control);
+	ExecutableMachineGraph::ExecutableContainerNodePtr cSwich7 = std::make_shared<ConvergentSwitch>(7, 100.0, dummyInjector, control);
 
 	machine->addContainer(cInlet1);
 	machine->addContainer(cInlet2);
@@ -1041,16 +1051,16 @@ void Test::testMappingEngine() {
 	if (map->startMapping()) {
 		LOG(INFO) << "edge list size" << sketch->getGraph()->getEdgeList()->size();
 
-		const std::vector<Edge*>* edges = sketch->getGraph()->getEdgeList();
-		const std::vector<ContainerNode*> nodes = sketch->getGraph()->getAllNodes();
+		const MachineGraph::ContainerEdgeVectorPtr edges = sketch->getGraph()->getEdgeList();
+		const MachineGraph::ContainerNodeVectorPtr nodes = sketch->getGraph()->getAllNodes();
 
-		for (auto it = nodes.begin(); it != nodes.end(); ++it) {
-			ContainerNode* act = *it;
+		for (auto it = nodes->begin(); it != nodes->end(); ++it) {
+			MachineGraph::ContainerNodePtr act = *it;
 			LOG(INFO) << " sketch : " << patch::to_string(act->getContainerId()) << ", machine: " << patch::to_string(map->getMappedContainerId(act->getContainerId()));
 		}
 
 		for (auto it = edges->begin(); it != edges->end(); ++it) {
-			Edge* act = *it;
+			MachineGraph::ContainerEdgePtr act = *it;
 			LOG(INFO) << " sketch : " << act->toText() << ", machine: " << map->getMappedEdge(act)->toText();
 		}
 
@@ -1158,11 +1168,11 @@ void Test::testMappingEnginePerformance() {
 
 		LOG(INFO) << "edge list size" << sketch->getGraph()->getEdgeList()->size();
 
-		const vector<Edge*>* edges = sketch->getGraph()->getEdgeList();
-		const vector<ContainerNode*> nodes = sketch->getGraph()->getAllNodes();
+		const MachineGraph::ContainerEdgeVectorPtr edges = sketch->getGraph()->getEdgeList();
+		const MachineGraph::ContainerNodeVectorPtr nodes = sketch->getGraph()->getAllNodes();
 
-		for (auto it = nodes.begin(); it != nodes.end(); ++it) {
-			ContainerNode* act = *it;
+		for (auto it = nodes->begin(); it != nodes->end(); ++it) {
+			MachineGraph::ContainerNodePtr act = *it;
 			try {
 				LOG(INFO) << " sketch : " << patch::to_string(act->getContainerId()) << ", machine: " << patch::to_string(map->getMappedContainerId(act->getContainerId()));
 			}
@@ -1285,20 +1295,21 @@ void Test::testSerializeNode() {
 		std::shared_ptr<Injector> dummyInjector(
 			new EvoprogDummyInjector(communications));
 		std::shared_ptr<ODSensor> sensor(new EvoprogOdSensor(communications, 14));
-		
+
 		Node n(1);
 		shared_ptr<Node> cn1 = make_shared<ContainerNode>(2, make_shared<ContainerNodeType>(MovementType::continuous, ContainerType::inlet), 100.0);
-		
+
 		BidirectionalSwitch bdw(2, 100.0, cExtractor, dummyInjector, control, control);
 		bdw.setOd(sensor);
 		shared_ptr<Node> ecn1 = make_shared<BidirectionalSwitch>(bdw);
-		
+
 		ofstream o("test.json");
 		LOG(INFO) << "serializating...";
 		try {
 			cereal::JSONOutputArchive ar(o);
 			ar(n, cn1, ecn1);
-		} catch(cereal::Exception & e) {
+		}
+		catch (cereal::Exception & e) {
 			LOG(FATAL) << "exception while serializating, " << e.what();
 		}
 	}
@@ -1314,7 +1325,8 @@ void Test::testSerializeNode() {
 			LOG(INFO) << "node: " << n.toText();
 			LOG(INFO) << "container node: " << cn1->toText();
 			LOG(INFO) << "executable container node: " << ecn1->toText();
-		} catch(cereal::Exception& e) {
+		}
+		catch (cereal::Exception& e) {
 			LOG(FATAL) << "exception while de-serializating, " << e.what();
 		}
 	}

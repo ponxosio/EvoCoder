@@ -16,6 +16,8 @@
 
 //local
 #include "../util/Patch.h"
+#include "Graph.h"
+#include "Node.h"
 #include "Edge.h"
 
 template<class EdgeType> class Flow {
@@ -23,14 +25,26 @@ template<class EdgeType> class Flow {
 	BOOST_STATIC_ASSERT((boost::is_base_of<Edge, EdgeType>::value));
 
 public:
+
+	//TYPE DEFS
+	//typedef Graph<Node, EdgeType>::NodeTypePtr FlowNodePtr;
+	typedef typename Graph<Node, EdgeType>::EdgeTypePtr FlowEdgePtr;
+
+	//typedef vector<FlowNodePtr> FlowNodeVector;
+	typedef vector<FlowEdgePtr> FlowEdgeVector;
+
+	//typedef FlowNodeVector* FlowNodeVectorPtr;
+	typedef FlowEdgeVector* FlowEdgeVectorPtr;
+	//
+
 	Flow(const Flow & flow);
 	Flow(int idStar, int idFinish);
-	Flow(int idStar, int idFinish, const std::vector<EdgeType*> & paths);
+	Flow(int idStar, int idFinish, const typename FlowEdgeVector & paths);
 	virtual ~Flow();
 
-	void prepend(EdgeType* edge);
-	void append(EdgeType* edge);
-	void removePath(EdgeType* edge);
+	void prepend(typename FlowEdgePtr edge);
+	void append(typename FlowEdgePtr edge);
+	void removePath(typename FlowEdgePtr edge);
 
 	bool checkLoop();
 	bool equals(const Flow & flow);
@@ -45,23 +59,22 @@ public:
 		return idStart;
 	}
 
-	inline const std::vector<EdgeType*>& getPaths() const {
+	inline const typename FlowEdgeVector & getPaths() const {
 		return paths;
 	}
 protected:
 	int idStart;
 	int idFinish;
-	std::vector<EdgeType*> paths;
+	typename FlowEdgeVector paths;
 };
 
 template<class EdgeType>
 Flow<EdgeType>::Flow(const Flow& flow) {
 	this->idStart = flow.idStart;
 	this->idFinish = flow.idFinish;
-	this->paths = std::vector<EdgeType*>();
 
 	for (auto it = flow.paths.begin(); it != flow.paths.end(); ++it) {
-		Edge* actual = *it;
+		typename Graph<Node, EdgeType>::EdgeTypePtr actual = *it;
 		this->paths.push_back(actual);
 	}
 }
@@ -70,18 +83,16 @@ template<class EdgeType>
 Flow<EdgeType>::Flow(int idStar, int idFinish) {
 	this->idStart = idStar;
 	this->idFinish = idFinish;
-	this->paths = std::vector<EdgeType*>();
 }
 
 template<class EdgeType>
 Flow<EdgeType>::Flow(int idStar, int idFinish,
-		const std::vector<EdgeType*> & paths) {
+		const typename FlowEdgeVector & paths) {
 	this->idStart = idStar;
 	this->idFinish = idFinish;
-	this->paths = std::vector<EdgeType*>();
 
 	for (auto it = paths.begin(); it != paths.end(); ++it) {
-		Edge* actual = *it;
+		typename Graph<Node, EdgeType>::EdgeTypePtr actual = *it;
 		this->paths.push_back(actual);
 	}
 }
@@ -90,20 +101,20 @@ template<class EdgeType>
 Flow<EdgeType>::~Flow() {
 }
 template<class EdgeType>
-void Flow<EdgeType>::prepend(EdgeType* edge) {
+void Flow<EdgeType>::prepend(typename FlowEdgePtr edge) {
 	this->paths.insert(paths.begin(), edge);
 }
 
 template<class EdgeType>
-void Flow<EdgeType>::append(EdgeType* edge) {
+void Flow<EdgeType>::append(typename FlowEdgePtr edge) {
 	this->paths.push_back(edge);
 }
 
 template<class EdgeType>
-void Flow<EdgeType>::removePath(EdgeType* edge) {
+void Flow<EdgeType>::removePath(typename FlowEdgePtr edge) {
 	auto it = this->paths.begin();
 	while (it != this->paths.end()) {
-		Edge* actual = *it;
+		typename FlowEdgePtr actual = *it;
 		if (actual->equals(*edge)) {
 			this->paths.erase(it);
 		} else {
@@ -119,7 +130,7 @@ bool Flow<EdgeType>::checkLoop() {
 	auto it = paths.begin();
 
 	while (!loop && it != paths.end()) {
-		Edge* actual = *it;
+		typename FlowEdgePtr actual = *it;
 		loop = (actual->getIdTarget() == idStart);
 		++it;
 	}
@@ -133,7 +144,7 @@ bool Flow<EdgeType>::equals(const Flow& flow) {
 
 	auto itCompare = flow.paths.begin();
 	for (auto itMe = paths.begin(); equals && itMe != paths.end(); ++itMe) {
-		equals = (*itMe == *itCompare);
+		equals = (*itMe)->equals(**itCompare);
 		++itCompare;
 	}
 	return equals;
@@ -144,7 +155,7 @@ std::string Flow<EdgeType>::toText() {
 	std::string text = patch::to_string(idStart) + "->"
 			+ patch::to_string(idFinish) + ":";
 	for (auto it = paths.begin(); it != paths.end(); ++it) {
-		Edge* actual = *it;
+		typename FlowEdgePtr actual = *it;
 		text += actual->toText();
 	}
 	return text;

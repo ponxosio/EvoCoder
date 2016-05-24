@@ -25,17 +25,27 @@
 #include <queue>
 #include <utility>
 #include <unordered_map>
+#include <tuple>
 
 // boost library
 #include <boost/static_assert.hpp>
 #include <boost/type_traits/is_base_of.hpp>
 
 #include "../../lib/easylogging++.h"
+
 //local
 #include "../util/Patch.h"
 #include "../util/Utils.h"
 #include "Edge.h"
 #include "Node.h"
+
+//cereal
+#include <cereal/cereal.hpp>
+#include <cereal/types/unordered_map.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/types/tuple.hpp>
+#include <cereal/types/polymorphic.hpp>
 
 /**
  *
@@ -47,20 +57,43 @@ template <class NodeType, class EdgeType> class Graph {
 	BOOST_STATIC_ASSERT((boost::is_base_of<Edge, EdgeType>::value));
 
 public:
-	static Graph<NodeType,EdgeType>* loadGraph(string filename);
+
+	//types defs
+	typedef Node* NodePtr;
+	typedef Edge* EdgePtr;
+
+	typedef std::shared_ptr<NodeType> NodeTypePtr;
+	typedef std::shared_ptr<EdgeType> EdgeTypePtr;
+
+	typedef vector<EdgeTypePtr> EdgeVector;
+	typedef vector<NodeTypePtr> NodeVector;
+
+	typedef std::shared_ptr<EdgeVector> EdgeVectorPtr;
+	typedef std::shared_ptr<NodeVector> NodeVectorPtr;
+
+	typedef unordered_map<int, NodeTypePtr> NodeMap;
+	typedef unordered_map<int, EdgeVectorPtr> EdgeMap;
+
+	typedef std::shared_ptr<NodeMap> NodeMapPtr;
+	typedef std::shared_ptr<EdgeMap> EdgeMapPtr;
+
+	typedef std::tuple<NodeVectorPtr, EdgeVectorPtr> SubGraphElem;
+	typedef vector<SubGraphElem> SubGraph;
+	typedef std::shared_ptr<SubGraph> SubGraphPtr;
+	//
 
 	Graph();
 	virtual ~Graph();
 
 	//insert graph
-	bool addNode(NodeType* node);
-	bool addEdge(EdgeType* edge);
+	bool addNode(NodeTypePtr node);
+	bool addEdge(EdgeTypePtr edge);
 
 	//retrieve
-	NodeType* getNode(int containerId);
-	const vector<EdgeType*>* getLeavingEdges(int idSource);
-	const vector<EdgeType*>* getArrivingEdges(int idSource);
-	const vector<NodeType*> getAllNodes();
+	NodeTypePtr getNode(int containerId);
+	const EdgeVectorPtr getLeavingEdges(int idSource);
+	const EdgeVectorPtr getArrivingEdges(int idSource);
+	const NodeVectorPtr getAllNodes();
 	bool areConnected(int idSource, int idTarget);
 
 	//delete from graph
@@ -72,10 +105,10 @@ public:
 	bool saveGraph(const string& filename);
 
 	//getters
-	inline vector<EdgeType*>* getEdgeList() {
+	inline EdgeVectorPtr getEdgeList() {
 		return edgeList;
 	}
-	inline vector<std::pair<vector<NodeType*>*,vector<EdgeType*>*>>* getSubGraphs() {
+	inline SubGraphPtr getSubGraphs() {
 		if (subGraphs == NULL) {
 			calculateSubgraphs();
 		}
@@ -83,39 +116,50 @@ public:
 	}
 
 	string toString();
+
+	//SERIALIZATIoN
+	template<class Archive>
+	void serialize(Archive & ar) {
+		ar(nodeMap, leavingEdges, arrivingEdges, subGraphs, edgeList);
+	}
 protected:
 	//attributes
-	unordered_map<int, NodeType*>* nodeMap;
-	unordered_map<int, vector<EdgeType*>* >* leavingEdges;
-	unordered_map<int, vector<EdgeType*>* >* arrivingEdges;
-	vector<std::pair<vector<NodeType*>*,vector<EdgeType*>*>>* subGraphs;
-	vector<EdgeType*> *edgeList;
+	NodeMapPtr nodeMap;
+	EdgeMapPtr leavingEdges;
+	EdgeMapPtr arrivingEdges;
+	SubGraphPtr subGraphs;
+	EdgeVectorPtr edgeList;
 
 	//methods
-	static bool processLine(const string& line, Graph* graph);
-	//operations over graph
 	void calculateSubgraphs();
+
+	// cretors
+	NodeVectorPtr makeNodeVector();
+	EdgeVectorPtr makeEdgeVector();
+	NodeMapPtr makeNodeMap();
+	EdgeMapPtr makeEdgeMap();
+	SubGraphPtr makeSubGraph();
 };
 
 template <class NodeType, class EdgeType>
 Graph<NodeType,EdgeType>::Graph() {
-	nodeMap = new unordered_map<int, NodeType*>();
-	leavingEdges = new unordered_map<int, vector<EdgeType*>*>();
-	arrivingEdges = new unordered_map<int, vector<EdgeType*>*>();
+	nodeMap = makeNodeMap();
+	leavingEdges = makeEdgeMap();
+	arrivingEdges = makeEdgeMap();
 	subGraphs = NULL;
-	edgeList = new vector<EdgeType*>();
+	edgeList = makeEdgeVector();
 }
 
 template <class NodeType, class EdgeType>
 Graph<NodeType,EdgeType>::~Graph() {
 	clear();
-	delete edgeList;
-	delete nodeMap;
-	delete leavingEdges;
-	delete arrivingEdges;
-	if (subGraphs != NULL) {
+	//delete edgeList;
+	//delete nodeMap;
+	//delete leavingEdges;
+	//delete arrivingEdges;
+	/*if (subGraphs != NULL) {
 		delete subGraphs;
-	}
+	}*/
 }
 
 /**
@@ -124,39 +168,39 @@ Graph<NodeType,EdgeType>::~Graph() {
 template <class NodeType, class EdgeType>
 void Graph<NodeType,EdgeType>::clear() {
 	// free the edges
-	for (typename vector<EdgeType*>::iterator it = edgeList->begin(); it != edgeList->end();
+	/*for (auto it = edgeList->begin(); it != edgeList->end();
 			++it) {
 		delete *it;
-	}
+	}*/
 	edgeList->clear();
 
 	//free the nodes
-	for (typename unordered_map<int, NodeType* >::iterator it = nodeMap->begin();
+	/*for (auto it = nodeMap->begin();
 			it != nodeMap->end(); ++it) {
 		delete it->second;
-	}
+	}*/
 	nodeMap->clear();
 
 	//free the neighbor map
-	for (typename unordered_map<int, vector<EdgeType*>*>::iterator it = leavingEdges->begin();
+	/*for (auto it = leavingEdges->begin();
 			it != leavingEdges->end(); ++it) {
 		delete it->second;
-	}
+	}*/
 	leavingEdges->clear();
-	for (typename unordered_map<int, vector<EdgeType*>*>::iterator it =
+	/*for (auto it =
 			arrivingEdges->begin(); it != arrivingEdges->end(); ++it) {
 		delete it->second;
-	}
+	}*/
 	arrivingEdges->clear();
 
 	if (subGraphs != NULL) {
 		//free the neighbor map
-		for (auto it =
+		/*for (auto it =
 				subGraphs->begin(); it != subGraphs->end(); ++it) {
-			std::pair<vector<NodeType*>*,vector<EdgeType*>*> actual = *it;
+			SubGraphElem actual = *it;
 			delete actual.second;
 			delete actual.first;
-		}
+		}*/
 		subGraphs->clear();
 	}
 }
@@ -168,13 +212,13 @@ void Graph<NodeType,EdgeType>::clear() {
  * @return true is the operation was successful, false otherwise
  */
 template <class NodeType, class EdgeType>
-bool Graph<NodeType,EdgeType>::addNode(NodeType* node) {
-	Node* nodeCast = dynamic_cast<Node*>(node);
+bool Graph<NodeType,EdgeType>::addNode(NodeTypePtr node) {
+	NodePtr nodeCast = dynamic_cast<NodePtr>(node.get());
 	bool vuelta = false;
 	if (nodeMap->find(nodeCast->getContainerId()) == nodeMap->end()) {
 		nodeMap->insert(make_pair(nodeCast->getContainerId(), node));
-		leavingEdges->insert(make_pair(nodeCast->getContainerId(), new vector<EdgeType*>()));
-		arrivingEdges->insert(make_pair(nodeCast->getContainerId(), new vector<EdgeType*>()));
+		leavingEdges->insert(make_pair(nodeCast->getContainerId(), makeEdgeVector()));
+		arrivingEdges->insert(make_pair(nodeCast->getContainerId(), makeEdgeVector()));
 		vuelta = true;
 	}
 	return vuelta;
@@ -188,18 +232,18 @@ bool Graph<NodeType,EdgeType>::addNode(NodeType* node) {
  * @return true if successful, false otherwise
  */
 template <class NodeType, class EdgeType>
-bool Graph<NodeType,EdgeType>::addEdge(EdgeType* edge) {
-	Edge* edgeCast = dynamic_cast<Edge*>(edge);
+bool Graph<NodeType,EdgeType>::addEdge(EdgeTypePtr edge) {
+	EdgePtr edgeCast = dynamic_cast<EdgePtr>(edge.get());
 	bool vuelta = false;
 
-	typename unordered_map<int, NodeType*>::iterator nodeSource = nodeMap->find(edgeCast->getIdSource());
+	auto nodeSource = nodeMap->find(edgeCast->getIdSource());
 	// if the two node that the edge connects exits
 	if ((nodeSource != nodeMap->end())
 			&& (nodeMap->find(edgeCast->getIdTarget()) != nodeMap->end())) {
 		edgeList->push_back(edge);
-		vector<EdgeType*>* vectorLeaving = leavingEdges->find(edgeCast->getIdSource())->second;
+		EdgeVectorPtr vectorLeaving = leavingEdges->find(edgeCast->getIdSource())->second;
 		vectorLeaving->push_back(edge);
-		vector<EdgeType*>* vectorArriving = arrivingEdges->find(edgeCast->getIdTarget())->second;
+		EdgeVectorPtr vectorArriving = arrivingEdges->find(edgeCast->getIdTarget())->second;
 		vectorArriving->push_back(edge);
 		vuelta = true;
 	}
@@ -213,10 +257,10 @@ bool Graph<NodeType,EdgeType>::addEdge(EdgeType* edge) {
  * @return a pointer to the node if exists, NULL otherwise
  */
 template <class NodeType, class EdgeType>
-NodeType* Graph<NodeType,EdgeType>::getNode(int containerId) {
-	NodeType* vuelta = NULL;
+typename Graph<NodeType, EdgeType>::NodeTypePtr Graph<NodeType,EdgeType>::getNode(int containerId) {
+	NodeTypePtr vuelta = NULL;
 
-	typename unordered_map<int, NodeType*>::iterator nodeContainer = nodeMap->find(containerId);
+	auto nodeContainer = nodeMap->find(containerId);
 	if (nodeContainer != nodeMap->end()) {
 		vuelta = nodeContainer->second;
 	}
@@ -231,22 +275,22 @@ NodeType* Graph<NodeType,EdgeType>::getNode(int containerId) {
  *
  */
 template <class NodeType, class EdgeType>
-const vector<EdgeType*>* Graph<NodeType,EdgeType>::getLeavingEdges(int idSource) {
-	vector<EdgeType*>* vuelta = NULL;
+const typename Graph<NodeType, EdgeType>::EdgeVectorPtr Graph<NodeType,EdgeType>::getLeavingEdges(int idSource) {
+	EdgeVectorPtr vuelta = NULL;
 
-	typename unordered_map<int, vector<EdgeType*>*>::iterator it = leavingEdges->find(idSource);
+	auto it = leavingEdges->find(idSource);
 	if (it != leavingEdges->end()) {
 		vuelta = it->second;
 	}
 	return vuelta;
 }
 template <class NodeType, class EdgeType>
-const vector<NodeType*> Graph<NodeType,EdgeType>::getAllNodes() {
-	vector<NodeType*> vuelta;
+const typename Graph<NodeType, EdgeType>::NodeVectorPtr Graph<NodeType,EdgeType>::getAllNodes() {
+	NodeVectorPtr vuelta = makeNodeVector();
 
-	for (typename unordered_map<int, NodeType* >::iterator it = nodeMap->begin();
+	for (auto it = nodeMap->begin();
 				it != nodeMap->end(); ++it) {
-		vuelta.push_back(it->second);
+		vuelta->push_back(it->second);
 	}
 	return vuelta;
 }
@@ -260,16 +304,16 @@ template <class NodeType, class EdgeType>
 bool Graph<NodeType,EdgeType>::removeNode(int nodeID) {
 	bool vuelta = false;
 
-	typename unordered_map<int, NodeType*>::iterator nodeRemove = nodeMap->find(nodeID);
+	auto nodeRemove = nodeMap->find(nodeID);
 	if (nodeRemove != nodeMap->end()) {
 		//removes the node
 		delete nodeRemove->second;
 		nodeMap->erase(nodeID);
 
 		//remove all the edges that use idNode
-		typename vector<EdgeType*>::iterator it = edgeList->begin();
+		auto it = edgeList->begin();
 		while (it != edgeList->end()) {
-			Edge* actual = dynamic_cast<Edge*>(*it);
+			EdgePtr actual = dynamic_cast<EdgePtr>(*it);
 			if ((actual->getIdSource() == nodeID)
 					|| (actual->getIdTarget() == nodeID)) {
 				edgeList->erase(it);
@@ -280,8 +324,8 @@ bool Graph<NodeType,EdgeType>::removeNode(int nodeID) {
 		}
 
 		//remove neighbor from the list
-		delete leavingEdges->find(nodeID)->second;
 		leavingEdges->erase(nodeID);
+		arrivingEdges->erase(nodeID);
 
 		vuelta = true;
 	}
@@ -294,9 +338,9 @@ bool Graph<NodeType,EdgeType>::removeNode(int nodeID) {
  */
 template<class NodeType, class EdgeType>
 void Graph<NodeType, EdgeType>::removeEdge(const EdgeType & edge) {
-	typename vector<EdgeType*>::iterator it = edgeList->begin();
+	auto it = edgeList->begin();
 	while (it != edgeList->end()) {
-		EdgeType* actual = *it;
+		EdgeTypePtr actual = *it;
 		if (actual->equals(edge)) {
 			edgeList->erase(it);
 			delete actual;
@@ -321,16 +365,16 @@ bool Graph<NodeType,EdgeType>::saveGraph(const string& filename) {
 		myfile << "digraph G {" << endl;
 
 		// writing the nodes...
-		for (typename unordered_map<int, NodeType*>::iterator it = nodeMap->begin();
+		for (auto it = nodeMap->begin();
 				it != nodeMap->end(); ++it) {
-			NodeType* actual = it->second;
+			NodeTypePtr actual = it->second;
 			myfile << actual->toText()<< endl;
 		}
 
 		// writing the edges...
-		for (typename vector<EdgeType*>::iterator it = edgeList->begin();
+		for (auto it = edgeList->begin();
 				it != edgeList->end(); ++it) {
-			EdgeType* actual = *it;
+			EdgeTypePtr actual = *it;
 			myfile << actual->toText() << endl;
 		}
 		myfile << "}";
@@ -342,49 +386,13 @@ bool Graph<NodeType,EdgeType>::saveGraph(const string& filename) {
 	return !error;
 }
 
-/**
- * Returns a new graph with the content of the file at filename if the file exists and
- * has the correct format, the same used by saveGraph.
- *
- * @param filename path to the file containing the graph
- * @return a new graph with the content of the file if the operation was successful,
- * the file exists and has the correct format, NULL otherwise.
- */
-template <class NodeType, class EdgeType>
-Graph<NodeType,EdgeType>* Graph<NodeType,EdgeType>::loadGraph(string filename) {
-	Graph<NodeType,EdgeType>* vuelta = NULL;
-	ifstream myfile;
-	bool error = false;
-
-	myfile.open(filename.c_str());
-	if (myfile.is_open()) {
-		vuelta = new Graph<NodeType,EdgeType>();
-		while (!error && !myfile.eof()) {
-			string line;
-			getline(myfile, line);
-			if ((!line.empty()) && (line.find("digraph") == string::npos)
-					&& (line.find("}") == string::npos)) {
-				error = Graph::processLine(line, vuelta);
-			}
-		}
-		if (error) {
-			delete vuelta;
-			vuelta = NULL;
-		}
-		myfile.close();
-	} else {
-		LOG(ERROR) << "Graph::loadGraph-> unable to open file: " + filename << endl;
-	}
-	return vuelta;
-}
 
 template<class NodeType, class EdgeType>
-const vector<EdgeType*>* Graph<NodeType, EdgeType>::getArrivingEdges(
+const typename Graph<NodeType, EdgeType>::EdgeVectorPtr Graph<NodeType, EdgeType>::getArrivingEdges(
 		int idSource) {
-	vector<EdgeType*>* vuelta = NULL;
+	EdgeVectorPtr vuelta = NULL;
 
-	typename unordered_map<int, vector<EdgeType*>*>::iterator it =
-			arrivingEdges->find(idSource);
+	auto it = arrivingEdges->find(idSource);
 	if (it != arrivingEdges->end()) {
 		vuelta = it->second;
 	}
@@ -402,12 +410,12 @@ const vector<EdgeType*>* Graph<NodeType, EdgeType>::getArrivingEdges(
  */
 template<class NodeType, class EdgeType>
 void Graph<NodeType, EdgeType>::calculateSubgraphs() {
-	subGraphs = new vector<std::pair<vector<NodeType*>*,vector<EdgeType*>*>>();
+	subGraphs = makeSubGraph();
 	unordered_map<int,int> node_colorMap;
 	int lastColor = 0;
 
 	for (auto it = edgeList->begin(); it != edgeList->end(); ++it) {
-		Edge* actual = *it;
+		EdgeTypePtr actual = *it;
 		int idSource = actual->getIdSource();
 		int idTarget = actual->getIdTarget();
 
@@ -443,22 +451,22 @@ void Graph<NodeType, EdgeType>::calculateSubgraphs() {
 			}
 		}
 	}
-	unordered_map<int,std::pair<vector<NodeType*>*,vector<EdgeType*>*>> temp_color_nodeMap;
+	unordered_map<int,SubGraphElem> temp_color_nodeMap;
 	for (auto it = node_colorMap.begin(); it != node_colorMap.end(); ++it) {
 		int color = it->second;
 		int idNode = it->first;
 
 		auto nodeList = temp_color_nodeMap.find(color);
 		if (nodeList == temp_color_nodeMap.end()) { //new color
-			std::pair<vector<NodeType*>*,vector<EdgeType*>*> newPair = make_pair(new vector<NodeType*>(), new vector<EdgeType*>());
-			newPair.first->push_back(getNode(idNode));
-			newPair.second->insert(newPair.second->end(), getLeavingEdges(idNode)->begin(), getLeavingEdges(idNode)->end());
+			SubGraphElem newPair = make_pair(makeNodeVector(), makeEdgeVector());
+			get<0>(newPair)->push_back(getNode(idNode));
+			get<1>(newPair)->insert(get<1>(newPair)->end(), getLeavingEdges(idNode)->begin(), getLeavingEdges(idNode)->end());
 
 			temp_color_nodeMap.insert(make_pair(color, newPair));
 		} else {
-			std::pair<vector<NodeType*>*,vector<EdgeType*>*> actualPair = nodeList->second;
-			actualPair.first->push_back(getNode(idNode));
-			actualPair.second->insert(actualPair.second->end(), getLeavingEdges(idNode)->begin(), getLeavingEdges(idNode)->end());
+			SubGraphElem actualPair = nodeList->second;
+			get<0>(actualPair)->push_back(getNode(idNode));
+			get<1>(actualPair)->insert(get<1>(actualPair)->end(), getLeavingEdges(idNode)->begin(), getLeavingEdges(idNode)->end());
 		}
 	}
 
@@ -467,76 +475,22 @@ void Graph<NodeType, EdgeType>::calculateSubgraphs() {
 	}
 }
 
-/**
- * If possible allocates and adds a new edge/node from the text line
- *
- * @param line line from the file with the  node/edge data
- * @param graph pointer to graph where the edge/node is being inserted
- * @return true if no error occurred, no sintax error in the line or semantic error in the graph data.
- */
-template <class NodeType, class EdgeType>
-bool Graph<NodeType,EdgeType>::processLine(const string& line, Graph* graph) {
-	bool error = false;
-	EdgeType tempEdge;
-	NodeType tempNode;
-
-	if (tempEdge.isEdge(line)) { //is an edge
-		try {
-			tempEdge.loadEdge(line);
-			EdgeType* newEdge = new EdgeType(tempEdge);
-			if (!graph->addEdge(newEdge)) {
-				error = true;
-				delete newEdge;
-				LOG(ERROR) << "Graph::processLine-> error processing line: \"" << line
-						<< "\", error inserting edge. \"" << newEdge->toText()
-						<< "\"";
-			}
-
-		} catch (invalid_argument & e) {
-			error = true;
-			LOG(ERROR) << "Graph::processLine-> error processing line: \"" << line
-					<< "\", " << e.what();
-		}
-	} else if (tempNode.isNode(line)) { // is a node
-		try {
-			tempNode.loadNode(line);
-			NodeType* newNode = new NodeType(tempNode);
-
-			if (!graph->addNode(newNode)) {
-				error = true;
-				delete newNode;
-				LOG(ERROR) << "Graph::processLine-> error processing line: \"" << line
-						<< "\", error inserting node. \"" << newNode->toText()
-						<< "\"";
-			}
-		} catch (invalid_argument & e) {
-			error = true;
-			LOG(ERROR) << "Graph::processLine-> error processing line: \"" << line
-					<< "\", " << e.what();
-		}
-	} else {
-		LOG(ERROR) << "Graph::processLine-> error processing line: \"" << line
-			 << "\", unknown format, not an edge not a node.";
-	}
-	return error;
-}
-
 template<class NodeType, class EdgeType>
 string Graph<NodeType, EdgeType>::toString() {
 	ostringstream myfile;
 	myfile << "digraph{";
 
 	//print the nodes
-	for (typename unordered_map<int, NodeType*>::iterator it =
+	for (auto it =
 			nodeMap->begin(); it != nodeMap->end(); ++it) {
-		NodeType* actual = it->second;
+		NodeTypePtr actual = it->second;
 		myfile << actual->toText();
 	}
 
 	//print the edges
-	for (typename vector<EdgeType*>::iterator it = edgeList->begin();
+	for (auto it = edgeList->begin();
 			it != edgeList->end(); ++it) {
-		EdgeType* actual = *it;
+		EdgeTypePtr actual = *it;
 		myfile << actual->toText();
 	}
 
@@ -547,15 +501,40 @@ string Graph<NodeType, EdgeType>::toString() {
 template<class NodeType, class EdgeType>
 bool Graph<NodeType, EdgeType>::areConnected(int idSource, int idTarget) {
 	bool vuelta = false;
-	const vector<Edge*>* neighbors = getLeavingEdges(idSource);
+	const EdgeVectorPtr neighbors = getLeavingEdges(idSource);
 
 	auto it = neighbors->begin();
 	while (!vuelta && (it != neighbors->end())) {
-		Edge* cast = *it;
+		EdgeTypePtr cast = *it;
 		vuelta = (cast->getIdTarget() == idTarget);
 		++it;
 	}
 	return vuelta;
+}
+
+template<class NodeType, class EdgeType>
+typename Graph<NodeType, EdgeType>::NodeVectorPtr Graph<NodeType, EdgeType>::makeNodeVector() {
+	return std::make_shared<NodeVector>();
+}
+
+template<class NodeType, class EdgeType>
+typename Graph<NodeType, EdgeType>::EdgeVectorPtr Graph<NodeType, EdgeType>::makeEdgeVector() {
+	return std::make_shared<EdgeVector>();
+}
+
+template<class NodeType, class EdgeType>
+typename Graph<NodeType, EdgeType>::NodeMapPtr Graph<NodeType, EdgeType>::makeNodeMap() {
+	return std::make_shared<NodeMap>();
+}
+
+template<class NodeType, class EdgeType>
+typename Graph<NodeType, EdgeType>::EdgeMapPtr Graph<NodeType, EdgeType>::makeEdgeMap() {
+	return std::make_shared<EdgeMap>();
+}
+
+template<class NodeType, class EdgeType>
+typename Graph<NodeType, EdgeType>::SubGraphPtr Graph<NodeType, EdgeType>::makeSubGraph() {
+	return std::make_shared<SubGraph>();
 }
 
 #endif /* SRC_GRAPH_GRAPH_H_ */

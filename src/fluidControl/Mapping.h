@@ -90,8 +90,8 @@ protected:
 	void sketching_measureOD(int id);
 	double sketching_timeStep();
 
-	void transformSourceContainer(int idSource, int idTarget, ContainerNode* sourceNode, MovementType desiredType);
-	void transformTargetContainer(int idSource, int idTarget, ContainerNode* targetNode);
+	void transformSourceContainer(int idSource, int idTarget, MachineGraph::ContainerNodePtr sourceNode, MovementType desiredType);
+	void transformTargetContainer(int idSource, int idTarget, MachineGraph::ContainerNodePtr targetNode);
 
 	//EXEC
 	void exec_setContinuosFlow(int idSource, int idTarget, double rate);

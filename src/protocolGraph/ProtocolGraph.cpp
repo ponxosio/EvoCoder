@@ -17,15 +17,15 @@ ProtocolGraph::~ProtocolGraph() {
 	delete graph;
 }
 
-bool ProtocolGraph::addOperation(OperationNode* node) {
+bool ProtocolGraph::addOperation(ProtocolNodePtr node) {
 	return graph->addNode(node);
 }
 
-bool ProtocolGraph::connectOperation(ConditionEdge* edge) {
+bool ProtocolGraph::connectOperation(ProtocolEdgePtr edge) {
 	return graph->addEdge(edge);
 }
 
-OperationNode* ProtocolGraph::getStart() {
+ProtocolGraph::ProtocolNodePtr ProtocolGraph::getStart() {
 	return graph->getNode(idStart);
 }
 
@@ -33,10 +33,15 @@ void ProtocolGraph::setStartNode(int idStart) {
 	this->idStart = idStart;
 }
 
-bool ProtocolGraph::connectOperation(OperationNode* nodeSource,
-		OperationNode* nodeTarget,
+bool ProtocolGraph::connectOperation(ProtocolNodePtr nodeSource,
+		ProtocolNodePtr nodeTarget,
 		std::shared_ptr<ComparisonOperable> comparison) {
 
-	ConditionEdge* edge = new ConditionEdge(nodeSource->getContainerId(), nodeTarget->getContainerId(), comparison);
+	ProtocolEdgePtr edge = makeEdge(nodeSource->getContainerId(), nodeTarget->getContainerId(), comparison);
 	return connectOperation(edge);
+}
+
+ProtocolGraph::ProtocolEdgePtr ProtocolGraph::makeEdge(int idSource, int idTarget, std::shared_ptr<ComparisonOperable> comparison) {
+	//return new ConditionEdge(idSource, idTarget, comparison);
+	return std::make_shared<ConditionEdge>(idSource, idTarget, comparison);
 }
