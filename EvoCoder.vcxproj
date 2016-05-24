@@ -104,6 +104,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\fluidControl\ContinuousFlowEngine.cpp" />
     <ClCompile Include="src\fluidcontrol\EvoCoder.cpp" />
     <ClCompile Include="src\fluidcontrol\executable\containers\actuators\communications\CommunicationsInterface.cpp" />
     <ClCompile Include="src\fluidcontrol\executable\containers\actuators\communications\FileSender.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="src\util\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\fluidControl\ContinuousFlowEngine.h" />
     <ClInclude Include="lib\easylogging++.h" />
     <ClInclude Include="src\fluidcontrol\EvoCoder.h" />
     <ClInclude Include="src\fluidcontrol\executable\containers\actuators\communications\CommandSender.h" />

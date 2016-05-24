@@ -130,6 +130,9 @@ public:
 	static ProtocolGraph* MakeTurbidostat(
 			std::shared_ptr<VariableTable> table,
 			std::shared_ptr<Mapping> map);
+	static ProtocolGraph* makeTimeProtocol(
+		std::shared_ptr<VariableTable> table,
+		std::shared_ptr<Mapping> map);
 	static ProtocolGraph* makeSimpleProtocol(
 				std::shared_ptr<VariableTable> table,
 				std::shared_ptr<Mapping> map);
@@ -171,6 +174,10 @@ public:
 	void testMappingExec();
 
 	void testSerializeNode();
+	void testSerializeMachine();
+
+	void testTimeStep();
+	void testTimeStepTest();
 
 	/*void testSerializaVariableTable();
 	void testDeserializaVariableTable(const std::string & json);

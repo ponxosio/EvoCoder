@@ -15,6 +15,7 @@
 #include <sstream>
 
 #include <vector>
+#include <tuple>
 
 #include <direct.h>
 #define GetCurrentDir _getcwd
@@ -24,9 +25,9 @@
 
 typedef struct {
 	//cantor paring function
-	size_t operator()(std::pair<int, int> x) const throw () {
-		int k1 = x.first;
-		int k2 = x.second;
+	size_t operator()(std::tuple<int, int> x) const throw () {
+		int k1 = std::get<0>(x);
+		int k2 = std::get<1>(x);
 		size_t h = (0.5 * (k1 + k2) * (k1 + k2 + 1)) + k2;
 		return h;
 	}

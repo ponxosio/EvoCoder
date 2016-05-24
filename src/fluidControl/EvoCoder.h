@@ -98,6 +98,8 @@ protected:
 	 */
 	ProtocolGraph::ProtocolNodePtr actual;
 
+
+	//METHODS
 	void initilizeTime();
 	void addAvailableEdges(ProtocolNodeQueue & nodes);
 

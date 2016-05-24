@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <unordered_set>
 #include <queue>
+#include <tuple>
 
 //local
 #include "../../util/Patch.h"
@@ -27,6 +28,13 @@
 #include "../../graph/FlowPtrComparator.h"
 #include "../machineGraph/ContainerNodeType.h"
 #include "containers/ExecutableContainerNode.h"
+
+//cereal
+#include <cereal\cereal.hpp>
+#include <cereal\types\memory.hpp>
+#include <cereal\types\unordered_set.hpp>
+#include <cereal\types\vector.hpp>
+#include <cereal/archives/json.hpp>
 
 class ExecutableMachineGraph {
 public:
@@ -43,9 +51,21 @@ public:
 	typedef Graph<ExecutableContainerNode, Edge>::SubGraphPtr ExecutableContainerSubGraphPtr;
 
 	typedef std::priority_queue<Flow<Edge>, vector<Flow<Edge>>, FlowPtrComparator<Edge>> FlowHeap;
+
+	typedef std::shared_ptr<Graph<ExecutableContainerNode, Edge>> ExecutableNodeGraphPtr;
+
+	typedef std::shared_ptr<std::unordered_set<int>> UsedMapPtr;
+
+	typedef std::shared_ptr<std::unordered_set<std::tuple<int, int>, PairIntIntHashFunction>> UsedEdgeMapPtr;
 	//
 
-
+	//static
+	static void toJSON(const std::string & path, const ExecutableMachineGraph & machine);
+	static ExecutableMachineGraph* fromJSON(const std::string & path);
+	//
+	
+	ExecutableMachineGraph();
+	ExecutableMachineGraph(const ExecutableMachineGraph & exMachine);
 	ExecutableMachineGraph(const std::string & name);
 	virtual ~ExecutableMachineGraph();
 
@@ -81,20 +101,29 @@ public:
 	}
 
 	//getters & setters
-	inline Graph<ExecutableContainerNode, Edge>* getGraph() {
+	inline ExecutableNodeGraphPtr getGraph() {
 		return graph;
 	}
 	inline typename ExecutableContainerSubGraphPtr getSubgraphs() {
 		return graph->getSubGraphs();
 	}
-	inline std::unordered_set<int>* getUsedNodes() {
+	inline UsedMapPtr getUsedNodes() {
 		return usedNodes;
 	}
+
+	//Volume
+	float getVolume(int idContainer);
+	void addVolume(int idContainer, float volume);
+	void substractVolume(int idContainer, float volume);
+
+	//SERIALIZATIoN
+	template<class Archive>
+	void serialize(Archive & ar, std::uint32_t const version);
 protected:
 	std::string name;
-	Graph<ExecutableContainerNode, Edge>* graph;
-	std::unordered_set<int>* usedNodes;
-	std::unordered_set<std::pair<int, int>, PairIntIntHashFunction>* usedEges;
+	ExecutableNodeGraphPtr graph;
+	UsedMapPtr usedNodes;
+	UsedEdgeMapPtr usedEges;
 
 	void getAvailableFlows_recursive_type(int idSource, vector<int> & visitados,
 		ExecutableContainerEdgeVector & recorridos,
@@ -117,5 +146,16 @@ protected:
 
 	ExecutableContainerEdgePtr makeEdge(int idSource, int idTarget);
 };
+
+template<class Archive>
+inline void ExecutableMachineGraph::serialize(Archive& ar,
+	const std::uint32_t version) {
+	if (version <= 1) {
+		ar(CEREAL_NVP(name), CEREAL_NVP(graph), CEREAL_NVP(usedNodes), CEREAL_NVP(usedEges));
+	}
+}
+
+// Associate some type with a version number
+CEREAL_CLASS_VERSION(ExecutableMachineGraph, (int)1);
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_EXECUTABLEMACHINEGRAPH_H_ */

@@ -24,6 +24,7 @@ EvoCoder::~EvoCoder() {
 bool EvoCoder::exec_general() throw (std::invalid_argument) {
 	bool correct = false;
 	CommunicationsInterface::GetInstance()->setTesting(false);
+	mapping->settesting(false);
 	try {
 		sketcher();
 		mapping->doMapping();
@@ -46,6 +47,7 @@ bool EvoCoder::exec_general() throw (std::invalid_argument) {
 bool EvoCoder::exec_ep() throw (std::invalid_argument) {
 	bool correct = false;
 	CommunicationsInterface::GetInstance()->setTesting(false);
+	mapping->settesting(false);
 	try {
 		sketcher();
 		mapping->doMapping();
@@ -76,6 +78,7 @@ bool EvoCoder::test() throw (std::invalid_argument) {
 		initilizeTime();
 
 		mapping->setExec_general();
+		mapping->settesting(true);
 		mapping->startCommunications();
 		correct = exec();
 		mapping->stopCommunications();
@@ -91,6 +94,7 @@ bool EvoCoder::sketcher() {
 	table.get()->clear();
 	initilizeTime();
 	mapping->setSketching();
+	mapping->settesting(false);
 
 	ProtocolGraph::ProtocolNodeVectorPtr operations = protocol->getAllNodes();
 	for (auto it = operations->begin(); it != operations->end(); ++it) {
@@ -141,4 +145,5 @@ void EvoCoder::addAvailableEdges(ProtocolNodeQueue & nodes) {
 
 void EvoCoder::initilizeTime() {
 	table->setValue(TIME_VARIABLE , 0.0);
+	mapping->setTimestamp(Utils::getCurrentTimeMilis());
 }

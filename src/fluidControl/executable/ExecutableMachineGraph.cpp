@@ -7,17 +7,50 @@
 
 #include "../executable/ExecutableMachineGraph.h"
 
+//static
+void ExecutableMachineGraph::toJSON(const std::string & path, const ExecutableMachineGraph & machine) {
+	ofstream o(path);
+	LOG(DEBUG) << "serializating ExecutableMachineGraph to " + path;
+	cereal::JSONOutputArchive ar(o);
+	ar(machine);
+}
+ExecutableMachineGraph* ExecutableMachineGraph::fromJSON(const std::string & path) {
+	ifstream i(path);
+	LOG(DEBUG) << "loading ExecutableMachine from " + path;
+	cereal::JSONInputArchive arIn(i);
+	
+	ExecutableMachineGraph machine;
+	arIn(machine);
+	return new ExecutableMachineGraph(machine);
+}
+//
+
+
+ExecutableMachineGraph::ExecutableMachineGraph() {
+	this->name = "undefined";
+	this->graph = std::make_shared<Graph<ExecutableContainerNode, Edge>>();
+	this->usedNodes = std::make_shared<std::unordered_set<int>>();
+	this->usedEges = std::make_shared<std::unordered_set<std::tuple<int, int>, PairIntIntHashFunction>>();
+}
+
+ExecutableMachineGraph::ExecutableMachineGraph(const ExecutableMachineGraph & exMachine) {
+	this->name = exMachine.name;
+	this->graph = exMachine.graph;
+	this->usedNodes = exMachine.usedNodes;
+	this->usedEges = exMachine.usedEges;
+}
+
 ExecutableMachineGraph::ExecutableMachineGraph(const std::string & name) {
 	this->name = name;
-	this->graph = new Graph<ExecutableContainerNode, Edge>();
-	this->usedNodes = new std::unordered_set<int>();
-	this->usedEges = new std::unordered_set<std::pair<int, int>, PairIntIntHashFunction>();
+	this->graph = std::make_shared<Graph<ExecutableContainerNode, Edge>>();
+	this->usedNodes = std::make_shared<std::unordered_set<int>>();
+	this->usedEges = std::make_shared<std::unordered_set<std::tuple<int, int>, PairIntIntHashFunction>>();
 }
 
 ExecutableMachineGraph::~ExecutableMachineGraph() {
-	delete graph;
-	delete usedNodes;
-	delete usedEges;
+	//delete graph;
+	//delete usedNodes;
+	//delete usedEges;
 }
 
 void ExecutableMachineGraph::addContainer(ExecutableContainerNodePtr node) {
@@ -103,22 +136,22 @@ ExecutableMachineGraph::FlowHeap ExecutableMachineGraph::getAvailableFlows(int i
 }
 
 void ExecutableMachineGraph::addUsedEdge(int idSorce, int idTarget) {
-	usedEges->insert(std::pair<int, int>(idSorce, idTarget));
+	usedEges->insert(std::tuple<int, int>(idSorce, idTarget));
 }
 
 void ExecutableMachineGraph::removeUsedEdge(int idSorce, int idTarget) {
-	usedEges->erase(std::pair<int, int>(idSorce, idTarget));
+	usedEges->erase(std::tuple<int, int>(idSorce, idTarget));
 }
 
 bool ExecutableMachineGraph::isEdgeAvailable(ExecutableContainerEdgePtr edge) {
 	return (usedEges->find(
-		std::pair<int, int>(edge->getIdSource(), edge->getIdTarget()))
+		std::tuple<int, int>(edge->getIdSource(), edge->getIdTarget()))
 		== usedEges->end());
 }
 
 bool ExecutableMachineGraph::isEdgeAvailable(int idSource, int idTarget) {
 	return (usedEges->find(
-		std::pair<int, int>(idSource, idTarget))
+		std::tuple<int, int>(idSource, idTarget))
 		== usedEges->end());
 }
 
@@ -237,4 +270,36 @@ void ExecutableMachineGraph::removeUsedNode(int nodeId) {
 
 ExecutableMachineGraph::ExecutableContainerEdgePtr ExecutableMachineGraph::makeEdge(int idSource, int idTarget) {
 	return std::make_shared<Edge>(idSource, idTarget);
+}
+
+float ExecutableMachineGraph::getVolume(int idContainer) {
+	return graph->getNode(idContainer)->getVolume();
+}
+
+void ExecutableMachineGraph::addVolume(int idContainer, float volume) {
+	ExecutableContainerNodePtr actual = graph->getNode(idContainer);
+	if (actual != NULL) {
+		double newVolume = actual->getVolume() + volume;
+		if (newVolume <= actual->getCapacity()) {
+			actual->setVolume(newVolume);
+			LOG(DEBUG) << "idContainer " << idContainer << " new volume = " << newVolume << "ml";
+		}
+		else {
+			LOG(WARNING) << "volume of container " + patch::to_string(idContainer) + " is over capacity";
+		}
+	}
+}
+
+void ExecutableMachineGraph::substractVolume(int idContainer, float volume) {
+	ExecutableContainerNodePtr actual = graph->getNode(idContainer);
+	if (actual != NULL) {
+		double newVolume = actual->getVolume() - volume;
+		if (newVolume >= 0) {
+			actual->setVolume(newVolume);
+			LOG(DEBUG) << "idContainer " << idContainer << " new volume = " << newVolume << "ml";
+		}
+		else {
+			LOG(WARNING) << "volume of container " + patch::to_string(idContainer) + " is less than 0";
+		}
+	}
 }

@@ -9,13 +9,47 @@
 
 using namespace std;
 
-MachineGraph::MachineGraph(string name) {
+//static
+void MachineGraph::toJSON(const std::string & path, const MachineGraph & machine)
+{
+	ofstream o(path);
+	LOG(DEBUG) << "serializating MachineGraph " + machine.name + " to " + path;
+	cereal::JSONOutputArchive ar(o);
+	ar(machine);
+}
+
+MachineGraph * MachineGraph::fromJSON(const std::string & path)
+{
+	ifstream i(path);
+	LOG(DEBUG) << "loading Machine from " + path;
+	cereal::JSONInputArchive arIn(i);
+
+	MachineGraph machine;
+	arIn(machine);
+	return new MachineGraph(machine);
+}
+//
+
+
+MachineGraph::MachineGraph()
+ {
+	 this->name = "undefined";
+	 this->machine = makeGraph();
+ }
+
+MachineGraph::MachineGraph(const MachineGraph & machine)
+{
+	this->name = machine.name;
+	this->machine = machine.machine;
+}
+
+ MachineGraph::MachineGraph(string name) {
 	this->name = name;
-	this->machine = new Graph<ContainerNode, Edge>();
+	this->machine = makeGraph();
 }
 
 MachineGraph::~MachineGraph() {
-	delete machine;
+	//delete machine;
 }
 
 bool MachineGraph::addContainer(int idContainer, std::shared_ptr<ContainerNodeType> type,
@@ -36,51 +70,6 @@ bool MachineGraph::connectContainer(int idSource, int idTarget) {
 		ContainerEdgePtr newEdge = createContainerEdgePtr(idSource, idTarget);
 		machine->addEdge(newEdge);
 		vuelta = true;
-	}
-	return vuelta;
-}
-
-float MachineGraph::getVolume(int idContainer) {
-	float vuelta = -1.0f;
-
-	ContainerNodePtr cont = machine->getNode(idContainer);
-	if (cont != NULL) {
-		vuelta = cont->getVolume();
-	}
-	return vuelta;
-}
-
-bool MachineGraph::addVolume(int idContainer, float volume) {
-	bool vuelta = false;
-
-	ContainerNodePtr cont = machine->getNode(idContainer);
-	if (cont != NULL) {
-		if ((cont->getVolume() + volume) <= cont->getCapacity()) {
-			cont->setVolume(cont->getVolume() + volume);
-			vuelta = true;
-		} else {
-			LOG(WARNING) << " container "
-					<< patch::to_string(cont->getContainerId())
-					<< " is fill over capacity";
-		}
-	}
-	return vuelta;
-}
-
-bool MachineGraph::extractVolume(int idContainer, float volume) {
-	bool vuelta = false;
-
-	ContainerNodePtr cont = machine->getNode(idContainer);
-	if (cont != NULL) {
-		if ((cont->getVolume() - volume) >= 0) {
-			cont->setVolume(cont->getVolume() + volume);
-			vuelta = true;
-		} else {
-			LOG(WARNING) << " container "
-					<< patch::to_string(cont->getContainerId()) << " has "
-					<< patch::to_string(cont->getVolume())
-					<< " trying to extract " << patch::to_string(volume);
-		}
 	}
 	return vuelta;
 }
@@ -156,4 +145,8 @@ typename MachineGraph::ContainerNodePtr MachineGraph::createContainerNode(int id
 
 typename MachineGraph::ContainerEdgePtr MachineGraph::createContainerEdgePtr(int idSource, int idTarget) {
 	return std::make_shared<Edge>(idSource, idTarget);
+}
+
+typename MachineGraph::ContainerNodeGraphPtr MachineGraph::makeGraph() {
+	return std::make_shared<Graph<ContainerNode, Edge>>();
 }
