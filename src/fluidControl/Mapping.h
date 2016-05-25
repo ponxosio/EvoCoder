@@ -40,7 +40,7 @@ enum MappingOperation {
 
 class Mapping {
 public:
-	Mapping(ExecutableMachineGraph* machine, const std::string & name, const std::vector<int> & communicationInterface);
+	Mapping(std::shared_ptr<ExecutableMachineGraph> machine, const std::string & name, const std::vector<int> & communicationInterface);
 	virtual ~Mapping();
 
 	//execution
@@ -89,7 +89,7 @@ protected:
 	ContinuousFlowEngine* cfEngine;
 	
 	MachineGraph* sketch;
-	ExecutableMachineGraph* machine;
+	std::shared_ptr<ExecutableMachineGraph> machine;
 	
 	std::vector<int>* communicationsInterfaces;
 	long lastTimestamp;

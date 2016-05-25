@@ -32,7 +32,7 @@ typedef std::priority_queue<Flow<Edge>, vector<Flow<Edge>>,FlowPtrComparator<Edg
 
 class MappingEngine {
 public:
-	MappingEngine(MachineGraph* sketch,	ExecutableMachineGraph* machine);
+	MappingEngine(MachineGraph* sketch, std::shared_ptr<ExecutableMachineGraph> machine);
 	virtual ~MappingEngine();
 
 	bool startMapping();
@@ -45,7 +45,7 @@ protected:
 	std::unordered_map<std::pair<int,int>, Flow<Edge>*, PairIntIntHashFunction>* edgeFlowMap;
 
 	MachineGraph* sketch;
-	ExecutableMachineGraph* machine;
+	std::shared_ptr<ExecutableMachineGraph> machine;
 
 	/*bool trySubgraph(Graph<ContainerNode, Edge>::SubGraph & sketchSubgraphs, Graph<ExecutableContainerNode, Edge>::SubGraphPtr machineSubgraphs);*/
 	bool mapSubgraph(MachineGraph::ContainerEdgeVector& edges, ExecutableMachineGraph::ExecutableContainerNodeVectorPtr machineNodes);

@@ -7,15 +7,44 @@
 
 #include "ProtocolGraph.h"
 
+//static
+
+void ProtocolGraph::toJSON(const std::string & path, const ProtocolGraph & protocol) {
+	ofstream o(path);
+	LOG(DEBUG) << "serializating MachineGraph " + protocol.name + " to " + path;
+	cereal::JSONOutputArchive ar(o);
+	ar(CEREAL_NVP(protocol));
+}
+ProtocolGraph* ProtocolGraph::fromJSON(const std::string & path) {
+	ifstream i(path);
+	LOG(DEBUG) << "loading Machine from " + path;
+	cereal::JSONInputArchive arIn(i);
+
+	ProtocolGraph protocol;
+	arIn(CEREAL_NVP(protocol));
+	return new ProtocolGraph(protocol);
+}
+//
+
+ProtocolGraph::ProtocolGraph() {
+	this->name = "undefined";
+	this->idStart = -1;
+	this->graph = std::make_shared<Graph<OperationNode, ConditionEdge>>();
+}
+
+ProtocolGraph::ProtocolGraph(const ProtocolGraph & prot) {
+	this->name = prot.name;
+	this->idStart = prot.idStart;
+	this->graph = prot.graph;
+}
+
 ProtocolGraph::ProtocolGraph(const std::string & name) {
 	this->name = name;
 	this->idStart = -1;
-	this->graph = new Graph<OperationNode, ConditionEdge>();
+	this->graph = std::make_shared<Graph<OperationNode, ConditionEdge>>();
 }
 
-ProtocolGraph::~ProtocolGraph() {
-	delete graph;
-}
+ProtocolGraph::~ProtocolGraph() {}
 
 bool ProtocolGraph::addOperation(ProtocolNodePtr node) {
 	return graph->addNode(node);

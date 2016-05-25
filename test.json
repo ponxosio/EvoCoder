@@ -1,1029 +1,141 @@
 {
     "value0": {
-        "polymorphic_id": 1073741824,
+        "cereal_class_version": 1,
+        "containerID": 1
+    },
+    "value1": {
+        "polymorphic_id": 2147483649,
+        "polymorphic_name": "ContainerNode",
         "ptr_wrapper": {
             "id": 2147483649,
             "data": {
                 "cereal_class_version": 1,
-                "name": "sketchTurbidostat",
-                "machine": {
+                "containerID": 2,
+                "type": {
                     "polymorphic_id": 1073741824,
                     "ptr_wrapper": {
                         "id": 2147483650,
                         "data": {
-                            "value0": {
-                                "ptr_wrapper": {
-                                    "id": 2147483651,
-                                    "data": [
-                                        {
-                                            "key": 1,
-                                            "value": {
-                                                "polymorphic_id": 1073741824,
-                                                "ptr_wrapper": {
-                                                    "id": 2147483652,
-                                                    "data": {
-                                                        "cereal_class_version": 1,
-                                                        "containerID": 1,
-                                                        "type": {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483653,
-                                                                "data": {
-                                                                    "cereal_class_version": 1,
-                                                                    "movementType": 0,
-                                                                    "containerType": 0,
-                                                                    "addOns": {
-                                                                        "value0": false,
-                                                                        "value1": false,
-                                                                        "value2": false,
-                                                                        "value3": false
-                                                                    }
-                                                                }
-                                                            }
-                                                        },
-                                                        "capacity": 100,
-                                                        "volume": 0
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 2,
-                                            "value": {
-                                                "polymorphic_id": 1073741824,
-                                                "ptr_wrapper": {
-                                                    "id": 2147483654,
-                                                    "data": {
-                                                        "containerID": 2,
-                                                        "type": {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483655,
-                                                                "data": {
-                                                                    "movementType": 0,
-                                                                    "containerType": 1,
-                                                                    "addOns": {
-                                                                        "value0": false,
-                                                                        "value1": false,
-                                                                        "value2": false,
-                                                                        "value3": false
-                                                                    }
-                                                                }
-                                                            }
-                                                        },
-                                                        "capacity": 100,
-                                                        "volume": 0
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 3,
-                                            "value": {
-                                                "polymorphic_id": 1073741824,
-                                                "ptr_wrapper": {
-                                                    "id": 2147483656,
-                                                    "data": {
-                                                        "containerID": 3,
-                                                        "type": {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483657,
-                                                                "data": {
-                                                                    "movementType": 2,
-                                                                    "containerType": 2,
-                                                                    "addOns": {
-                                                                        "value0": false,
-                                                                        "value1": false,
-                                                                        "value2": false,
-                                                                        "value3": false
-                                                                    }
-                                                                }
-                                                            }
-                                                        },
-                                                        "capacity": 100,
-                                                        "volume": 0
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    ]
-                                }
-                            },
-                            "value1": {
-                                "ptr_wrapper": {
-                                    "id": 2147483658,
-                                    "data": [
-                                        {
-                                            "key": 1,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483659,
-                                                    "data": [
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483660,
-                                                                "data": {
-                                                                    "cereal_class_version": 1,
-                                                                    "idSource": 1,
-                                                                    "idTarget": 2
-                                                                }
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 2,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483661,
-                                                    "data": [
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483662,
-                                                                "data": {
-                                                                    "idSource": 2,
-                                                                    "idTarget": 3
-                                                                }
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 3,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483663,
-                                                    "data": []
-                                                }
-                                            }
-                                        }
-                                    ]
-                                }
-                            },
-                            "value2": {
-                                "ptr_wrapper": {
-                                    "id": 2147483664,
-                                    "data": [
-                                        {
-                                            "key": 1,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483665,
-                                                    "data": []
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 2,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483666,
-                                                    "data": [
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 12
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 3,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483667,
-                                                    "data": [
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 14
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        }
-                                    ]
-                                }
-                            },
-                            "value3": {
-                                "ptr_wrapper": {
-                                    "id": 0
-                                }
-                            },
-                            "value4": {
-                                "ptr_wrapper": {
-                                    "id": 2147483668,
-                                    "data": [
-                                        {
-                                            "polymorphic_id": 1073741824,
-                                            "ptr_wrapper": {
-                                                "id": 12
-                                            }
-                                        },
-                                        {
-                                            "polymorphic_id": 1073741824,
-                                            "ptr_wrapper": {
-                                                "id": 14
-                                            }
-                                        }
-                                    ]
-                                }
+                            "cereal_class_version": 1,
+                            "movementType": 0,
+                            "containerType": 0,
+                            "addOns": {
+                                "value0": false,
+                                "value1": false,
+                                "value2": false,
+                                "value3": false
                             }
                         }
+                    }
+                },
+                "capacity": 100,
+                "volume": 0
+            }
+        }
+    },
+    "value2": {
+        "polymorphic_id": 2147483650,
+        "polymorphic_name": "BidirectionalSwitch",
+        "ptr_wrapper": {
+            "id": 2147483651,
+            "data": {
+                "cereal_class_version": 1,
+                "containerID": 2,
+                "type": {
+                    "polymorphic_id": 1073741824,
+                    "ptr_wrapper": {
+                        "id": 2147483652,
+                        "data": {
+                            "movementType": 0,
+                            "containerType": 7,
+                            "addOns": {
+                                "value0": false,
+                                "value1": false,
+                                "value2": false,
+                                "value3": true
+                            }
+                        }
+                    }
+                },
+                "capacity": 100,
+                "volume": -431602080,
+                "od": {
+                    "polymorphic_id": 2147483651,
+                    "polymorphic_name": "EvoprogOdSensor",
+                    "ptr_wrapper": {
+                        "id": 2147483653,
+                        "data": {
+                            "cereal_class_version": 1,
+                            "communications": 0,
+                            "port": 14
+                        }
+                    }
+                },
+                "mix": {
+                    "polymorphic_id": 0
+                },
+                "light": {
+                    "polymorphic_id": 0
+                },
+                "temperature": {
+                    "polymorphic_id": 0
+                },
+                "extract": {
+                    "polymorphic_id": 2147483652,
+                    "polymorphic_name": "EvoprogContinuousPump",
+                    "ptr_wrapper": {
+                        "id": 2147483654,
+                        "data": {
+                            "cereal_class_version": 1,
+                            "communications": 0,
+                            "pinNumber": 13
+                        }
+                    }
+                },
+                "insert": {
+                    "polymorphic_id": 2147483653,
+                    "polymorphic_name": "EvoprogDummyInjector",
+                    "ptr_wrapper": {
+                        "id": 2147483655,
+                        "data": {
+                            "cereal_class_version": 1,
+                            "communications": 0
+                        }
+                    }
+                },
+                "controlIN": {
+                    "polymorphic_id": 2147483654,
+                    "polymorphic_name": "EvoprogSixwayValve",
+                    "ptr_wrapper": {
+                        "id": 2147483656,
+                        "data": {
+                            "cereal_class_version": 1,
+                            "maxConexiones": 6,
+                            "communications": 0,
+                            "valveNumber": 7,
+                            "containerValveMap": [],
+                            "lastPos": 0
+                        }
+                    }
+                },
+                "controlOUT": {
+                    "polymorphic_id": 6,
+                    "ptr_wrapper": {
+                        "id": 8
                     }
                 }
             }
         }
     },
-    "value1": {
+    "value3": {
         "polymorphic_id": 1073741824,
         "ptr_wrapper": {
-            "id": 2147483669,
+            "id": 2147483657,
             "data": {
                 "cereal_class_version": 1,
-                "name": "mappingMachine",
-                "graph": {
-                    "polymorphic_id": 1073741824,
-                    "ptr_wrapper": {
-                        "id": 2147483670,
-                        "data": {
-                            "value0": {
-                                "ptr_wrapper": {
-                                    "id": 2147483671,
-                                    "data": [
-                                        {
-                                            "key": 1,
-                                            "value": {
-                                                "polymorphic_id": 2147483649,
-                                                "polymorphic_name": "InletContainer",
-                                                "ptr_wrapper": {
-                                                    "id": 2147483672,
-                                                    "data": {
-                                                        "cereal_class_version": 1,
-                                                        "containerID": 1,
-                                                        "type": {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483673,
-                                                                "data": {
-                                                                    "movementType": 0,
-                                                                    "containerType": 0,
-                                                                    "addOns": {
-                                                                        "value0": false,
-                                                                        "value1": false,
-                                                                        "value2": false,
-                                                                        "value3": false
-                                                                    }
-                                                                }
-                                                            }
-                                                        },
-                                                        "capacity": 100,
-                                                        "volume": 0,
-                                                        "od": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "mix": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "light": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "temperature": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "ext": {
-                                                            "polymorphic_id": 2147483650,
-                                                            "polymorphic_name": "EvoprogContinuousPump",
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483674,
-                                                                "data": {
-                                                                    "cereal_class_version": 1,
-                                                                    "communications": 0,
-                                                                    "pinNumber": 13
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 2,
-                                            "value": {
-                                                "polymorphic_id": 2147483651,
-                                                "polymorphic_name": "DivergentSwitch",
-                                                "ptr_wrapper": {
-                                                    "id": 2147483675,
-                                                    "data": {
-                                                        "cereal_class_version": 1,
-                                                        "containerID": 2,
-                                                        "type": {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483676,
-                                                                "data": {
-                                                                    "movementType": 0,
-                                                                    "containerType": 3,
-                                                                    "addOns": {
-                                                                        "value0": false,
-                                                                        "value1": false,
-                                                                        "value2": false,
-                                                                        "value3": false
-                                                                    }
-                                                                }
-                                                            }
-                                                        },
-                                                        "capacity": 100,
-                                                        "volume": 0,
-                                                        "od": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "mix": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "light": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "temperature": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "extract": {
-                                                            "polymorphic_id": 2,
-                                                            "ptr_wrapper": {
-                                                                "id": 26
-                                                            }
-                                                        },
-                                                        "control": {
-                                                            "polymorphic_id": 2147483652,
-                                                            "polymorphic_name": "EvoprogSixwayValve",
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483677,
-                                                                "data": {
-                                                                    "cereal_class_version": 1,
-                                                                    "maxConexiones": 6,
-                                                                    "communications": 0,
-                                                                    "valveNumber": 7,
-                                                                    "containerValveMap": [
-                                                                        {
-                                                                            "key": 5,
-                                                                            "value": 1
-                                                                        },
-                                                                        {
-                                                                            "key": 6,
-                                                                            "value": 4
-                                                                        },
-                                                                        {
-                                                                            "key": 7,
-                                                                            "value": 6
-                                                                        }
-                                                                    ],
-                                                                    "lastPos": 7
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 3,
-                                            "value": {
-                                                "polymorphic_id": 2147483653,
-                                                "polymorphic_name": "FlowContainer",
-                                                "ptr_wrapper": {
-                                                    "id": 2147483678,
-                                                    "data": {
-                                                        "cereal_class_version": 1,
-                                                        "containerID": 3,
-                                                        "type": {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483679,
-                                                                "data": {
-                                                                    "movementType": 0,
-                                                                    "containerType": 1,
-                                                                    "addOns": {
-                                                                        "value0": false,
-                                                                        "value1": false,
-                                                                        "value2": false,
-                                                                        "value3": false
-                                                                    }
-                                                                }
-                                                            }
-                                                        },
-                                                        "capacity": 100,
-                                                        "volume": 0,
-                                                        "od": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "mix": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "light": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "temperature": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "insert": {
-                                                            "polymorphic_id": 2147483654,
-                                                            "polymorphic_name": "EvoprogDummyInjector",
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483680,
-                                                                "data": {
-                                                                    "cereal_class_version": 1,
-                                                                    "communications": 0
-                                                                }
-                                                            }
-                                                        },
-                                                        "extract": {
-                                                            "polymorphic_id": 2,
-                                                            "ptr_wrapper": {
-                                                                "id": 26
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 4,
-                                            "value": {
-                                                "polymorphic_id": 1,
-                                                "ptr_wrapper": {
-                                                    "id": 2147483681,
-                                                    "data": {
-                                                        "containerID": 4,
-                                                        "type": {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483682,
-                                                                "data": {
-                                                                    "movementType": 0,
-                                                                    "containerType": 0,
-                                                                    "addOns": {
-                                                                        "value0": false,
-                                                                        "value1": false,
-                                                                        "value2": false,
-                                                                        "value3": false
-                                                                    }
-                                                                }
-                                                            }
-                                                        },
-                                                        "capacity": 100,
-                                                        "volume": 0,
-                                                        "od": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "mix": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "light": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "temperature": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "ext": {
-                                                            "polymorphic_id": 2,
-                                                            "ptr_wrapper": {
-                                                                "id": 26
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 5,
-                                            "value": {
-                                                "polymorphic_id": 2147483655,
-                                                "polymorphic_name": "ConvergentSwitchInlet",
-                                                "ptr_wrapper": {
-                                                    "id": 2147483683,
-                                                    "data": {
-                                                        "cereal_class_version": 1,
-                                                        "containerID": 5,
-                                                        "type": {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483684,
-                                                                "data": {
-                                                                    "movementType": 0,
-                                                                    "containerType": 6,
-                                                                    "addOns": {
-                                                                        "value0": false,
-                                                                        "value1": false,
-                                                                        "value2": false,
-                                                                        "value3": false
-                                                                    }
-                                                                }
-                                                            }
-                                                        },
-                                                        "capacity": 100,
-                                                        "volume": 0,
-                                                        "od": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "mix": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "light": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "temperature": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "insert": {
-                                                            "polymorphic_id": 6,
-                                                            "ptr_wrapper": {
-                                                                "id": 32
-                                                            }
-                                                        },
-                                                        "extractor": {
-                                                            "polymorphic_id": 2,
-                                                            "ptr_wrapper": {
-                                                                "id": 26
-                                                            }
-                                                        },
-                                                        "control": {
-                                                            "polymorphic_id": 4,
-                                                            "ptr_wrapper": {
-                                                                "id": 29
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 6,
-                                            "value": {
-                                                "polymorphic_id": 7,
-                                                "ptr_wrapper": {
-                                                    "id": 2147483685,
-                                                    "data": {
-                                                        "containerID": 6,
-                                                        "type": {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483686,
-                                                                "data": {
-                                                                    "movementType": 0,
-                                                                    "containerType": 6,
-                                                                    "addOns": {
-                                                                        "value0": false,
-                                                                        "value1": false,
-                                                                        "value2": false,
-                                                                        "value3": true
-                                                                    }
-                                                                }
-                                                            }
-                                                        },
-                                                        "capacity": 100,
-                                                        "volume": 0,
-                                                        "od": {
-                                                            "polymorphic_id": 2147483656,
-                                                            "polymorphic_name": "EvoprogOdSensor",
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483687,
-                                                                "data": {
-                                                                    "cereal_class_version": 1,
-                                                                    "communications": 0,
-                                                                    "port": 14
-                                                                }
-                                                            }
-                                                        },
-                                                        "mix": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "light": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "temperature": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "insert": {
-                                                            "polymorphic_id": 6,
-                                                            "ptr_wrapper": {
-                                                                "id": 32
-                                                            }
-                                                        },
-                                                        "extractor": {
-                                                            "polymorphic_id": 2,
-                                                            "ptr_wrapper": {
-                                                                "id": 26
-                                                            }
-                                                        },
-                                                        "control": {
-                                                            "polymorphic_id": 4,
-                                                            "ptr_wrapper": {
-                                                                "id": 29
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 7,
-                                            "value": {
-                                                "polymorphic_id": 2147483657,
-                                                "polymorphic_name": "ConvergentSwitch",
-                                                "ptr_wrapper": {
-                                                    "id": 2147483688,
-                                                    "data": {
-                                                        "cereal_class_version": 1,
-                                                        "containerID": 7,
-                                                        "type": {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483689,
-                                                                "data": {
-                                                                    "movementType": 2,
-                                                                    "containerType": 4,
-                                                                    "addOns": {
-                                                                        "value0": false,
-                                                                        "value1": false,
-                                                                        "value2": false,
-                                                                        "value3": false
-                                                                    }
-                                                                }
-                                                            }
-                                                        },
-                                                        "capacity": 100,
-                                                        "volume": 0,
-                                                        "od": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "mix": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "light": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "temperature": {
-                                                            "polymorphic_id": 0
-                                                        },
-                                                        "insert": {
-                                                            "polymorphic_id": 6,
-                                                            "ptr_wrapper": {
-                                                                "id": 32
-                                                            }
-                                                        },
-                                                        "control": {
-                                                            "polymorphic_id": 4,
-                                                            "ptr_wrapper": {
-                                                                "id": 29
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    ]
-                                }
-                            },
-                            "value1": {
-                                "ptr_wrapper": {
-                                    "id": 2147483690,
-                                    "data": [
-                                        {
-                                            "key": 1,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483691,
-                                                    "data": [
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483692,
-                                                                "data": {
-                                                                    "idSource": 1,
-                                                                    "idTarget": 5
-                                                                }
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 2,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483693,
-                                                    "data": [
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483694,
-                                                                "data": {
-                                                                    "idSource": 2,
-                                                                    "idTarget": 5
-                                                                }
-                                                            }
-                                                        },
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483695,
-                                                                "data": {
-                                                                    "idSource": 2,
-                                                                    "idTarget": 3
-                                                                }
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 3,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483696,
-                                                    "data": [
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483697,
-                                                                "data": {
-                                                                    "idSource": 3,
-                                                                    "idTarget": 6
-                                                                }
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 4,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483698,
-                                                    "data": [
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483699,
-                                                                "data": {
-                                                                    "idSource": 4,
-                                                                    "idTarget": 6
-                                                                }
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 5,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483700,
-                                                    "data": [
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483701,
-                                                                "data": {
-                                                                    "idSource": 5,
-                                                                    "idTarget": 7
-                                                                }
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 6,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483702,
-                                                    "data": [
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 2147483703,
-                                                                "data": {
-                                                                    "idSource": 6,
-                                                                    "idTarget": 7
-                                                                }
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 7,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483704,
-                                                    "data": []
-                                                }
-                                            }
-                                        }
-                                    ]
-                                }
-                            },
-                            "value2": {
-                                "ptr_wrapper": {
-                                    "id": 2147483705,
-                                    "data": [
-                                        {
-                                            "key": 1,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483706,
-                                                    "data": []
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 2,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483707,
-                                                    "data": []
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 3,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483708,
-                                                    "data": [
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 47
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 4,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483709,
-                                                    "data": []
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 5,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483710,
-                                                    "data": [
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 44
-                                                            }
-                                                        },
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 46
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 6,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483711,
-                                                    "data": [
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 49
-                                                            }
-                                                        },
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 51
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "key": 7,
-                                            "value": {
-                                                "ptr_wrapper": {
-                                                    "id": 2147483712,
-                                                    "data": [
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 53
-                                                            }
-                                                        },
-                                                        {
-                                                            "polymorphic_id": 1073741824,
-                                                            "ptr_wrapper": {
-                                                                "id": 55
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        }
-                                    ]
-                                }
-                            },
-                            "value3": {
-                                "ptr_wrapper": {
-                                    "id": 0
-                                }
-                            },
-                            "value4": {
-                                "ptr_wrapper": {
-                                    "id": 2147483713,
-                                    "data": [
-                                        {
-                                            "polymorphic_id": 1073741824,
-                                            "ptr_wrapper": {
-                                                "id": 44
-                                            }
-                                        },
-                                        {
-                                            "polymorphic_id": 1073741824,
-                                            "ptr_wrapper": {
-                                                "id": 46
-                                            }
-                                        },
-                                        {
-                                            "polymorphic_id": 1073741824,
-                                            "ptr_wrapper": {
-                                                "id": 49
-                                            }
-                                        },
-                                        {
-                                            "polymorphic_id": 1073741824,
-                                            "ptr_wrapper": {
-                                                "id": 51
-                                            }
-                                        },
-                                        {
-                                            "polymorphic_id": 1073741824,
-                                            "ptr_wrapper": {
-                                                "id": 53
-                                            }
-                                        },
-                                        {
-                                            "polymorphic_id": 1073741824,
-                                            "ptr_wrapper": {
-                                                "id": 55
-                                            }
-                                        },
-                                        {
-                                            "polymorphic_id": 1073741824,
-                                            "ptr_wrapper": {
-                                                "id": 47
-                                            }
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                },
-                "usedNodes": {
-                    "ptr_wrapper": {
-                        "id": 2147483714,
-                        "data": []
-                    }
-                },
-                "usedEges": {
-                    "ptr_wrapper": {
-                        "id": 2147483715,
-                        "data": []
-                    }
+                "name": "",
+                "sharedTable": {
+                    "polymorphic_id": 0
                 }
             }
         }

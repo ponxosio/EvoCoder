@@ -8,6 +8,7 @@
 #ifndef SRC_OPERABLES_MATHEMATICS_MATHEMATICOPERABLE_H_
 #define SRC_OPERABLES_MATHEMATICS_MATHEMATICOPERABLE_H_
 
+#include <memory>
 #include <string>
 
 /**

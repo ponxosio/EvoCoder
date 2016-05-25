@@ -10,7 +10,7 @@
 using namespace std;
 
 EvoCoder::EvoCoder(ProtocolGraph* protocol,
-		std::shared_ptr<VariableTable> table, Mapping* mapping) {
+		std::shared_ptr<VariableTable> table, std::shared_ptr<Mapping> mapping) {
 	this->protocol = protocol;
 	this->table = table;
 	this->mapping = mapping;
@@ -18,7 +18,7 @@ EvoCoder::EvoCoder(ProtocolGraph* protocol,
 }
 
 EvoCoder::~EvoCoder() {
-	delete mapping;
+	//delete mapping;
 }
 
 bool EvoCoder::exec_general() throw (std::invalid_argument) {

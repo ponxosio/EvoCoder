@@ -60,11 +60,11 @@ int main(int argv, char* argc[]) {
 	//t.testSerializaVariableTable();
 	//t.testSerialize_MathematicOperable();
 	//t.testSerialize_ExecutableConatinerNode();
-   //t.testSerializeNode();
-	//t.testSerializeMachine();
+	//t.testSerializeNode();
+	t.testSerializeMachine();
 
 	//t.testTimeStep();
-	t.testTimeStepTest();
+	//t.testTimeStepTest();
 	LOG(INFO) << "finished!";
 }
 
@@ -453,7 +453,7 @@ void Test::testUnaryOperation() {
 
 void Test::testSketcher() {
 	std::shared_ptr<VariableTable> t(new VariableTable());
-	ExecutableMachineGraph* machine = new ExecutableMachineGraph("testMachine");
+	std::shared_ptr<ExecutableMachineGraph> machine(new ExecutableMachineGraph("testMachine"));
 	std::vector<int> v;
 	std::shared_ptr<Mapping> map(new Mapping(machine, "testMamchine", v));
 
@@ -462,23 +462,22 @@ void Test::testSketcher() {
 	LOG(INFO) << "printing protocol...";
 	protocol->printProtocol("protocol.graph");
 
-	EvoCoder* evo = new EvoCoder(protocol, t, map.get());
+	EvoCoder* evo = new EvoCoder(protocol, t, map);
 
 	LOG(INFO) << "Sketching... " << evo->sketcher();
 	LOG(INFO) << "printing sketch...";
-	map.get()->printSketch("turbidostatMachine.graph");
+	map->printSketch("turbidostatMachine.graph");
 
 	delete protocol;
-	delete machine;
 	delete evo;
 }
 
 void Test::testMapping() {
 	std::shared_ptr<VariableTable> t(new VariableTable());
 	ProtocolGraph* protocol = new ProtocolGraph("testProtocol");
-	ExecutableMachineGraph* machine = new ExecutableMachineGraph("testMachine");
+	std::shared_ptr<ExecutableMachineGraph> machine(new ExecutableMachineGraph("testMachine"));
 	std::vector<int> v;
-	Mapping* map = new Mapping(machine, "test", v);
+	std::shared_ptr<Mapping> map = std::shared_ptr<Mapping>(new Mapping(machine, "test", v));
 
 	EvoCoder* evo = new EvoCoder(protocol, t, map);
 
@@ -493,9 +492,7 @@ void Test::testMapping() {
 	LOG(INFO) << "Sketching... " << evo->sketcher();
 	map->printSketch("mappingTest.graph");
 
-	delete machine;
 	delete evo;
-	delete map;
 	delete protocol;
 }
 
@@ -1044,7 +1041,7 @@ void Test::testMappingEngine() {
 	int com = CommunicationsInterface::GetInstance()->addCommandSender(communications);
 
 	MachineGraph* sketch = makeTurbidostatSketch();
-	ExecutableMachineGraph* machine = makeMappingMachine(com);
+	std::shared_ptr<ExecutableMachineGraph> machine(makeMappingMachine(com));
 	MappingEngine* map = new MappingEngine(sketch, machine);
 
 	sketch->printMachine("turbidostatSketch.graph");
@@ -1156,7 +1153,7 @@ void Test::testMappingEnginePerformance() {
 	int com = CommunicationsInterface::GetInstance()->addCommandSender(communications);
 
 	MachineGraph* sketch = makeMatrixSketch(6);
-	ExecutableMachineGraph* machine = makeMatrixMachine(com, 10);
+	std::shared_ptr<ExecutableMachineGraph> machine (makeMatrixMachine(com, 10));
 	MappingEngine* map = new MappingEngine(sketch, machine);
 
 	LOG(INFO) << "printing machine...";
@@ -1245,7 +1242,7 @@ void Test::testMappingTest() {
 	std::vector<int> v;
 	v.push_back(idCom);
 
-	ExecutableMachineGraph* exMachine = makeSimpleMachine(idCom);
+	std::shared_ptr<ExecutableMachineGraph> exMachine(makeSimpleMachine(idCom));
 
 	std::shared_ptr<VariableTable> t(new VariableTable());
 	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
@@ -1256,7 +1253,7 @@ void Test::testMappingTest() {
 	map->printSketch("sketch");
 	exMachine->printMachine("machine");
 
-	EvoCoder* evo = new EvoCoder(protocol, t, map.get());
+	EvoCoder* evo = new EvoCoder(protocol, t, map);
 
 	LOG(INFO) << "Executing test...";
 	bool correct = evo->test();
@@ -1271,7 +1268,7 @@ void Test::testMappingExec() {
 	std::vector<int> v;
 	v.push_back(idCom);
 
-	ExecutableMachineGraph* exMachine = makeSimpleMachine(idCom);
+	std::shared_ptr<ExecutableMachineGraph> exMachine (makeSimpleMachine(idCom));
 
 	std::shared_ptr<VariableTable> t(new VariableTable());
 	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
@@ -1282,7 +1279,7 @@ void Test::testMappingExec() {
 	map->printSketch("sketch");
 	exMachine->printMachine("machine");
 
-	EvoCoder* evo = new EvoCoder(protocol, t, map.get());
+	EvoCoder* evo = new EvoCoder(protocol, t, map);
 
 	LOG(INFO) << "Executing test...";
 	bool correct = evo->exec_general();
@@ -1292,6 +1289,7 @@ void Test::testMappingExec() {
 void Test::testSerializeNode() {
 	{
 		int communications = 0;
+		std::shared_ptr<VariableEntry> ve = std::shared_ptr<VariableEntry>(new VariableEntry());
 		std::shared_ptr<Control> control(
 			new EvoprogSixwayValve(communications, 7));
 		std::shared_ptr<Extractor> cExtractor(
@@ -1311,7 +1309,7 @@ void Test::testSerializeNode() {
 		LOG(INFO) << "serializating...";
 		try {
 			cereal::JSONOutputArchive ar(o);
-			ar(n, cn1, ecn1);
+			ar(n, cn1, ecn1, ve);
 		}
 		catch (cereal::Exception & e) {
 			LOG(FATAL) << "exception while serializating, " << e.what();
@@ -1321,11 +1319,12 @@ void Test::testSerializeNode() {
 		Node n(1);
 		shared_ptr<Node> cn1;
 		shared_ptr<Node> ecn1;
+		std::shared_ptr<VariableEntry> ve;
 		ifstream i("test.json");
 		try {
 			cereal::JSONInputArchive arIn(i);
 			LOG(INFO) << "created archive...";
-			arIn(n, cn1, ecn1);
+			arIn(n, cn1, ecn1, ve);
 			LOG(INFO) << "node: " << n.toText();
 			LOG(INFO) << "container node: " << cn1->toText();
 			LOG(INFO) << "executable container node: " << ecn1->toText();
@@ -1338,20 +1337,33 @@ void Test::testSerializeNode() {
 }
 
 void Test::testSerializeMachine() {
+	int idCom = CommunicationsInterface::GetInstance()->addCommandSender(new FileSender("test.log", "inputFileData.txt"));
+	std::vector<int> v;
+	v.push_back(idCom);
 
 	std::shared_ptr<MachineGraph> m = std::shared_ptr<MachineGraph>(makeTurbidostatSketch());
 	std::shared_ptr<ExecutableMachineGraph> ex_m = std::shared_ptr<ExecutableMachineGraph>(makeMappingMachine(0));
+	
+	std::shared_ptr<VariableTable> t(new VariableTable());
+	std::shared_ptr<Mapping> map(new Mapping(ex_m, "simpleMachine", v));
+	std::shared_ptr<ProtocolGraph> p = std::shared_ptr<ProtocolGraph>(makeTimeProtocol(t, map));
 
 	m->printMachine("preserializationMachine.graph");
 	ex_m->printMachine("preserializationExMachine.graph");
+	p->printProtocol("preserializeProtocol.graph");
 
-	MachineGraph::toJSON("sketch.json", *(m.get()));
-	ExecutableMachineGraph::toJSON("mappingMachine.json", *(ex_m.get()));
+	try {
+		MachineGraph::toJSON("sketch.json", *(m.get()));
+		ExecutableMachineGraph::toJSON("mappingMachine.json", *(ex_m.get()));
+		ProtocolGraph::toJSON("protocol.json", *(p.get()));
 
-
-
-	MachineGraph::fromJSON("sketch.json")->printMachine("postserializationMachine.graph");
-	ExecutableMachineGraph::fromJSON("mappingMachine.json")->printMachine("postserializationExMachine.graph");
+		MachineGraph::fromJSON("sketch.json")->printMachine("postserializationMachine.graph");
+		ExecutableMachineGraph::fromJSON("mappingMachine.json")->printMachine("postserializationExMachine.graph");
+		ProtocolGraph::fromJSON("protocol.json")->printProtocol("postserializationProtocol.graph");
+	}
+	catch (cereal::Exception & e) {
+		LOG(ERROR) << "exception, " << e.what();
+	}
 }
 
 ProtocolGraph* Test::makeTimeProtocol(
@@ -1407,7 +1419,7 @@ void Test::testTimeStep() {
 	std::vector<int> v;
 	v.push_back(idCom);
 
-	ExecutableMachineGraph* exMachine = makeSimpleMachine(idCom);
+	std::shared_ptr<ExecutableMachineGraph> exMachine(makeSimpleMachine(idCom));
 
 	std::shared_ptr<VariableTable> t(new VariableTable());
 	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
@@ -1418,7 +1430,7 @@ void Test::testTimeStep() {
 	map->printSketch("sketch");
 	exMachine->printMachine("machine");
 
-	EvoCoder* evo = new EvoCoder(protocol, t, map.get());
+	EvoCoder* evo = new EvoCoder(protocol, t, map);
 
 	LOG(INFO) << "Executing test...";
 	bool correct = evo->exec_general();
@@ -1432,7 +1444,7 @@ void Test::testTimeStepTest() {
 	std::vector<int> v;
 	v.push_back(idCom);
 
-	ExecutableMachineGraph* exMachine = makeSimpleMachine(idCom);
+	std::shared_ptr<ExecutableMachineGraph> exMachine(makeSimpleMachine(idCom));
 
 	std::shared_ptr<VariableTable> t(new VariableTable());
 	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
@@ -1443,14 +1455,14 @@ void Test::testTimeStepTest() {
 	map->printSketch("sketch");
 	exMachine->printMachine("machine");
 
-	EvoCoder* evo = new EvoCoder(protocol, t, map.get());
+	EvoCoder* evo = new EvoCoder(protocol, t, map);
 
 	LOG(INFO) << "Executing test...";
 	bool correct = evo->test();
 	LOG(INFO) << "result: " << correct;
 
 	delete evo;
-	delete exMachine;
+	delete protocol;
 }
 
 //void Test::testSerializaVariableTable() {

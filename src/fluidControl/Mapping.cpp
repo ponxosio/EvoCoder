@@ -7,12 +7,12 @@
 
 #include "Mapping.h"
 
-Mapping::Mapping(ExecutableMachineGraph* machine, const string & name, const std::vector<int> & communicationInterface) {
+Mapping::Mapping(std::shared_ptr<ExecutableMachineGraph> machine, const string & name, const std::vector<int> & communicationInterface) {
 	this->machine = machine;
 	this->sketch = new MachineGraph(name);
 	this->operation = mapping::sketch;
 	this->engine = new MappingEngine(this->sketch, machine);
-	this->cfEngine = new ContinuousFlowEngine(std::shared_ptr<ExecutableMachineGraph>(machine));
+	this->cfEngine = new ContinuousFlowEngine(machine);
 	this->lastTimestamp = -1;
 	this->testing = false;
 

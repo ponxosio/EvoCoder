@@ -8,7 +8,7 @@
 #include "MappingEngine.h"
 
 MappingEngine::MappingEngine(MachineGraph* sketch,
-		ExecutableMachineGraph* machine) {
+	std::shared_ptr<ExecutableMachineGraph> machine) {
 	this->sketch = sketch;
 	this->machine = machine;
 
@@ -24,6 +24,7 @@ MappingEngine::~MappingEngine() {
 		delete it->second;
 	}
 	delete edgeFlowMap;
+	delete numberSolutionsMap;
 }
 
 /*bool MappingEngine::startMapping() {

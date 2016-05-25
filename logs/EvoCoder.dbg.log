@@ -39439,3 +39439,39 @@
 24/05 21:11:51 540: adding 1 neighbors...
 24/05 21:11:51 544: executing loop: actualTime <= 60000
 24/05 21:11:51 548: adding 1 neighbors...
+25/05 19:58:59 080: serializating MachineGraph sketchTurbidostat to sketch.json
+25/05 19:58:59 094: serializating ExecutableMachineGraph to mappingMachine.json
+25/05 19:58:59 115: serializating MachineGraph turbidostat to protocol.json
+25/05 20:00:52 097: serializating MachineGraph sketchTurbidostat to sketch.json
+25/05 20:00:52 106: serializating ExecutableMachineGraph to mappingMachine.json
+25/05 20:00:52 124: serializating MachineGraph turbidostat to protocol.json
+25/05 20:15:34 669: serializating MachineGraph sketchTurbidostat to sketch.json
+25/05 20:15:34 680: serializating ExecutableMachineGraph to mappingMachine.json
+25/05 20:15:34 699: serializating MachineGraph turbidostat to protocol.json
+25/05 20:15:34 735: loading Machine from sketch.json
+25/05 20:15:34 742: loading ExecutableMachine from mappingMachine.json
+25/05 20:15:34 761: loading Machine from protocol.json
+25/05 20:21:53 855: serializating MachineGraph sketchTurbidostat to sketch.json
+25/05 20:21:53 868: serializating ExecutableMachineGraph to mappingMachine.json
+25/05 20:21:53 888: serializating MachineGraph turbidostat to protocol.json
+25/05 20:21:53 920: loading Machine from sketch.json
+25/05 20:21:53 927: loading ExecutableMachine from mappingMachine.json
+25/05 20:21:53 947: loading Machine from protocol.json
+25/05 20:24:18 094: serializating MachineGraph sketchTurbidostat to sketch.json
+25/05 20:24:18 102: serializating ExecutableMachineGraph to mappingMachine.json
+25/05 20:24:18 120: serializating MachineGraph simpleProtocol to protocol.json
+25/05 20:24:18 132: loading Machine from sketch.json
+25/05 20:24:18 140: loading ExecutableMachine from mappingMachine.json
+25/05 20:24:18 160: loading Machine from protocol.json
+25/05 20:34:30 875: serializating MachineGraph sketchTurbidostat to sketch.json
+25/05 20:34:30 884: serializating ExecutableMachineGraph to mappingMachine.json
+25/05 20:34:30 904: serializating MachineGraph simpleProtocol to protocol.json
+25/05 20:34:30 915: loading Machine from sketch.json
+25/05 20:34:30 922: loading ExecutableMachine from mappingMachine.json
+25/05 20:34:30 941: loading Machine from protocol.json
+25/05 20:44:27 040: serializating MachineGraph sketchTurbidostat to sketch.json
+25/05 20:44:27 049: serializating ExecutableMachineGraph to mappingMachine.json
+25/05 20:44:27 067: serializating MachineGraph simpleProtocol to protocol.json
+25/05 20:44:27 078: loading Machine from sketch.json
+25/05 20:44:27 085: loading ExecutableMachine from mappingMachine.json
+25/05 20:44:27 103: loading Machine from protocol.json

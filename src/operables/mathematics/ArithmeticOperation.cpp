@@ -7,6 +7,12 @@
 
 #include "ArithmeticOperation.h"
 
+ArithmeticOperation::ArithmeticOperation() {
+	this->leftVariable = shared_ptr<MathematicOperable>();
+	this->rightVariable = shared_ptr<MathematicOperable>();
+	this->op = arithmetic::plus;
+}
+
 ArithmeticOperation::ArithmeticOperation(
 		std::shared_ptr<MathematicOperable> left,
 		arithmetic::ArithmeticOperator op,
