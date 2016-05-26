@@ -8,7 +8,7 @@
 #include "MappingEngine.h"
 
 MappingEngine::MappingEngine(MachineGraph* sketch,
-		ExecutableMachineGraph* machine) {
+	std::shared_ptr<ExecutableMachineGraph> machine) {
 	this->sketch = sketch;
 	this->machine = machine;
 
@@ -24,6 +24,7 @@ MappingEngine::~MappingEngine() {
 		delete it->second;
 	}
 	delete edgeFlowMap;
+	delete numberSolutionsMap;
 }
 
 /*bool MappingEngine::startMapping() {
@@ -38,16 +39,16 @@ MappingEngine::~MappingEngine() {
 }*/
 
 bool MappingEngine::startMapping() {
-	std::vector<Edge*> sketchEdgeList(*(sketch->getGraph()->getEdgeList()));
-	std::vector<ExecutableContainerNode*> machineSubgraphs = machine->getGraph()->getAllNodes();
+	MachineGraph::ContainerEdgeVector sketchEdgeList(*(sketch->getGraph()->getEdgeList()));
+	ExecutableMachineGraph::ExecutableContainerNodeVectorPtr machineSubgraphs = machine->getGraph()->getAllNodes();
 
-	return mapSubgraph(sketchEdgeList, &machineSubgraphs);
+	return mapSubgraph(sketchEdgeList, machineSubgraphs);
 }
 
-bool MappingEngine::mapSubgraph(std::vector<Edge*>& edges, std::vector<ExecutableContainerNode*>* machineNodes) {
+bool MappingEngine::mapSubgraph(MachineGraph::ContainerEdgeVector& edges, ExecutableMachineGraph::ExecutableContainerNodeVectorPtr machineNodes) {
 	bool success = false;
 	if (!edges.empty()) {
-		Edge* actual = edges.back();
+		MachineGraph::ContainerEdgePtr actual = edges.back();
 		edges.pop_back();
 
 		FlowsHeap heap = getAvailableFlows(actual, machineNodes);
@@ -69,7 +70,7 @@ bool MappingEngine::mapSubgraph(std::vector<Edge*>& edges, std::vector<Executabl
 	return success;
 }
 
-void MappingEngine::addSolution(Edge* edge, const Flow<Edge> & flow) throw(std::invalid_argument){
+void MappingEngine::addSolution(MachineGraph::ContainerEdgePtr edge, const Flow<Edge> & flow) throw(std::invalid_argument){
 	Flow<Edge>* ptrFlow = new Flow<Edge>(flow);
 	edgeFlowMap->insert(make_pair(std::pair<int,int>(edge->getIdSource(), edge->getIdTarget()), ptrFlow));
 
@@ -107,7 +108,7 @@ void MappingEngine::addSolution(Edge* edge, const Flow<Edge> & flow) throw(std::
 	setNodesUsed(flow);
 }
 
-void MappingEngine::removeSolution(Edge* edge) {
+void MappingEngine::removeSolution(MachineGraph::ContainerEdgePtr edge) {
 	if (numberSolutionsMap->find(edge->getIdSource())->second == 1) {
 		containersMap->erase(edge->getIdSource());
 		numberSolutionsMap->erase(edge->getIdSource());
@@ -132,34 +133,34 @@ void MappingEngine::removeSolution(Edge* edge) {
 	edgeFlowMap->erase(flowsKey);
 }
 
-bool MappingEngine::trySubgraph(std::vector<SubGraphSketch>& sketchSubgraphs,
-	std::vector<SubGraphMachine>* machineSubgraphs) {
+//bool MappingEngine::trySubgraph(Graph<ContainerNode, Edge>::SubGraph & sketchSubgraphs,
+//	Graph<ExecutableContainerNode, Edge>::SubGraphPtr machineSubgraphs) {
+//
+//	bool success = false;
+//	if (!sketchSubgraphs.empty()) {
+//		SubGraphSketch actualSketch = sketchSubgraphs.back();
+//		sketchSubgraphs.pop_back();
+//		for (auto it = machineSubgraphs->begin(); !success && it != machineSubgraphs->end(); ++it) {
+//			SubGraphMachine actualMachine = *it;
+//			MachineGraph::ContainerNodeVectorPtr nodesSketch = actualSketch.first;
+//			ExecutableMachineGraph::ExecutableContainerNodeVectorPtr nodesmachine = actualMachine.first;
+//			std::tr1::unordered_set<int>* usedNodes = machine->getUsedNodes();
+//			if (ContainersUtils::areSubgraphCompatible<ContainerNode,
+//					ExecutableContainerNode>(*nodesSketch, *nodesmachine,
+//					*usedNodes)) {
+//				std::vector<Edge*> edgesSketch = *actualSketch.second;
+//				if (mapSubgraph(edgesSketch,actualMachine.first)) {
+//					success = trySubgraph(sketchSubgraphs, machineSubgraphs);
+//				}
+//			}
+//		}
+//	} else {
+//		success = true;
+//	}
+//	return success;
+//}
 
-	bool success = false;
-	if (!sketchSubgraphs.empty()) {
-		SubGraphSketch actualSketch = sketchSubgraphs.back();
-		sketchSubgraphs.pop_back();
-		for (auto it = machineSubgraphs->begin(); !success && it != machineSubgraphs->end(); ++it) {
-			SubGraphMachine actualMachine = *it;
-			std::vector<ContainerNode*>* nodesSketch = actualSketch.first;
-			std::vector<ExecutableContainerNode*>* nodesmachine = actualMachine.first;
-			std::tr1::unordered_set<int>* usedNodes = machine->getUsedNodes();
-			if (ContainersUtils::areSubgraphCompatible<ContainerNode,
-					ExecutableContainerNode>(*nodesSketch, *nodesmachine,
-					*usedNodes)) {
-				std::vector<Edge*> edgesSketch = *actualSketch.second;
-				if (mapSubgraph(edgesSketch,actualMachine.first)) {
-					success = trySubgraph(sketchSubgraphs, machineSubgraphs);
-				}
-			}
-		}
-	} else {
-		success = true;
-	}
-	return success;
-}
-
-Flow<Edge>* MappingEngine::getMappedEdge(Edge* skectchEdge) throw(std::invalid_argument) {
+Flow<Edge>* MappingEngine::getMappedEdge(MachineGraph::ContainerEdgePtr skectchEdge) throw(std::invalid_argument) {
 	auto it = edgeFlowMap->find(std::pair<int,int>(skectchEdge->getIdSource(), skectchEdge->getIdTarget()));
 	if (it == edgeFlowMap->end()) {
 		throw(std::invalid_argument(
@@ -179,7 +180,7 @@ int MappingEngine::getMappedContainerId(int sketchContainerId) throw(std::invali
 }
 
 void MappingEngine::setNodesUsed(const Flow<Edge>& flow) {
-	std::vector<Edge*> edges = flow.getPaths();
+	Flow<Edge>::FlowEdgeVector edges = flow.getPaths();
 	for(auto it = edges.begin(); it != edges.end(); ++it) {
 		machine->addUsedNode((*it)->getIdSource());
 		machine->addUsedNode((*it)->getIdTarget());
@@ -187,15 +188,15 @@ void MappingEngine::setNodesUsed(const Flow<Edge>& flow) {
 }
 
 void MappingEngine::unsetNodesUsed(const Flow<Edge>& flow) {
-	std::vector<Edge*> edges = flow.getPaths();
+	Flow<Edge>::FlowEdgeVector edges = flow.getPaths();
 	for (auto it = edges.begin(); it != edges.end(); ++it) {
 		machine->removeUsedNode((*it)->getIdSource());
 		machine->removeUsedNode((*it)->getIdTarget());
 	}
 }
 
-FlowsHeap MappingEngine::getAvailableFlows(Edge* actual,
-		std::vector<ExecutableContainerNode*>* machineNodes) {
+FlowsHeap MappingEngine::getAvailableFlows(ExecutableMachineGraph::ExecutableContainerEdgePtr actual,
+	ExecutableMachineGraph::ExecutableContainerNodeVectorPtr machineNodes) {
 
 	if (!isMapped(actual->getIdSource()) && !isMapped(actual->getIdTarget())) {
 		ContainerNodeType* typeSource = sketch->getContainer(

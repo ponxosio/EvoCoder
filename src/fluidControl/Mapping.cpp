@@ -7,11 +7,14 @@
 
 #include "Mapping.h"
 
-Mapping::Mapping(ExecutableMachineGraph* machine, const string & name, const std::vector<int> & communicationInterface) {
+Mapping::Mapping(std::shared_ptr<ExecutableMachineGraph> machine, const string & name, const std::vector<int> & communicationInterface) {
 	this->machine = machine;
 	this->sketch = new MachineGraph(name);
 	this->operation = mapping::sketch;
 	this->engine = new MappingEngine(this->sketch, machine);
+	this->cfEngine = new ContinuousFlowEngine(machine);
+	this->lastTimestamp = -1;
+	this->testing = false;
 
 	this->communicationsInterfaces = new std::vector<int>();
 	for (auto it = communicationInterface.begin(); it != communicationInterface.end(); ++it) {
@@ -23,6 +26,7 @@ Mapping::Mapping(ExecutableMachineGraph* machine, const string & name, const std
 Mapping::~Mapping() {
 	delete sketch;
 	delete engine;
+	delete cfEngine;
 	delete communicationsInterfaces;
 }
 
@@ -93,7 +97,7 @@ void Mapping::transfer(int idSource, int idTarget, double volume) {
 }
 
 void Mapping::mix(int source1, int source2, int target, double volume1,
-		double volume2) {
+	double volume2) {
 	switch (operation) {
 	case mapping::sketch:
 		sketching_mix(source1, source2, target, volume1, volume2);
@@ -230,27 +234,30 @@ double Mapping::timeStept() {
 
 //SKETCH
 void Mapping::sketching_setContinuosFlow(int idSource, int idTarget,
-		double rate) {
-	LOG(DEBUG)<< "sketching setContinousFlow(" << patch::to_string(idSource) << ", "
+	double rate) {
+	LOG(DEBUG) << "sketching setContinousFlow(" << patch::to_string(idSource) << ", "
 		<< patch::to_string(idTarget) << ", " + patch::to_string(rate)
 		<< ")";
 	//Update source node
 	if (sketch->existsContainer(idSource)) {
-		ContainerNode* sourceNode = sketch->getContainer(idSource);
+		MachineGraph::ContainerNodePtr sourceNode = sketch->getContainer(idSource);
 		if (sourceNode->getType().get()->isCompatibleMovement(MovementType::continuous)) {
 			transformSourceContainer(idSource, idTarget, sourceNode, MovementType::continuous);
-		} else {
-			LOG(FATAL)<< "container: " << patch::to_string(idTarget) << " cannot be continuous because already is" << sourceNode->getType().get()->getMovementTypeString();
 		}
-	} else {
+		else {
+			LOG(FATAL) << "container: " << patch::to_string(idTarget) << " cannot be continuous because already is" << sourceNode->getType().get()->getMovementTypeString();
+		}
+	}
+	else {
 		sketch->addContainer(idSource, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::continuous, ContainerType::inlet)), 0.0);
 	}
 
 	// Update target node
 	if (sketch->existsContainer(idTarget)) {
-		ContainerNode* targetNode = sketch->getContainer(idTarget);
+		MachineGraph::ContainerNodePtr targetNode = sketch->getContainer(idTarget);
 		transformTargetContainer(idSource, idTarget, targetNode);
-	} else {
+	}
+	else {
 		sketch->addContainer(idTarget, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::sink)), 0.0);
 	}
 	/**** Connect source and target nodes ****/
@@ -258,26 +265,29 @@ void Mapping::sketching_setContinuosFlow(int idSource, int idTarget,
 }
 
 void Mapping::sketching_transfer(int idSource, int idTarget, double volume) {
-	LOG(DEBUG)<< "sketching transfer(" << patch::to_string(idSource) << ", "
+	LOG(DEBUG) << "sketching transfer(" << patch::to_string(idSource) << ", "
 		<< patch::to_string(idTarget) << ", " << patch::to_string(volume)
 		<< ")";
 	//Update source node
 	if (sketch->existsContainer(idSource)) {
-		ContainerNode* sourceNode = sketch->getContainer(idSource);
+		MachineGraph::ContainerNodePtr sourceNode = sketch->getContainer(idSource);
 		if (sourceNode->getType().get()->isCompatibleMovement(MovementType::discrete)) {
 			transformSourceContainer(idSource, idTarget, sourceNode, MovementType::discrete);
-		} else {
-			LOG(FATAL)<< "container: " << patch::to_string(idTarget) << " cannot be discrete because already is" << sourceNode->getType().get()->getMovementTypeString();
 		}
-	} else {
+		else {
+			LOG(FATAL) << "container: " << patch::to_string(idTarget) << " cannot be discrete because already is" << sourceNode->getType().get()->getMovementTypeString();
+		}
+	}
+	else {
 		sketch->addContainer(idSource, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::discrete, ContainerType::inlet)), 0.0);
 	}
 
 	// Update target node
 	if (sketch->existsContainer(idTarget)) {
-		ContainerNode* targetNode = sketch->getContainer(idTarget);
+		MachineGraph::ContainerNodePtr targetNode = sketch->getContainer(idTarget);
 		transformTargetContainer(idSource, idTarget, targetNode);
-	} else {
+	}
+	else {
 		sketch->addContainer(idTarget, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::sink)), 0.0);
 	}
 	/**** Connect source and target nodes ****/
@@ -285,7 +295,7 @@ void Mapping::sketching_transfer(int idSource, int idTarget, double volume) {
 }
 
 void Mapping::transformSourceContainer(int idSource, int idTarget,
-		ContainerNode* sourceNode, MovementType desiredType) {
+	MachineGraph::ContainerNodePtr sourceNode, MovementType desiredType) {
 
 	switch (sourceNode->getType().get()->getContainerType()) {
 	case ContainerType::unknow:
@@ -295,13 +305,13 @@ void Mapping::transformSourceContainer(int idSource, int idTarget,
 	case ContainerType::inlet:
 		if (!sketch->areConected(idSource, idTarget)) {
 			sketch->changeContainerType(idSource,
-					ContainerType::divergent_switch);
+				ContainerType::divergent_switch);
 		}
 		break;
 	case ContainerType::flow:
 		if (!sketch->areConected(idSource, idTarget)) {
 			sketch->changeContainerType(idSource,
-					ContainerType::divergent_switch_sink);
+				ContainerType::divergent_switch_sink);
 		}
 		break;
 	case ContainerType::sink:
@@ -310,13 +320,13 @@ void Mapping::transformSourceContainer(int idSource, int idTarget,
 		break;
 	case ContainerType::convergent_switch:
 		sketch->changeContainerType(idSource,
-				ContainerType::convergent_switch_inlet);
+			ContainerType::convergent_switch_inlet);
 		sketch->changeMovementType(idSource, desiredType);
 		break;
 	case ContainerType::convergent_switch_inlet:
 		if (!sketch->areConected(idSource, idTarget)) {
 			sketch->changeContainerType(idSource,
-					ContainerType::bidirectional_switch);
+				ContainerType::bidirectional_switch);
 		}
 		break;
 	default:
@@ -325,7 +335,7 @@ void Mapping::transformSourceContainer(int idSource, int idTarget,
 }
 
 void Mapping::transformTargetContainer(int idSource, int idTarget,
-		ContainerNode* targetNode) {
+	MachineGraph::ContainerNodePtr targetNode) {
 
 	switch (targetNode->getType().get()->getContainerType()) {
 	case ContainerType::unknow:
@@ -337,23 +347,23 @@ void Mapping::transformTargetContainer(int idSource, int idTarget,
 	case ContainerType::sink:
 		if (!sketch->areConected(idSource, idTarget)) {
 			sketch->changeContainerType(idTarget,
-					ContainerType::convergent_switch);
+				ContainerType::convergent_switch);
 		}
 		break;
 	case ContainerType::flow:
 		if (!sketch->areConected(idSource, idTarget)) {
 			sketch->changeContainerType(idTarget,
-					ContainerType::convergent_switch_inlet);
+				ContainerType::convergent_switch_inlet);
 		}
 		break;
 	case ContainerType::divergent_switch:
 		sketch->changeContainerType(idTarget,
-				ContainerType::divergent_switch_sink);
+			ContainerType::divergent_switch_sink);
 		break;
 	case ContainerType::divergent_switch_sink:
 		if (!sketch->areConected(idSource, idTarget)) {
 			sketch->changeContainerType(idTarget,
-					ContainerType::bidirectional_switch);
+				ContainerType::bidirectional_switch);
 		}
 		break;
 	default:
@@ -362,8 +372,8 @@ void Mapping::transformTargetContainer(int idSource, int idTarget,
 }
 
 void Mapping::sketching_mix(int source1, int source2, int target,
-		double volume1, double volume2) {
-	LOG(DEBUG)<< "sketching mix(" << patch::to_string(source1) << ", " << patch::to_string(source2) << ", "
+	double volume1, double volume2) {
+	LOG(DEBUG) << "sketching mix(" << patch::to_string(source1) << ", " << patch::to_string(source2) << ", "
 		<< patch::to_string(target) + ", " << patch::to_string(volume1) << ", " << patch::to_string(volume2)
 		<< ")";
 
@@ -372,27 +382,29 @@ void Mapping::sketching_mix(int source1, int source2, int target,
 }
 
 void Mapping::sketching_loadContainer(int containerID, double volume) {
-	LOG(DEBUG)<< "sketching loadContainer(" << patch::to_string(containerID) << ", "
+	LOG(DEBUG) << "sketching loadContainer(" << patch::to_string(containerID) << ", "
 		<< patch::to_string(volume)
 		<< ")";
 	if (sketch->existsContainer(containerID)) {
-		ContainerNode* node = sketch->getContainer(containerID);
+		MachineGraph::ContainerNodePtr node = sketch->getContainer(containerID);
 		node->setVolume(node->getVolume() + volume);
-	} else {
+	}
+	else {
 		sketch->addContainer(containerID, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow)), volume);
 	}
 }
 
 void Mapping::sketching_applyLight(int id, double wavelength,
-		double intensity) {
-	LOG(DEBUG)<< "sketching applyLight(" << patch::to_string(id) << ", "
+	double intensity) {
+	LOG(DEBUG) << "sketching applyLight(" << patch::to_string(id) << ", "
 		<< patch::to_string(wavelength) << ", " << patch::to_string(intensity)
 		<< ")";
 
 	if (sketch->existsContainer(id)) {
-		ContainerNode* node = sketch->getContainer(id);
+		MachineGraph::ContainerNodePtr node = sketch->getContainer(id);
 		node->getType().get()->addAddon(AddOnsType::light);
-	} else {
+	}
+	else {
 		vector<AddOnsType> vect;
 		vect.push_back(AddOnsType::light);
 		sketch->addContainer(id, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
@@ -400,13 +412,14 @@ void Mapping::sketching_applyLight(int id, double wavelength,
 }
 
 void Mapping::sketching_applyTemperature(int id, double degres) {
-	LOG(DEBUG)<< "sketching applyTemperature(" << patch::to_string(id) << ", "
+	LOG(DEBUG) << "sketching applyTemperature(" << patch::to_string(id) << ", "
 		<< patch::to_string(degres) << ")";
 
 	if (sketch->existsContainer(id)) {
-		ContainerNode* node = sketch->getContainer(id);
+		MachineGraph::ContainerNodePtr node = sketch->getContainer(id);
 		node->getType().get()->addAddon(AddOnsType::temp);
-	} else {
+	}
+	else {
 		vector<AddOnsType> vect;
 		vect.push_back(AddOnsType::temp);
 		sketch->addContainer(id, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
@@ -414,11 +427,12 @@ void Mapping::sketching_applyTemperature(int id, double degres) {
 }
 
 void Mapping::sketching_measureOD(int id) {
-	LOG(DEBUG)<< "sketching measureOD(" << patch::to_string(id) << ")";
+	LOG(DEBUG) << "sketching measureOD(" << patch::to_string(id) << ")";
 	if (sketch->existsContainer(id)) {
-		ContainerNode* node = sketch->getContainer(id);
+		MachineGraph::ContainerNodePtr node = sketch->getContainer(id);
 		node->getType().get()->addAddon(AddOnsType::OD_sensor);
-	} else {
+	}
+	else {
 		vector<AddOnsType> vect;
 		vect.push_back(AddOnsType::OD_sensor);
 		sketch->addContainer(id, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
@@ -426,11 +440,12 @@ void Mapping::sketching_measureOD(int id) {
 }
 
 void Mapping::sketching_stir(int id) {
-	LOG(DEBUG)<< "sketching stir(" << patch::to_string(id) << "," << patch::to_string(-1) << ")";
+	LOG(DEBUG) << "sketching stir(" << patch::to_string(id) << "," << patch::to_string(-1) << ")";
 	if (sketch->existsContainer(id)) {
-		ContainerNode* node = sketch->getContainer(id);
+		MachineGraph::ContainerNodePtr node = sketch->getContainer(id);
 		node->getType().get()->addAddon(AddOnsType::mixer);
-	} else {
+	}
+	else {
 		vector<AddOnsType> vect;
 		vect.push_back(AddOnsType::mixer);
 		sketch->addContainer(id, std::shared_ptr<ContainerNodeType>(new ContainerNodeType(MovementType::irrelevant, ContainerType::unknow, vect)), 0.0);
@@ -444,62 +459,66 @@ double Mapping::sketching_timeStep() {
 
 //EXEC
 void Mapping::exec_setContinuosFlow(int idSource, int idTarget, double rate) {
-	LOG(DEBUG)<< "exec setContinousFlow(" << patch::to_string(idSource) << ", "
+	LOG(DEBUG) << "exec setContinousFlow(" << patch::to_string(idSource) << ", "
 		<< patch::to_string(idTarget) << ", " + patch::to_string(rate)
 		<< ")";
 
-	Edge edge(idSource, idTarget);
-	Flow<Edge>* flow = engine->getMappedEdge(&edge);
+	Flow<Edge>::FlowEdgePtr edge = std::make_shared<Edge>(idSource, idTarget);
+	Flow<Edge>* flow = engine->getMappedEdge(edge);
 
 	for (auto it = flow->getPaths().begin(); it != flow->getPaths().end();
-			++it) {
-		Edge* actual = *it;
-		ExecutableContainerNode* source = machine->getContainer(
-				actual->getIdSource());
-		ExecutableContainerNode* target = machine->getContainer(
-				actual->getIdTarget());
+		++it) {
+		ExecutableMachineGraph::ExecutableContainerEdgePtr actual = *it;
+		ExecutableMachineGraph::ExecutableContainerNodePtr source = machine->getContainer(
+			actual->getIdSource());
+		ExecutableMachineGraph::ExecutableContainerNodePtr target = machine->getContainer(
+			actual->getIdTarget());
 
 		if (source->getType()->hasMovementType(MovementType::continuous)) {
 			source->setPositionExtract(actual->getIdSource(), actual->getIdTarget());
 			target->setPositionInject(actual->getIdSource(), actual->getIdTarget());
 			source->extractLiquid(rate);
 			target->receiveLiquid(rate);
-		} else {
-			LOG(FATAL)<< "trying to do extract liquid with a continuous flow from a not continuous container, container id: " << patch::to_string(source->getContainerId());
+
+			cfEngine->setFlowRate(actual->getIdSource(), actual->getIdTarget(), rate);
+		}
+		else {
+			LOG(FATAL) << "trying to do extract liquid with a continuous flow from a not continuous container, container id: " << patch::to_string(source->getContainerId());
 		}
 	}
 }
 
 void Mapping::exec_transfer(int idSource, int idTarget, double volume) {
-	LOG(DEBUG)<< "exec transfer(" << patch::to_string(idSource) << ", "
+	LOG(DEBUG) << "exec transfer(" << patch::to_string(idSource) << ", "
 		<< patch::to_string(idTarget) << ", " << patch::to_string(volume)
 		<< ")";
 
-	Edge edge(idSource, idTarget);
-	Flow<Edge>* flow = engine->getMappedEdge(&edge);
+	Flow<Edge>::FlowEdgePtr edge = std::make_shared<Edge>(idSource, idTarget);
+	Flow<Edge>* flow = engine->getMappedEdge(edge);
 
 	for (auto it = flow->getPaths().begin(); it != flow->getPaths().end();
-			++it) {
-		Edge* actual = *it;
-		ExecutableContainerNode* source = machine->getContainer(
-				actual->getIdSource());
-		ExecutableContainerNode* target = machine->getContainer(
-				actual->getIdTarget());
+		++it) {
+		ExecutableMachineGraph::ExecutableContainerEdgePtr actual = *it;
+		ExecutableMachineGraph::ExecutableContainerNodePtr source = machine->getContainer(
+			actual->getIdSource());
+		ExecutableMachineGraph::ExecutableContainerNodePtr target = machine->getContainer(
+			actual->getIdTarget());
 
 		if (source->getType()->hasMovementType(MovementType::discrete)) {
 			source->setPositionExtract(actual->getIdSource(), actual->getIdTarget());
 			target->setPositionInject(actual->getIdSource(), actual->getIdTarget());
 			source->extractLiquid(volume);
 			target->receiveLiquid(volume);
-		} else {
-			LOG(FATAL)<< "trying to do extract liquid with a transfer flow from a not discrete container, container id: " << patch::to_string(source->getContainerId());
+		}
+		else {
+			LOG(FATAL) << "trying to do extract liquid with a transfer flow from a not discrete container, container id: " << patch::to_string(source->getContainerId());
 		}
 	}
 }
 
 void Mapping::exec_mix(int source1, int source2, int target, double volume1,
-		double volume2) {
-	LOG(DEBUG)<< "exec mix(" << patch::to_string(source1) << ", " << patch::to_string(source2) << ", "
+	double volume2) {
+	LOG(DEBUG) << "exec mix(" << patch::to_string(source1) << ", " << patch::to_string(source2) << ", "
 		<< patch::to_string(target) + ", " << patch::to_string(volume1) << ", " << patch::to_string(volume2)
 		<< ")";
 
@@ -508,32 +527,34 @@ void Mapping::exec_mix(int source1, int source2, int target, double volume1,
 }
 
 void Mapping::exec_applyLight(int id, double wavelength, double intensity) {
-	LOG(DEBUG)<< "exec applyLight(" << patch::to_string(id) << ", "
+	LOG(DEBUG) << "exec applyLight(" << patch::to_string(id) << ", "
 		<< patch::to_string(wavelength) << ", " << patch::to_string(intensity)
 		<< ")";
 
-	ExecutableContainerNode* mappedContainer = machine->getContainer(engine->getMappedContainerId(id));
+	ExecutableMachineGraph::ExecutableContainerNodePtr mappedContainer = machine->getContainer(engine->getMappedContainerId(id));
 	std::shared_ptr<Light> light = mappedContainer->getLight();
 
 	if (light.get() != NULL) {
 		light.get()->applyLight(wavelength, intensity);
-	} else {
-		LOG(FATAL)<< "trying to apply light to a container without that add on, container id: " << patch::to_string(mappedContainer->getContainerId());
+	}
+	else {
+		LOG(FATAL) << "trying to apply light to a container without that add on, container id: " << patch::to_string(mappedContainer->getContainerId());
 	}
 }
 
 void Mapping::exec_applyTemperature(int id, double degres) {
-	LOG(DEBUG)<< "exec applyTemperature(" << patch::to_string(id) << ", "
+	LOG(DEBUG) << "exec applyTemperature(" << patch::to_string(id) << ", "
 		<< patch::to_string(degres) << ")";
 
-	ExecutableContainerNode* mappedContainer = machine->getContainer(
-			engine->getMappedContainerId(id));
+	ExecutableMachineGraph::ExecutableContainerNodePtr mappedContainer = machine->getContainer(
+		engine->getMappedContainerId(id));
 	std::shared_ptr<Temperature> temp = mappedContainer->getTemperature();
 
 	if (temp.get() != NULL) {
 		temp.get()->apply(degres);
-	} else {
-		LOG(FATAL)<< "trying to apply temperature to a container without that add on, container id: " << patch::to_string(mappedContainer->getContainerId());
+	}
+	else {
+		LOG(FATAL) << "trying to apply temperature to a container without that add on, container id: " << patch::to_string(mappedContainer->getContainerId());
 	}
 }
 
@@ -543,45 +564,59 @@ double Mapping::exec_getVolume(int id) {
 
 double Mapping::exec_measureOD(int id) {
 	double measureValued = -1;
-	ExecutableContainerNode* mappedContainer = machine->getContainer(
-			engine->getMappedContainerId(id));
+	ExecutableMachineGraph::ExecutableContainerNodePtr mappedContainer = machine->getContainer(
+		engine->getMappedContainerId(id));
 	std::shared_ptr<ODSensor> od = mappedContainer->getOd();
 
 	if (od.get() != NULL) {
 		measureValued = od.get()->readOd();
-		LOG(DEBUG)<< "exec measureOD(" << patch::to_string(id) << ") = " << patch::to_string(measureValued);
-	} else {
-		LOG(FATAL)<< "trying to measure OD from a container without that add on, container id: " << patch::to_string(mappedContainer->getContainerId());
+		LOG(DEBUG) << "exec measureOD(" << patch::to_string(id) << ") = " << patch::to_string(measureValued);
+	}
+	else {
+		LOG(FATAL) << "trying to measure OD from a container without that add on, container id: " << patch::to_string(mappedContainer->getContainerId());
 	}
 	return measureValued;
 }
 
 void Mapping::exec_loadContainer(int containerID, double volume) {
-	LOG(DEBUG)<< "exec loadContainer(" << patch::to_string(containerID) << ", "
+	LOG(DEBUG) << "exec loadContainer(" << patch::to_string(containerID) << ", "
 		<< patch::to_string(volume)
 		<< ")";
-	ExecutableContainerNode* mappedContainer = machine->getContainer(
-				engine->getMappedContainerId(containerID));
+	ExecutableMachineGraph::ExecutableContainerNodePtr mappedContainer = machine->getContainer(
+		engine->getMappedContainerId(containerID));
 	mappedContainer->setVolume(volume);
 }
 
 void Mapping::exec_stir(int id, double intensity) {
-	LOG(DEBUG)<< "exec stir(" << patch::to_string(id) << "," << patch::to_string(intensity) << ")";
-	ExecutableContainerNode* mappedContainer = machine->getContainer(
-			engine->getMappedContainerId(id));
+	LOG(DEBUG) << "exec stir(" << patch::to_string(id) << "," << patch::to_string(intensity) << ")";
+	ExecutableMachineGraph::ExecutableContainerNodePtr mappedContainer = machine->getContainer(
+		engine->getMappedContainerId(id));
 	std::shared_ptr<Mixer> mix = mappedContainer->getMix();
 
 	if (mix.get() != NULL) {
 		mix.get()->mix(intensity);
-	} else {
-		LOG(FATAL)<< "trying to stir a container without that add on, container id: " << patch::to_string(mappedContainer->getContainerId());
+	}
+	else {
+		LOG(FATAL) << "trying to stir a container without that add on, container id: " << patch::to_string(mappedContainer->getContainerId());
 	}
 }
 
 double Mapping::exec_timeStep() {
-	//TODO: el tiempo que pasa esperando o el sleep en caso de que se haga...
-	LOG(DEBUG) << "executing timeStept";
-	return 1;
+	long msPassed;
+	if (this->testing) {
+		msPassed = SLEEP_MS;
+	}
+	else {
+
+		long tempTimestamp = Utils::getCurrentTimeMilis();
+		msPassed = tempTimestamp - lastTimestamp;
+		lastTimestamp = tempTimestamp;
+		LOG(DEBUG) << "executing timeStept: passed " << msPassed << " ms";
+	}
+
+	cfEngine->updateVolumens(msPassed);
+
+	return (msPassed);
 }
 
 //MISCELANEOUS
@@ -591,18 +626,18 @@ void Mapping::printSketch(const std::string& path) {
 
 void Mapping::startCommunications() {
 	for (auto it = communicationsInterfaces->begin();
-			it != communicationsInterfaces->end(); ++it) {
+		it != communicationsInterfaces->end(); ++it) {
 		CommandSender* com =
-				CommunicationsInterface::GetInstance()->getCommandSender(*it);
+			CommunicationsInterface::GetInstance()->getCommandSender(*it);
 		com->connect();
 	}
 }
 
 void Mapping::stopCommunications() {
 	for (auto it = communicationsInterfaces->begin();
-			it != communicationsInterfaces->end(); ++it) {
+		it != communicationsInterfaces->end(); ++it) {
 		CommandSender* com =
-				CommunicationsInterface::GetInstance()->getCommandSender(*it);
+			CommunicationsInterface::GetInstance()->getCommandSender(*it);
 		com->disconnect();
 	}
 }

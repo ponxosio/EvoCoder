@@ -8,6 +8,8 @@
 #ifndef SRC_FLUIDCONTROL_MAPPING_H_
 #define SRC_FLUIDCONTROL_MAPPING_H_
 
+#define SLEEP_MS 1000
+
 #include <stdexcept>
 #include <vector>
 
@@ -25,6 +27,7 @@
 #include "executable/containers/actuators/communications/CommandSender.h"
 #include "machineGraph/MachineGraph.h"
 #include "MappingEngine.h"
+#include "ContinuousFlowEngine.h"
 
 namespace mapping {
 /*** Enum for the operation the mapping will do ***/
@@ -37,7 +40,7 @@ enum MappingOperation {
 
 class Mapping {
 public:
-	Mapping(ExecutableMachineGraph* machine, const std::string & name, const std::vector<int> & communicationInterface);
+	Mapping(std::shared_ptr<ExecutableMachineGraph> machine, const std::string & name, const std::vector<int> & communicationInterface);
 	virtual ~Mapping();
 
 	//execution
@@ -70,12 +73,26 @@ public:
 	void printSketch(const std::string & path);
 	void startCommunications();
 	void stopCommunications();
+
+	inline void setTimestamp(long actual) {
+		this->lastTimestamp = actual;
+	}
+
+	inline void settesting(bool testing) {
+		this->testing = testing;
+	}
 protected:
 	mapping::MappingOperation operation;
+	bool testing;
+	
 	MappingEngine* engine;
+	ContinuousFlowEngine* cfEngine;
+	
 	MachineGraph* sketch;
-	ExecutableMachineGraph* machine;
+	std::shared_ptr<ExecutableMachineGraph> machine;
+	
 	std::vector<int>* communicationsInterfaces;
+	long lastTimestamp;
 
 	//SKETCHING
 	void sketching_setContinuosFlow(int idSource, int idTarget, double rate);
@@ -90,8 +107,8 @@ protected:
 	void sketching_measureOD(int id);
 	double sketching_timeStep();
 
-	void transformSourceContainer(int idSource, int idTarget, ContainerNode* sourceNode, MovementType desiredType);
-	void transformTargetContainer(int idSource, int idTarget, ContainerNode* targetNode);
+	void transformSourceContainer(int idSource, int idTarget, MachineGraph::ContainerNodePtr sourceNode, MovementType desiredType);
+	void transformTargetContainer(int idSource, int idTarget, MachineGraph::ContainerNodePtr targetNode);
 
 	//EXEC
 	void exec_setContinuosFlow(int idSource, int idTarget, double rate);

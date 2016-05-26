@@ -18,6 +18,11 @@
 #include "actuators/extras/ODSensor.h"
 #include "actuators/extras/Temperature.h"
 
+//cereal
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/types/polymorphic.hpp>
+
 class ExecutableContainerNode: public ContainerNode {
 public:
 	//Obligatory methods if is derived from NODE
@@ -26,7 +31,7 @@ public:
 		this->od = std::shared_ptr<ODSensor>();
 		this->mix = std::shared_ptr<Mixer>();
 		//this->light = NULL;
-		//this->light = std::shared_ptr<Light>();
+		this->light = std::shared_ptr<Light>();
 		this->temperature = std::shared_ptr<Temperature>();
 	}
 	ExecutableContainerNode(const ExecutableContainerNode & node) :
@@ -34,7 +39,7 @@ public:
 		this->od = node.od;
 		this->mix = node.mix;
 		//this->light = NULL;
-		//this->light = node.light;
+		this->light = node.light;
 		this->temperature = node.temperature;
 	}
 	//
@@ -44,10 +49,14 @@ public:
 		this->od = std::shared_ptr<ODSensor>();
 		this->mix = std::shared_ptr<Mixer>();
 		//this->light = NULL;
-		//this->light = std::shared_ptr<Light>();
+		this->light = std::shared_ptr<Light>();
 		this->temperature = std::shared_ptr<Temperature>();
 	}
 	virtual ~ExecutableContainerNode(){}
+
+	inline virtual std::string toText() {
+		return "executable: " + ContainerNode::toText();
+	}
 
 	//getters & setters
 	inline const std::shared_ptr<Light>& getLight() const {
@@ -94,6 +103,9 @@ public:
 	virtual void extractLiquid(double rate) throw (std::invalid_argument)= 0;
 	virtual void connectContainer(int source, int target) = 0;
 
+	//SERIALIZATIoN
+	template<class Archive>
+	void serialize(Archive & ar, std::uint32_t const version);
 protected:
 	//Light* light;
 	std::shared_ptr<ODSensor> od;
@@ -101,5 +113,24 @@ protected:
 	std::shared_ptr<Light> light;
 	std::shared_ptr<Temperature> temperature;
 };
+
+template<class Archive>
+inline void ExecutableContainerNode::serialize(Archive& ar,
+		const std::uint32_t version) {
+	if (version <= 1) {
+		ContainerNode::serialize(ar, version);
+		ar(CEREAL_NVP(od), CEREAL_NVP(mix), CEREAL_NVP(light), CEREAL_NVP(temperature));
+	}
+}
+
+// Associate some type with a version number
+CEREAL_CLASS_VERSION( ExecutableContainerNode, (int)1 );
+
+// Include any archives you plan on using with your type before you register it
+// Note that this could be done in any other location so long as it was prior
+// to this file being included
+#include <cereal/archives/json.hpp>
+// Register DerivedClass
+CEREAL_REGISTER_TYPE_WITH_NAME(ExecutableContainerNode, "ExecutableContainerNode");
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_EXECUTABLECONTAINERNODE_H_ */

@@ -17,6 +17,10 @@
 //local
 #include "../util/Patch.h"
 
+//cereal
+#include <cereal/cereal.hpp>
+#include <cereal/types/polymorphic.hpp>
+
 /**
  * Minimum operations a all node must have, Base for all Node types to derive
  */
@@ -65,38 +69,6 @@ public:
 		string vuelta = patch::to_string(containerID) + ";";
 		return vuelta;
 	}
-	/**
-	* Loads all edge information, changing the object's internal attributes. throw invalid_argument if the line has
-	* an incorrect format.
-	*
-	* @param line text with the information of the edge, must be the compatible with the output of the above
-	* toText function
-	*/
-	inline virtual void loadNode(const string & line)
-			throw (invalid_argument) {
-		string errMessage = "";
-		size_t posEnd = line.find(";");
-
-		if (posEnd != string::npos) {
-			string  chunkId = line.substr(0, posEnd);
-			boost::algorithm::trim(chunkId);
-
-			int containerID;
-			const char * c = chunkId.c_str();
-			if (patch::stol(containerID, c)) {
-				this->containerID = containerID;
-			} else {
-				errMessage = "Invalid syntax, \"" + chunkId
-						+ "\" is not an integer number";
-			}
-		} else {
-			errMessage = "Invalid syntax, \"" + line + "\" missing \';\'";
-		}
-
-		if (!errMessage.empty()) {
-			throw(invalid_argument(errMessage));
-		}
-	}
 
 	/**
 	 * checks if this line has the format for a valid node, this method must changed depending of
@@ -109,9 +81,31 @@ public:
 		return (line.find("->") == string::npos);
 	}
 
+	//SERIALIZATIoN
+	template<class Archive>
+	void serialize(Archive & ar, std::uint32_t const version);
+
 protected:
 	int containerID;
 
 };
+
+template<class Archive>
+inline void Node::serialize(Archive& ar, const std::uint32_t version) {
+	if (version <= 1) {
+		ar(CEREAL_NVP(containerID));
+	}
+}
+
+// Associate some type with a version number
+CEREAL_CLASS_VERSION( Node, (int)1 );
+
+//// Include any archives you plan on using with your type before you register it
+//// Note that this could be done in any other location so long as it was prior
+//// to this file being included
+//#include <cereal/archives/json.hpp>
+//// Register DerivedClass
+//CEREAL_REGISTER_TYPE_WITH_NAME(Node, "Node");
+
 
 #endif /* SRC_GRAPH_NODE_H_ */

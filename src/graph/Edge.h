@@ -17,6 +17,9 @@
 //local
 #include "../util/Patch.h"
 
+//cereal
+#include <cereal\cereal.hpp>
+
 /**
  * Interface with the minimum operations that all directed Edges must have
  */
@@ -121,10 +124,24 @@ public:
 		return (line.find("->") != std::string::npos);
 	}
 
+	//SERIALIZATIoN
+	template<class Archive>
+	void serialize(Archive & ar, std::uint32_t const version);
+
 protected:
 	int idSource;
 	int idTarget;
 
 };
+
+template<class Archive>
+inline void Edge::serialize(Archive& ar, const std::uint32_t version) {
+	if (version <= 1) {
+		ar(CEREAL_NVP(idSource), CEREAL_NVP(idTarget));
+	}
+}
+// Associate some type with a version number
+CEREAL_CLASS_VERSION(Edge, (int)1);
+
 
 #endif /* SRC_GRAPH_EDGE_H_ */

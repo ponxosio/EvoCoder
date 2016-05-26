@@ -1,0 +1,71 @@
+﻿  Utils.cpp
+  AutoEnumerate.cpp
+  EvoprogTemperature.cpp
+  EvoprogSixwayValve.cpp
+  EvoprogOdSensor.cpp
+  EvoprogMixer.cpp
+  EvoprogLight.cpp
+  EvoprogDummyInjector.cpp
+  EvoprogDiscretePump.cpp
+  EvoprogContinuousPump.cpp
+  Test.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(901): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(971): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<int,std::shared_ptr<ContainerNodeType>,double>(int &&,std::shared_ptr<ContainerNodeType> &&,double &&)' being compiled
+          with
+          [
+              _Ty=ContainerNode
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(971): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<int,std::shared_ptr<ContainerNodeType>,double>(int &&,std::shared_ptr<ContainerNodeType> &&,double &&)' being compiled
+          with
+          [
+              _Ty=ContainerNode
+          ]
+  d:\angel\documentos\universidad\tfm\evoprogdebug\codigo\evocoder_release_v1\evocoder\src\test.cpp(1290): note: see reference to function template instantiation 'std::shared_ptr<ContainerNode> std::make_shared<ContainerNode,int,std::shared_ptr<ContainerNodeType>,double>(int &&,std::shared_ptr<ContainerNodeType> &&,double &&)' being compiled
+  ProtocolGraph.cpp
+  LoopNode.cpp
+  DivergeNode.cpp
+  Transfer.cpp
+  TimeStep.cpp
+  Stir.cpp
+  SetContinousFlow.cpp
+  Mix.cpp
+  MeasureOD.cpp
+  Generating Code...
+  Compiling...
+  LoadContainerOperation.cpp
+  GetVolume.cpp
+  ApplyTemperature.cpp
+  ApplyLight.cpp
+  AssignationOperation.cpp
+  ConditionEdge.cpp
+  VariableTable.cpp
+  VariableEntry.cpp
+  UnaryOperation.cpp
+  ConstantNumber.cpp
+  ArithmeticOperation.cpp
+  SimpleComparison.cpp
+  BooleanComparison.cpp
+  MappingEngine.cpp
+  Mapping.cpp
+  MachineGraph.cpp
+  ContainerNodeType.cpp
+  ContainerNode.cpp
+  ExecutableMachineGraph.cpp
+  SinkContainer.cpp
+  Generating Code...
+  Compiling...
+  InletContainer.cpp
+  FlowContainer.cpp
+  DivergentSwitchSink.cpp
+  DivergentSwitch.cpp
+  ConvergentSwitchInlet.cpp
+  ConvergentSwitch.cpp
+  BidirectionalSwitch.cpp
+  SerialSender.cpp
+  FileSender.cpp
+  CommunicationsInterface.cpp
+  EvoCoder.cpp
+  Generating Code...
+     Creating library D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\x64\Debug\EvoCoder.lib and object D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\x64\Debug\EvoCoder.exp
+  EvoCoder.vcxproj -> D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\x64\Debug\EvoCoder.exe
+  EvoCoder.vcxproj -> D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\x64\Debug\EvoCoder.pdb (Partial PDB)

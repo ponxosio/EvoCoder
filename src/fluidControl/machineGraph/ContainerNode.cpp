@@ -43,10 +43,6 @@ string ContainerNode::toText() {
 	return stm.str();
 }
 
-void ContainerNode::loadNode(const string& line) throw (invalid_argument) {
-	//TODO: JSON
-}
-
 void ContainerNode::changeContainerType(ContainerType type) {
 	this->type.get()->changeContainerType(type);
 }

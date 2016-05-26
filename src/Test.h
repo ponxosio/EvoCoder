@@ -8,21 +8,26 @@
 #ifndef SRC_TEST_H_
 #define SRC_TEST_H_
 
-#include <string>
-#include <vector>
-#include <queue>
-#include <thread>
-#include <iostream>
 #include <functional>
+#include <iostream>
+#include <sstream>
+#include <memory>
+#include <queue>
+#include <string>
+#include <thread>
+#include <vector>
 #include <windows.h>
+
+#include <unordered_map>
+#include <tuple>
 
 //boost
 #include <boost/function.hpp>
 #include <memory>
 
 //lib
-#include "../lib/easylogging++.h"
-#include "fluidControl/executable/containers/actuators/communications/SerialSender.h"
+#include <easylogging++.h>
+
 
 //local
 #include "graph/Graph.h"
@@ -53,13 +58,17 @@
 #include "fluidControl/executable/containers/actuators/liquids/Control.h"
 #include "fluidControl/executable/containers/actuators/liquids/Injector.h"
 #include "fluidControl/executable/containers/actuators/liquids/Extractor.h"
+
 #include "fluidControl/executable/containers/actuators/extras/Temperature.h"
 #include "fluidControl/executable/containers/actuators/extras/ODSensor.h"
 #include "fluidControl/executable/containers/actuators/extras/Light.h"
 #include "fluidControl/executable/containers/actuators/extras/Mixer.h"
+
 #include "fluidControl/executable/containers/actuators/communications/CommunicationsInterface.h"
 #include "fluidControl/executable/containers/actuators/communications/CommandSender.h"
 #include "fluidControl/executable/containers/actuators/communications/FileSender.h"
+#include "fluidControl/executable/containers/actuators/communications/SerialSender.h"
+
 #include "fluidControl/executable/containers/InletContainer.h"
 #include "fluidControl/executable/containers/BidirectionalSwitch.h"
 #include "fluidControl/executable/containers/ConvergentSwitch.h"
@@ -75,7 +84,9 @@
 #include "operables/mathematics/UnaryOperation.h"
 #include "operables/mathematics/MathematicOperable.h"
 #include "operables/mathematics/VariableEntry.h"
+
 #include "operables/VariableTable.h"
+
 #include "operables/comparison/ComparisonOperable.h"
 #include "operables/comparison/Tautology.h"
 #include "operables/comparison/SimpleComparison.h"
@@ -99,6 +110,16 @@
 #include "protocolGraph/operations/LoopNode.h"
 #include "protocolGraph/ProtocolGraph.h"
 
+//cereal
+#include <cereal/cereal.hpp>
+#include <cereal/archives/json.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/types/polymorphic.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/tuple.hpp>
+#include <cereal/types/unordered_map.hpp>
+#include <cereal/types/vector.hpp>
+
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -109,6 +130,9 @@ public:
 	static ProtocolGraph* MakeTurbidostat(
 			std::shared_ptr<VariableTable> table,
 			std::shared_ptr<Mapping> map);
+	static ProtocolGraph* makeTimeProtocol(
+		std::shared_ptr<VariableTable> table,
+		std::shared_ptr<Mapping> map);
 	static ProtocolGraph* makeSimpleProtocol(
 				std::shared_ptr<VariableTable> table,
 				std::shared_ptr<Mapping> map);
@@ -148,6 +172,18 @@ public:
 
 	void testMappingTest();
 	void testMappingExec();
+
+	void testSerializeNode();
+	void testSerializeMachine();
+
+	void testTimeStep();
+	void testTimeStepTest();
+
+	void testSerializaVariableTable();
+	void testDeserializaVariableTable(const std::string & json);
+
+	void testSerialize_MathematicOperable();
+	void testSerialize_ExecutableConatinerNode();
 };
 
 #endif /* SRC_TEST_H_ */

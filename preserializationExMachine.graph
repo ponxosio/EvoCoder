@@ -1,0 +1,16 @@
+digraph G {
+executable: 1 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_inlet.png"];
+executable: 2 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_divergentswitch.png"];
+executable: 3 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_flow.png"];
+executable: 4 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_inlet.png"];
+executable: 5 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_convergentswitchinlet.png"];
+executable: 6 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\continuous_convergentswitchinlet.png"];-27[image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\odsensor.png"];-27->6;
+executable: 7 [image="D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\Img\convergentswitch.png"];
+1->5;
+2->5;
+3->6;
+4->6;
+5->7;
+6->7;
+2->3;
+}

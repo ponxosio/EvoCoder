@@ -26,18 +26,18 @@
 #include "../fluidControl/machineGraph/MachineGraph.h"
 #include "../fluidControl/executable/ExecutableMachineGraph.h"
 
-typedef std::pair<std::vector<ContainerNode*>*, std::vector<Edge*>*> SubGraphSketch;
-typedef std::pair<std::vector<ExecutableContainerNode*>*, std::vector<Edge*>*> SubGraphMachine;
+typedef Graph<ContainerNode, Edge>::SubGraphElem SubGraphSketch;
+typedef Graph<ExecutableContainerNode, Edge>::SubGraphElem SubGraphMachine;
 typedef std::priority_queue<Flow<Edge>, vector<Flow<Edge>>,FlowPtrComparator<Edge>> FlowsHeap;
 
 class MappingEngine {
 public:
-	MappingEngine(MachineGraph* sketch,	ExecutableMachineGraph* machine);
+	MappingEngine(MachineGraph* sketch, std::shared_ptr<ExecutableMachineGraph> machine);
 	virtual ~MappingEngine();
 
 	bool startMapping();
 
-	Flow<Edge>* getMappedEdge(Edge* skectchEdge)throw(std::invalid_argument);
+	Flow<Edge>* getMappedEdge(MachineGraph::ContainerEdgePtr skectchEdge)throw(std::invalid_argument);
 	int getMappedContainerId(int sketchContainerId) throw(std::invalid_argument);
 protected:
 	std::unordered_map<int,int>* containersMap;
@@ -45,17 +45,17 @@ protected:
 	std::unordered_map<std::pair<int,int>, Flow<Edge>*, PairIntIntHashFunction>* edgeFlowMap;
 
 	MachineGraph* sketch;
-	ExecutableMachineGraph* machine;
+	std::shared_ptr<ExecutableMachineGraph> machine;
 
-	bool trySubgraph(std::vector<SubGraphSketch>& sketchSubgraphs, std::vector<SubGraphMachine>* machineSubgraphs);
-	bool mapSubgraph(std::vector<Edge*>& edges, std::vector<ExecutableContainerNode*>* machineNodes);
+	/*bool trySubgraph(Graph<ContainerNode, Edge>::SubGraph & sketchSubgraphs, Graph<ExecutableContainerNode, Edge>::SubGraphPtr machineSubgraphs);*/
+	bool mapSubgraph(MachineGraph::ContainerEdgeVector& edges, ExecutableMachineGraph::ExecutableContainerNodeVectorPtr machineNodes);
 
-	void addSolution(Edge* edge, const Flow<Edge> & flow) throw(std::invalid_argument);
-	void removeSolution(Edge* edge);
+	void addSolution(MachineGraph::ContainerEdgePtr edge, const Flow<Edge> & flow) throw(std::invalid_argument);
+	void removeSolution(MachineGraph::ContainerEdgePtr edge);
 	void setNodesUsed(const Flow<Edge> & flow);
 	void unsetNodesUsed(const Flow<Edge> & flow);
 
-	FlowsHeap getAvailableFlows(Edge* actual, std::vector<ExecutableContainerNode*>* machineNodes);
+	FlowsHeap getAvailableFlows(ExecutableMachineGraph::ExecutableContainerEdgePtr actual, ExecutableMachineGraph::ExecutableContainerNodeVectorPtr machineNodes);
 
 	inline bool isMapped(int idConatiner) {
 		return (containersMap->find(idConatiner) != containersMap->end());

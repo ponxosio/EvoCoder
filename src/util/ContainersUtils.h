@@ -19,8 +19,11 @@
 #include "../fluidControl/machineGraph/ContainerNode.h"
 #include "../fluidControl/machineGraph/ContainerNodeType.h"
 #include "../graph/Node.h"
+#include "../graph/Graph.h"
+#include "../graph/Edge.h"
 
 class ContainersUtils {
+
 public:
 	/**
 	 * Checks if v1 is compatible with v2, that is , all v1 node types are present in v2.
@@ -28,9 +31,9 @@ public:
 	 * @param v2 vector to be checked against
 	 * @return true if v1 is compatible with v2, false otherwise
 	 */
-	template<class NodeType1,class NodeType2> static bool areSubgraphCompatible(
-			const std::vector<NodeType1*> & v1,const std::vector<NodeType2*> & v2,
-			const std::tr1::unordered_set<int> & v2UsedNodes);
+	/*template<class NodeType1,class NodeType2> static bool areSubgraphCompatible(
+			const Graph<NodeType1,Edge>::NodeVector & v1,const Graph<NodeType2, Edge>::NodeVector & v2,
+			const std::tr1::unordered_set<int> & v2UsedNodes);*/
 
 
 	template <class NodeType1> static bool isNodeInVector(NodeType1* node, const vector<int> & nodesIds);
@@ -91,36 +94,36 @@ inline bool ContainersUtils::isNodeInVector(int node,
 		return finded;
 }
 
-template<class NodeType1, class NodeType2>
-inline bool ContainersUtils::areSubgraphCompatible(
-		const std::vector<NodeType1*>& v1, const std::vector<NodeType2*>& v2,
-		const std::tr1::unordered_set<int>& v2UsedNodes) {
-	// Restrict this template for using only types derived from Node and edge Interfaces
-	BOOST_STATIC_ASSERT((boost::is_base_of<ContainerNode, NodeType1>::value));
-	BOOST_STATIC_ASSERT((boost::is_base_of<ContainerNode, NodeType2>::value));
-
-	bool compatble = true;
-	if (v1.empty() || v2.empty() || v1.size() > v2.size()) {
-		compatble = false;
-	}
-	std::vector<ContainerNodeType> typesChecked;
-	for (auto it1 = v1.begin(); compatble && it1 != v1.end(); ++it1) {
-		ContainerNode* actual1 = *it1;
-		ContainerNodeType actualType1 = *(actual1->getType());
-		if ((v2UsedNodes.find(actual1->getContainerId()) == v2UsedNodes.end())
-				&& find(typesChecked.begin(), typesChecked.end(), actualType1)
-						== typesChecked.end()) {
-			bool encontrado = false;
-			for (auto it2 = v2.begin(); !encontrado && it2 != v2.end(); ++it2) {
-				ContainerNode* actual2 = *it2;
-				ContainerNodeType actualType2 = *(actual2->getType());
-				encontrado = actualType2.isCompatible(actualType1);
-			}
-			compatble = encontrado;
-			typesChecked.push_back(actualType1);
-		}
-	}
-	return compatble;
-}
+//template<class NodeType1, class NodeType2>
+//inline bool ContainersUtils::areSubgraphCompatible(
+//		const Graph<NodeType1, Edge>::NodeVector & v1, const Graph<NodeType2, Edge>::NodeVector & v2,
+//		const std::tr1::unordered_set<int>& v2UsedNodes) {
+//	// Restrict this template for using only types derived from Node and edge Interfaces
+//	BOOST_STATIC_ASSERT((boost::is_base_of<ContainerNode, NodeType1>::value));
+//	BOOST_STATIC_ASSERT((boost::is_base_of<ContainerNode, NodeType2>::value));
+//
+//	bool compatble = true;
+//	if (v1.empty() || v2.empty() || v1.size() > v2.size()) {
+//		compatble = false;
+//	}
+//	std::vector<ContainerNodeType> typesChecked;
+//	for (auto it1 = v1.begin(); compatble && it1 != v1.end(); ++it1) {
+//		ContainerNode* actual1 = (*it1).get();
+//		ContainerNodeType actualType1 = *(actual1->getType());
+//		if ((v2UsedNodes.find(actual1->getContainerId()) == v2UsedNodes.end())
+//				&& find(typesChecked.begin(), typesChecked.end(), actualType1)
+//						== typesChecked.end()) {
+//			bool encontrado = false;
+//			for (auto it2 = v2.begin(); !encontrado && it2 != v2.end(); ++it2) {
+//				ContainerNode* actual2 = (*it2).get();
+//				ContainerNodeType actualType2 = *(actual2->getType());
+//				encontrado = actualType2.isCompatible(actualType1);
+//			}
+//			compatble = encontrado;
+//			typesChecked.push_back(actualType1);
+//		}
+//	}
+//	return compatble;
+//}
 
 #endif /* UTIL_CONTAINERSUTILS_H_ */

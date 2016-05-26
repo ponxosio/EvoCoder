@@ -168,6 +168,9 @@
     <ClCompile Include="src\util\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\fluidControl\ContinuousFlowEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\easylogging++.h">
@@ -390,6 +393,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\util\Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fluidControl\ContinuousFlowEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

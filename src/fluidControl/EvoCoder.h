@@ -47,6 +47,13 @@
 
 class EvoCoder {
 public:
+
+	//type defs
+
+	typedef queue<ProtocolGraph::ProtocolNodePtr> ProtocolNodeQueue;
+
+	//
+
 	/**
 	 *
 	 * @param protocol graph with the protocol being executed
@@ -56,7 +63,7 @@ public:
 	 * @param name name of the portocol
 	 */
 	EvoCoder(ProtocolGraph* protocol,
-			std::shared_ptr<VariableTable> table, Mapping* mapping);
+			std::shared_ptr<VariableTable> table, std::shared_ptr<Mapping> mapping);
 	virtual ~EvoCoder();
 
 	/**
@@ -81,7 +88,7 @@ protected:
 	/**
 	 * Mapping between the sketch machine and the real one
 	 */
-	Mapping* mapping;
+	std::shared_ptr<Mapping> mapping;
 	/**
 	 * table table where the values of the variable of the protocol will be stored
 	 */
@@ -89,34 +96,15 @@ protected:
 	/**
 	 * actual node of the protocol
 	 */
-	OperationNode* actual;
+	ProtocolGraph::ProtocolNodePtr actual;
 
+
+	//METHODS
 	void initilizeTime();
-	void addAvailableEdges(std::queue<OperationNode*>* nodes);
-	bool isLast(std::vector<std::pair<DivergeNode*,bool>>* branchChosen, DivergeNode* node);
-	bool isPresent(
-			std::vector<std::pair<DivergeNode*, bool>>* branchChosen,
-			DivergeNode* node,
-			std::pair<DivergeNode*, bool> & returned);
+	void addAvailableEdges(ProtocolNodeQueue & nodes);
 
 	//exec methods
 	bool exec();
-	bool execRelaxed();
-	void execRelaxed_newBranch(OperationNode* start,
-			std::vector<LoopNode*> loopsBeingExecuted,
-			std::queue<OperationNode*> pending,
-			std::vector<std::pair<DivergeNode*,bool>> branchChosen);
-
-	void execRelaxed_ProcessNode(std::vector<LoopNode*>* loopsBeingExecuted,
-			std::queue<OperationNode*>* pending,
-			std::vector<std::pair<DivergeNode*,bool>>* branchChosen);
-	void execRelaxed_ProcessLoopNode(LoopNode* node,
-			std::vector<LoopNode*>* loopsBeingExecuted,
-			std::queue<OperationNode*>* pending);
-	void execRelaxed_ProcessDivergeNode(DivergeNode* node,
-			std::vector<LoopNode*>* loopsBeingExecuted,
-			std::queue<OperationNode*>* pending,
-			std::vector<std::pair<DivergeNode*,bool>>* branchChosen);
 
 };
 

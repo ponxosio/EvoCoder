@@ -19,8 +19,38 @@
 #include "ContainerNode.h"
 #include "ContainerNodeType.h"
 
+//cereal
+#include <cereal/cereal.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/archives/json.hpp>
+
+
 class MachineGraph {
 public:
+	
+	//Type defs
+	typedef Graph<ContainerNode,Edge>::NodeTypePtr ContainerNodePtr;
+	typedef Graph<ContainerNode, Edge>::EdgeTypePtr ContainerEdgePtr;
+
+	typedef Graph<ContainerNode, Edge>::NodeVector ContainerNodeVector;
+	typedef Graph<ContainerNode, Edge>::EdgeVector ContainerEdgeVector;
+
+	typedef Graph<ContainerNode, Edge>::NodeVectorPtr ContainerNodeVectorPtr;
+	typedef Graph<ContainerNode, Edge>::EdgeVectorPtr ContainerEdgeVectorPtr;
+
+	typedef Graph<ContainerNode, Edge>::SubGraphPtr ContainerSubGraphPtr;
+
+	typedef std::shared_ptr<Graph<ContainerNode, Edge>> ContainerNodeGraphPtr;
+	//
+
+	//static
+	static void toJSON(const std::string & path, const MachineGraph & machine);
+	static MachineGraph* fromJSON(const std::string & path);
+	//
+	
+	MachineGraph();
+	MachineGraph(const MachineGraph & machine);
 	MachineGraph(std::string name);
 	virtual ~MachineGraph();
 
@@ -35,10 +65,6 @@ public:
 	bool areConected(int idSource, int idTarget);
 	bool hasConections(int idContainer);
 
-	float getVolume(int idContainer);
-	bool addVolume(int idContainer, float volume);
-	bool extractVolume(int idContainer, float volume);
-
 	void printMachine(const std::string & path);
 
 	/**
@@ -50,21 +76,42 @@ public:
 		return (machine->getNode(idContainer) != NULL);
 	}
 
-	inline ContainerNode* getContainer(int idContainer) {
+	inline typename ContainerNodePtr getContainer(int idContainer) {
 		return (machine->getNode(idContainer));
 	}
 
-	inline std::vector<std::pair<vector<ContainerNode*>*,vector<Edge*>*>>* getSubgraphs() {
+	inline typename ContainerSubGraphPtr getSubgraphs() {
 		return machine->getSubGraphs();
 	}
 
-	inline Graph<ContainerNode, Edge>* getGraph() {
+	inline ContainerNodeGraphPtr getGraph() {
 		return machine;
 	}
 
+	//SERIALIZATIoN
+	template<class Archive>
+	void serialize(Archive & ar, std::uint32_t const version);
+
 protected:
 	std::string name;
-	Graph<ContainerNode, Edge>* machine;
+	ContainerNodeGraphPtr machine;
+
+	ContainerNodePtr createContainerNode(int idContainer, std::shared_ptr<ContainerNodeType> type,
+		float capacity);
+	ContainerEdgePtr createContainerEdgePtr(int idSource, int idTarget);
+
+	ContainerNodeGraphPtr makeGraph();
 };
+
+template<class Archive>
+inline void MachineGraph::serialize(Archive& ar,
+	const std::uint32_t version) {
+	if (version <= 1) {
+		ar(CEREAL_NVP(name), CEREAL_NVP(machine));
+	}
+}
+
+// Associate some type with a version number
+CEREAL_CLASS_VERSION(MachineGraph, (int)1);
 
 #endif /* SRC_FLUIDCONTROL_MACHINEGRAPH_MACHINEGRAPH_H_ */

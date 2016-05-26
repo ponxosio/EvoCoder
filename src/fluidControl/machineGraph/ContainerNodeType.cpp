@@ -28,7 +28,6 @@ MovementType ContainerNodeType::fromIntToMovementType(int movement) {
 ContainerNodeType::ContainerNodeType() {
 	this->movementType = MovementType::irrelevant;
 	this->containerType = ContainerType::unknow;
-	this->addOns = new bool[AddOnsType::ADDONS_MAX];
 
 	for (int i = 0; i < AddOnsType::ADDONS_MAX; i++) {
 		this->addOns[i] = false;
@@ -38,7 +37,6 @@ ContainerNodeType::ContainerNodeType() {
 ContainerNodeType::ContainerNodeType(const ContainerNodeType& type) {
 	this->movementType = type.movementType;
 	this->containerType = type.containerType;
-	this->addOns = new bool[AddOnsType::ADDONS_MAX];
 
 	for (int i = 0; i < AddOnsType::ADDONS_MAX; i++) {
 		this->addOns[i] = type.addOns[i];
@@ -49,7 +47,6 @@ ContainerNodeType::ContainerNodeType(MovementType movementType,
 		ContainerType containerType) {
 	this->movementType = movementType;
 	this->containerType = containerType;
-	this->addOns = new bool[AddOnsType::ADDONS_MAX];
 
 	for (int i = 0; i < AddOnsType::ADDONS_MAX; i++) {
 		this->addOns[i] = false;
@@ -60,7 +57,6 @@ ContainerNodeType::ContainerNodeType(MovementType movementType,
 		ContainerType containerType, std::vector<AddOnsType> addOns) {
 	this->movementType = movementType;
 	this->containerType = containerType;
-	this->addOns = new bool[AddOnsType::ADDONS_MAX];
 
 	for (int i = 0; i < AddOnsType::ADDONS_MAX; i++) {
 		this->addOns[i] = false;
@@ -73,7 +69,6 @@ ContainerNodeType::ContainerNodeType(MovementType movementType,
 }
 
 ContainerNodeType::~ContainerNodeType() {
-	delete[] addOns;
 }
 
 void ContainerNodeType::changeContainerType(ContainerType newContainerType) {
@@ -186,7 +181,7 @@ std::string ContainerNodeType::getContainerTypeString() {
 	return vuelta;
 }
 
-bool ContainerNodeType::isCompatibleAddOns(bool* addOns) {
+bool ContainerNodeType::isCompatibleAddOns(const std::array<bool, AddOnsType::ADDONS_MAX> & addOns) {
 	bool compatible = true;
 	for (int i = 0; compatible && (i < AddOnsType::ADDONS_MAX); i++) {
 		if (addOns[i]) { //if the receiving type has an addon, this must have it too
@@ -214,8 +209,13 @@ bool ContainerNodeType::hasAddOns(AddOnsType addOn) {
 }
 
 std::string ContainerNodeType::getTypeString() {
-	//TODO: por definir
-	return "";
+	std::string name = "movement: " + getMovementTypeString() + ", container: " + getContainerTypeString() + ", addOns: ";
+	std::string addons = "";
+	for (int i = 0; i < AddOnsType::ADDONS_MAX; i++) {
+		addons += patch::to_string(i);
+	}
+	name += addons;
+	return name;
 }
 
 std::string ContainerNodeType::makeAddonsNodes(int idContainer) {
