@@ -179,11 +179,11 @@ public:
 	void testTimeStep();
 	void testTimeStepTest();
 
-	/*void testSerializaVariableTable();
+	void testSerializaVariableTable();
 	void testDeserializaVariableTable(const std::string & json);
 
 	void testSerialize_MathematicOperable();
-	void testSerialize_ExecutableConatinerNode();*/
+	void testSerialize_ExecutableConatinerNode();
 };
 
 #endif /* SRC_TEST_H_ */

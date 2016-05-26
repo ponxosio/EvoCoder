@@ -61,6 +61,6 @@ CEREAL_CLASS_VERSION( ConstantNumber, 1 );
 // to this file being included
 #include <cereal/archives/json.hpp>
 // Register DerivedClass
-CEREAL_REGISTER_TYPE_WITH_NAME(ConstantNumber, "ArithmeticOperation");
+CEREAL_REGISTER_TYPE_WITH_NAME(ConstantNumber, "ConstantNumber");
 
 #endif /* SRC_OPERABLES_MATHEMATICS_CONSTANTNUMBER_H_ */

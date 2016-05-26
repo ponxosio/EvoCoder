@@ -85,7 +85,7 @@ inline void VariableEntry::serialize(Archive& ar, const std::uint32_t version) {
 }
 
 // Associate some type with a version number
-CEREAL_CLASS_VERSION( VariableEntry, 1 );
+CEREAL_CLASS_VERSION( VariableEntry, (int)1 );
 
 // Include any archives you plan on using with your type before you register it
 // Note that this could be done in any other location so long as it was prior

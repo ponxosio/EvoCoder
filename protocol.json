@@ -25,7 +25,7 @@
                                                 "idSource": 1,
                                                 "value": {
                                                     "polymorphic_id": 2147483650,
-                                                    "polymorphic_name": "ArithmeticOperation",
+                                                    "polymorphic_name": "ConstantNumber",
                                                     "ptr_wrapper": {
                                                         "id": 2147483652,
                                                         "data": {

@@ -57,10 +57,10 @@ int main(int argv, char* argc[]) {
 	//t.testMappingTest();
 	//t.testMappingExec();
 
-	//t.testSerializaVariableTable();
-	//t.testSerialize_MathematicOperable();
-	//t.testSerialize_ExecutableConatinerNode();
-	//t.testSerializeNode();
+	t.testSerializaVariableTable();
+	t.testSerialize_MathematicOperable();
+	t.testSerialize_ExecutableConatinerNode();
+	t.testSerializeNode();
 	t.testSerializeMachine();
 
 	//t.testTimeStep();
@@ -1465,131 +1465,131 @@ void Test::testTimeStepTest() {
 	delete protocol;
 }
 
-//void Test::testSerializaVariableTable() {
-//
-//	VariableTable v;
-//
-//	v.setValue("uno", 1);
-//	v.setValue("dos", 2);
-//	v.setValue("tres", 3);
-//	v.setPhysical("tres", true);
-//	{
-//		ofstream o("test.json");
-//		LOG(INFO)<< "serializating...";
-//		cereal::JSONOutputArchive ar(o);
-//		ar(v);
-//	}
-//
-//	testDeserializaVariableTable("");
-//}
-//
-//void Test::testDeserializaVariableTable(const std::string & json) {
-//	LOG(INFO) << "deserializating...";
-//	VariableTable v;
-//	{
-//		ifstream i("test.json");
-//		cereal::JSONInputArchive arIn(i);
-//		LOG(INFO) << "created archive...";
-//		arIn(v);
-//	}
-//
-//	LOG(INFO) << "uno: " << v.getVaue("uno") << ", " << v.getPhysical("uno");
-//	LOG(INFO) << "dos: " << v.getVaue("dos") << ", " << v.getPhysical("dos");
-//	LOG(INFO) << "tres: " << v.getVaue("tres") << ", " << v.getPhysical("tres");
-//
-//}
-//
-//void Test::testSerialize_MathematicOperable() {
-//
-//	{
-//		vector<shared_ptr<MathematicOperable>> v;
-//
-//		shared_ptr<MathematicOperable> cn3(new ConstantNumber(3));
-//		shared_ptr<MathematicOperable> cn5(new ConstantNumber(5));
-//		shared_ptr<MathematicOperable> opPlus(
-//				new ArithmeticOperation(cn3, arithmetic::plus, cn5));
-//		shared_ptr<MathematicOperable> fabs5(
-//				new UnaryOperation(opPlus, unaryOperations::absoluteValue));
-//
-//		v.push_back(cn3);
-//		v.push_back(cn5);
-//		v.push_back(opPlus);
-//		v.push_back(fabs5);
-//
-//		ofstream o("test.json");
-//		LOG(INFO)<< "serializating...";
-//		cereal::JSONOutputArchive ar(o);
-//		ar(CEREAL_NVP(v));
-//	}
-//
-//	{
-//		vector<shared_ptr<MathematicOperable>> v;
-//		ifstream i("test.json");
-//		cereal::JSONInputArchive arIn(i);
-//		LOG(INFO)<< "created archive...";
-//		arIn(v);
-//
-//		for (auto it = v.begin(); it != v.end(); ++it) {
-//			LOG(INFO) << it->get()->toString();
-//		}
-//	}
-//}
-//
-//void Test::testSerialize_ExecutableConatinerNode() {
-//	CommunicationsInterface::GetInstance()->setTesting(true);
-//	int communications =
-//			CommunicationsInterface::GetInstance()->addCommandSender(
-//					new FileSender("test.log", "inputFileData.txt"));
-//
-//	shared_ptr<Control> control(new EvoprogSixwayValve(communications, 7));
-//	shared_ptr<Light> light(new EvoprogLight(communications, 2, 3));
-//	shared_ptr<Temperature> temperature(
-//			new EvoprogTemperature(communications, 1));
-//	shared_ptr<Extractor> cExtractor13(
-//			new EvoprogContinuousPump(communications, 13));
-//	shared_ptr<Extractor> cExtractor14(
-//			new EvoprogContinuousPump(communications, 14));
-//	shared_ptr<Extractor> dExtractor(
-//			new EvoprogDiscretePump(communications, 15));
-//	shared_ptr<Injector> dummyInjector(
-//			new EvoprogDummyInjector(communications));
-//	shared_ptr<ODSensor> od(new EvoprogOdSensor(communications, 4));
-//
-//	shared_ptr<ExecutableContainerNode> cInlet1(
-//			new InletContainer(1, 100.0, cExtractor13));
-//	cInlet1->setLight(light);
-//	shared_ptr<ExecutableContainerNode> dInlet2(
-//			new InletContainer(2, 100.0, dExtractor));
-//	dInlet2->setTemperature(temperature);
-//	shared_ptr<ExecutableContainerNode> cSwtInlet3(
-//			new ConvergentSwitchInlet(3, 100.0, dummyInjector, cExtractor14,
-//					control));
-//	cSwtInlet3->setOd(od);
-//	shared_ptr<ExecutableContainerNode> sink(
-//			new SinkContainer(4, 100.0, dummyInjector));
-//
-//	{
-//		vector<shared_ptr< ExecutableContainerNode>> v;
-//		v.push_back(cInlet1);
-//		v.push_back(dInlet2);
-//		v.push_back(cSwtInlet3);
-//		v.push_back(sink);
-//
-//		ofstream o("test.json");
-//		LOG(INFO)<< "serializating...";
-//		cereal::JSONOutputArchive ar(o);
-//		ar(CEREAL_NVP(v));
-//	}
-//
-//	{
-//		vector<shared_ptr<ExecutableContainerNode>> v;
-//		ifstream i("test.json");
-//		cereal::JSONInputArchive arIn(i);
-//		LOG(INFO)<< "created archive...";
-//		arIn(v);
-//
-//		for (auto it = v.begin(); it != v.end(); ++it) {
-//			LOG(INFO)<< it->get()->toText();
-//		}
-//	}
-//}
+void Test::testSerializaVariableTable() {
+
+	VariableTable v;
+
+	v.setValue("uno", 1);
+	v.setValue("dos", 2);
+	v.setValue("tres", 3);
+	v.setPhysical("tres", true);
+	{
+		ofstream o("test.json");
+		LOG(INFO)<< "serializating...";
+		cereal::JSONOutputArchive ar(o);
+		ar(v);
+	}
+
+	testDeserializaVariableTable("");
+}
+
+void Test::testDeserializaVariableTable(const std::string & json) {
+	LOG(INFO) << "deserializating...";
+	VariableTable v;
+	{
+		ifstream i("test.json");
+		cereal::JSONInputArchive arIn(i);
+		LOG(INFO) << "created archive...";
+		arIn(v);
+	}
+
+	LOG(INFO) << "uno: " << v.getVaue("uno") << ", " << v.getPhysical("uno");
+	LOG(INFO) << "dos: " << v.getVaue("dos") << ", " << v.getPhysical("dos");
+	LOG(INFO) << "tres: " << v.getVaue("tres") << ", " << v.getPhysical("tres");
+
+}
+
+void Test::testSerialize_MathematicOperable() {
+
+	{
+		vector<shared_ptr<MathematicOperable>> v;
+
+		shared_ptr<MathematicOperable> cn3(new ConstantNumber(3));
+		shared_ptr<MathematicOperable> cn5(new ConstantNumber(5));
+		shared_ptr<MathematicOperable> opPlus(
+				new ArithmeticOperation(cn3, arithmetic::plus, cn5));
+		shared_ptr<MathematicOperable> fabs5(
+				new UnaryOperation(opPlus, unaryOperations::absoluteValue));
+
+		v.push_back(cn3);
+		v.push_back(cn5);
+		v.push_back(opPlus);
+		v.push_back(fabs5);
+
+		ofstream o("test.json");
+		LOG(INFO)<< "serializating...";
+		cereal::JSONOutputArchive ar(o);
+		ar(CEREAL_NVP(v));
+	}
+
+	{
+		vector<shared_ptr<MathematicOperable>> v;
+		ifstream i("test.json");
+		cereal::JSONInputArchive arIn(i);
+		LOG(INFO)<< "created archive...";
+		arIn(v);
+
+		for (auto it = v.begin(); it != v.end(); ++it) {
+			LOG(INFO) << it->get()->toString();
+		}
+	}
+}
+
+void Test::testSerialize_ExecutableConatinerNode() {
+	CommunicationsInterface::GetInstance()->setTesting(true);
+	int communications =
+			CommunicationsInterface::GetInstance()->addCommandSender(
+					new FileSender("test.log", "inputFileData.txt"));
+
+	shared_ptr<Control> control(new EvoprogSixwayValve(communications, 7));
+	shared_ptr<Light> light(new EvoprogLight(communications, 2, 3));
+	shared_ptr<Temperature> temperature(
+			new EvoprogTemperature(communications, 1));
+	shared_ptr<Extractor> cExtractor13(
+			new EvoprogContinuousPump(communications, 13));
+	shared_ptr<Extractor> cExtractor14(
+			new EvoprogContinuousPump(communications, 14));
+	shared_ptr<Extractor> dExtractor(
+			new EvoprogDiscretePump(communications, 15));
+	shared_ptr<Injector> dummyInjector(
+			new EvoprogDummyInjector(communications));
+	shared_ptr<ODSensor> od(new EvoprogOdSensor(communications, 4));
+
+	shared_ptr<ExecutableContainerNode> cInlet1(
+			new InletContainer(1, 100.0, cExtractor13));
+	cInlet1->setLight(light);
+	shared_ptr<ExecutableContainerNode> dInlet2(
+			new InletContainer(2, 100.0, dExtractor));
+	dInlet2->setTemperature(temperature);
+	shared_ptr<ExecutableContainerNode> cSwtInlet3(
+			new ConvergentSwitchInlet(3, 100.0, dummyInjector, cExtractor14,
+					control));
+	cSwtInlet3->setOd(od);
+	shared_ptr<ExecutableContainerNode> sink(
+			new SinkContainer(4, 100.0, dummyInjector));
+
+	{
+		vector<shared_ptr< ExecutableContainerNode>> v;
+		v.push_back(cInlet1);
+		v.push_back(dInlet2);
+		v.push_back(cSwtInlet3);
+		v.push_back(sink);
+
+		ofstream o("test.json");
+		LOG(INFO)<< "serializating...";
+		cereal::JSONOutputArchive ar(o);
+		ar(CEREAL_NVP(v));
+	}
+
+	{
+		vector<shared_ptr<ExecutableContainerNode>> v;
+		ifstream i("test.json");
+		cereal::JSONInputArchive arIn(i);
+		LOG(INFO)<< "created archive...";
+		arIn(v);
+
+		for (auto it = v.begin(); it != v.end(); ++it) {
+			LOG(INFO)<< it->get()->toText();
+		}
+	}
+}
