@@ -57,14 +57,24 @@ int main(int argv, char* argc[]) {
 	//t.testMappingTest();
 	//t.testMappingExec();
 
-	t.testSerializaVariableTable();
-	t.testSerialize_MathematicOperable();
+	//t.testSerializaVariableTable();
+	/*t.testSerialize_MathematicOperable();
 	t.testSerialize_ExecutableConatinerNode();
 	t.testSerializeNode();
-	t.testSerializeMachine();
+	t.testSerializeMachine();*/
 
 	//t.testTimeStep();
 	//t.testTimeStepTest();
+
+	//t.pythonTest();
+	//t.testPythonEnvironment();
+	//t.pluinLoaderTest();
+
+	//t.testOdSensorPlugin();
+
+	//t.testMappingPluginTest();
+	t.testMappingPluginExec();
+
 	LOG(INFO) << "finished!";
 }
 
@@ -305,7 +315,7 @@ ProtocolGraph* Test::MakeTurbidostat(std::shared_ptr<VariableTable> table,
 	protocol->connectOperation(op4, op5, tautology);
 	protocol->connectOperation(op5, op6, tautology);
 
-	std::shared_ptr<MathematicOperable> num20(new ConstantNumber(20));
+	std::shared_ptr<MathematicOperable> num20(new ConstantNumber(20000));
 	std::shared_ptr<VariableEntry> time(
 		new VariableEntry(TIME_VARIABLE, table));
 	std::shared_ptr<MathematicOperable> mtime(
@@ -1153,7 +1163,7 @@ void Test::testMappingEnginePerformance() {
 	int com = CommunicationsInterface::GetInstance()->addCommandSender(communications);
 
 	MachineGraph* sketch = makeMatrixSketch(6);
-	std::shared_ptr<ExecutableMachineGraph> machine (makeMatrixMachine(com, 10));
+	std::shared_ptr<ExecutableMachineGraph> machine(makeMatrixMachine(com, 10));
 	MappingEngine* map = new MappingEngine(sketch, machine);
 
 	LOG(INFO) << "printing machine...";
@@ -1268,7 +1278,7 @@ void Test::testMappingExec() {
 	std::vector<int> v;
 	v.push_back(idCom);
 
-	std::shared_ptr<ExecutableMachineGraph> exMachine (makeSimpleMachine(idCom));
+	std::shared_ptr<ExecutableMachineGraph> exMachine(makeSimpleMachine(idCom));
 
 	std::shared_ptr<VariableTable> t(new VariableTable());
 	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
@@ -1343,7 +1353,7 @@ void Test::testSerializeMachine() {
 
 	std::shared_ptr<MachineGraph> m = std::shared_ptr<MachineGraph>(makeTurbidostatSketch());
 	std::shared_ptr<ExecutableMachineGraph> ex_m = std::shared_ptr<ExecutableMachineGraph>(makeMappingMachine(0));
-	
+
 	std::shared_ptr<VariableTable> t(new VariableTable());
 	std::shared_ptr<Mapping> map(new Mapping(ex_m, "simpleMachine", v));
 	std::shared_ptr<ProtocolGraph> p = std::shared_ptr<ProtocolGraph>(makeTimeProtocol(t, map));
@@ -1392,7 +1402,7 @@ ProtocolGraph* Test::makeTimeProtocol(
 	ProtocolGraph::ProtocolNodePtr loop1 = std::make_shared<LoopNode>(serial.getNextValue(), comp2in); //while ( t <= 60s)
 
 	protocol->addOperation(loop1);
-	protocol->connectOperation(op1, loop1,tautology);
+	protocol->connectOperation(op1, loop1, tautology);
 
 	ProtocolGraph::ProtocolNodePtr op2 = std::make_shared<SetContinousFlow>(serial.getNextValue(), map, 1, 2, num1);
 	ProtocolGraph::ProtocolNodePtr op3 = std::make_shared<SetContinousFlow>(serial.getNextValue(), map, 2, 3, num1);
@@ -1405,7 +1415,7 @@ ProtocolGraph* Test::makeTimeProtocol(
 
 	protocol->addOperation(timeStep);
 	protocol->connectOperation(op3, timeStep, tautology);
-	protocol->connectOperation(timeStep,loop1, tautology);
+	protocol->connectOperation(timeStep, loop1, tautology);
 
 	protocol->setStartNode(op1->getContainerId());
 	return protocol;
@@ -1475,7 +1485,7 @@ void Test::testSerializaVariableTable() {
 	v.setPhysical("tres", true);
 	{
 		ofstream o("test.json");
-		LOG(INFO)<< "serializating...";
+		LOG(INFO) << "serializating...";
 		cereal::JSONOutputArchive ar(o);
 		ar(v);
 	}
@@ -1507,9 +1517,9 @@ void Test::testSerialize_MathematicOperable() {
 		shared_ptr<MathematicOperable> cn3(new ConstantNumber(3));
 		shared_ptr<MathematicOperable> cn5(new ConstantNumber(5));
 		shared_ptr<MathematicOperable> opPlus(
-				new ArithmeticOperation(cn3, arithmetic::plus, cn5));
+			new ArithmeticOperation(cn3, arithmetic::plus, cn5));
 		shared_ptr<MathematicOperable> fabs5(
-				new UnaryOperation(opPlus, unaryOperations::absoluteValue));
+			new UnaryOperation(opPlus, unaryOperations::absoluteValue));
 
 		v.push_back(cn3);
 		v.push_back(cn5);
@@ -1517,7 +1527,7 @@ void Test::testSerialize_MathematicOperable() {
 		v.push_back(fabs5);
 
 		ofstream o("test.json");
-		LOG(INFO)<< "serializating...";
+		LOG(INFO) << "serializating...";
 		cereal::JSONOutputArchive ar(o);
 		ar(CEREAL_NVP(v));
 	}
@@ -1526,7 +1536,7 @@ void Test::testSerialize_MathematicOperable() {
 		vector<shared_ptr<MathematicOperable>> v;
 		ifstream i("test.json");
 		cereal::JSONInputArchive arIn(i);
-		LOG(INFO)<< "created archive...";
+		LOG(INFO) << "created archive...";
 		arIn(v);
 
 		for (auto it = v.begin(); it != v.end(); ++it) {
@@ -1538,35 +1548,35 @@ void Test::testSerialize_MathematicOperable() {
 void Test::testSerialize_ExecutableConatinerNode() {
 	CommunicationsInterface::GetInstance()->setTesting(true);
 	int communications =
-			CommunicationsInterface::GetInstance()->addCommandSender(
-					new FileSender("test.log", "inputFileData.txt"));
+		CommunicationsInterface::GetInstance()->addCommandSender(
+			new FileSender("test.log", "inputFileData.txt"));
 
 	shared_ptr<Control> control(new EvoprogSixwayValve(communications, 7));
 	shared_ptr<Light> light(new EvoprogLight(communications, 2, 3));
 	shared_ptr<Temperature> temperature(
-			new EvoprogTemperature(communications, 1));
+		new EvoprogTemperature(communications, 1));
 	shared_ptr<Extractor> cExtractor13(
-			new EvoprogContinuousPump(communications, 13));
+		new EvoprogContinuousPump(communications, 13));
 	shared_ptr<Extractor> cExtractor14(
-			new EvoprogContinuousPump(communications, 14));
+		new EvoprogContinuousPump(communications, 14));
 	shared_ptr<Extractor> dExtractor(
-			new EvoprogDiscretePump(communications, 15));
+		new EvoprogDiscretePump(communications, 15));
 	shared_ptr<Injector> dummyInjector(
-			new EvoprogDummyInjector(communications));
+		new EvoprogDummyInjector(communications));
 	shared_ptr<ODSensor> od(new EvoprogOdSensor(communications, 4));
 
 	shared_ptr<ExecutableContainerNode> cInlet1(
-			new InletContainer(1, 100.0, cExtractor13));
+		new InletContainer(1, 100.0, cExtractor13));
 	cInlet1->setLight(light);
 	shared_ptr<ExecutableContainerNode> dInlet2(
-			new InletContainer(2, 100.0, dExtractor));
+		new InletContainer(2, 100.0, dExtractor));
 	dInlet2->setTemperature(temperature);
 	shared_ptr<ExecutableContainerNode> cSwtInlet3(
-			new ConvergentSwitchInlet(3, 100.0, dummyInjector, cExtractor14,
-					control));
+		new ConvergentSwitchInlet(3, 100.0, dummyInjector, cExtractor14,
+			control));
 	cSwtInlet3->setOd(od);
 	shared_ptr<ExecutableContainerNode> sink(
-			new SinkContainer(4, 100.0, dummyInjector));
+		new SinkContainer(4, 100.0, dummyInjector));
 
 	{
 		vector<shared_ptr< ExecutableContainerNode>> v;
@@ -1576,7 +1586,7 @@ void Test::testSerialize_ExecutableConatinerNode() {
 		v.push_back(sink);
 
 		ofstream o("test.json");
-		LOG(INFO)<< "serializating...";
+		LOG(INFO) << "serializating...";
 		cereal::JSONOutputArchive ar(o);
 		ar(CEREAL_NVP(v));
 	}
@@ -1585,11 +1595,236 @@ void Test::testSerialize_ExecutableConatinerNode() {
 		vector<shared_ptr<ExecutableContainerNode>> v;
 		ifstream i("test.json");
 		cereal::JSONInputArchive arIn(i);
-		LOG(INFO)<< "created archive...";
+		LOG(INFO) << "created archive...";
 		arIn(v);
 
 		for (auto it = v.begin(); it != v.end(); ++it) {
-			LOG(INFO)<< it->get()->toText();
+			LOG(INFO) << it->get()->toText();
 		}
 	}
+}
+
+void Test::pythonTest() {
+
+	using namespace boost::python;
+
+	Chorra* cho = new Chorra(3);
+	try {
+		Py_Initialize();
+
+		initChorraMod();
+		
+		object main_module = import("__main__");
+		object main_namespace = main_module.attr("__dict__");
+		
+		std::string dir = Utils::getCurrentDir() + "\\plugins";
+		LOG(INFO) << dir;
+
+		//Add plugins folder to the python path
+		PyObject* sysPath = PySys_GetObject("path");
+		PyList_Insert(sysPath, 0, PyString_FromString(dir.c_str()));
+		
+		object rand_mod = import("random");
+
+		object test = import("test");
+		double randNum = extract<double>(rand_mod.attr("random")());
+
+		main_namespace["var1"] = test.attr("Test")("Angel");
+		main_namespace["var2"] = test.attr("Test")("Elena");
+		
+		main_namespace["var1"].attr("saluda")(ptr(cho));
+		main_namespace["var2"].attr("saluda")(ptr(cho));
+
+		cho->i = 5;
+
+		main_namespace["var1"].attr("saluda")(ptr(cho));
+		main_namespace["var2"].attr("saluda")(ptr(cho));
+
+		//LOG(INFO) << extract<double>(rand_mod.attr("random")());
+		
+		
+		/*exec("import random", main_namespace);
+		object rand = eval("random.random()", main_namespace);
+		std::cout << extract<double>(rand) << std::endl;*/
+
+		Py_Finalize();
+	} catch (error_already_set) {
+		PyErr_Print();
+	}
+	delete cho;
+}
+
+void Test::testPythonEnvironment() {
+	Chorra* cho = new Chorra(3);
+
+	PluginFileLoader::GetInstance()->toText();
+
+	PythonEnvironment::GetInstance()->initEnvironment();
+
+	initChorraMod();
+
+	try {
+		vector<string> params1{ "Angel" };
+		vector<string> params2{ "Elena" };
+		
+		LOG(INFO) << "making instance Test var1";
+		string nv1 = PythonEnvironment::GetInstance()->makeInstance("Test", params1);
+		LOG(INFO) << "making instance Test var2";
+		string nv2 = PythonEnvironment::GetInstance()->makeInstance("Test", params2);
+
+		LOG(INFO) << "executing saluda 3, nv1";
+		PythonEnvironment::GetInstance()->getVarInstance(nv1).attr("saluda")(boost::python::ptr(cho));
+		LOG(INFO) << "executing saluda 3, nv2";
+		PythonEnvironment::GetInstance()->getVarInstance(nv2).attr("saluda")(boost::python::ptr(cho));
+
+		cho->i = 5;
+
+		LOG(INFO) << "executing saluda 5, nv1";
+		PythonEnvironment::GetInstance()->getVarInstance(nv1).attr("saluda")(boost::python::ptr(cho));
+		LOG(INFO) << "executing saluda 5, nv2";
+		PythonEnvironment::GetInstance()->getVarInstance(nv2).attr("saluda")(boost::python::ptr(cho));
+	}
+	catch (std::invalid_argument & e) {
+		LOG(ERROR) << e.what();
+	}
+
+	PythonEnvironment::GetInstance()->finishEnvironment();
+}
+
+void Test::pluinLoaderTest() {
+	PluginFileLoader::GetInstance()->toText();
+}
+
+void Test::testOdSensorPlugin() {
+	CommandSender* com = new FileSender("test.log", "inputFileData.txt");
+	com->connect();
+	int idCom = CommunicationsInterface::GetInstance()->addCommandSender(com);
+
+	PythonEnvironment::GetInstance()->initEnvironment();
+
+	vector<string> params{ "13" };
+	ODSensorPlugin* od = new ODSensorPlugin(idCom, "EvoprogOdSensor", params);
+
+	try {
+		for (int i = 0; i < 20; i++) {
+			LOG(INFO) << od->readOd();
+		}
+	}
+	catch (std::runtime_error & e) {
+		LOG(ERROR) << e.what();
+	}
+	
+	com->disconnect();
+	PythonEnvironment::GetInstance()->finishEnvironment();
+}
+
+ExecutableMachineGraph* Test::makeSimpleMachinePlugin(int communications) {
+	ExecutableMachineGraph* machine = new ExecutableMachineGraph(
+		"simpleMachine");
+
+	vector<string> paramsc{ "7" };
+	std::shared_ptr<Control> control(new ControlPlugin(communications, 6, "EvoprogSixWayValve", paramsc));
+
+	vector<string> paramsl{ "3" };
+	std::shared_ptr<Light> light(new LightPlugin(communications, "EvoprogLight", paramsl));
+	
+	vector<string> paramst{ "1" };
+	std::shared_ptr<Temperature> temperature(
+		new TemperaturePlugin(communications,"EvoprogTemperature", paramst));
+
+	vector<string> paramsce{ "13" };
+	std::shared_ptr<Extractor> cExtractor13(
+		new ExtractorPlugin(communications,"EvoprogContinuousPump", paramsce));
+
+	vector<string> paramsce2{ "14" };
+	std::shared_ptr<Extractor> cExtractor14(
+		new ExtractorPlugin(communications, "EvoprogContinuousPump",  paramsce2));
+
+	vector<string> paramsde{ "14" };
+	std::shared_ptr<Extractor> dExtractor(
+		new ExtractorPlugin(communications, "EvoprogDiscretePump", paramsde));
+
+	vector<string> paramsdi;
+	std::shared_ptr<Injector> dummyInjector(
+		new InjectorPlugin(communications, "EvoprogDummyInjector", paramsdi));
+	
+	vector<string> paramsod{"4"};
+	std::shared_ptr<ODSensor> od(new ODSensorPlugin(communications, "EvoprogOdSensor", paramsod));
+
+	ExecutableMachineGraph::ExecutableContainerNodePtr cInlet1 = std::make_shared<InletContainer>(1, 100.0, cExtractor13);
+	cInlet1->setLight(light);
+	ExecutableMachineGraph::ExecutableContainerNodePtr dInlet2 = std::make_shared<InletContainer>(2, 100.0, dExtractor);
+	dInlet2->setTemperature(temperature);
+	ExecutableMachineGraph::ExecutableContainerNodePtr cSwtInlet3 = std::make_shared<ConvergentSwitchInlet>(3, 100.0, dummyInjector, cExtractor14, control);
+	cSwtInlet3->setOd(od);
+	ExecutableMachineGraph::ExecutableContainerNodePtr sink = std::make_shared<SinkContainer>(4, 100.0, dummyInjector);
+
+	machine->addContainer(cInlet1);
+	machine->addContainer(dInlet2);
+	machine->addContainer(cSwtInlet3);
+	machine->addContainer(sink);
+
+	machine->connectExecutableContainer(1, 3);
+	machine->connectExecutableContainer(2, 3);
+	machine->connectExecutableContainer(3, 4);
+
+	return machine;
+}
+
+void Test::testMappingPluginTest() {
+	PythonEnvironment::GetInstance()->initEnvironment();
+	
+	CommunicationsInterface::GetInstance()->setTesting(true);
+
+	int idCom = CommunicationsInterface::GetInstance()->addCommandSender(new FileSender("test.log", "inputFileData.txt"));
+	std::vector<int> v;
+	v.push_back(idCom);
+
+	std::shared_ptr<ExecutableMachineGraph> exMachine(makeSimpleMachinePlugin(idCom));
+
+	std::shared_ptr<VariableTable> t(new VariableTable());
+	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
+	ProtocolGraph* protocol = MakeTurbidostat(t, map);
+
+	LOG(INFO) << "printing graphs...";
+	protocol->printProtocol("protocol");
+	map->printSketch("sketch");
+	exMachine->printMachine("machine");
+
+	EvoCoder* evo = new EvoCoder(protocol, t, map);
+
+	LOG(INFO) << "Executing test...";
+	bool correct = evo->test();
+	LOG(INFO) << "result: " << correct;
+	PythonEnvironment::GetInstance()->finishEnvironment();
+}
+
+void Test::testMappingPluginExec() {
+	PythonEnvironment::GetInstance()->initEnvironment();
+
+	CommunicationsInterface::GetInstance()->setTesting(false);
+	int idCom = CommunicationsInterface::GetInstance()->addCommandSender(
+		new SerialSender("\\\\.\\COM3"));
+
+	std::vector<int> v;
+	v.push_back(idCom);
+
+	std::shared_ptr<ExecutableMachineGraph> exMachine(makeSimpleMachinePlugin(idCom));
+
+	std::shared_ptr<VariableTable> t(new VariableTable());
+	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
+	ProtocolGraph* protocol = MakeTurbidostat(t, map);
+
+	LOG(INFO) << "printing graphs...";
+	protocol->printProtocol("protocol");
+	map->printSketch("sketch");
+	exMachine->printMachine("machine");
+
+	EvoCoder* evo = new EvoCoder(protocol, t, map);
+
+	LOG(INFO) << "Executing test...";
+	bool correct = evo->exec_general();
+	LOG(INFO) << "result: " << correct;
+
+	PythonEnvironment::GetInstance()->finishEnvironment();
 }

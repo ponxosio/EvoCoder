@@ -8,6 +8,8 @@
 #ifndef SRC_FLUIDCONTROL_EXECUTABLEMACHINEGRAPH_CONTAINERS_ACTUATORSINTERFACES_LIQUIDACTUATORS_INJECTOR_H_
 #define SRC_FLUIDCONTROL_EXECUTABLEMACHINEGRAPH_CONTAINERS_ACTUATORSINTERFACES_LIQUIDACTUATORS_INJECTOR_H_
 
+#include <stdexcept>
+
 #include "../Instructable.h"
 
 //cereal
@@ -24,9 +26,9 @@ public:
 	}
 	virtual ~Injector(){}
 
-	virtual void injectLiquid(double rate) = 0;
-	virtual std::string getInstructions() = 0;
-	virtual int getMovementType() = 0;
+	virtual void injectLiquid(double rate) throw(std::runtime_error) = 0;
+	virtual std::string getInstructions() throw (std::runtime_error) = 0;
+	virtual int getMovementType() throw (std::runtime_error) = 0;
 
 	//SERIALIZATIoN
 	template<class Archive>

@@ -28,8 +28,8 @@ public:
 	virtual ~ODSensor() {
 	}
 
-	virtual std::string getInstructions() = 0;
-	virtual double readOd() throw (std::invalid_argument) = 0;
+	virtual std::string getInstructions() throw (std::runtime_error) = 0;
+	virtual double readOd() throw (std::runtime_error) = 0;
 
 	//SERIALIZATIoN
 	template<class Archive>

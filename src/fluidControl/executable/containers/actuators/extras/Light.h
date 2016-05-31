@@ -8,6 +8,8 @@
 #ifndef SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_EXTRAS_LIGHT_H_
 #define SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_EXTRAS_LIGHT_H_
 
+#include <stdexcept>
+
 #include "../Instructable.h"
 
 //cereal
@@ -26,8 +28,8 @@ public:
 	virtual ~Light() {
 	}
 
-	virtual std::string getInstructions() = 0;
-	virtual void applyLight(double waveLength, double intensity) = 0;
+	virtual std::string getInstructions() throw (std::runtime_error) = 0;
+	virtual void applyLight(double waveLength, double intensity) throw(std::runtime_error) = 0;
 
 	//SERIALIZATIoN
 	template<class Archive>

@@ -1,143 +1,28 @@
 {
     "value0": {
         "cereal_class_version": 1,
-        "containerID": 1
-    },
-    "value1": {
-        "polymorphic_id": 2147483649,
-        "polymorphic_name": "ContainerNode",
-        "ptr_wrapper": {
-            "id": 2147483649,
-            "data": {
-                "cereal_class_version": 1,
-                "containerID": 2,
-                "type": {
-                    "polymorphic_id": 1073741824,
-                    "ptr_wrapper": {
-                        "id": 2147483650,
-                        "data": {
-                            "cereal_class_version": 1,
-                            "movementType": 0,
-                            "containerType": 0,
-                            "addOns": {
-                                "value0": false,
-                                "value1": false,
-                                "value2": false,
-                                "value3": false
-                            }
-                        }
-                    }
-                },
-                "capacity": 100,
-                "volume": 0
-            }
-        }
-    },
-    "value2": {
-        "polymorphic_id": 2147483650,
-        "polymorphic_name": "BidirectionalSwitch",
-        "ptr_wrapper": {
-            "id": 2147483651,
-            "data": {
-                "cereal_class_version": 1,
-                "containerID": 2,
-                "type": {
-                    "polymorphic_id": 1073741824,
-                    "ptr_wrapper": {
-                        "id": 2147483652,
-                        "data": {
-                            "movementType": 0,
-                            "containerType": 7,
-                            "addOns": {
-                                "value0": false,
-                                "value1": false,
-                                "value2": false,
-                                "value3": true
-                            }
-                        }
-                    }
-                },
-                "capacity": 100,
-                "volume": -431602080,
-                "od": {
-                    "polymorphic_id": 2147483651,
-                    "polymorphic_name": "EvoprogOdSensor",
-                    "ptr_wrapper": {
-                        "id": 2147483653,
-                        "data": {
-                            "cereal_class_version": 1,
-                            "communications": 0,
-                            "port": 14
-                        }
-                    }
-                },
-                "mix": {
-                    "polymorphic_id": 0
-                },
-                "light": {
-                    "polymorphic_id": 0
-                },
-                "temperature": {
-                    "polymorphic_id": 0
-                },
-                "extract": {
-                    "polymorphic_id": 2147483652,
-                    "polymorphic_name": "EvoprogContinuousPump",
-                    "ptr_wrapper": {
-                        "id": 2147483654,
-                        "data": {
-                            "cereal_class_version": 1,
-                            "communications": 0,
-                            "pinNumber": 13
-                        }
-                    }
-                },
-                "insert": {
-                    "polymorphic_id": 2147483653,
-                    "polymorphic_name": "EvoprogDummyInjector",
-                    "ptr_wrapper": {
-                        "id": 2147483655,
-                        "data": {
-                            "cereal_class_version": 1,
-                            "communications": 0
-                        }
-                    }
-                },
-                "controlIN": {
-                    "polymorphic_id": 2147483654,
-                    "polymorphic_name": "EvoprogSixwayValve",
-                    "ptr_wrapper": {
-                        "id": 2147483656,
-                        "data": {
-                            "cereal_class_version": 1,
-                            "maxConexiones": 6,
-                            "communications": 0,
-                            "valveNumber": 7,
-                            "containerValveMap": [],
-                            "lastPos": 0
-                        }
-                    }
-                },
-                "controlOUT": {
-                    "polymorphic_id": 6,
-                    "ptr_wrapper": {
-                        "id": 8
-                    }
+        "table": [
+            {
+                "key": "uno",
+                "value": {
+                    "tuple_element0": 1,
+                    "tuple_element1": false
+                }
+            },
+            {
+                "key": "dos",
+                "value": {
+                    "tuple_element0": 2,
+                    "tuple_element1": false
+                }
+            },
+            {
+                "key": "tres",
+                "value": {
+                    "tuple_element0": 3,
+                    "tuple_element1": true
                 }
             }
-        }
-    },
-    "value3": {
-        "polymorphic_id": 1073741824,
-        "ptr_wrapper": {
-            "id": 2147483657,
-            "data": {
-                "cereal_class_version": 1,
-                "name": "",
-                "sharedTable": {
-                    "polymorphic_id": 0
-                }
-            }
-        }
+        ]
     }
 }

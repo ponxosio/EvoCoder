@@ -8,6 +8,8 @@
 #ifndef SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_EXTRAS_MIXER_H_
 #define SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_EXTRAS_MIXER_H_
 
+#include <stdexcept>
+
 #include "../Instructable.h"
 
 //cereal
@@ -25,8 +27,8 @@ public:
 	}
 	virtual ~Mixer(){}
 
-	virtual std::string getInstructions() = 0;
-	virtual void mix(double intensity) = 0;
+	virtual std::string getInstructions() throw (std::runtime_error) = 0;
+	virtual void mix(double intensity) throw(std::runtime_error) = 0;
 
 	//SERIALIZATIoN
 	template<class Archive>

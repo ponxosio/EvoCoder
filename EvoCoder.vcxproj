@@ -74,13 +74,14 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\lib;D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\boost_1_60_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Python27\include;C:\Python27\libs;D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\boost_1_60_0\stage\lib;D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\lib;D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\boost_1_60_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\boost_1_60_0\stage\lib;C:\Python27\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -100,11 +101,23 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\lib;D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\boost_1_60_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Python27\include;D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\codigo\EvoCoder_Release_v1\EvoCoder\lib;D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\boost_1_60_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>D:\Angel\Documentos\Universidad\TFM\EVOPROGdebug\boost_1_60_0\stage\lib;C:\Python27\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Console</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\plugin\actuators\LightPlugin.cpp" />
+    <ClCompile Include="src\plugin\actuators\ODSensorPlugin.cpp" />
+    <ClCompile Include="src\plugin\actuators\ControlPlugin.cpp" />
+    <ClCompile Include="src\plugin\actuators\ExtractorPlugin.cpp" />
+    <ClCompile Include="src\plugin\actuators\InjectorPlugin.cpp" />
+    <ClCompile Include="src\plugin\actuators\MixerPlugin.cpp" />
+    <ClCompile Include="src\plugin\actuators\TemperaturePlugin.cpp" />
+    <ClCompile Include="src\plugin\PluginFileLoader.cpp" />
     <ClCompile Include="src\fluidControl\ContinuousFlowEngine.cpp" />
     <ClCompile Include="src\fluidcontrol\EvoCoder.cpp" />
     <ClCompile Include="src\fluidcontrol\executable\containers\actuators\communications\CommunicationsInterface.cpp" />
@@ -131,6 +144,7 @@
     <ClCompile Include="src\operables\mathematics\UnaryOperation.cpp" />
     <ClCompile Include="src\operables\mathematics\VariableEntry.cpp" />
     <ClCompile Include="src\operables\VariableTable.cpp" />
+    <ClCompile Include="src\plugin\PythonEnvironment.cpp" />
     <ClCompile Include="src\protocolgraph\ConditionEdge.cpp" />
     <ClCompile Include="src\protocolgraph\operations\AssignationOperation.cpp" />
     <ClCompile Include="src\protocolgraph\operations\container\ApplyLight.cpp" />
@@ -159,6 +173,14 @@
     <ClCompile Include="src\util\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\plugin\actuators\LightPlugin.h" />
+    <ClInclude Include="src\plugin\actuators\ODSensorPlugin.h" />
+    <ClInclude Include="src\plugin\actuators\ControlPlugin.h" />
+    <ClInclude Include="src\plugin\actuators\ExtractorPlugin.h" />
+    <ClInclude Include="src\plugin\actuators\InjectorPlugin.h" />
+    <ClInclude Include="src\plugin\actuators\MixerPlugin.h" />
+    <ClInclude Include="src\plugin\actuators\TemperaturePlugin.h" />
+    <ClInclude Include="src\plugin\PluginFileLoader.h" />
     <ClInclude Include="src\fluidControl\ContinuousFlowEngine.h" />
     <ClInclude Include="lib\easylogging++.h" />
     <ClInclude Include="src\fluidcontrol\EvoCoder.h" />
@@ -204,6 +226,7 @@
     <ClInclude Include="src\operables\mathematics\UnaryOperation.h" />
     <ClInclude Include="src\operables\mathematics\VariableEntry.h" />
     <ClInclude Include="src\operables\VariableTable.h" />
+    <ClInclude Include="src\plugin\PythonEnvironment.h" />
     <ClInclude Include="src\protocolgraph\ConditionEdge.h" />
     <ClInclude Include="src\protocolgraph\OperationNode.h" />
     <ClInclude Include="src\protocolgraph\operations\AssignationOperation.h" />

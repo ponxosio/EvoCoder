@@ -23,6 +23,7 @@
 
 //boost
 #include <boost/function.hpp>
+#include <boost/python.hpp>
 #include <memory>
 
 //lib
@@ -92,6 +93,17 @@
 #include "operables/comparison/SimpleComparison.h"
 #include "operables/comparison/BooleanComparison.h"
 
+//plugins
+#include "plugin/PluginFileLoader.h"
+#include "plugin/PythonEnvironment.h"
+#include "plugin/actuators/ODSensorPlugin.h"
+#include "plugin/actuators/MixerPlugin.h"
+#include "plugin/actuators/TemperaturePlugin.h"
+#include "plugin/actuators/LightPlugin.h"
+#include "plugin/actuators/ControlPlugin.h"
+#include "plugin/actuators/ExtractorPlugin.h"
+#include "plugin/actuators/InjectorPlugin.h"
+
 //operations
 #include "graph/Flow.h"
 #include "protocolGraph/ConditionEdge.h"
@@ -137,6 +149,7 @@ public:
 				std::shared_ptr<VariableTable> table,
 				std::shared_ptr<Mapping> map);
 	static ExecutableMachineGraph* makeSimpleMachine(int communications);
+	static ExecutableMachineGraph* makeSimpleMachinePlugin(int communications);
 	static ExecutableMachineGraph* makeMatrixMachine(int communications, int size);
 	static ExecutableMachineGraph* makeMappingMachine(int communications);
 	static MachineGraph* makeTurbidostatSketch();
@@ -184,6 +197,38 @@ public:
 
 	void testSerialize_MathematicOperable();
 	void testSerialize_ExecutableConatinerNode();
+
+	void pythonTest();
+	void testPythonEnvironment();
+
+	void pluinLoaderTest();
+
+	void testOdSensorPlugin();
+
+	void testMappingPluginTest();
+	void testMappingPluginExec();
+
+	class Chorra {
+	public:
+		Chorra() {
+			this->i = -1;
+		}
+		Chorra(int i) {
+			this->i = i;
+		}
+		inline int getI() {
+			return i;
+		}
+
+		int i;
+	};
 };
+
+BOOST_PYTHON_MODULE(ChorraMod)
+{
+	boost::python::class_<Test::Chorra>("Test::Chorra")
+		.def("getI", &Test::Chorra::getI)
+		;
+}
 
 #endif /* SRC_TEST_H_ */

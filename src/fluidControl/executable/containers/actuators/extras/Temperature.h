@@ -8,6 +8,8 @@
 #ifndef SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_EXTRAS_TEMPERATURE_H_
 #define SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_EXTRAS_TEMPERATURE_H_
 
+#include <stdexcept>
+
 #include "../Instructable.h"
 
 //cereal
@@ -26,8 +28,8 @@ public:
 	virtual ~Temperature() {
 	}
 
-	virtual std::string getInstructions() = 0;
-	virtual void apply(double degrees) = 0;
+	virtual std::string getInstructions() throw (std::runtime_error) = 0;
+	virtual void apply(double degrees) throw(std::runtime_error) = 0;
 
 	//SERIALIZATIoN
 	template<class Archive>

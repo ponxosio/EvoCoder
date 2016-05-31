@@ -77,6 +77,17 @@ public:
 		return dynamic_cast<const DstType*>(src) != 0;
 	}
 
+	/**
+	* Check if a ends with b,
+	*
+	* @param a string to compare
+	* @param b end of the string 
+	* @return true if a ends with b, false otherwise
+	*/
+	static bool ends_with(std::string const &a, std::string const &b);
+
+	static bool starts_with(std::string const &a, std::string const &b);
+
 private:
 	Utils();
 	virtual ~Utils();

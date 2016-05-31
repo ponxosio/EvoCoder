@@ -55,3 +55,33 @@ long Utils::getCurrentTimeMilis() {
 		system_clock::now().time_since_epoch());
 	return ms.count();
 }
+
+bool Utils::ends_with(std::string const &a, std::string const &b) {
+	auto len = b.length();
+	auto pos = a.length() - len;
+	if (pos < 0)
+		return false;
+	auto pos_a = &a[pos];
+	auto pos_b = &b[0];
+	while (*pos_a)
+		if (*pos_a++ != *pos_b++)
+			return false;
+	return true;
+}
+
+bool Utils::starts_with(std::string const &a, std::string const &b) {
+	bool starts = false;
+	auto lenb = b.length();
+	auto lena = a.length();
+
+	if (a >= b) {
+		starts = true;
+		auto pos_a = &a[0];
+		auto pos_b = &b[0];
+
+		while (*pos_b && starts)
+			starts = (*pos_a++ == *pos_b++);
+				
+	}
+	return starts;
+}

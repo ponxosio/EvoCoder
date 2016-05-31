@@ -8,6 +8,8 @@
 #ifndef SRC_FLUIDCONTROL_EXECUTABLEMACHINEGRAPH_CONTAINERS_ACTUATORSINTERFACES_LIQUIDACTUATORS_CONTROL_H_
 #define SRC_FLUIDCONTROL_EXECUTABLEMACHINEGRAPH_CONTAINERS_ACTUATORSINTERFACES_LIQUIDACTUATORS_CONTROL_H_
 
+#include <stdexcept>
+
 #include "../Instructable.h"
 
 //cereal
@@ -27,9 +29,9 @@ public:
 	}
 	virtual ~Control(){}
 
-	virtual void addConnection(int idSource, int idTraget) = 0;
-	virtual void setConnection(int idSource, int idTraget) = 0;
-	virtual std::string getInstructions() = 0;
+	virtual void addConnection(int idSource, int idTarget) throw (std::runtime_error) = 0;
+	virtual void setConnection(int idSource, int idTarget) throw (std::runtime_error) = 0;
+	virtual std::string getInstructions() throw (std::runtime_error) = 0;
 
 	//SERIALIZATIoN
 	template<class Archive>
