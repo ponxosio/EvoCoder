@@ -64,3 +64,8 @@ void ConvergentSwitch::connectContainer(int source, int target) {
 		control.get()->addConnection(source, target);
 	}
 }
+
+void ConvergentSwitch::updateCommunicationInterface(int communication) {
+	this->control->setCommunications(communication);
+	this->insert->setCommunications(communication);
+}

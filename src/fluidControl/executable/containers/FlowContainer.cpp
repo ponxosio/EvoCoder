@@ -59,3 +59,8 @@ void FlowContainer::setPositionExtract(int source, int target) {
 
 void FlowContainer::connectContainer(int source, int target) {
 }
+
+void FlowContainer::updateCommunicationInterface(int communication) {
+	this->insert->setCommunications(communication);
+	this->extract->setCommunications(communication);
+}

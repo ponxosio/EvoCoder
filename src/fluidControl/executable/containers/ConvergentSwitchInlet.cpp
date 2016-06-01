@@ -70,3 +70,9 @@ void ConvergentSwitchInlet::connectContainer(int source, int target) {
 		this->control.get()->addConnection(source, target);
 	}
 }
+
+void ConvergentSwitchInlet::updateCommunicationInterface(int communication) {
+	this->control->setCommunications(communication);
+	this->insert->setCommunications(communication);
+	this->extractor->setCommunications(communication);
+}

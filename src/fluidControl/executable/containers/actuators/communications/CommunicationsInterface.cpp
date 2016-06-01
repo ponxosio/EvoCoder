@@ -51,6 +51,18 @@ int CommunicationsInterface::addCommandSender(CommandSender* communications) {
 	return nextId;
 }
 
+int CommunicationsInterface::addCommandSenderTestExec(CommandSender * exec, CommandSender * test)
+{
+	testLastId = std::max(testLastId, lastId);
+	lastId = std::max(testLastId, lastId);
+	int nextId = lastId;
+
+	communicationMap->insert(std::make_pair(nextId, exec));
+	testCommunicationMap->insert(std::make_pair(nextId, test));
+
+	return nextId;
+}
+
 CommandSender* CommunicationsInterface::getCommandSender(int communicationId) {
 	
 	std::unordered_map<int, CommandSender*>* selected;

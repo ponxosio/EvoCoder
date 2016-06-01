@@ -21,6 +21,12 @@ SimpleComparison::~SimpleComparison() {
 	// TODO Auto-generated destructor stub
 }
 
+void SimpleComparison::updateReference(const std::string & reference) 
+{
+	left->updateReference(reference);
+	right->updateReference(reference);
+}
+
 bool SimpleComparison::conditionMet() {
 	double leftValue = left.get()->getValue();
 	double rightValue = right.get()->getValue();

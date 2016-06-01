@@ -62,8 +62,9 @@ public:
 	 * @param table table where the values of the variable of the protocol will be stored
 	 * @param name name of the portocol
 	 */
-	EvoCoder(ProtocolGraph* protocol,
-			std::shared_ptr<VariableTable> table, std::shared_ptr<Mapping> mapping);
+	EvoCoder(std::shared_ptr<ProtocolGraph> protocol,
+		std::shared_ptr<VariableTable> table, std::shared_ptr<Mapping> mapping);
+	EvoCoder(const EvoCoder & ec);
 	virtual ~EvoCoder();
 
 	/**
@@ -80,11 +81,22 @@ public:
 	 */
 	bool test() throw (std::invalid_argument);
 
+	//getters & setters
+	inline std::shared_ptr<VariableTable> getVariableTable()
+	{
+		return table;
+	}
+
+	inline std::shared_ptr<Mapping> getMapping()
+	{
+		return mapping;
+	}
+
 protected:
 	/**
 	 * protocol graph with the protocol being executed
 	 */
-	ProtocolGraph* protocol;
+	std::shared_ptr<ProtocolGraph> protocol;
 	/**
 	 * Mapping between the sketch machine and the real one
 	 */

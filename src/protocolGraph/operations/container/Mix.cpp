@@ -25,11 +25,11 @@ Mix::Mix(const Mix& node) :
 	this->volume2 = node.volume2;
 }
 
-Mix::Mix(int idConatiner, std::shared_ptr<Mapping> mapping, int idSource1,
+Mix::Mix(int idConatiner, int idSource1,
 		int idSource2, int idTarget,
 		std::shared_ptr<MathematicOperable> volume1,
 		std::shared_ptr<MathematicOperable> volume2) :
-		ContainerOperation(idConatiner, mapping) {
+		ContainerOperation(idConatiner) {
 
 	this->idSource1 = idSource1;
 	this->idSource2 = idSource2;
@@ -53,6 +53,6 @@ void Mix::loadNode(const std::string& line) throw (invalid_argument) {
 	//TODO: JSON
 }
 
-void Mix::execute() {
-	executable.get()->mix(idSource1,idSource2,idTarget,volume1.get()->getValue(),volume2.get()->getValue());
+void Mix::execute() throw(std::invalid_argument)  {
+	ContainerOperation::getMapping()->mix(idSource1,idSource2,idTarget,volume1.get()->getValue(),volume2.get()->getValue());
 }

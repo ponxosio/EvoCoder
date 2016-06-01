@@ -56,6 +56,7 @@ public:
 			std::shared_ptr<MathematicOperable> right);
 	virtual ~SimpleComparison();
 
+	virtual void updateReference(const std::string & reference);
 	/**
 	 * Check if the comparison is true o false
 	 * @return true if the comparison is true, false otherwise

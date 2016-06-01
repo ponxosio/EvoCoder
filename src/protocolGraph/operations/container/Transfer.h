@@ -30,10 +30,10 @@ public:
 	virtual void loadNode(const std::string & line) throw (std::invalid_argument);
 	//
 
-	Transfer(int idContainer, std::shared_ptr<Mapping> mapping, int idSource,
+	Transfer(int idContainer, int idSource,
 			int idTarget, std::shared_ptr<MathematicOperable> volume);
 
-	virtual void execute();
+	virtual void execute() throw(std::invalid_argument);
 
 	//SERIALIZATIoN
 	template<class Archive>

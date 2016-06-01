@@ -7,8 +7,24 @@
 
 #include "FileSender.h"
 
+FileSender::FileSender() :
+	CommandSender()
+{
+	this->inputName = "undefined";
+	this->outputName = "undefined";
+}
+
+FileSender::FileSender(const FileSender & fs) :
+	CommandSender(fs)
+{
+	this->inputName = fs.inputName;
+	this->outputName = fs.outputName;
+}
+
 FileSender::FileSender(const std::string& outputName,
-		const std::string& inputName) {
+		const std::string& inputName) :
+	CommandSender()
+{
 
 	this->inputName = inputName;
 	this->outputName = outputName;
@@ -84,4 +100,8 @@ void FileSender::connect() throw (std::ios_base::failure) {
 				"the file " + inputName + " is already opened"));
 	}
 
+}
+
+CommandSender* FileSender::clone() {
+	return new FileSender(*this);
 }

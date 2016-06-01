@@ -102,6 +102,7 @@ public:
 	virtual void receiveLiquid(double rate) throw (std::invalid_argument)=0;
 	virtual void extractLiquid(double rate) throw (std::invalid_argument)= 0;
 	virtual void connectContainer(int source, int target) = 0;
+	virtual void updateCommunicationInterface(int communication) = 0;
 
 	//SERIALIZATIoN
 	template<class Archive>

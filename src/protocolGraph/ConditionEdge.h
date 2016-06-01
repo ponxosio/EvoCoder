@@ -38,6 +38,11 @@ public:
 	ConditionEdge(int idSource, int idTarget, std::shared_ptr<ComparisonOperable> comparison);
 	virtual ~ConditionEdge();
 
+	inline void updateReference(const std::string & reference) 
+	{
+		comparison->updateReference(reference);
+	}
+
 	/**
 	 * Checks if the condition to use this edge is met
 	 * @return true if the condition is met, false otherwise

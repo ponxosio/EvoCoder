@@ -9,12 +9,20 @@
 
 using namespace std;
 
-EvoCoder::EvoCoder(ProtocolGraph* protocol,
+EvoCoder::EvoCoder(shared_ptr<ProtocolGraph> protocol,
 	std::shared_ptr<VariableTable> table, std::shared_ptr<Mapping> mapping) {
 	this->protocol = protocol;
 	this->table = table;
 	this->mapping = mapping;
 	this->actual = NULL;
+}
+
+EvoCoder::EvoCoder(const EvoCoder & ec) 
+{
+	this->protocol = ec.protocol;
+	this->table = ec.table;
+	this->mapping = ec.mapping;
+	this->actual = ec.actual;
 }
 
 EvoCoder::~EvoCoder() {

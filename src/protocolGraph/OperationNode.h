@@ -9,6 +9,7 @@
 #define SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONNODE_H_
 
 #include <string>
+#include <stdexcept>
 
 //local
 #include "../graph/Node.h"
@@ -22,12 +23,23 @@
  */
 class OperationNode: public Node {
 public:
-	OperationNode() : Node() {}
-	OperationNode(const OperationNode & obj) : Node(obj) {}
-	OperationNode(int idContainer) : Node(idContainer){}
+	OperationNode() :
+		Node() 
+	{
+	}
+	OperationNode(const OperationNode & obj) :
+		Node(obj) 
+	{
+	}
+	OperationNode(int idContainer) :
+		Node(idContainer)
+	{
+	}
 	virtual ~OperationNode(){}
 
-	virtual void execute() = 0;
+	virtual void execute() throw(std::invalid_argument) = 0;
+
+	inline virtual void updateReference(const std::string & reference) {}
 
 	//SERIALIZATIoN
 	template<class Archive>

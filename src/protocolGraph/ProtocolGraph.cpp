@@ -54,6 +54,19 @@ bool ProtocolGraph::connectOperation(ProtocolEdgePtr edge) {
 	return graph->addEdge(edge);
 }
 
+void ProtocolGraph::updateReference(const std::string & reference) {
+	ProtocolNodeVectorPtr nodes = graph->getAllNodes();
+	for (auto it = nodes->begin(); it != nodes->end(); ++it) {
+		(*it)->updateReference(reference);
+	}
+
+	ProtocolEdgeVectorPtr edges = graph->getEdgeList();
+	for (auto it = edges->begin(); it != edges->end(); ++it) {
+		(*it)->updateReference(reference);
+	}
+}
+
+
 ProtocolGraph::ProtocolNodePtr ProtocolGraph::getStart() {
 	return graph->getNode(idStart);
 }

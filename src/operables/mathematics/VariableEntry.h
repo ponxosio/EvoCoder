@@ -10,6 +10,7 @@
 
 #include <string>
 #include <memory>
+#include <stdexcept>
 
 //cereal
 #include <cereal/cereal.hpp>
@@ -18,9 +19,11 @@
 #include <cereal/types/string.hpp>
 
 //local
+#include "../../ExecutionServer.h"
 #include "../../util/Utils.h"
 #include "../VariableTable.h"
 #include "MathematicOperable.h"
+
 
 /**
  * Represents a variable stored in the VariableTable.
@@ -28,35 +31,36 @@
 class VariableEntry: public MathematicOperable {
 public:
 	VariableEntry();
-	VariableEntry(const std::string & name,
-			std::shared_ptr<VariableTable> sharedTable);
+	VariableEntry(const std::string & name);
 	/**
 	 * Does not deallocates the sharedTable
 	 */
-	virtual ~VariableEntry() {
-	}
+	virtual ~VariableEntry() {}
+
+	virtual void updateReference(const std::string & reference);
+
 	/**
 	 * Returns the value from the variable table
 	 * @return
 	 */
-	virtual double getValue();
+	virtual double getValue() throw (std::invalid_argument);
 	/**
 	 * Check if the variable stores physical values
 	 * @return true if the variable stores physical values, false otherwise
 	 */
-	virtual bool isPhysical();
+	virtual bool isPhysical() throw (std::invalid_argument);
 
 	virtual bool equal(const MathematicOperable* obj) const;
 	/**
 	 * Sets the value of this variable at the variable table to the given value
 	 * @param value
 	 */
-	void setValue(double value);
+	void setValue(double value) throw (std::invalid_argument);
 	/**
 	 * Sets the physical flag of this variable at the variable table to the given value
 	 * @param value
 	 */
-	void setPhysical(bool physical);
+	void setPhysical(bool physical) throw (std::invalid_argument);
 
 	inline virtual std::string toString() {
 		return name;
@@ -73,14 +77,17 @@ protected:
 	/**
 	 * On delete does not deallocate this pointer to the variable table
 	 */
-	std::shared_ptr<VariableTable> sharedTable;
+	std::string reference;
 
+	inline std::shared_ptr<VariableTable> getVariableTable() throw (std::invalid_argument) {
+		return ExecutionServer::GetInstance()->getEvoCoder(reference)->getVariableTable();
+	}
 };
 
 template<class Archive>
 inline void VariableEntry::serialize(Archive& ar, const std::uint32_t version) {
 	if (version == 1) {
-		ar(CEREAL_NVP(name), CEREAL_NVP(sharedTable));
+		ar(CEREAL_NVP(name), CEREAL_NVP(reference));
 	}
 }
 

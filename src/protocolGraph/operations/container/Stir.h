@@ -30,11 +30,11 @@ public:
 	virtual void loadNode(const std::string & line)
 			throw (std::invalid_argument);
 	//
-	Stir(int containerId, std::shared_ptr<Mapping> executable, int sourceId,
+	Stir(int containerId, int sourceId,
 				std::shared_ptr<MathematicOperable> intensity);
 	virtual ~Stir();
 
-	virtual void execute();
+	virtual void execute() throw(std::invalid_argument);
 
 	//SERIALIZATIoN
 	template<class Archive>

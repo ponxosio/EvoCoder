@@ -30,12 +30,12 @@ public:
 	virtual void loadNode(const std::string & line)
 			throw (std::invalid_argument);
 	//
-	ApplyTemperature(int containerId, std::shared_ptr<Mapping>, int sourceId,
+	ApplyTemperature(int containerId, int sourceId,
 			std::shared_ptr<MathematicOperable> degress);
 
 	virtual ~ApplyTemperature();
 
-	virtual void execute();
+	virtual void execute() throw(std::invalid_argument);
 
 	//SERIALIZATIoN
 	template<class Archive>

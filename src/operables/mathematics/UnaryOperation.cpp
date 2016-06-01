@@ -18,10 +18,17 @@ UnaryOperation::UnaryOperation(std::shared_ptr<MathematicOperable> variable,
 	this->op = op;
 }
 
-UnaryOperation::~UnaryOperation() {
+UnaryOperation::~UnaryOperation() 
+{
+
 }
 
-double UnaryOperation::getValue() {
+void UnaryOperation::updateReference(const std::string & reference) 
+{
+	variable->updateReference(reference);
+}
+
+double UnaryOperation::getValue() throw (std::invalid_argument)  {
 	MathematicOperable* value = variable.get();
 	double vuelta = 0.0;
 
@@ -33,7 +40,7 @@ double UnaryOperation::getValue() {
 	return vuelta;
 }
 
-bool UnaryOperation::isPhysical() {
+bool UnaryOperation::isPhysical() throw (std::invalid_argument) {
 	return (variable.get()->isPhysical());
 }
 

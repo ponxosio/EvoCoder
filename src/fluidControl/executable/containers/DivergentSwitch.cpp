@@ -66,3 +66,8 @@ void DivergentSwitch::connectContainer(int source, int target) {
 		control.get()->addConnection(source, target);
 	}
 }
+
+void DivergentSwitch::updateCommunicationInterface(int communication) {
+	this->control->setCommunications(communication);
+	this->extract->setCommunications(communication);
+}

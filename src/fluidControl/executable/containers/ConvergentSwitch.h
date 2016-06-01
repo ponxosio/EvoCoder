@@ -42,6 +42,7 @@ public:
 	virtual void receiveLiquid(double rate) throw (std::invalid_argument);
 	virtual void extractLiquid(double rate) throw (std::invalid_argument);
 	virtual void connectContainer(int source, int target);
+	virtual void updateCommunicationInterface(int communication);
 
 	//SERIALIZATIoN
 	template<class Archive>

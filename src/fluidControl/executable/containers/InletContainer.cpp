@@ -49,3 +49,7 @@ void InletContainer::setPositionExtract(int source, int target) {
 
 void InletContainer::connectContainer(int source, int target) {
 }
+
+void InletContainer::updateCommunicationInterface(int communication) {
+	this->ext->setCommunications(communication);
+}

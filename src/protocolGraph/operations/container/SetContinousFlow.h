@@ -29,10 +29,10 @@ public:
 	virtual void loadNode(const std::string & line) throw (invalid_argument);
 	//
 
-	SetContinousFlow(int idContainer, std::shared_ptr<Mapping> mapping, int idSource, int idTarget, std::shared_ptr<MathematicOperable> rate);
+	SetContinousFlow(int idContainer, int idSource, int idTarget, std::shared_ptr<MathematicOperable> rate);
 	virtual ~SetContinousFlow();
 
-	virtual void execute();
+	virtual void execute() throw(std::invalid_argument);
 
 	//SERIALIZATIoN
 	template<class Archive>

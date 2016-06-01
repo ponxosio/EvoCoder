@@ -17,7 +17,9 @@ SerialSender::SerialSender(std::string device,
 		DWORD readTotalTimeoutConstant,
 		DWORD readTotalTimeoutMultiplier,
 		DWORD writeTotalTimeoutConstant,
-		DWORD writeTotalTimeoutMultiplier) {
+		DWORD writeTotalTimeoutMultiplier) :
+	CommandSender()
+{
 
 	this->connected = false;
 	this->device = device;
@@ -32,6 +34,24 @@ SerialSender::SerialSender(std::string device,
 	this->readTotalTimeoutMultiplier = readTotalTimeoutMultiplier;
 	this->writeTotalTimeoutConstant = writeTotalTimeoutConstant;
 	this->writeTotalTimeoutMultiplier = writeTotalTimeoutMultiplier;
+}
+
+SerialSender::SerialSender(const SerialSender & ss) :
+	CommandSender(ss)
+{
+	this->connected = false;
+	this->device = ss.device;
+	this->baudRate = ss.baudRate;
+	this->byteSize = ss.byteSize;
+	this->stopBits = ss.stopBits;
+	this->parity = ss.parity;
+
+	this->maxMsWaitingRead = ss.maxMsWaitingRead;
+	this->readIntervalTimeout = ss.readIntervalTimeout;
+	this->readTotalTimeoutConstant = ss.readTotalTimeoutConstant;
+	this->readTotalTimeoutMultiplier = ss.readTotalTimeoutMultiplier;
+	this->writeTotalTimeoutConstant = ss.writeTotalTimeoutConstant;
+	this->writeTotalTimeoutMultiplier = ss.writeTotalTimeoutMultiplier;
 }
 
 SerialSender::~SerialSender() {
@@ -204,4 +224,8 @@ std::string SerialSender::readUntil(char endCharacter)
 		throw(std::ios_base::failure("the stream has ended without receiving the stop character " + endCharacter));
 	}
 	return buffer;
+}
+
+CommandSender* SerialSender::clone() {
+	return new SerialSender(*this);
 }

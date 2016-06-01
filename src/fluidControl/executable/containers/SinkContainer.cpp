@@ -55,3 +55,7 @@ void SinkContainer::setPositionExtract(int source, int target) {
 
 void SinkContainer::connectContainer(int source, int target) {
 }
+
+void SinkContainer::updateCommunicationInterface(int communication) {
+	this->insert->setCommunications(communication);
+}

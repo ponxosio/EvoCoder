@@ -8,6 +8,7 @@
 #ifndef SRC_OPERABLES_MATHEMATICS_MATHEMATICOPERABLE_H_
 #define SRC_OPERABLES_MATHEMATICS_MATHEMATICOPERABLE_H_
 
+#include <stdexcept>
 #include <memory>
 #include <string>
 
@@ -19,16 +20,18 @@ public:
 	MathematicOperable(){}
 	virtual ~MathematicOperable(){}
 
+	virtual void updateReference(const std::string & reference) {}
+
 	/**
 	 * Returns the numeric value of the variable
 	 * @return the numeric value of the variable
 	 */
-	virtual double getValue() = 0;
+	virtual double getValue() throw (std::invalid_argument) = 0;
 	/**
 	 * Check if the variable stores physical values
 	 * @return true if the variable stores physical values, false otherwise
 	 */
-	virtual bool isPhysical() = 0;
+	virtual bool isPhysical() throw (std::invalid_argument) = 0;
 	/**
 	 * Compares two Objects implementing this interface
 	 * @param obj other object to be compared to

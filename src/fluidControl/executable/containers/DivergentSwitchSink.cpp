@@ -70,3 +70,9 @@ void DivergentSwitchSink::connectContainer(int source, int target) {
 		this->control.get()->addConnection(source, target);
 	}
 }
+
+void DivergentSwitchSink::updateCommunicationInterface(int communication) {
+	this->control->setCommunications(communication);
+	this->insert->setCommunications(communication);
+	this->extractor->setCommunications(communication);
+}

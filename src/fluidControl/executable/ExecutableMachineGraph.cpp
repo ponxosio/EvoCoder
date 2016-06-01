@@ -31,6 +31,9 @@ ExecutableMachineGraph::ExecutableMachineGraph() {
 	this->graph = std::make_shared<Graph<ExecutableContainerNode, Edge>>();
 	this->usedNodes = std::make_shared<std::unordered_set<int>>();
 	this->usedEges = std::make_shared<std::unordered_set<std::tuple<int, int>, PairIntIntHashFunction>>();
+
+	this->execComInterface = std::unique_ptr<CommandSender>(new SerialSender());
+	this->testComInterface = std::unique_ptr<CommandSender>(new FileSender());
 }
 
 ExecutableMachineGraph::ExecutableMachineGraph(const ExecutableMachineGraph & exMachine) {
@@ -38,13 +41,19 @@ ExecutableMachineGraph::ExecutableMachineGraph(const ExecutableMachineGraph & ex
 	this->graph = exMachine.graph;
 	this->usedNodes = exMachine.usedNodes;
 	this->usedEges = exMachine.usedEges;
+
+	this->execComInterface = std::unique_ptr<CommandSender>(exMachine.execComInterface->clone());
+	this->testComInterface = std::unique_ptr<CommandSender>(exMachine.testComInterface->clone());
 }
 
-ExecutableMachineGraph::ExecutableMachineGraph(const std::string & name) {
+ExecutableMachineGraph::ExecutableMachineGraph(const std::string & name, std::unique_ptr<CommandSender> execComInterface, std::unique_ptr<CommandSender> testComInterface) {
 	this->name = name;
 	this->graph = std::make_shared<Graph<ExecutableContainerNode, Edge>>();
 	this->usedNodes = std::make_shared<std::unordered_set<int>>();
 	this->usedEges = std::make_shared<std::unordered_set<std::tuple<int, int>, PairIntIntHashFunction>>();
+
+	this->execComInterface = std::move(execComInterface);
+	this->testComInterface = std::move(testComInterface);
 }
 
 ExecutableMachineGraph::~ExecutableMachineGraph() {
@@ -301,5 +310,20 @@ void ExecutableMachineGraph::substractVolume(int idContainer, float volume) {
 		else {
 			LOG(WARNING) << "volume of container " + patch::to_string(idContainer) + " is less than 0";
 		}
+	}
+}
+
+CommandSender* ExecutableMachineGraph::getTestCommunicationsPrototypeCopy() {
+	return execComInterface->clone();
+}
+CommandSender* ExecutableMachineGraph::getExecCommunicationsPrototypeCopy() {
+	return testComInterface->clone();
+}
+
+void ExecutableMachineGraph::updateCommunicationsInterface(int idCommunication) {
+	ExecutableContainerNodeVectorPtr nodes = graph->getAllNodes();
+
+	for (auto it = nodes->begin(); it != nodes->end(); ++it) {
+		(*it)->updateCommunicationInterface(idCommunication);
 	}
 }

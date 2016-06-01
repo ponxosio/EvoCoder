@@ -74,3 +74,10 @@ void BidirectionalSwitch::connectContainer(int source, int target) {
 		controlIN.get()->addConnection(source, target);
 	}
 }
+
+void BidirectionalSwitch::updateCommunicationInterface(int communication) {
+	this->controlIN->setCommunications(communication);
+	this->controlOUT->setCommunications(communication);
+	this->extract->setCommunications(communication);
+	this->insert->setCommunications(communication);
+}

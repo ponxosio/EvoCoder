@@ -198,6 +198,12 @@
     <ClCompile Include="src\plugin\actuators\LightPlugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ExecutionMachineServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ExecutionServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\easylogging++.h">
@@ -359,9 +365,6 @@
     <ClInclude Include="src\protocolgraph\operations\container\ApplyTemperature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocolgraph\operations\container\ContainerOperation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\protocolgraph\operations\container\GetVolume.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -450,6 +453,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\plugin\actuators\LightPlugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ExecutionMachineServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ExecutionServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

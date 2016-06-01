@@ -40,6 +40,7 @@ enum MappingOperation {
 
 class Mapping {
 public:
+	Mapping() {}
 	Mapping(std::shared_ptr<ExecutableMachineGraph> machine, const std::string & name, const std::vector<int> & communicationInterface);
 	virtual ~Mapping();
 

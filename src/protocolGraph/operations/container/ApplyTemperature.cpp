@@ -29,9 +29,9 @@ void ApplyTemperature::loadNode(const std::string& line)
 }
 
 ApplyTemperature::ApplyTemperature(int containerId,
-		std::shared_ptr<Mapping> mapping, int sourceId,
+		int sourceId,
 		std::shared_ptr<MathematicOperable> degress) :
-		ContainerOperation(containerId, mapping) {
+		ContainerOperation(containerId) {
 
 	this->sourceId = sourceId;
 	this->degress = degress;
@@ -39,6 +39,6 @@ ApplyTemperature::ApplyTemperature(int containerId,
 
 ApplyTemperature::~ApplyTemperature() {}
 
-void ApplyTemperature::execute() {
-	executable.get()->applyTemperature(sourceId, degress.get()->getValue());
+void ApplyTemperature::execute() throw(std::invalid_argument)  {
+	ContainerOperation::getMapping()->applyTemperature(sourceId, degress.get()->getValue());
 }

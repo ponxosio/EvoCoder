@@ -776,6 +776,39 @@
                 "id": 2147483694,
                 "data": []
             }
+        },
+        "execComInterface": {
+            "polymorphic_id": 2147483658,
+            "polymorphic_name": "SerialSender",
+            "ptr_wrapper": {
+                "valid": 1,
+                "data": {
+                    "cereal_class_version": 1,
+                    "device": "\\\\.\\COM3",
+                    "baudRate": 9600,
+                    "byteSize": 8,
+                    "stopBits": 0,
+                    "parity": 0,
+                    "maxMsWaitingRead": 5000,
+                    "readIntervalTimeout": 50,
+                    "readTotalTimeoutConstant": 50,
+                    "readTotalTimeoutMultiplier": 10,
+                    "writeTotalTimeoutConstant": 50,
+                    "writeTotalTimeoutMultiplier": 10
+                }
+            }
+        },
+        "testComInterface": {
+            "polymorphic_id": 2147483659,
+            "polymorphic_name": "FileSender",
+            "ptr_wrapper": {
+                "valid": 1,
+                "data": {
+                    "cereal_class_version": 1,
+                    "outputName": "test.log",
+                    "inputName": "inputFileData.txt"
+                }
+            }
         }
     }
 }

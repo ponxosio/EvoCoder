@@ -25,6 +25,11 @@ DivergeNode::DivergeNode(int containerId,
 
 DivergeNode::~DivergeNode() {}
 
+void DivergeNode::updateReference(const std::string & reference) 
+{
+	conditionIN->updateReference(reference);
+}
+
 string DivergeNode::toText() {
 	return patch::to_string(containerID) + "[ label =\"" + DIVERGE_STRING + "("
 			+ conditionIN.get()->toString() + ")\"];";
