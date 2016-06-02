@@ -35,6 +35,12 @@ public:
 
 	virtual void execute() throw(std::invalid_argument);
 
+	virtual inline void updateReference(const std::string & reference)
+	{
+		ContainerOperation::updateReference(reference);
+		receiver->updateReference(reference);
+	}
+
 	//SERIALIZATIoN
 	template<class Archive>
 	void serialize(Archive & ar, std::uint32_t const version);

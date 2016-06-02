@@ -6,12 +6,15 @@ ExecutionMachineServer* ExecutionMachineServer::m_pInstance = NULL;
 
 void ExecutionMachineServer::freeCommandInterface()
 {
-	delete m_pInstance;
+	if (m_pInstance) {
+		delete m_pInstance;
+	}
 }
 
 ExecutionMachineServer::ExecutionMachineServer()
 {
 	lastSeries = 0;
+	machineMap = make_shared<MachineMap>();
 }
 
 ExecutionMachineServer::~ExecutionMachineServer()
@@ -24,18 +27,19 @@ std::string ExecutionMachineServer::addNewMachine(const std::string & jsonFilePa
 
 	int exComId = CommunicationsInterface::GetInstance()->addCommandSenderTestExec(mPtr->getExecCommunicationsPrototypeCopy(), mPtr->getTestCommunicationsPrototypeCopy());
 	mPtr->updateCommunicationsInterface(exComId);
+	mPtr->updateControlActuators();
 
 	lastSeries = series.getNextValue();
 	std::string reference = "machine" + patch::to_string(lastSeries);
-	machineMap.insert(std::make_pair(reference, make_tuple(exComId, mPtr)));
+	machineMap->insert(std::make_pair(reference, make_tuple(exComId, mPtr)));
 
 	return reference;
 }
 
 shared_ptr<ExecutableMachineGraph> ExecutionMachineServer::getMachine(const string & machineName) throw (std::invalid_argument)
 {
-	auto it = machineMap.find(machineName);
-	if (it != machineMap.end()) {
+	auto it = machineMap->find(machineName);
+	if (it != machineMap->end()) {
 		return get<1>(it->second);
 	}
 	else {
@@ -45,8 +49,8 @@ shared_ptr<ExecutableMachineGraph> ExecutionMachineServer::getMachine(const stri
 
 int ExecutionMachineServer::getMachineComId(const string & machineName) throw (std::invalid_argument)
 {
-	auto it = machineMap.find(machineName);
-	if (it != machineMap.end()) {
+	auto it = machineMap->find(machineName);
+	if (it != machineMap->end()) {
 		return get<0>(it->second);
 	}
 	else {
@@ -58,7 +62,7 @@ vector<shared_ptr<ExecutableMachineGraph>> ExecutionMachineServer::getAvailableM
 {
 	vector<shared_ptr<ExecutableMachineGraph>> machines;
 
-	for (auto it = machineMap.begin(); it != machineMap.end(); ++it) {
+	for (auto it = machineMap->begin(); it != machineMap->end(); ++it) {
 		machines.push_back(get<1>(it->second));
 	}
 

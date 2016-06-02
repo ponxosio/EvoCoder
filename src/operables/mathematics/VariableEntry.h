@@ -12,18 +12,16 @@
 #include <memory>
 #include <stdexcept>
 
-//cereal
-#include <cereal/cereal.hpp>
-#include <cereal/types/polymorphic.hpp>
-#include <cereal/types/memory.hpp>
-#include <cereal/types/string.hpp>
-
 //local
 #include "../../ExecutionServer.h"
 #include "../../util/Utils.h"
 #include "../VariableTable.h"
 #include "MathematicOperable.h"
 
+//cereal
+#include <cereal/cereal.hpp>
+#include <cereal/types/polymorphic.hpp>
+#include <cereal/types/string.hpp>
 
 /**
  * Represents a variable stored in the VariableTable.
@@ -80,7 +78,13 @@ protected:
 	std::string reference;
 
 	inline std::shared_ptr<VariableTable> getVariableTable() throw (std::invalid_argument) {
-		return ExecutionServer::GetInstance()->getEvoCoder(reference)->getVariableTable();
+		try {
+			return ExecutionServer::GetInstance()->getEvoCoder(reference)->getVariableTable();
+		}
+		catch (std::invalid_argument & e)
+		{
+			throw(std::invalid_argument("VariableEntry::getVariableTable(), " + std::string(e.what())));
+		}
 	}
 };
 

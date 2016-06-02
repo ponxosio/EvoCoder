@@ -28,47 +28,88 @@ ControlPlugin::~ControlPlugin()
 
 void ControlPlugin::addConnection(int idSource, int idTarget) throw (std::runtime_error)
 {
-	if (referenceName.empty()) {
-		referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
-	}
-
 	try {
+		if (referenceName.empty()) {
+			referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
+		}
+
 		CommandSender* com = CommunicationsInterface::GetInstance()->getCommandSender(communications);
 		PythonEnvironment::GetInstance()->getVarInstance(referenceName).attr("addConnection")(idSource, idTarget, boost::ref(*com));
 	}
-	catch (error_already_set) {
+	catch (error_already_set) 
+	{
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
 
-		throw(std::runtime_error("error at python environment " + std::string(PyString_AsString(pvalue))));
+		std::string error = "";
+		char* c_str = PyString_AsString(pvalue);
+		if (c_str) {
+			error = std::string(c_str);
+		}
+		throw(std::runtime_error("addConnection(), " + pluginType + ": " + "error at python environment " + error));
+	}
+	catch (std::invalid_argument & e)
+	{
+		throw(std::runtime_error("addConnection(), " + pluginType + ": " + "internal error" + std::string(e.what())));
 	}
 }
 
 void ControlPlugin::setConnection(int idSource, int idTarget) throw (std::runtime_error)
 {
-	if (referenceName.empty()) {
-		referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
-	}
-
 	try {
+		if (referenceName.empty()) {
+			referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
+		}
+
 		CommandSender* com = CommunicationsInterface::GetInstance()->getCommandSender(communications);
 		PythonEnvironment::GetInstance()->getVarInstance(referenceName).attr("setConnection")(idSource, idTarget, boost::ref(*com));
 	}
 	catch (error_already_set) {
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
+		
+		std::string error = "";
+		char* c_str = PyString_AsString(pvalue);
+		if (c_str) {
+			error = std::string(c_str);
+		}
+		throw(std::runtime_error("setConnection(), Plugin " + pluginType + ": " + "error at python environment " + error));
+	}
+	catch (std::invalid_argument & e)
+	{
+		throw(std::runtime_error("setConnection(), Plugin " + pluginType + ": " + "internal error" + std::string(e.what())));
+	}
+}
 
-		throw(std::runtime_error("error at python environment " + std::string(PyString_AsString(pvalue))));
+void ControlPlugin::clearConnections() throw(std::runtime_error)
+{
+	try {
+		if (referenceName.empty()) {
+			referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
+		}
+
+		PythonEnvironment::GetInstance()->getVarInstance(referenceName).attr("clearConnections")();
+	}
+	catch (error_already_set) {
+		PyObject *ptype, *pvalue, *ptraceback;
+		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
+
+		std::string error = "";
+		char* c_str = PyString_AsString(pvalue);
+		if (c_str) {
+			error = std::string(c_str);
+		}
+		throw(std::runtime_error("getInstructions(), Plugin " + pluginType + ": " + "error at python environment " + error));
 	}
 }
 
 std::string ControlPlugin::getInstructions() throw (std::runtime_error)
 {
-	if (referenceName.empty()) {
-		referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
-	}
-
 	try {
+		if (referenceName.empty()) {
+			referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
+		}
+
 		const char* c_str = extract<const char*>(PythonEnvironment::GetInstance()->getVarInstance(referenceName).attr("getInstructions")());
 		return std::string(c_str);
 	}
@@ -76,6 +117,11 @@ std::string ControlPlugin::getInstructions() throw (std::runtime_error)
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
 
-		throw(std::runtime_error("error at python environment " + std::string(PyString_AsString(pvalue))));
+		std::string error = "";
+		char* c_str = PyString_AsString(pvalue);
+		if (c_str) {
+			error = std::string(c_str);
+		}
+		throw(std::runtime_error("getInstructions(), Plugin " + pluginType + ": " + "error at python environment " + error));
 	}
 }

@@ -39,11 +39,13 @@ public:
 
 	virtual ~ConvergentSwitchInlet();
 
-	virtual void setPositionInject(int source, int target);
-	virtual void setPositionExtract(int source, int target);
-	virtual void receiveLiquid(double rate) throw (std::invalid_argument);
-	virtual void extractLiquid(double rate) throw (std::invalid_argument);
-	virtual void connectContainer(int source, int target);
+	virtual void setPositionInject(int source, int target) throw (std::runtime_error);
+	virtual void setPositionExtract(int source, int target) throw (std::runtime_error);
+	virtual void receiveLiquid(double rate) throw (std::runtime_error);
+	virtual void extractLiquid(double rate) throw (std::runtime_error);
+	virtual void connectContainer(int source, int target) throw (std::runtime_error);
+	virtual void clearConnectedContainers() throw (std::runtime_error);
+
 	virtual void updateCommunicationInterface(int communication);
 
 	//SERIALIZATIoN

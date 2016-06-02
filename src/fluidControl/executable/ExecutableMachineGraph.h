@@ -80,6 +80,8 @@ public:
 	ExecutableContainerNodePtr getContainer(int idConatiner);
 	bool connectExecutableContainer(int idSource, int idTarget);
 	void printMachine(const std::string & path);
+
+	void updateControlActuators();
 	//
 
 	//mapping's operations

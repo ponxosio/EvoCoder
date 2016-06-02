@@ -978,3 +978,42 @@ If your type is already registered and you still see this error, you may need to
 01/06 14:31:42 032 WARN  executablemachinegraph.cpp[297]void __cdecl ExecutableMachineGraph::addVolume(int,float):  volume of container 3 is over capacity
 01/06 14:31:42 036 WARN  executablemachinegraph.cpp[311]void __cdecl ExecutableMachineGraph::substractVolume(int,float):  volume of container 3 is less than 0
 01/06 14:31:42 040 WARN  executablemachinegraph.cpp[297]void __cdecl ExecutableMachineGraph::addVolume(int,float):  volume of container 4 is over capacity
+02/06 14:02:23 213 FATAL easylogging++.h[5583]void __cdecl el::base::debug::logCrashReason(int,bool,enum el::Level,const char *):  CRASH HANDLED; Application has crashed due to [SIGSEGV] signal
+02/06 14:02:23 219 WARN  easylogging++.h[5583]void __cdecl el::base::debug::logCrashReason(int,bool,enum el::Level,const char *):  Aborting application. Reason: Fatal log at [d:\angel\documentos\universidad\tfm\evoprogdebug\codigo\evocoder_release_v1\evocoder\lib\easylogging++.h:5583]
+02/06 14:16:43 199 ERROR test.cpp[1890]void __cdecl Test::testExecutionServer(void):  the key execution0 does not exists
+02/06 14:18:59 319 ERROR test.cpp[1887]void __cdecl Test::testExecutionServer(void):  rapidjson internal assertion failure: IsObject()
+02/06 14:21:06 844 ERROR test.cpp[1887]void __cdecl Test::testExecutionServer(void):  rapidjson internal assertion failure: IsObject()
+02/06 14:25:48 170 ERROR test.cpp[1891]void __cdecl Test::testExecutionServer(void):  rapidjson internal assertion failure: IsObject()
+02/06 14:28:48 083 ERROR test.cpp[1891]void __cdecl Test::testExecutionServer(void):  rapidjson internal assertion failure: IsObject()
+02/06 15:04:50 780 ERROR test.cpp[1887]void __cdecl Test::testExecutionServer(void):  rapidjson internal assertion failure: IsObject()
+02/06 15:06:06 431 ERROR test.cpp[1887]void __cdecl Test::testExecutionServer(void):  rapidjson internal assertion failure: IsObject()
+02/06 15:11:15 932 ERROR test.cpp[1887]void __cdecl Test::testExecutionServer(void):  rapidjson internal assertion failure: IsObject()
+02/06 15:16:15 486 ERROR test.cpp[1887]void __cdecl Test::testExecutionServer(void):  rapidjson internal assertion failure: IsObject()
+02/06 15:19:18 643 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 15:25:02 767 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 15:25:15 482 FATAL easylogging++.h[5583]void __cdecl el::base::debug::logCrashReason(int,bool,enum el::Level,const char *):  CRASH HANDLED; Application has crashed due to [SIGSEGV] signal
+02/06 15:25:15 488 WARN  easylogging++.h[5583]void __cdecl el::base::debug::logCrashReason(int,bool,enum el::Level,const char *):  Aborting application. Reason: Fatal log at [d:\angel\documentos\universidad\tfm\evoprogdebug\codigo\evocoder_release_v1\evocoder\lib\easylogging++.h:5583]
+02/06 15:57:28 883 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 15:57:41 971 FATAL easylogging++.h[5583]void __cdecl el::base::debug::logCrashReason(int,bool,enum el::Level,const char *):  CRASH HANDLED; Application has crashed due to [SIGSEGV] signal
+02/06 15:57:41 977 WARN  easylogging++.h[5583]void __cdecl el::base::debug::logCrashReason(int,bool,enum el::Level,const char *):  Aborting application. Reason: Fatal log at [d:\angel\documentos\universidad\tfm\evoprogdebug\codigo\evocoder_release_v1\evocoder\lib\easylogging++.h:5583]
+02/06 15:57:55 393 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 15:58:45 517 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 15:59:59 350 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 16:14:13 193 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 16:14:26 492 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 16:22:48 876 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 16:22:48 893 ERROR test.cpp[1887]void __cdecl Test::testExecutionServer(void):  exception while executing, Plugin EvoprogSixWayValve: error at python environment 
+02/06 16:30:26 321 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 16:30:26 354 ERROR test.cpp[1887]void __cdecl Test::testExecutionServer(void):  exception while executing, setConnection(), Plugin EvoprogSixWayValve: error at python environment 
+02/06 16:36:31 071 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 16:36:31 104 ERROR test.cpp[1887]void __cdecl Test::testExecutionServer(void):  exception while executing, setConnection(), Plugin EvoprogSixWayValve: error at python environment 
+02/06 16:36:58 599 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 16:36:58 618 ERROR test.cpp[1887]void __cdecl Test::testExecutionServer(void):  exception while executing, setConnection(), Plugin EvoprogSixWayValve: error at python environment global name 'start' is not defined
+02/06 16:37:54 651 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 16:37:54 668 ERROR test.cpp[1887]void __cdecl Test::testExecutionServer(void):  exception while executing, setConnection(), Plugin EvoprogSixWayValve: error at python environment 
+02/06 17:15:16 902 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 17:15:20 505 ERROR test.cpp[1889]void __cdecl Test::testExecutionServer(void):  exception while executing, the key undefined does not exists
+02/06 17:17:51 455 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  the key undefined does not exists
+02/06 17:17:55 013 ERROR test.cpp[1889]void __cdecl Test::testExecutionServer(void):  exception while executing, the key undefined does not exists
+02/06 17:20:42 798 WARN  executionengine.cpp[130]bool __cdecl ExecutionEngine::sketcher(void):  ExecutionServer::getEvoCoder(), the key undefined does not exists
+02/06 17:20:46 357 ERROR test.cpp[1889]void __cdecl Test::testExecutionServer(void):  exception while executing, ExecutionServer::getEvoCoder(), the key undefined does not exists

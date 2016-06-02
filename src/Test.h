@@ -31,6 +31,8 @@
 
 
 //local
+#include "ExecutionServer.h"
+
 #include "graph/Graph.h"
 #include "graph/Node.h"
 #include "graph/Edge.h"
@@ -50,7 +52,7 @@
 #include "util/AutoEnumerate.h"
 #include "util/ContainersUtils.h"
 
-#include "fluidControl/EvoCoder.h"
+#include "fluidControl/ExecutionEngine.h"
 #include "fluidControl/MappingEngine.h"
 #include "fluidControl/machineGraph/MachineGraph.h"
 #include "fluidControl/machineGraph/ContainerNode.h"
@@ -207,6 +209,8 @@ public:
 
 	void testMappingPluginTest();
 	void testMappingPluginExec();
+
+	void testExecutionServer();
 
 	class Chorra {
 	public:

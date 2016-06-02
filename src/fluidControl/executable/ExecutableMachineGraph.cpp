@@ -78,10 +78,11 @@ bool ExecutableMachineGraph::connectExecutableContainer(int idSource,
 		ExecutableMachineGraph::ExecutableContainerEdgePtr newEdge = makeEdge(idSource, idTarget);
 		graph->addEdge(newEdge);
 
-		Graph<ExecutableContainerNode, Edge>::NodeTypePtr source = graph->getNode(idSource);
-		Graph<ExecutableContainerNode, Edge>::NodeTypePtr target = graph->getNode(idTarget);
-		source->connectContainer(idSource, idTarget);
-		target->connectContainer(idSource, idTarget);
+		ExecutableContainerNodePtr source = graph->getNode(newEdge->getIdSource());
+		ExecutableContainerNodePtr target = graph->getNode(newEdge->getIdTarget());
+
+		source->connectContainer(newEdge->getIdSource(), newEdge->getIdTarget());
+		target->connectContainer(newEdge->getIdSource(), newEdge->getIdTarget());
 
 		vuelta = true;
 	}
@@ -314,10 +315,10 @@ void ExecutableMachineGraph::substractVolume(int idContainer, float volume) {
 }
 
 CommandSender* ExecutableMachineGraph::getTestCommunicationsPrototypeCopy() {
-	return execComInterface->clone();
+	return testComInterface->clone();
 }
 CommandSender* ExecutableMachineGraph::getExecCommunicationsPrototypeCopy() {
-	return testComInterface->clone();
+	return execComInterface->clone();
 }
 
 void ExecutableMachineGraph::updateCommunicationsInterface(int idCommunication) {
@@ -325,5 +326,23 @@ void ExecutableMachineGraph::updateCommunicationsInterface(int idCommunication) 
 
 	for (auto it = nodes->begin(); it != nodes->end(); ++it) {
 		(*it)->updateCommunicationInterface(idCommunication);
+	}
+}
+
+void ExecutableMachineGraph::updateControlActuators() 
+{
+	ExecutableContainerNodeVectorPtr nodes = graph->getAllNodes();
+	for (auto it = nodes->begin(); it != nodes->end(); ++it)
+	{
+		(*it)->clearConnectedContainers();
+	}
+
+	ExecutableContainerEdgeVectorPtr edges = graph->getEdgeList();
+	for (auto it = edges->begin(); it != edges->end(); ++it) {
+		ExecutableContainerNodePtr source = graph->getNode((*it)->getIdSource());
+		ExecutableContainerNodePtr target = graph->getNode((*it)->getIdTarget());
+
+		source->connectContainer((*it)->getIdSource(), (*it)->getIdTarget());
+		target->connectContainer((*it)->getIdSource(), (*it)->getIdTarget());
 	}
 }

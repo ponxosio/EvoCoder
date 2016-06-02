@@ -10,7 +10,9 @@
 CommunicationsInterface *CommunicationsInterface::m_pInstance = NULL;
 
 void CommunicationsInterface::freeCommandInterface() {
-	delete m_pInstance;
+	if (m_pInstance) {
+		delete m_pInstance;
+	}
 }
 
 CommunicationsInterface::CommunicationsInterface() {

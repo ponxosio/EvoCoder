@@ -42,24 +42,24 @@ void ConvergentSwitch::loadNode(const std::string& line)
 }
 
 void ConvergentSwitch::receiveLiquid(double rate)
-		throw (std::invalid_argument) {
+		throw (std::runtime_error) {
 	insert.get()->injectLiquid(rate);
 }
 
 void ConvergentSwitch::extractLiquid(double rate)
-		throw (std::invalid_argument) {
-	throw(std::invalid_argument(
+		throw (std::runtime_error) {
+	throw(std::runtime_error(
 			"liquid cannot be extracted from this container "));
 }
 
-void ConvergentSwitch::setPositionInject(int source, int target) {
+void ConvergentSwitch::setPositionInject(int source, int target) throw (std::runtime_error) {
 	control.get()->setConnection(source, target);
 }
 
-void ConvergentSwitch::setPositionExtract(int source, int target) {
+void ConvergentSwitch::setPositionExtract(int source, int target) throw (std::runtime_error) {
 }
 
-void ConvergentSwitch::connectContainer(int source, int target) {
+void ConvergentSwitch::connectContainer(int source, int target) throw (std::runtime_error)  {
 	if (containerID == target) {
 		control.get()->addConnection(source, target);
 	}
@@ -68,4 +68,9 @@ void ConvergentSwitch::connectContainer(int source, int target) {
 void ConvergentSwitch::updateCommunicationInterface(int communication) {
 	this->control->setCommunications(communication);
 	this->insert->setCommunications(communication);
+}
+
+void ConvergentSwitch::clearConnectedContainers() throw (std::runtime_error) 
+{
+	this->control->clearConnections();
 }

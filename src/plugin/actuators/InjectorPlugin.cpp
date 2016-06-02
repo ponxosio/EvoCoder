@@ -35,7 +35,7 @@ void InjectorPlugin::injectLiquid(double rate) throw (std::runtime_error)
 		CommandSender* com = CommunicationsInterface::GetInstance()->getCommandSender(communications);
 		PythonEnvironment::GetInstance()->getVarInstance(referenceName).attr("injectLiquid")(rate, boost::ref(*com));
 	}
-	catch (std::invalid_argument & e) 
+	catch (std::invalid_argument & e)
 	{
 		throw (std::runtime_error(e.what()));
 	}
@@ -43,17 +43,23 @@ void InjectorPlugin::injectLiquid(double rate) throw (std::runtime_error)
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
 
-		throw(std::runtime_error("error at python environment " + std::string(PyString_AsString(pvalue))));
+		std::string error = "";
+		char* c_str = PyString_AsString(pvalue);
+		if (c_str) {
+			error = std::string(c_str);
+		}
+		throw(std::runtime_error("injectLiquid(), Plugin " + pluginType + ": " + "error at python environment " + error));
 	}
 }
 
 std::string InjectorPlugin::getInstructions() throw (std::runtime_error)
 {
-	if (referenceName.empty()) {
-		referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
-	}
-
 	try {
+		if (referenceName.empty()) {
+			referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
+		}
+
+
 		const char* c_str = extract<const char*>(PythonEnvironment::GetInstance()->getVarInstance(referenceName).attr("getInstructions")());
 		return std::string(c_str);
 	}
@@ -61,17 +67,26 @@ std::string InjectorPlugin::getInstructions() throw (std::runtime_error)
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
 
-		throw(std::runtime_error("error at python environment " + std::string(PyString_AsString(pvalue))));
+		std::string error = "";
+		char* c_str = PyString_AsString(pvalue);
+		if (c_str) {
+			error = std::string(c_str);
+		}
+		throw(std::runtime_error("getInstructions(), Plugin " + pluginType + ": " + "error at python environment " + error));
+	}
+	catch (std::invalid_argument & e)
+	{
+		throw(std::runtime_error("getInstructions(), Plugin " + pluginType + ": " + "internal error" + std::string(e.what())));
 	}
 }
 
 int InjectorPlugin::getMovementType() throw (std::runtime_error)
 {
-	if (referenceName.empty()) {
-		referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
-	}
-
 	try {
+		if (referenceName.empty()) {
+			referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
+		}
+
 		int movementType = extract<int>(PythonEnvironment::GetInstance()->getVarInstance(referenceName).attr("getMovementType")());
 		return movementType;
 	}
@@ -79,6 +94,15 @@ int InjectorPlugin::getMovementType() throw (std::runtime_error)
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
 
-		throw(std::runtime_error("error at python environment " + std::string(PyString_AsString(pvalue))));
+		std::string error = "";
+		char* c_str = PyString_AsString(pvalue);
+		if (c_str) {
+			error = std::string(c_str);
+		}
+		throw(std::runtime_error("getMovementType(), Plugin " + pluginType + ": " + "error at python environment " + error));
+	}
+	catch (std::invalid_argument & e)
+	{
+		throw(std::runtime_error("getMovementType(), Plugin " + pluginType + ": " + "internal error" + std::string(e.what())));
 	}
 }

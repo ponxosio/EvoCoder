@@ -1,5 +1,5 @@
 /*
- * EvoCoder.h
+ * ExecutionEngine.h
  *
  *  Created on: 6 de mar. de 2016
  *      Author: angel
@@ -45,7 +45,7 @@
 #include "../protocolGraph/operations/DivergeNode.h"
 
 
-class EvoCoder {
+class ExecutionEngine {
 public:
 
 	//type defs
@@ -62,24 +62,24 @@ public:
 	 * @param table table where the values of the variable of the protocol will be stored
 	 * @param name name of the portocol
 	 */
-	EvoCoder(std::shared_ptr<ProtocolGraph> protocol,
+	ExecutionEngine(std::shared_ptr<ProtocolGraph> protocol,
 		std::shared_ptr<VariableTable> table, std::shared_ptr<Mapping> mapping);
-	EvoCoder(const EvoCoder & ec);
-	virtual ~EvoCoder();
+	ExecutionEngine(const ExecutionEngine & ec);
+	virtual ~ExecutionEngine();
 
 	/**
 	 * Tries to execute the protocol on the machine
 	 * @return true if all was correct, false otherwise
 	 */
-	bool exec_general() throw (std::invalid_argument);
-	bool exec_ep() throw (std::invalid_argument);
+	bool exec_general() throw (std::runtime_error);
+	bool exec_ep() throw (std::runtime_error);
 
 	bool sketcher();
 	/**
 	 * Tries to execute a test of the protocol on the machine
 	 * @return true if all was correct, false otherwise
 	 */
-	bool test() throw (std::invalid_argument);
+	bool test() throw (std::runtime_error);
 
 	//getters & setters
 	inline std::shared_ptr<VariableTable> getVariableTable()

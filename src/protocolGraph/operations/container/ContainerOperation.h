@@ -23,8 +23,8 @@
 
 //cereal
 #include <cereal/cereal.hpp>
-#include <cereal/types/memory.hpp>
 #include <cereal/types/polymorphic.hpp>
+#include <cereal/types/string.hpp>
 
 /**
  * Interface that represents all the operations that can be made over the machine containers
@@ -42,7 +42,12 @@ public:
 	}
 
 	virtual inline std::shared_ptr<Mapping> getMapping() throw (std::invalid_argument) {
-		return ExecutionServer::GetInstance()->getEvoCoder(reference)->getMapping();
+		try {
+			return ExecutionServer::GetInstance()->getEvoCoder(reference)->getMapping();
+		}
+		catch (std::invalid_argument & e) {
+			throw(std::invalid_argument("ContainerOperation::getMapping(), " + std::string(e.what())));
+		}
 	}
 
 	//pure virtual

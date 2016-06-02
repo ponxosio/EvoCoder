@@ -33,3 +33,8 @@ class Control(object):
 				*) string readUntil(endCharacter) -- returns a string received from the machine, stops when the endCharacter arrives;
 				*) void synch() -- synchronize with the machine, not always necesary, only for protocols compatibles;
 		"""
+	@abc.abstractmethod
+	def clearConnections(self):
+		"""
+			must removed all the connections added with addConnection
+		"""

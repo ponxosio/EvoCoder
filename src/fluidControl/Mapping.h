@@ -45,16 +45,16 @@ public:
 	virtual ~Mapping();
 
 	//execution
-	void setContinuosFlow(int idSource, int idTarget, double rate);
-	void transfer(int idSource, int idTarget, double volume);
-	void mix(int source1, int source2, int target, double volume1, double volume2);
-	void applyLight(int id, double wavelength, double intensity);
-	void applyTemperature(int id, double degres);
-	void stir(int id, double intensity);
+	void setContinuosFlow(int idSource, int idTarget, double rate) throw (std::runtime_error);
+	void transfer(int idSource, int idTarget, double volume) throw (std::runtime_error);
+	void mix(int source1, int source2, int target, double volume1, double volume2) throw (std::runtime_error);
+	void applyLight(int id, double wavelength, double intensity) throw (std::runtime_error);
+	void applyTemperature(int id, double degres) throw (std::runtime_error);
+	void stir(int id, double intensity) throw (std::runtime_error);
 	void loadContainer(int containerID, double volume);
 
 	double getVolume(int id);
-	double measureOD(int id);
+	double measureOD(int id) throw (std::runtime_error);
 
 	double timeStept();
 
@@ -112,17 +112,16 @@ protected:
 	void transformTargetContainer(int idSource, int idTarget, MachineGraph::ContainerNodePtr targetNode);
 
 	//EXEC
-	void exec_setContinuosFlow(int idSource, int idTarget, double rate);
-	void exec_transfer(int idSource, int idTarget, double volume);
-	void exec_mix(int source1, int source2, int target, double volume1,
-			double volume2);
-	void exec_applyLight(int id, double wavelength, double intensity);
-	void exec_applyTemperature(int id, double degres);
-	void exec_stir(int id, double intensity);
+	void exec_setContinuosFlow(int idSource, int idTarget, double rate) throw (std::runtime_error);
+	void exec_transfer(int idSource, int idTarget, double volume) throw (std::runtime_error);
+	void exec_mix(int source1, int source2, int target, double volume1, double volume2) throw (std::runtime_error);
+	void exec_applyLight(int id, double wavelength, double intensity) throw (std::runtime_error);
+	void exec_applyTemperature(int id, double degres) throw (std::runtime_error);
+	void exec_stir(int id, double intensity) throw (std::runtime_error);
 	void exec_loadContainer(int containerID, double volume);
 
 	double exec_getVolume(int id);
-	double exec_measureOD(int id);
+	double exec_measureOD(int id) throw (std::runtime_error);
 
 	double exec_timeStep();
 };

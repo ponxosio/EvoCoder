@@ -19,6 +19,9 @@
 class ExecutionMachineServer
 {
 public:
+
+	typedef std::unordered_map<std::string, std::tuple<int, std::shared_ptr<ExecutableMachineGraph>>> MachineMap;
+
 	static ExecutionMachineServer* GetInstance() {
 		if (!m_pInstance)
 			m_pInstance = new ExecutionMachineServer();
@@ -33,10 +36,16 @@ public:
 	int getMachineComId(const std::string & name);
 	std::vector<std::shared_ptr<ExecutableMachineGraph>> getAvailableMachines();
 
+	//getter & setter
+	inline std::shared_ptr<MachineMap> getMachineMap()
+	{
+		return machineMap;
+	}
+
 private:
 	static ExecutionMachineServer *m_pInstance;
 
-	std::unordered_map<std::string, std::tuple<int,std::shared_ptr<ExecutableMachineGraph>>> machineMap;
+	std::shared_ptr<MachineMap> machineMap;
 	AutoEnumerate series;
 	int lastSeries;
 

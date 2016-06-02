@@ -5,11 +5,11 @@
  *      Author: angel
  */
 
-#include "EvoCoder.h"
+#include "ExecutionEngine.h"
 
 using namespace std;
 
-EvoCoder::EvoCoder(shared_ptr<ProtocolGraph> protocol,
+ExecutionEngine::ExecutionEngine(shared_ptr<ProtocolGraph> protocol,
 	std::shared_ptr<VariableTable> table, std::shared_ptr<Mapping> mapping) {
 	this->protocol = protocol;
 	this->table = table;
@@ -17,7 +17,7 @@ EvoCoder::EvoCoder(shared_ptr<ProtocolGraph> protocol,
 	this->actual = NULL;
 }
 
-EvoCoder::EvoCoder(const EvoCoder & ec) 
+ExecutionEngine::ExecutionEngine(const ExecutionEngine & ec) 
 {
 	this->protocol = ec.protocol;
 	this->table = ec.table;
@@ -25,11 +25,11 @@ EvoCoder::EvoCoder(const EvoCoder & ec)
 	this->actual = ec.actual;
 }
 
-EvoCoder::~EvoCoder() {
+ExecutionEngine::~ExecutionEngine() {
 	//delete mapping;
 }
 
-bool EvoCoder::exec_general() throw (std::invalid_argument) {
+bool ExecutionEngine::exec_general() throw (std::runtime_error) {
 	bool correct = false;
 	CommunicationsInterface::GetInstance()->setTesting(false);
 	mapping->settesting(false);
@@ -46,19 +46,19 @@ bool EvoCoder::exec_general() throw (std::invalid_argument) {
 		mapping->stopCommunications();
 	}
 	catch (std::invalid_argument& e) {
-		LOG(ERROR) << "exception while executing, " << e.what();
+		throw(std::runtime_error("exception while executing, " + std::string(e.what())));
 	}
 	catch (std::ios_base::failure& e) {
-		LOG(ERROR) << "exception while connecting, " << e.what();
+		throw(std::runtime_error("exception while connecting, " + std::string(e.what())));
 	}
 	catch (std::runtime_error & e) {
-		LOG(ERROR) << "exception while executing, " << e.what();
+		throw(std::runtime_error("exception while executing, " + std::string(e.what())));
 	}
 
 	return		correct;
 }
 
-bool EvoCoder::exec_ep() throw (std::invalid_argument) {
+bool ExecutionEngine::exec_ep() throw (std::runtime_error) {
 	bool correct = false;
 	CommunicationsInterface::GetInstance()->setTesting(false);
 	mapping->settesting(false);
@@ -75,18 +75,18 @@ bool EvoCoder::exec_ep() throw (std::invalid_argument) {
 		mapping->stopCommunications();
 	}
 	catch (std::invalid_argument& e) {
-		LOG(ERROR) << "exception while executing, " << e.what();
+		throw(std::runtime_error("exception while executing, " + std::string(e.what())));
 	}
 	catch (std::ios_base::failure& e) {
-		LOG(ERROR) << "exception while connecting, " << e.what();
+		throw(std::runtime_error("exception while connecting, " + std::string(e.what())));
 	}
 	catch (std::runtime_error & e) {
-		LOG(ERROR) << "exception while executing, " << e.what();
+		throw(std::runtime_error("exception while executing, " + std::string(e.what())));
 	}
 	return correct;
 }
 
-bool EvoCoder::test() throw (std::invalid_argument) {
+bool ExecutionEngine::test() throw (std::runtime_error) {
 	bool correct = false;
 	CommunicationsInterface::GetInstance()->setTesting(true);
 	try {
@@ -103,18 +103,18 @@ bool EvoCoder::test() throw (std::invalid_argument) {
 		mapping->stopCommunications();
 	}
 	catch (std::invalid_argument& e) {
-		LOG(ERROR) << "exception while executing, " << e.what();
+		throw(std::runtime_error("exception while executing, " + std::string(e.what())));
 	}
 	catch (std::ios_base::failure& e) {
-		LOG(ERROR) << "exception while connecting, " << e.what();
+		throw(std::runtime_error("exception while connecting, " + std::string(e.what())));
 	}
 	catch (std::runtime_error & e) {
-		LOG(ERROR) << "exception while executing, " << e.what();
+		throw(std::runtime_error("exception while executing, " + std::string(e.what())));
 	}
 	return correct;
 }
 
-bool EvoCoder::sketcher() {
+bool ExecutionEngine::sketcher() {
 	table.get()->clear();
 	initilizeTime();
 	mapping->setSketching();
@@ -133,7 +133,7 @@ bool EvoCoder::sketcher() {
 	return true;
 }
 
-bool EvoCoder::exec() {
+bool ExecutionEngine::exec() {
 	bool vuelta = true;
 	actual = protocol->getStart();
 
@@ -155,7 +155,7 @@ bool EvoCoder::exec() {
 	return vuelta;
 }
 
-void EvoCoder::addAvailableEdges(ProtocolNodeQueue & nodes) {
+void ExecutionEngine::addAvailableEdges(ProtocolNodeQueue & nodes) {
 	const ProtocolGraph::ProtocolEdgeVectorPtr neighbor = protocol->getProjectingEdges(
 		actual->getContainerId());
 
@@ -168,7 +168,7 @@ void EvoCoder::addAvailableEdges(ProtocolNodeQueue & nodes) {
 	}
 }
 
-void EvoCoder::initilizeTime() {
+void ExecutionEngine::initilizeTime() {
 	table->setValue(TIME_VARIABLE, 0.0);
 	mapping->setTimestamp(Utils::getCurrentTimeMilis());
 }

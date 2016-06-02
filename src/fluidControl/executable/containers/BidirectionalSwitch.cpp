@@ -50,24 +50,24 @@ void BidirectionalSwitch::loadNode(const std::string& line)
 }
 
 void BidirectionalSwitch::receiveLiquid(double rate)
-		throw (std::invalid_argument) {
+		throw (std::runtime_error) {
 	insert.get()->injectLiquid(rate);
 }
 
 void BidirectionalSwitch::extractLiquid(double rate)
-		throw (std::invalid_argument) {
+		throw (std::runtime_error) {
 	extract.get()->extractLiquid(rate);
 }
 
-void BidirectionalSwitch::setPositionExtract(int source, int target) {
+void BidirectionalSwitch::setPositionExtract(int source, int target) throw (std::runtime_error) {
 	controlOUT.get()->setConnection(source, target);
 }
 
-void BidirectionalSwitch::setPositionInject(int source, int target) {
+void BidirectionalSwitch::setPositionInject(int source, int target) throw (std::runtime_error) {
 	controlIN.get()->setConnection(source, target);
 }
 
-void BidirectionalSwitch::connectContainer(int source, int target) {
+void BidirectionalSwitch::connectContainer(int source, int target) throw (std::runtime_error) {
 	if (containerID == source) {
 		controlOUT.get()->addConnection(source, target);
 	} else if (containerID == target) {
@@ -80,4 +80,10 @@ void BidirectionalSwitch::updateCommunicationInterface(int communication) {
 	this->controlOUT->setCommunications(communication);
 	this->extract->setCommunications(communication);
 	this->insert->setCommunications(communication);
+}
+
+void BidirectionalSwitch::clearConnectedContainers() throw (std::runtime_error)
+{
+	this->controlIN->clearConnections();
+	this->controlOUT->clearConnections();
 }

@@ -61,7 +61,7 @@ int main(int argv, char* argc[]) {
 	/*t.testSerialize_MathematicOperable();
 	t.testSerialize_ExecutableConatinerNode();
 	t.testSerializeNode();*/
-	t.testSerializeMachine();
+	//t.testSerializeMachine();
 
 	//t.testTimeStep();
 	//t.testTimeStepTest();
@@ -72,8 +72,10 @@ int main(int argv, char* argc[]) {
 
 	//t.testOdSensorPlugin();
 
-	t.testMappingPluginTest();
+	//t.testMappingPluginTest();
 	//t.testMappingPluginExec();
+
+	t.testExecutionServer();
 
 	LOG(INFO) << "finished!";
 }
@@ -469,7 +471,7 @@ void Test::testSketcher() {
 	LOG(INFO) << "printing protocol...";
 	protocol->printProtocol("protocol.graph");
 
-	EvoCoder* evo = new EvoCoder(protocol, t, map);
+	ExecutionEngine* evo = new ExecutionEngine(protocol, t, map);
 
 	LOG(INFO) << "Sketching... " << evo->sketcher();
 	LOG(INFO) << "printing sketch...";
@@ -488,7 +490,7 @@ void Test::testMapping() {
 	std::vector<int> v;
 	std::shared_ptr<Mapping> map = std::shared_ptr<Mapping>(new Mapping(machine, "test", v));
 
-	EvoCoder* evo = new EvoCoder(protocol, t, map);
+	ExecutionEngine* evo = new ExecutionEngine(protocol, t, map);
 
 	map->setSketching();
 
@@ -1264,7 +1266,7 @@ void Test::testMappingTest() {
 	map->printSketch("sketch");
 	exMachine->printMachine("machine");
 
-	EvoCoder* evo = new EvoCoder(protocol, t, map);
+	ExecutionEngine* evo = new ExecutionEngine(protocol, t, map);
 
 	LOG(INFO) << "Executing test...";
 	bool correct = evo->test();
@@ -1292,7 +1294,7 @@ void Test::testMappingExec() {
 	map->printSketch("sketch");
 	exMachine->printMachine("machine");
 
-	EvoCoder* evo = new EvoCoder(protocol, t, map);
+	ExecutionEngine* evo = new ExecutionEngine(protocol, t, map);
 
 	LOG(INFO) << "Executing test...";
 	bool correct = evo->exec_general();
@@ -1447,7 +1449,7 @@ void Test::testTimeStep() {
 	map->printSketch("sketch");
 	exMachine->printMachine("machine");
 
-	EvoCoder* evo = new EvoCoder(protocol, t, map);
+	ExecutionEngine* evo = new ExecutionEngine(protocol, t, map);
 
 	LOG(INFO) << "Executing test...";
 	bool correct = evo->exec_general();
@@ -1475,7 +1477,7 @@ void Test::testTimeStepTest() {
 	map->printSketch("sketch");
 	exMachine->printMachine("machine");
 
-	EvoCoder* evo = new EvoCoder(protocol, t, map);
+	ExecutionEngine* evo = new ExecutionEngine(protocol, t, map);
 
 	LOG(INFO) << "Executing test...";
 	bool correct = evo->test();
@@ -1803,7 +1805,7 @@ void Test::testMappingPluginTest() {
 	map->printSketch("sketch");
 	exMachine->printMachine("machine");
 
-	EvoCoder* evo = new EvoCoder(protocol, t, map);
+	ExecutionEngine* evo = new ExecutionEngine(protocol, t, map);
 
 	LOG(INFO) << "Executing test...";
 	bool correct = evo->test();
@@ -1835,11 +1837,64 @@ void Test::testMappingPluginExec() {
 	map->printSketch("sketch");
 	exMachine->printMachine("machine");
 
-	EvoCoder* evo = new EvoCoder(protocol, t, map);
+	ExecutionEngine* evo = new ExecutionEngine(protocol, t, map);
 
 	LOG(INFO) << "Executing test...";
 	bool correct = evo->exec_general();
 	LOG(INFO) << "result: " << correct;
+
+	PythonEnvironment::GetInstance()->finishEnvironment();
+}
+
+void Test::testExecutionServer() {
+	PythonEnvironment::GetInstance()->initEnvironment();
+
+	ExecutionServer* server = ExecutionServer::GetInstance();
+	std::unique_ptr<CommandSender> test(new FileSender("test.log", "inputFileData.txt"));
+	std::unique_ptr<CommandSender> exec(new SerialSender("\\\\.\\COM3"));
+
+	LOG(INFO) << "making machine...";
+	std::shared_ptr<ExecutableMachineGraph> exMachine(makeSimpleMachinePlugin(0, std::move(exec), std::move(test)));
+	ExecutableMachineGraph::toJSON("exMachine.json", *exMachine.get());
+
+	LOG(INFO) << "making turbidostat protocol...";
+	std::vector<int> v;
+	std::shared_ptr<VariableTable> t(new VariableTable());
+	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
+	std::shared_ptr<ProtocolGraph> protocol(makeTimeProtocol(t, map));
+	ProtocolGraph::toJSON("tubidostat.json", *protocol.get());
+
+	try {
+		LOG(INFO) << "add new machine...";
+		string machineRef = ExecutionMachineServer::GetInstance()->addNewMachine("exMachine.json");
+		
+		LOG(INFO) << "add protocol on new machine";
+		string ref1 = server->addProtocolOnNewMachine("tubidostat.json", "exMachine.json");
+		LOG(INFO) << "add protocol on existing machine";
+		string ref2 = server->addProtocolOnExistingMachine("tubidostat.json", machineRef);
+
+		LOG(INFO) << "test ref1";
+		server->test(ref1);
+		LOG(INFO) << "test ref2";
+		server->exec(ref2);
+		
+
+		LOG(INFO) << "availables machines...";
+		auto vec = ExecutionMachineServer::GetInstance()->getMachineMap();
+		for (auto it = vec->begin(); it != vec->end(); ++it) {
+			LOG(INFO) << it->first << " , " << get<1>(it->second)->getName();
+		}
+	}
+	catch (std::runtime_error & e) {
+		LOG(ERROR) << e.what();
+	}
+	catch (std::invalid_argument & e) {
+		LOG(ERROR) << e.what();
+	}
+
+	ExecutionServer::freeCommandInterface();
+	ExecutionMachineServer::freeCommandInterface();
+	CommunicationsInterface::freeCommandInterface();
 
 	PythonEnvironment::GetInstance()->finishEnvironment();
 }

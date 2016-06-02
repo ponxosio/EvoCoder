@@ -33,6 +33,7 @@ public:
 
 	virtual void addConnection(int idSource, int idTraget);
 	virtual void setConnection(int idSource, int idTraget);
+	virtual void clearConnections();
 	virtual std::string getInstructions();
 
 	//SERIALIZATIoN

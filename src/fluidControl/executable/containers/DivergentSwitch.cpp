@@ -44,24 +44,24 @@ void DivergentSwitch::loadNode(const std::string& line)
 }
 
 void DivergentSwitch::receiveLiquid(double rate)
-		throw (std::invalid_argument) {
-	throw(std::invalid_argument("this container cannot receive liquid"));
+		throw (std::runtime_error) {
+	throw(std::runtime_error("this container cannot receive liquid"));
 }
 
 void DivergentSwitch::extractLiquid(double rate)
-		throw (std::invalid_argument) {
+		throw (std::runtime_error) {
 
 	extract.get()->extractLiquid(rate);
 }
 
-void DivergentSwitch::setPositionInject(int source, int target) {
+void DivergentSwitch::setPositionInject(int source, int target) throw (std::runtime_error) {
 }
 
-void DivergentSwitch::setPositionExtract(int source, int target) {
+void DivergentSwitch::setPositionExtract(int source, int target) throw (std::runtime_error) {
 	control.get()->setConnection(source, target);
 }
 
-void DivergentSwitch::connectContainer(int source, int target) {
+void DivergentSwitch::connectContainer(int source, int target) throw (std::runtime_error) {
 	if (containerID == source) {
 		control.get()->addConnection(source, target);
 	}
@@ -70,4 +70,9 @@ void DivergentSwitch::connectContainer(int source, int target) {
 void DivergentSwitch::updateCommunicationInterface(int communication) {
 	this->control->setCommunications(communication);
 	this->extract->setCommunications(communication);
+}
+
+void DivergentSwitch::clearConnectedContainers() throw (std::runtime_error)
+{
+	this->control->clearConnections();
 }

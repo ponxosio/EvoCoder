@@ -97,11 +97,13 @@ public:
 	}
 
 	//virtual methods
-	virtual void setPositionInject(int source, int target) = 0;
-	virtual void setPositionExtract(int source, int target) = 0;
-	virtual void receiveLiquid(double rate) throw (std::invalid_argument)=0;
-	virtual void extractLiquid(double rate) throw (std::invalid_argument)= 0;
-	virtual void connectContainer(int source, int target) = 0;
+	virtual void setPositionInject(int source, int target) throw (std::runtime_error) = 0;
+	virtual void setPositionExtract(int source, int target) throw (std::runtime_error) = 0;
+	virtual void receiveLiquid(double rate) throw (std::runtime_error) = 0;
+	virtual void extractLiquid(double rate) throw (std::runtime_error)= 0;
+	virtual void connectContainer(int source, int target) throw (std::runtime_error) = 0;
+	virtual void clearConnectedContainers() throw (std::runtime_error) = 0;
+	
 	virtual void updateCommunicationInterface(int communication) = 0;
 
 	//SERIALIZATIoN
