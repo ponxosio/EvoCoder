@@ -17,6 +17,11 @@
 #include "CommandSender.h"
 #include "../../../../../util/Patch.h"
 
+ //cereal
+#include <cereal/cereal.hpp>
+#include <cereal/types/polymorphic.hpp>
+#include <cereal/types/string.hpp>
+
 /**
  * Class that makes the serial communication
  */
@@ -44,7 +49,7 @@ public:
 	 * @param writeTotalTimeoutMultiplier Specify value is added to the product of the
 	 * 			WriteTotalTimeoutMultiplier member (10 default).
 	 */
-	SerialSender(std::string device,
+	SerialSender(std::string device = "undefined",
 			DWORD baudRate = CBR_9600,
 			BYTE byteSize = 8,
 			BYTE stopBits = ONESTOPBIT,
@@ -55,6 +60,7 @@ public:
 			DWORD readTotalTimeoutMultiplier = 10,
 			DWORD writeTotalTimeoutConstant = 50,
 			DWORD writeTotalTimeoutMultiplier = 10);
+	SerialSender(const SerialSender& ss);
 	virtual ~SerialSender();
 
 	/**
@@ -76,6 +82,12 @@ public:
 	virtual void connect() throw (std::ios_base::failure);
 
 	virtual void synch() throw (std::ios_base::failure);
+
+	virtual CommandSender* clone();
+
+	//SERIALIZATIoN
+	template<class Archive>
+	void serialize(Archive & ar, std::uint32_t const version);
 protected:
 
 	bool connected;
@@ -138,5 +150,32 @@ protected:
 
 	void configure() throw (std::ios_base::failure);
 };
+
+template<class Archive>
+inline void SerialSender::serialize(Archive& ar, const std::uint32_t version) {
+	if (version <= 1) {
+		ar(CEREAL_NVP(device), 
+			CEREAL_NVP(baudRate), 
+			CEREAL_NVP(byteSize),
+			CEREAL_NVP(stopBits),
+			CEREAL_NVP(parity),
+			CEREAL_NVP(maxMsWaitingRead),
+			CEREAL_NVP(readIntervalTimeout),
+			CEREAL_NVP(readTotalTimeoutConstant),
+			CEREAL_NVP(readTotalTimeoutMultiplier),
+			CEREAL_NVP(writeTotalTimeoutConstant),
+			CEREAL_NVP(writeTotalTimeoutMultiplier));
+	}
+}
+
+// Associate some type with a version number
+CEREAL_CLASS_VERSION(SerialSender, (int)1);
+
+// Include any archives you plan on using with your type before you register it
+// Note that this could be done in any other location so long as it was prior
+// to this file being included
+#include <cereal/archives/json.hpp>
+// Register DerivedClass
+CEREAL_REGISTER_TYPE_WITH_NAME(SerialSender, "SerialSender");
 
 #endif /* SRC_FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_COMMUNICATIONS_SERIALSENDER_H_ */

@@ -36,16 +36,18 @@ public:
 
 	virtual ~UnaryOperation();
 
+	virtual void updateReference(const std::string & reference);
+
 	/**
 	 * Returns the numeric value of the variable
 	 * @return the numeric value of the variable
 	 */
-	virtual double getValue();
+	virtual double getValue() throw (std::invalid_argument);
 	/**
 	 * Check if the variable stores physical values
 	 * @return true if the variable stores physical values, false otherwise
 	 */
-	virtual bool isPhysical();
+	virtual bool isPhysical() throw (std::invalid_argument);
 	/**
 	 * Compares two Objects implementing this interface
 	 * @param obj other object to be compared to

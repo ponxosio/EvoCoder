@@ -45,6 +45,8 @@ public:
 
 	virtual ~LoopNode();
 
+	virtual void updateReference(const std::string & reference);
+
 	virtual void execute();
 
 	//GETTERS & SETTERS

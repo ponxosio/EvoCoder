@@ -64,6 +64,11 @@ public:
 	 */
 	inline void clear() {table.clear();}
 
+	inline bool containsKey(const std::string & key)
+	{
+		return (table.find(key) != table.end());
+	}
+
 	template<class Archive>
 	void serialize(Archive & ar, std::uint32_t const version);
 

@@ -10,7 +10,9 @@
 CommunicationsInterface *CommunicationsInterface::m_pInstance = NULL;
 
 void CommunicationsInterface::freeCommandInterface() {
-	delete m_pInstance;
+	if (m_pInstance) {
+		delete m_pInstance;
+	}
 }
 
 CommunicationsInterface::CommunicationsInterface() {
@@ -48,6 +50,18 @@ int CommunicationsInterface::addCommandSender(CommandSender* communications) {
 		testCommunicationMap->insert(std::make_pair(nextId, communications));
 		testLastId++;
 	}
+	return nextId;
+}
+
+int CommunicationsInterface::addCommandSenderTestExec(CommandSender * exec, CommandSender * test)
+{
+	testLastId = std::max(testLastId, lastId);
+	lastId = std::max(testLastId, lastId);
+	int nextId = lastId;
+
+	communicationMap->insert(std::make_pair(nextId, exec));
+	testCommunicationMap->insert(std::make_pair(nextId, test));
+
 	return nextId;
 }
 

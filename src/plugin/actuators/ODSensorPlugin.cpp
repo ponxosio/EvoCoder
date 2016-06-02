@@ -28,11 +28,11 @@ ODSensorPlugin::~ODSensorPlugin()
 
 std::string ODSensorPlugin::getInstructions() throw (std::runtime_error)
 {
-	if (referenceName.empty()) {
-		referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
-	}
-
 	try {
+		if (referenceName.empty()) {
+			referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
+		}
+
 		const char* c_str = extract<const char*>(PythonEnvironment::GetInstance()->getVarInstance(referenceName).attr("getInstructions")());
 		return std::string(c_str);
 	}
@@ -40,17 +40,26 @@ std::string ODSensorPlugin::getInstructions() throw (std::runtime_error)
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
 
-		throw(std::runtime_error("error at python environment " + std::string(PyString_AsString(pvalue))));
+		std::string error = "";
+		char* c_str = PyString_AsString(pvalue);
+		if (c_str) {
+			error = std::string(c_str);
+		}
+		throw(std::runtime_error("getInstructions(), Plugin " + pluginType + ": " + "error at python environment " + error));
+	}
+	catch (std::invalid_argument & e)
+	{
+		throw(std::runtime_error("getInstructions(), Plugin " + pluginType + ": " + "internal error" + std::string(e.what())));
 	}
 }
 
 double ODSensorPlugin::readOd() throw (std::runtime_error)
 {
-	if (referenceName.empty()) {
-		referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
-	}
-
 	try {
+		if (referenceName.empty()) {
+			referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
+		}
+
 		CommandSender* com = CommunicationsInterface::GetInstance()->getCommandSender(communications);
 		double movementType = extract<double>(PythonEnvironment::GetInstance()->getVarInstance(referenceName).attr("readOD")(boost::ref(*com)));
 		return movementType;
@@ -59,6 +68,15 @@ double ODSensorPlugin::readOd() throw (std::runtime_error)
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
 
-		throw(std::runtime_error("error at python environment " + std::string(PyString_AsString(pvalue))));
+		std::string error = "";
+		char* c_str = PyString_AsString(pvalue);
+		if (c_str) {
+			error = std::string(c_str);
+		}
+		throw(std::runtime_error("readOd(), Plugin " + pluginType + ": " + "error at python environment " + error));
+	}
+	catch (std::invalid_argument & e)
+	{
+		throw(std::runtime_error("readOd(), Plugin " + pluginType + ": " + "internal error" + std::string(e.what())));
 	}
 }

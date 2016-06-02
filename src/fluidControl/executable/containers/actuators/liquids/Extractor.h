@@ -32,6 +32,11 @@ public:
 	virtual std::string getInstructions() throw (std::runtime_error) = 0;
 	virtual int getMovementType() throw (std::runtime_error) = 0;
 
+	//getters and setters
+	inline void setCommunications(int communications) {
+		this->communications = communications;
+	}
+
 	//SERIALIZATIoN
 	template<class Archive>
 	void serialize(Archive & ar, std::uint32_t const version);

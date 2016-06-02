@@ -30,14 +30,21 @@ public:
 	virtual void loadNode(const std::string & line) throw (invalid_argument);
 	//
 
-	Mix(int idConatiner, std::shared_ptr<Mapping> mapping, int idSource1,
+	Mix(int idConatiner, int idSource1,
 			int idSource2, int idTarget,
 			std::shared_ptr<MathematicOperable> volume1,
 			std::shared_ptr<MathematicOperable> volume2);
 
 	virtual ~Mix();
 
-	virtual void execute();
+	virtual void execute() throw(std::invalid_argument);
+
+	virtual inline void updateReference(const std::string & reference)
+	{
+		ContainerOperation::updateReference(reference);
+		volume1->updateReference(reference);
+		volume2->updateReference(reference);
+	}
 
 	//SERIALIZATIoN
 	template<class Archive>

@@ -42,20 +42,25 @@ void FlowContainer::loadNode(const std::string& line)
 }
 
 void FlowContainer::receiveLiquid(double rate)
-		throw (std::invalid_argument) {
+		throw (std::runtime_error) {
 	this->insert.get()->injectLiquid(rate);
 }
 
 void FlowContainer::extractLiquid(double rate)
-		throw (std::invalid_argument) {
+		throw (std::runtime_error) {
 	this->extract.get()->extractLiquid(rate);
 }
 
-void FlowContainer::setPositionInject(int source, int target) {
+void FlowContainer::setPositionInject(int source, int target) throw (std::runtime_error) {
 }
 
-void FlowContainer::setPositionExtract(int source, int target) {
+void FlowContainer::setPositionExtract(int source, int target) throw (std::runtime_error) {
 }
 
-void FlowContainer::connectContainer(int source, int target) {
+void FlowContainer::connectContainer(int source, int target) throw (std::runtime_error) {
+}
+
+void FlowContainer::updateCommunicationInterface(int communication) {
+	this->insert->setCommunications(communication);
+	this->extract->setCommunications(communication);
 }

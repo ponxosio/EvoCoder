@@ -29,11 +29,17 @@ public:
 	virtual std::string toText();
 	virtual void loadNode(const std::string & line) throw (invalid_argument);
 	//
-	TimeStep(int containerId, std::shared_ptr<Mapping> mapping, std::shared_ptr<VariableEntry> receiver);
+	TimeStep(int containerId, std::shared_ptr<VariableEntry> receiver);
 
 	virtual ~TimeStep();
 
-	virtual void execute();
+	virtual void execute() throw(std::invalid_argument);
+
+	virtual inline void updateReference(const std::string & reference)
+	{
+		ContainerOperation::updateReference(reference);
+		receiver->updateReference(reference);
+	}
 
 	//SERIALIZATIoN
 	template<class Archive>

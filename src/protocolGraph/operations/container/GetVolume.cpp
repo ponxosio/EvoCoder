@@ -17,9 +17,9 @@ GetVolume::GetVolume(const GetVolume& node) : ContainerOperation(node){
 	this->receiver = node.receiver;
 }
 
-GetVolume::GetVolume(int containerId, std::shared_ptr<Mapping> mapping,
+GetVolume::GetVolume(int containerId, 
 		int sourceId, std::shared_ptr<VariableEntry> receiver) :
-		ContainerOperation(containerId, mapping) {
+		ContainerOperation(containerId) {
 	this->sourceId = sourceId;
 	this->receiver = receiver;
 }
@@ -36,6 +36,6 @@ void GetVolume::loadNode(const std::string& line) throw (invalid_argument) {
 	//TODO: JSON
 }
 
-void GetVolume::execute() {
-	receiver.get()->setValue(executable.get()->getVolume(sourceId));
+void GetVolume::execute() throw(std::invalid_argument)  {
+	receiver.get()->setValue(ContainerOperation::getMapping()->getVolume(sourceId));
 }

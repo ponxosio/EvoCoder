@@ -41,6 +41,8 @@ public:
 			std::shared_ptr<ComparisonOperable> conditionIN);
 	virtual ~DivergeNode();
 
+	virtual void updateReference(const std::string & reference);
+
 	virtual void execute();
 
 	//GETTERS & SETTERS

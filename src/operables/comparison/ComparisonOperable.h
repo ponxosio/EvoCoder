@@ -8,6 +8,8 @@
 #ifndef SRC_OPERABLES_COMPARISON_COMPARISONOPERABLE_H_
 #define SRC_OPERABLES_COMPARISON_COMPARISONOPERABLE_H_
 
+#include <string>
+
 /**
  * Interface that represents all comparation operations
  */
@@ -15,6 +17,8 @@ class ComparisonOperable {
 public:
 	ComparisonOperable(){}
 	virtual ~ComparisonOperable(){}
+
+	virtual void updateReference(const std::string & reference) {}
 	
 	/**
 	 * Check if the comparison is true o false

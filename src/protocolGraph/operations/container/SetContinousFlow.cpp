@@ -22,9 +22,9 @@ SetContinousFlow::SetContinousFlow(const SetContinousFlow& obj) :
 }
 
 SetContinousFlow::SetContinousFlow(int idContainer,
-		std::shared_ptr<Mapping> mapping, int idSource, int idTarget,
+		int idSource, int idTarget,
 		std::shared_ptr<MathematicOperable> rate) :
-		ContainerOperation(idContainer, mapping) {
+		ContainerOperation(idContainer) {
 
 	this->idSource = idSource;
 	this->idTarget = idTarget;
@@ -45,6 +45,6 @@ void SetContinousFlow::loadNode(const std::string& line)
 	//TODO: cuando se decida la sintaxis JSON
 }
 
-void SetContinousFlow::execute() {
-	executable.get()->setContinuosFlow(idSource, idTarget, rate.get()->getValue());
+void SetContinousFlow::execute() throw(std::invalid_argument)  {
+	ContainerOperation::getMapping()->setContinuosFlow(idSource, idTarget, rate.get()->getValue());
 }

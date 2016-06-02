@@ -38,20 +38,24 @@ void SinkContainer::loadNode(const std::string& line)
 }
 
 void SinkContainer::receiveLiquid(double rate)
-		throw (std::invalid_argument) {
+		throw (std::runtime_error) {
 	insert.get()->injectLiquid(rate);
 }
 
 void SinkContainer::extractLiquid(double rate)
-		throw (std::invalid_argument) {
+		throw (std::runtime_error) {
 	throw(std::invalid_argument("liquid cannot be extracted from this container "));
 }
 
-void SinkContainer::setPositionInject(int source, int target) {
+void SinkContainer::setPositionInject(int source, int target) throw (std::runtime_error) {
 }
 
-void SinkContainer::setPositionExtract(int source, int target) {
+void SinkContainer::setPositionExtract(int source, int target) throw (std::runtime_error) {
 }
 
-void SinkContainer::connectContainer(int source, int target) {
+void SinkContainer::connectContainer(int source, int target) throw (std::runtime_error) {
+}
+
+void SinkContainer::updateCommunicationInterface(int communication) {
+	this->insert->setCommunications(communication);
 }

@@ -22,10 +22,9 @@ Transfer::Transfer(const Transfer& obj)  :
 	this->volume = obj.volume;
 }
 
-Transfer::Transfer(int idContainer, std::shared_ptr<Mapping> mapping,
-		int idSource, int idTarget,
+Transfer::Transfer(int idContainer, int idSource, int idTarget,
 		std::shared_ptr<MathematicOperable> volume) :
-		ContainerOperation(idContainer, mapping) {
+		ContainerOperation(idContainer) {
 
 	this->idSource = idSource;
 	this->idTarget = idTarget;
@@ -46,6 +45,6 @@ Transfer::~Transfer() {
 	// TODO Auto-generated destructor stub
 }
 
-void Transfer::execute() {
-	this->executable.get()->transfer(idSource, idTarget, volume.get()->getValue());
+void Transfer::execute() throw(std::invalid_argument)  {
+	ContainerOperation::getMapping()->transfer(idSource, idTarget, volume.get()->getValue());
 }

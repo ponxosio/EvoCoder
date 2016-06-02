@@ -18,9 +18,9 @@ Stir::Stir(const Stir& node) :
 	this->intensity = node.intensity;
 }
 
-Stir::Stir(int containerId, std::shared_ptr<Mapping> executable, int sourceId,
+Stir::Stir(int containerId, int sourceId,
 		std::shared_ptr<MathematicOperable> intensity) :
-		ContainerOperation(containerId, executable) {
+		ContainerOperation(containerId) {
 	this->sourceId = sourceId;
 	this->intensity = intensity;
 }
@@ -37,6 +37,7 @@ void Stir::loadNode(const std::string& line) throw (std::invalid_argument) {
 	//TODO: JSON
 }
 
-void Stir::execute() {
-	this->executable.get()->stir(sourceId, intensity.get()->getValue());
+void Stir::execute() throw(std::invalid_argument) {
+
+	ContainerOperation::getMapping()->stir(sourceId, intensity.get()->getValue());
 }

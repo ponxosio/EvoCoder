@@ -29,10 +29,10 @@ void ApplyLight::loadNode(const std::string& line) throw (std::invalid_argument)
 	//TODO: JSON
 }
 
-ApplyLight::ApplyLight(int idContainer,std::shared_ptr<Mapping> mapping, int sourceID,
+ApplyLight::ApplyLight(int idContainer, int sourceID,
 		std::shared_ptr<MathematicOperable> wavelength,
 		std::shared_ptr<MathematicOperable> intensity) :
-			ContainerOperation(idContainer, mapping){
+	ContainerOperation(idContainer){
 	this->sourceId = sourceID;
 	this->wavelength = wavelength;
 	this->intensity = intensity;
@@ -42,6 +42,6 @@ ApplyLight::~ApplyLight() {
 
 }
 
-void ApplyLight::execute() {
-	executable.get()->applyLight(sourceId, wavelength.get()->getValue(), intensity.get()->getValue());
+void ApplyLight::execute() throw(std::invalid_argument)  {
+	ContainerOperation::getMapping()->applyLight(sourceId, wavelength.get()->getValue(), intensity.get()->getValue());
 }

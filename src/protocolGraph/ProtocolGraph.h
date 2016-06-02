@@ -60,6 +60,8 @@ public:
 	bool connectOperation(ProtocolEdgePtr edge);
 	bool connectOperation(ProtocolNodePtr nodeSource, ProtocolNodePtr nodeTarget, std::shared_ptr<ComparisonOperable> comparison);
 
+	void updateReference(const std::string & reference);
+
 	ProtocolNodePtr getStart();
 	void setStartNode(int idStart);
 

@@ -17,6 +17,7 @@
 #include <unordered_set>
 #include <queue>
 #include <tuple>
+#include <memory>
 
 //local
 #include "../../util/Patch.h"
@@ -28,6 +29,9 @@
 #include "../../graph/FlowPtrComparator.h"
 #include "../machineGraph/ContainerNodeType.h"
 #include "containers/ExecutableContainerNode.h"
+#include "containers\actuators\communications\CommandSender.h"
+#include "containers\actuators\communications\FileSender.h"
+#include "containers\actuators\communications\SerialSender.h"
 
 //cereal
 #include <cereal\cereal.hpp>
@@ -64,18 +68,23 @@ public:
 	static ExecutableMachineGraph* fromJSON(const std::string & path);
 	//
 	
+	//constructors
 	ExecutableMachineGraph();
 	ExecutableMachineGraph(const ExecutableMachineGraph & exMachine);
-	ExecutableMachineGraph(const std::string & name);
+	ExecutableMachineGraph(const std::string & name, std::unique_ptr<CommandSender> execComInterface, std::unique_ptr<CommandSender> testComInterface);
 	virtual ~ExecutableMachineGraph();
+	//
 
+	//graph's operations
 	void addContainer(ExecutableContainerNodePtr node);
 	ExecutableContainerNodePtr getContainer(int idConatiner);
-
 	bool connectExecutableContainer(int idSource, int idTarget);
-
 	void printMachine(const std::string & path);
 
+	void updateControlActuators();
+	//
+
+	//mapping's operations
 	FlowHeap getAvailableFlows(
 		const ContainerNodeType & tipoIni,
 		const ContainerNodeType & tipofin,
@@ -88,7 +97,9 @@ public:
 	void removeUsedNode(int nodeId);
 	void addUsedEdge(int idSorce, int idTarget);
 	void removeUsedEdge(int idSorce, int idTarget);
+	//
 
+	//inlines
 	inline bool existsContainer(int idContainer) {
 		return (graph->getNode(idContainer) != NULL);
 	}
@@ -110,11 +121,19 @@ public:
 	inline UsedMapPtr getUsedNodes() {
 		return usedNodes;
 	}
+	inline std::string getName() {
+		return name;
+	}
 
 	//Volume
 	float getVolume(int idContainer);
 	void addVolume(int idContainer, float volume);
 	void substractVolume(int idContainer, float volume);
+
+	//communications
+	CommandSender* getTestCommunicationsPrototypeCopy();
+	CommandSender* getExecCommunicationsPrototypeCopy();
+	void updateCommunicationsInterface(int idCommunication);
 
 	//SERIALIZATIoN
 	template<class Archive>
@@ -125,6 +144,11 @@ protected:
 	UsedMapPtr usedNodes;
 	UsedEdgeMapPtr usedEges;
 
+	//comunications
+	unique_ptr<CommandSender> execComInterface;
+	unique_ptr<CommandSender> testComInterface;
+
+	//methods
 	void getAvailableFlows_recursive_type(int idSource, vector<int> & visitados,
 		ExecutableContainerEdgeVector & recorridos,
 		FlowHeap & flows,
@@ -151,7 +175,7 @@ template<class Archive>
 inline void ExecutableMachineGraph::serialize(Archive& ar,
 	const std::uint32_t version) {
 	if (version <= 1) {
-		ar(CEREAL_NVP(name), CEREAL_NVP(graph), CEREAL_NVP(usedNodes), CEREAL_NVP(usedEges));
+		ar(CEREAL_NVP(name), CEREAL_NVP(graph), CEREAL_NVP(usedNodes), CEREAL_NVP(usedEges), CEREAL_NVP(execComInterface), CEREAL_NVP(testComInterface));
 	}
 }
 

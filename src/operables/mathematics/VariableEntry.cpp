@@ -10,30 +10,30 @@
 using namespace std;
 
 VariableEntry::VariableEntry() {
-	this->name = "";
-	this->sharedTable = shared_ptr<VariableTable>();
+	this->name = "undefined";
+	this->reference = "undefined";
 }
 
-VariableEntry::VariableEntry(const string & name, std::shared_ptr<VariableTable> sharedTable){
+VariableEntry::VariableEntry(const string & name){
 		this->name = name;
-		this->sharedTable = sharedTable;
-		/*
-		 * if the variable is not at the table, must be
-		 * inserted
-		 */
-		try {
-			this->sharedTable.get()->getVaue(name);
-		} catch (invalid_argument& e) {
-			this->sharedTable.get()->setValue(name, 0.0);
-		}
+		this->reference = "undefined";
 }
 
-double VariableEntry::getValue() {
-	return sharedTable.get()->getVaue(name);
+void VariableEntry::updateReference(const std::string & reference) {
+	this->reference = reference;
+	
+	shared_ptr<VariableTable> table = getVariableTable();
+	if (!table->containsKey(name)) {
+		table->setValue(name, 0.0);
+	}
 }
 
-bool VariableEntry::isPhysical() {
-	return sharedTable.get()->getPhysical(name);
+double VariableEntry::getValue() throw (std::invalid_argument)  {
+	return getVariableTable()->getVaue(name);
+}
+
+bool VariableEntry::isPhysical() throw (std::invalid_argument)  {
+	return getVariableTable()->getPhysical(name);
 }
 
 bool VariableEntry::equal(const MathematicOperable* obj) const{
@@ -45,10 +45,10 @@ bool VariableEntry::equal(const MathematicOperable* obj) const{
 	return vuelta;
 }
 
-void VariableEntry::setValue(double value) {
-	sharedTable.get()->setValue(name, value);
+void VariableEntry::setValue(double value) throw (std::invalid_argument)  {
+	getVariableTable()->setValue(name, value);
 }
 
-void VariableEntry::setPhysical(bool physical) {
-	sharedTable.get()->setPhysical(name, physical);
+void VariableEntry::setPhysical(bool physical) throw (std::invalid_argument)  {
+	getVariableTable()->setPhysical(name, physical);
 }

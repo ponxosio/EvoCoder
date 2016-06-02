@@ -28,6 +28,7 @@ public:
 
 	virtual void addConnection(int idSource, int idTarget) throw (std::runtime_error);
 	virtual void setConnection(int idSource, int idTarget) throw (std::runtime_error);
+	virtual void clearConnections() throw (std::runtime_error);
 	virtual std::string getInstructions() throw (std::runtime_error);
 
 	//SERIALIZATIoN

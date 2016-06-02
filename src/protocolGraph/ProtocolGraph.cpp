@@ -11,13 +11,13 @@
 
 void ProtocolGraph::toJSON(const std::string & path, const ProtocolGraph & protocol) {
 	ofstream o(path);
-	LOG(DEBUG) << "serializating MachineGraph " + protocol.name + " to " + path;
+	LOG(DEBUG) << "serializating ProtocolGraph " + protocol.name + " to " + path;
 	cereal::JSONOutputArchive ar(o);
 	ar(CEREAL_NVP(protocol));
 }
 ProtocolGraph* ProtocolGraph::fromJSON(const std::string & path) {
 	ifstream i(path);
-	LOG(DEBUG) << "loading Machine from " + path;
+	LOG(DEBUG) << "loading Protocol from " + path;
 	cereal::JSONInputArchive arIn(i);
 
 	ProtocolGraph protocol;
@@ -53,6 +53,19 @@ bool ProtocolGraph::addOperation(ProtocolNodePtr node) {
 bool ProtocolGraph::connectOperation(ProtocolEdgePtr edge) {
 	return graph->addEdge(edge);
 }
+
+void ProtocolGraph::updateReference(const std::string & reference) {
+	ProtocolNodeVectorPtr nodes = graph->getAllNodes();
+	for (auto it = nodes->begin(); it != nodes->end(); ++it) {
+		(*it)->updateReference(reference);
+	}
+
+	ProtocolEdgeVectorPtr edges = graph->getEdgeList();
+	for (auto it = edges->begin(); it != edges->end(); ++it) {
+		(*it)->updateReference(reference);
+	}
+}
+
 
 ProtocolGraph::ProtocolNodePtr ProtocolGraph::getStart() {
 	return graph->getNode(idStart);

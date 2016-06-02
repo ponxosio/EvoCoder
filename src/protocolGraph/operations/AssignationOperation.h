@@ -51,10 +51,12 @@ public:
 
 	virtual ~AssignationOperation();
 
+	virtual void updateReference(const std::string & reference);
+
 	/**
 	 * Executes the assignation
 	 */
-	virtual void execute();
+	virtual void execute() throw(std::invalid_argument);
 
 	//SERIALIZATIoN
 	template<class Archive>

@@ -13,8 +13,11 @@
 
 class CommandSender {
 public:
+	CommandSender() {}
+	CommandSender(const CommandSender & cs) {}
 	virtual ~CommandSender(){};
 
+	virtual CommandSender* clone() = 0;
 	virtual unsigned long sendString(const std::string & str) = 0;
 	virtual std::string receiveString() throw (std::ios_base::failure) = 0;
 	virtual std::string readUntil(char endCharacter) throw (std::ios_base::failure) = 0;

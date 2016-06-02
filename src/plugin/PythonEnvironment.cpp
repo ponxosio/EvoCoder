@@ -107,7 +107,14 @@ void PythonEnvironment::deleteInstance(const std::string & varName) {
 		catch (error_already_set) {
 			PyObject *ptype, *pvalue, *ptraceback;
 			PyErr_Fetch(&ptype, &pvalue, &ptraceback);
-			LOG(ERROR) << std::string(PyString_AsString(pvalue));
+			char * cs = PyString_AsString(pvalue);
+
+			std::string msg = "unknow";
+			if (cs) {
+				msg = std::string(cs);
+			}
+
+			throw(std::invalid_argument("error at python environment " + msg));
 		}
 	}
 	else {
@@ -126,7 +133,14 @@ boost::python::api::object PythonEnvironment::getVarInstance(const std::string &
 			PyObject *ptype, *pvalue, *ptraceback;
 			PyErr_Fetch(&ptype, &pvalue, &ptraceback);
 
-			throw(std::invalid_argument("error at python environment " + std::string(PyString_AsString(pvalue))));
+			char * cs = PyString_AsString(pvalue);
+
+			std::string msg = "unknow";
+			if (cs) {
+				msg = std::string(cs);
+			}
+
+			throw(std::invalid_argument("error at python environment " + msg));
 		}
 	}
 	else {

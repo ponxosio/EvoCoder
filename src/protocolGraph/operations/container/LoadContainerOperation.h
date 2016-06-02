@@ -30,11 +30,17 @@ public:
 	virtual std::string toText();
 	virtual void loadNode(const std::string & line)	throw (std::invalid_argument);
 	//
-	LoadContainerOperation(int idConatiner, std::shared_ptr<Mapping> executable, int idSource, std::shared_ptr<MathematicOperable> value);
+	LoadContainerOperation(int idConatiner, int idSource, std::shared_ptr<MathematicOperable> value);
 
 	virtual ~LoadContainerOperation();
 
-	virtual void execute();
+	virtual void execute() throw(std::invalid_argument);
+
+	virtual inline void updateReference(const std::string & reference)
+	{
+		ContainerOperation::updateReference(reference);
+		value->updateReference(reference);
+	}
 
 	//SERIALIZATIoN
 	template<class Archive>

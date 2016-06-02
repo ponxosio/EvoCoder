@@ -20,6 +20,12 @@ BooleanComparison::BooleanComparison(bool negation, std::shared_ptr<ComparisonOp
 BooleanComparison::~BooleanComparison() {
 }
 
+void BooleanComparison::updateReference(const std::string & reference) 
+{
+	left->updateReference(reference);
+	right->updateReference(reference);
+}
+
 bool BooleanComparison::conditionMet() {
 	bool leftValue = left.get()->conditionMet();
 	bool rightValue = right.get()->conditionMet();

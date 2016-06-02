@@ -29,6 +29,12 @@ AssignationOperation::AssignationOperation(int idContainer,
 AssignationOperation::~AssignationOperation() {
 }
 
+void AssignationOperation::updateReference(const std::string & reference) 
+{
+	receiver->updateReference(reference);
+	value->updateReference(reference);
+}
+
 std::string AssignationOperation::toText() {
 	return patch::to_string(containerID) + "[label=\""
 			+ receiver.get()->toString() + " = " + value.get()->toString()
@@ -39,7 +45,7 @@ void AssignationOperation::loadNode(const string& line) throw (invalid_argument)
 	//TODO: implementar ya en json
 }
 
-void AssignationOperation::execute() {
+void AssignationOperation::execute() throw(std::invalid_argument)  {
 	LOG(DEBUG) << "executing: " << receiver.get()->toString() << " = " << value.get()->toString();
 	receiver.get()->setValue(value.get()->getValue());
 	receiver.get()->setPhysical(value.get()->isPhysical());

@@ -29,11 +29,17 @@ public:
 	virtual std::string toText();
 	virtual void loadNode(const std::string & line) throw (invalid_argument);
 	//
-	MeasureOD(int containerId, std::shared_ptr<Mapping> mapping, int sourceId, std::shared_ptr<VariableEntry> receiver);
+	MeasureOD(int containerId, int sourceId, std::shared_ptr<VariableEntry> receiver);
 
 	virtual ~MeasureOD();
 
-	virtual void execute();
+	virtual void execute() throw(std::invalid_argument);
+
+	virtual inline void updateReference(const std::string & reference)
+	{
+		ContainerOperation::updateReference(reference);
+		receiver->updateReference(reference);
+	}
 
 	//SERIALIZATIoN
 	template<class Archive>

@@ -29,6 +29,11 @@ LoopNode::~LoopNode() {
 
 }
 
+void LoopNode::updateReference(const std::string & reference)
+{
+	conditionIN->updateReference(reference);
+}
+
 string LoopNode::toText() {
 	return patch::to_string(containerID) + "[ label =\"" + LOOP_STRING + "("
 			+ conditionIN.get()->toString() + ")\"];";

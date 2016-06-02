@@ -62,7 +62,7 @@ void Mapping::doMapping() throw (std::invalid_argument) {
 }
 
 //EXECUTIoN
-void Mapping::setContinuosFlow(int idSource, int idTarget, double rate) {
+void Mapping::setContinuosFlow(int idSource, int idTarget, double rate) throw (std::runtime_error) {
 
 	switch (operation) {
 	case mapping::sketch:
@@ -79,7 +79,7 @@ void Mapping::setContinuosFlow(int idSource, int idTarget, double rate) {
 	}
 }
 
-void Mapping::transfer(int idSource, int idTarget, double volume) {
+void Mapping::transfer(int idSource, int idTarget, double volume) throw (std::runtime_error) {
 
 	switch (operation) {
 	case mapping::sketch:
@@ -96,8 +96,7 @@ void Mapping::transfer(int idSource, int idTarget, double volume) {
 	}
 }
 
-void Mapping::mix(int source1, int source2, int target, double volume1,
-	double volume2) {
+void Mapping::mix(int source1, int source2, int target, double volume1, double volume2) throw (std::runtime_error) {
 	switch (operation) {
 	case mapping::sketch:
 		sketching_mix(source1, source2, target, volume1, volume2);
@@ -113,7 +112,7 @@ void Mapping::mix(int source1, int source2, int target, double volume1,
 	}
 }
 
-void Mapping::applyLight(int id, double wavelength, double intensity) {
+void Mapping::applyLight(int id, double wavelength, double intensity) throw (std::runtime_error) {
 	switch (operation) {
 	case mapping::sketch:
 		sketching_applyLight(id, wavelength, intensity);
@@ -129,7 +128,7 @@ void Mapping::applyLight(int id, double wavelength, double intensity) {
 	}
 }
 
-void Mapping::applyTemperature(int id, double degrees) {
+void Mapping::applyTemperature(int id, double degrees) throw (std::runtime_error) {
 	switch (operation) {
 	case mapping::sketch:
 		sketching_applyTemperature(id, degrees);
@@ -145,7 +144,7 @@ void Mapping::applyTemperature(int id, double degrees) {
 	}
 }
 
-void Mapping::stir(int id, double intensity) {
+void Mapping::stir(int id, double intensity) throw (std::runtime_error) {
 	switch (operation) {
 	case mapping::sketch:
 		sketching_stir(id);
@@ -179,7 +178,7 @@ double Mapping::getVolume(int id) {
 	return vuelta;
 }
 
-double Mapping::measureOD(int id) {
+double Mapping::measureOD(int id) throw (std::runtime_error) {
 	double vuelta = -1.0;
 
 	switch (operation) {
@@ -458,7 +457,7 @@ double Mapping::sketching_timeStep() {
 }
 
 //EXEC
-void Mapping::exec_setContinuosFlow(int idSource, int idTarget, double rate) {
+void Mapping::exec_setContinuosFlow(int idSource, int idTarget, double rate) throw (std::runtime_error) {
 	LOG(DEBUG) << "exec setContinousFlow(" << patch::to_string(idSource) << ", "
 		<< patch::to_string(idTarget) << ", " + patch::to_string(rate)
 		<< ")";
@@ -488,7 +487,7 @@ void Mapping::exec_setContinuosFlow(int idSource, int idTarget, double rate) {
 	}
 }
 
-void Mapping::exec_transfer(int idSource, int idTarget, double volume) {
+void Mapping::exec_transfer(int idSource, int idTarget, double volume) throw (std::runtime_error) {
 	LOG(DEBUG) << "exec transfer(" << patch::to_string(idSource) << ", "
 		<< patch::to_string(idTarget) << ", " << patch::to_string(volume)
 		<< ")";
@@ -516,8 +515,7 @@ void Mapping::exec_transfer(int idSource, int idTarget, double volume) {
 	}
 }
 
-void Mapping::exec_mix(int source1, int source2, int target, double volume1,
-	double volume2) {
+void Mapping::exec_mix(int source1, int source2, int target, double volume1, double volume2) throw (std::runtime_error) {
 	LOG(DEBUG) << "exec mix(" << patch::to_string(source1) << ", " << patch::to_string(source2) << ", "
 		<< patch::to_string(target) + ", " << patch::to_string(volume1) << ", " << patch::to_string(volume2)
 		<< ")";
@@ -526,7 +524,7 @@ void Mapping::exec_mix(int source1, int source2, int target, double volume1,
 	exec_transfer(source2, target, volume2);
 }
 
-void Mapping::exec_applyLight(int id, double wavelength, double intensity) {
+void Mapping::exec_applyLight(int id, double wavelength, double intensity) throw (std::runtime_error) {
 	LOG(DEBUG) << "exec applyLight(" << patch::to_string(id) << ", "
 		<< patch::to_string(wavelength) << ", " << patch::to_string(intensity)
 		<< ")";
@@ -542,7 +540,7 @@ void Mapping::exec_applyLight(int id, double wavelength, double intensity) {
 	}
 }
 
-void Mapping::exec_applyTemperature(int id, double degres) {
+void Mapping::exec_applyTemperature(int id, double degres) throw (std::runtime_error) {
 	LOG(DEBUG) << "exec applyTemperature(" << patch::to_string(id) << ", "
 		<< patch::to_string(degres) << ")";
 
@@ -562,7 +560,7 @@ double Mapping::exec_getVolume(int id) {
 	return machine->getContainer(engine->getMappedContainerId(id))->getVolume();
 }
 
-double Mapping::exec_measureOD(int id) {
+double Mapping::exec_measureOD(int id) throw (std::runtime_error) {
 	double measureValued = -1;
 	ExecutableMachineGraph::ExecutableContainerNodePtr mappedContainer = machine->getContainer(
 		engine->getMappedContainerId(id));
@@ -587,7 +585,7 @@ void Mapping::exec_loadContainer(int containerID, double volume) {
 	mappedContainer->setVolume(volume);
 }
 
-void Mapping::exec_stir(int id, double intensity) {
+void Mapping::exec_stir(int id, double intensity) throw (std::runtime_error) {
 	LOG(DEBUG) << "exec stir(" << patch::to_string(id) << "," << patch::to_string(intensity) << ")";
 	ExecutableMachineGraph::ExecutableContainerNodePtr mappedContainer = machine->getContainer(
 		engine->getMappedContainerId(id));

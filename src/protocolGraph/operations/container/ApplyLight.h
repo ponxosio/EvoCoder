@@ -30,13 +30,20 @@ public:
 	virtual void loadNode(const std::string & line)
 			throw (std::invalid_argument);
 	//
-	ApplyLight(int idContainer, std::shared_ptr<Mapping> mapping,
+	ApplyLight(int idContainer,
 			int sourceID, std::shared_ptr<MathematicOperable> wavelength,
 			std::shared_ptr<MathematicOperable> intensity);
 
 	virtual ~ApplyLight();
 
-	virtual void execute();
+	virtual void execute() throw(std::invalid_argument);
+
+	virtual inline void updateReference(const std::string & reference) 
+	{
+		ContainerOperation::updateReference(reference);
+		wavelength->updateReference(reference);
+		intensity->updateReference(reference);
+	}
 
 	//SERIALIZATIoN
 	template<class Archive>

@@ -110,6 +110,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ExecutionMachineServer.cpp" />
+    <ClCompile Include="src\ExecutionServer.cpp" />
     <ClCompile Include="src\plugin\actuators\LightPlugin.cpp" />
     <ClCompile Include="src\plugin\actuators\ODSensorPlugin.cpp" />
     <ClCompile Include="src\plugin\actuators\ControlPlugin.cpp" />
@@ -119,7 +121,7 @@
     <ClCompile Include="src\plugin\actuators\TemperaturePlugin.cpp" />
     <ClCompile Include="src\plugin\PluginFileLoader.cpp" />
     <ClCompile Include="src\fluidControl\ContinuousFlowEngine.cpp" />
-    <ClCompile Include="src\fluidcontrol\EvoCoder.cpp" />
+    <ClCompile Include="src\fluidcontrol\ExecutionEngine.cpp" />
     <ClCompile Include="src\fluidcontrol\executable\containers\actuators\communications\CommunicationsInterface.cpp" />
     <ClCompile Include="src\fluidcontrol\executable\containers\actuators\communications\FileSender.cpp" />
     <ClCompile Include="src\fluidcontrol\executable\containers\actuators\communications\SerialSender.cpp" />
@@ -173,6 +175,8 @@
     <ClCompile Include="src\util\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ExecutionMachineServer.h" />
+    <ClInclude Include="src\ExecutionServer.h" />
     <ClInclude Include="src\plugin\actuators\LightPlugin.h" />
     <ClInclude Include="src\plugin\actuators\ODSensorPlugin.h" />
     <ClInclude Include="src\plugin\actuators\ControlPlugin.h" />
@@ -183,7 +187,7 @@
     <ClInclude Include="src\plugin\PluginFileLoader.h" />
     <ClInclude Include="src\fluidControl\ContinuousFlowEngine.h" />
     <ClInclude Include="lib\easylogging++.h" />
-    <ClInclude Include="src\fluidcontrol\EvoCoder.h" />
+    <ClInclude Include="src\fluidcontrol\ExecutionEngine.h" />
     <ClInclude Include="src\fluidcontrol\executable\containers\actuators\communications\CommandSender.h" />
     <ClInclude Include="src\fluidcontrol\executable\containers\actuators\communications\CommunicationsInterface.h" />
     <ClInclude Include="src\fluidcontrol\executable\containers\actuators\communications\FileSender.h" />
@@ -232,7 +236,7 @@
     <ClInclude Include="src\protocolgraph\operations\AssignationOperation.h" />
     <ClInclude Include="src\protocolgraph\operations\container\ApplyLight.h" />
     <ClInclude Include="src\protocolgraph\operations\container\ApplyTemperature.h" />
-    <ClInclude Include="src\protocolgraph\operations\container\ContainerOperation.h" />
+    <ClInclude Include="src\protocolGraph\operations\container\ContainerOperation.h" />
     <ClInclude Include="src\protocolgraph\operations\container\GetVolume.h" />
     <ClInclude Include="src\protocolgraph\operations\container\LoadContainerOperation.h" />
     <ClInclude Include="src\protocolgraph\operations\container\MeasureOD.h" />

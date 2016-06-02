@@ -9,6 +9,7 @@
 #define FLUIDCONTROL_EXECUTABLE_CONTAINERS_ACTUATORS_COMMUNICATIONS_COMMUNICATIONSINTERFACE_H_
 
 #include <unordered_map>
+#include <algorithm>
 
 #include "CommandSender.h"
 
@@ -23,6 +24,7 @@ public:
 	static void freeCommandInterface();
 
 	int addCommandSender(CommandSender* communications);
+	int addCommandSenderTestExec(CommandSender* exec, CommandSender* test);
 	CommandSender* getCommandSender(int communicationId);
 
 	inline void setTesting(bool testing) {

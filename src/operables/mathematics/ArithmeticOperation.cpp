@@ -27,7 +27,12 @@ ArithmeticOperation::~ArithmeticOperation() {
 
 }
 
-double ArithmeticOperation::getValue() {
+void ArithmeticOperation::updateReference(const std::string & reference) {
+	leftVariable->updateReference(reference);
+	rightVariable->updateReference(reference);
+}
+
+double ArithmeticOperation::getValue() throw (std::invalid_argument)  {
 	MathematicOperable* left = leftVariable.get();
 	MathematicOperable* right = rightVariable.get();
 	boost::function<double(double, double)> op = getFunctionType(this->op);

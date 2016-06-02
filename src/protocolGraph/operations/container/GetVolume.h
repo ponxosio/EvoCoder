@@ -29,12 +29,18 @@ public:
 	virtual std::string toText();
 	virtual void loadNode(const std::string & line) throw (invalid_argument);
 	//
-	GetVolume(int containerId, std::shared_ptr<Mapping> mapping, int sourceId,
+	GetVolume(int containerId, int sourceId,
 			std::shared_ptr<VariableEntry> receiver);
 
 	virtual ~GetVolume();
 
-	virtual void execute();
+	virtual void execute() throw(std::invalid_argument);
+
+	virtual inline void updateReference(const std::string & reference)
+	{
+		ContainerOperation::updateReference(reference);
+		receiver->updateReference(reference);
+	}
 
 	//SERIALIZATIoN
 	template<class Archive>

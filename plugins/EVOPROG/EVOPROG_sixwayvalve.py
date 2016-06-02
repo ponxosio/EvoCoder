@@ -42,4 +42,9 @@ class EvoprogSixWayValve(Control):
 		communications.sendString(command)
 		time.sleep(0.01)
 		communications.synch()
-		
+
+	def clearConnections(self):
+		"""
+			must removed all the connections added with addConnection
+		"""
+		self.map.clear()

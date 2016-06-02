@@ -2,14 +2,14 @@
 
 using namespace boost::python;
 
-ExtractorPlugin::ExtractorPlugin() : 
+ExtractorPlugin::ExtractorPlugin() :
 	Extractor()
 {
 	this->pluginType = "";
 	this->referenceName = "";
 }
 
-ExtractorPlugin::ExtractorPlugin(int communications, const std::string & pluginType, const std::vector<std::string>& params) : 
+ExtractorPlugin::ExtractorPlugin(int communications, const std::string & pluginType, const std::vector<std::string>& params) :
 	Extractor(communications)
 {
 	this->pluginType = std::string(pluginType);
@@ -26,11 +26,11 @@ ExtractorPlugin::~ExtractorPlugin()
 
 void ExtractorPlugin::extractLiquid(double rate) throw (std::runtime_error)
 {
-	if (referenceName.empty()) {
-		referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
-	}
-
 	try {
+		if (referenceName.empty()) {
+			referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
+		}
+
 		CommandSender* com = CommunicationsInterface::GetInstance()->getCommandSender(communications);
 		PythonEnvironment::GetInstance()->getVarInstance(referenceName).attr("extractLiquid")(rate, boost::ref(*com));
 	}
@@ -38,17 +38,26 @@ void ExtractorPlugin::extractLiquid(double rate) throw (std::runtime_error)
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
 
-		throw(std::runtime_error("error at python environment " + std::string(PyString_AsString(pvalue))));
+		std::string error = "";
+		char* c_str = PyString_AsString(pvalue);
+		if (c_str) {
+			error = std::string(c_str);
+		}
+		throw(std::runtime_error("extractLiquid(),Plugin " + pluginType + ": " + "error at python environment " + error));
 	}
-	
+	catch (std::invalid_argument & e)
+	{
+		throw(std::runtime_error("extractLiquid(),Plugin " + pluginType + ": " + "internal error" + std::string(e.what())));
+	}
+
 }
 
 std::string ExtractorPlugin::getInstructions() throw (std::runtime_error) {
-	if (referenceName.empty()) {
-		referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
-	}
-	
 	try {
+		if (referenceName.empty()) {
+			referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
+		}
+
 		const char* c_str = extract<const char*>(PythonEnvironment::GetInstance()->getVarInstance(referenceName).attr("getInstructions")());
 		return std::string(c_str);
 	}
@@ -56,17 +65,26 @@ std::string ExtractorPlugin::getInstructions() throw (std::runtime_error) {
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
 
-		throw(std::runtime_error("error at python environment " + std::string(PyString_AsString(pvalue))));
+		std::string error = "";
+		char* c_str = PyString_AsString(pvalue);
+		if (c_str) {
+			error = std::string(c_str);
+		}
+		throw(std::runtime_error("getInstructions(),Plugin " + pluginType + ": " + "error at python environment " + error));
+	}
+	catch (std::invalid_argument & e)
+	{
+		throw(std::runtime_error("getInstructions(),Plugin " + pluginType + ": " + "internal error" + std::string(e.what())));
 	}
 }
 
 int ExtractorPlugin::getMovementType() throw (std::runtime_error)
 {
-	if (referenceName.empty()) {
-		referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
-	}
-
 	try {
+		if (referenceName.empty()) {
+			referenceName = PythonEnvironment::GetInstance()->makeInstance(this->pluginType, this->params);
+		}
+
 		int movementType = extract<int>(PythonEnvironment::GetInstance()->getVarInstance(referenceName).attr("getMovementType")());
 		return movementType;
 	}
@@ -74,6 +92,15 @@ int ExtractorPlugin::getMovementType() throw (std::runtime_error)
 		PyObject *ptype, *pvalue, *ptraceback;
 		PyErr_Fetch(&ptype, &pvalue, &ptraceback);
 
-		throw(std::runtime_error("error at python environment " + std::string(PyString_AsString(pvalue))));
+		std::string error = "";
+		char* c_str = PyString_AsString(pvalue);
+		if (c_str) {
+			error = std::string(c_str);
+		}
+		throw(std::runtime_error("getMovementType(), Plugin " + pluginType + ": " + "error at python environment " + error));
+	}
+	catch (std::invalid_argument & e)
+	{
+		throw(std::runtime_error("getMovementType(), Plugin " + pluginType + ": " + "internal error" + std::string(e.what())));
 	}
 }

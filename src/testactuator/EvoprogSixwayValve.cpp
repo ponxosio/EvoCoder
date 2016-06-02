@@ -36,6 +36,11 @@ void EvoprogSixwayValve::setConnection(int idSource, int idTraget) {
 	}
 }
 
+void EvoprogSixwayValve::clearConnections()
+{
+	containerValveMap.clear();
+}
+
 std::string EvoprogSixwayValve::getInstructions() {
 	return "";
 }

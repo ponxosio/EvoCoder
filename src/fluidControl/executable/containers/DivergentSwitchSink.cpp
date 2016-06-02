@@ -49,24 +49,35 @@ void DivergentSwitchSink::loadNode(const std::string& line)
 }
 
 void DivergentSwitchSink::receiveLiquid(double rate)
-		throw (std::invalid_argument) {
+		throw (std::runtime_error) {
 	this->insert.get()->injectLiquid(rate);
 }
 
 void DivergentSwitchSink::extractLiquid(double rate)
-		throw (std::invalid_argument) {
+		throw (std::runtime_error) {
 	this->extractor.get()->extractLiquid(rate);
 }
 
-void DivergentSwitchSink::setPositionInject(int source, int target) {
+void DivergentSwitchSink::setPositionInject(int source, int target) throw (std::runtime_error) {
 }
 
-void DivergentSwitchSink::setPositionExtract(int source, int target) {
+void DivergentSwitchSink::setPositionExtract(int source, int target) throw (std::runtime_error) {
 	this->control.get()->setConnection(source, target);
 }
 
-void DivergentSwitchSink::connectContainer(int source, int target) {
+void DivergentSwitchSink::connectContainer(int source, int target) throw (std::runtime_error) {
 	if (containerID == source) {
 		this->control.get()->addConnection(source, target);
 	}
+}
+
+void DivergentSwitchSink::updateCommunicationInterface(int communication) {
+	this->control->setCommunications(communication);
+	this->insert->setCommunications(communication);
+	this->extractor->setCommunications(communication);
+}
+
+void DivergentSwitchSink::clearConnectedContainers() throw (std::runtime_error)
+{
+	this->control->clearConnections();
 }

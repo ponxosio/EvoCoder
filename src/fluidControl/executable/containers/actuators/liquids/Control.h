@@ -31,7 +31,13 @@ public:
 
 	virtual void addConnection(int idSource, int idTarget) throw (std::runtime_error) = 0;
 	virtual void setConnection(int idSource, int idTarget) throw (std::runtime_error) = 0;
+	virtual void clearConnections() throw (std::runtime_error) = 0;
 	virtual std::string getInstructions() throw (std::runtime_error) = 0;
+
+	//getters and setters
+	inline void setCommunications(int communications) {
+		this->communications = communications;
+	}
 
 	//SERIALIZATIoN
 	template<class Archive>

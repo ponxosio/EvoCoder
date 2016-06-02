@@ -17,8 +17,8 @@ TimeStep::TimeStep(const TimeStep& node) :
 	this->receiver = node.receiver;
 }
 
-TimeStep::TimeStep(int containerId, std::shared_ptr<Mapping> mapping, std::shared_ptr<VariableEntry> receiver) :
-		ContainerOperation(containerId, mapping) {
+TimeStep::TimeStep(int containerId, std::shared_ptr<VariableEntry> receiver) :
+		ContainerOperation(containerId) {
 	this->receiver = receiver;
 }
 
@@ -33,8 +33,8 @@ void TimeStep::loadNode(const std::string& line) throw (invalid_argument) {
 	//TODO: JSON
 }
 
-void TimeStep::execute() {
+void TimeStep::execute() throw(std::invalid_argument)  {
 	receiver.get()->setValue(
-			receiver.get()->getValue() + executable.get()->timeStept());
+			receiver.get()->getValue() + ContainerOperation::getMapping()->timeStept());
 	LOG(DEBUG) << "time variable: " << receiver.get()->getValue();
 }

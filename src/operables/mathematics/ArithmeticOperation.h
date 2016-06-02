@@ -53,13 +53,15 @@ public:
 
 	virtual ~ArithmeticOperation();
 
+	virtual void updateReference(const std::string & reference);
+
 	/**
 	 * Returns the numeric value of the variable, resulting from the mathematical operation
 	 * @return the numeric value of the variable
 	 */
-	virtual double getValue();
+	virtual double getValue() throw (std::invalid_argument);
 
-	inline virtual bool isPhysical() {return (leftVariable.get()->isPhysical() || rightVariable.get()->isPhysical());}
+	inline virtual bool isPhysical() throw (std::invalid_argument) {return (leftVariable.get()->isPhysical() || rightVariable.get()->isPhysical());}
 
 	/**
 	 * Compares two Objects implementing this interface

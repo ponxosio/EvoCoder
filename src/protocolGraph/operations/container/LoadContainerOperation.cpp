@@ -18,9 +18,8 @@ LoadContainerOperation::LoadContainerOperation(const LoadContainerOperation& obj
 }
 
 LoadContainerOperation::LoadContainerOperation(int idConatiner,
-		std::shared_ptr<Mapping> executable,
 		int idSource,
-		std::shared_ptr<MathematicOperable> value) : ContainerOperation(idConatiner, executable) {
+		std::shared_ptr<MathematicOperable> value) : ContainerOperation(idConatiner) {
 
 	this->value = value;
 	this->idSource = idSource;
@@ -40,6 +39,6 @@ void LoadContainerOperation::loadNode(const std::string& line)
 	//TODO: JSON
 }
 
-void LoadContainerOperation::execute() {
-	executable.get()->loadContainer(this->idSource, value.get()->getValue());
+void LoadContainerOperation::execute() throw(std::invalid_argument)  {
+	ContainerOperation::getMapping()->loadContainer(this->idSource, value.get()->getValue());
 }

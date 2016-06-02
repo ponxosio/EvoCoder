@@ -31,6 +31,8 @@
 
 
 //local
+#include "ExecutionServer.h"
+
 #include "graph/Graph.h"
 #include "graph/Node.h"
 #include "graph/Edge.h"
@@ -50,7 +52,7 @@
 #include "util/AutoEnumerate.h"
 #include "util/ContainersUtils.h"
 
-#include "fluidControl/EvoCoder.h"
+#include "fluidControl/ExecutionEngine.h"
 #include "fluidControl/MappingEngine.h"
 #include "fluidControl/machineGraph/MachineGraph.h"
 #include "fluidControl/machineGraph/ContainerNode.h"
@@ -148,10 +150,10 @@ public:
 	static ProtocolGraph* makeSimpleProtocol(
 				std::shared_ptr<VariableTable> table,
 				std::shared_ptr<Mapping> map);
-	static ExecutableMachineGraph* makeSimpleMachine(int communications);
-	static ExecutableMachineGraph* makeSimpleMachinePlugin(int communications);
-	static ExecutableMachineGraph* makeMatrixMachine(int communications, int size);
-	static ExecutableMachineGraph* makeMappingMachine(int communications);
+	static ExecutableMachineGraph* makeSimpleMachine(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test);
+	static ExecutableMachineGraph* makeSimpleMachinePlugin(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test);
+	static ExecutableMachineGraph* makeMatrixMachine(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test, int size);
+	static ExecutableMachineGraph* makeMappingMachine(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test);
 	static MachineGraph* makeTurbidostatSketch();
 	static MachineGraph* makeMatrixSketch(int size);
 
@@ -207,6 +209,8 @@ public:
 
 	void testMappingPluginTest();
 	void testMappingPluginExec();
+
+	void testExecutionServer();
 
 	class Chorra {
 	public:
