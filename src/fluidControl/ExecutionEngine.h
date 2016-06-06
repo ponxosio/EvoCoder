@@ -35,14 +35,15 @@
 
 //local
 #include "../util/Utils.h"
-#include "Mapping.h"
-#include "machineGraph/MachineGraph.h"
-#include "executable/ExecutableMachineGraph.h"
-#include "executable/containers/actuators/communications/CommunicationsInterface.h"
 #include "../protocolGraph/ProtocolGraph.h"
 #include "../protocolGraph/OperationNode.h"
 #include "../protocolGraph/operations/LoopNode.h"
 #include "../protocolGraph/operations/DivergeNode.h"
+#include "mapping\Mapping.h"
+
+#include "machineGraph/MachineGraph.h"
+#include "executable/ExecutableMachineGraph.h"
+#include "executable/containers/actuators/communications/CommunicationsInterface.h"
 
 
 class ExecutionEngine {

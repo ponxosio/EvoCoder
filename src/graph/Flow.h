@@ -59,6 +59,10 @@ public:
 		return idStart;
 	}
 
+	inline void setIdStart(int idStart) {
+		this->idStart = idStart;
+	}
+
 	inline const typename FlowEdgeVector & getPaths() const {
 		return paths;
 	}

@@ -53,7 +53,7 @@
 #include "util/ContainersUtils.h"
 
 #include "fluidControl/ExecutionEngine.h"
-#include "fluidControl/MappingEngine.h"
+#include "fluidControl/mapping/MappingEngine.h"
 #include "fluidControl/machineGraph/MachineGraph.h"
 #include "fluidControl/machineGraph/ContainerNode.h"
 #include "fluidControl/machineGraph/ContainerNodeType.h"
@@ -94,6 +94,9 @@
 #include "operables/comparison/Tautology.h"
 #include "operables/comparison/SimpleComparison.h"
 #include "operables/comparison/BooleanComparison.h"
+
+//flow
+#include "fluidControl\mapping\pathcalculator\PathManager.h"
 
 //plugins
 #include "plugin/PluginFileLoader.h"

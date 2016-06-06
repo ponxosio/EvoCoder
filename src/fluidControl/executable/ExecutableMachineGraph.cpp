@@ -5,9 +5,9 @@
  *      Author: angel
  */
 
-#include "../executable/ExecutableMachineGraph.h"
+#include "ExecutableMachineGraph.h"
 
-//static
+ //static
 void ExecutableMachineGraph::toJSON(const std::string & path, const ExecutableMachineGraph & machine) {
 	ofstream o(path);
 	LOG(DEBUG) << "serializating ExecutableMachineGraph to " + path;
@@ -18,7 +18,7 @@ ExecutableMachineGraph* ExecutableMachineGraph::fromJSON(const std::string & pat
 	ifstream i(path);
 	LOG(DEBUG) << "loading ExecutableMachine from " + path;
 	cereal::JSONInputArchive arIn(i);
-	
+
 	ExecutableMachineGraph machine;
 	arIn(machine);
 	return new ExecutableMachineGraph(machine);
@@ -66,8 +66,13 @@ void ExecutableMachineGraph::addContainer(ExecutableContainerNodePtr node) {
 	this->graph->addNode(node);
 }
 
-typename ExecutableMachineGraph::ExecutableContainerNodePtr ExecutableMachineGraph::getContainer(int idConatiner) {
-	return this->graph->getNode(idConatiner);
+typename ExecutableMachineGraph::ExecutableContainerNodePtr ExecutableMachineGraph::getContainer(int idConatiner) throw(std::invalid_argument) {
+	ExecutableContainerNodePtr node = graph->getNode(idConatiner);
+	if (node) {
+		return node;
+	} else {
+		throw(std::invalid_argument("ExecutableMachineGraph::getConmtainer(), id " + patch::to_string(idConatiner) + " does not exits"));
+	}
 }
 
 bool ExecutableMachineGraph::connectExecutableContainer(int idSource,
@@ -115,7 +120,7 @@ ExecutableMachineGraph::FlowHeap ExecutableMachineGraph::getAvailableFlows(int i
 	vector<int> visitados;
 	ExecutableContainerEdgeVector recorridos;
 	ExecutableContainerNodePtr actual = graph->getNode(idConatinerInit);
-	getAvailableFlows_recursive_type(idConatinerInit, visitados, recorridos, flows,	actual, tipofin, false);
+	getAvailableFlows_recursive_type(idConatinerInit, visitados, recorridos, flows, actual, tipofin, false);
 	return flows;
 }
 
@@ -177,13 +182,15 @@ ExecutableMachineGraph::ExecutableContainerEdgeVector ExecutableMachineGraph::ge
 		edges = graph->getLeavingEdges(actual->getContainerId());
 	}
 
+
 	for (auto it = edges->begin(); it != edges->end(); ++it) {
 		ExecutableContainerEdgePtr actualE = *it;
 		if (isEdgeAvailable(actualE)) {
 			available.push_back(actualE);
 		}
 	}
-	return available;
+
+	return	available;
 }
 
 void ExecutableMachineGraph::getAvailableFlows_recursive_type(int idSource, vector<int> & visitados, ExecutableContainerEdgeVector & recorridos,
@@ -329,7 +336,7 @@ void ExecutableMachineGraph::updateCommunicationsInterface(int idCommunication) 
 	}
 }
 
-void ExecutableMachineGraph::updateControlActuators() 
+void ExecutableMachineGraph::updateControlActuators()
 {
 	ExecutableContainerNodeVectorPtr nodes = graph->getAllNodes();
 	for (auto it = nodes->begin(); it != nodes->end(); ++it)

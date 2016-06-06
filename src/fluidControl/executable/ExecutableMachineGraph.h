@@ -77,7 +77,7 @@ public:
 
 	//graph's operations
 	void addContainer(ExecutableContainerNodePtr node);
-	ExecutableContainerNodePtr getContainer(int idConatiner);
+	ExecutableContainerNodePtr getContainer(int idConatiner) throw(std::invalid_argument);
 	bool connectExecutableContainer(int idSource, int idTarget);
 	void printMachine(const std::string & path);
 
@@ -97,6 +97,15 @@ public:
 	void removeUsedNode(int nodeId);
 	void addUsedEdge(int idSorce, int idTarget);
 	void removeUsedEdge(int idSorce, int idTarget);
+
+	ExecutableContainerNodeVector getAllCompatibleNodes(const ContainerNodeType & type, const ExecutableContainerNodeVector & nodeList);
+	ExecutableContainerEdgeVector getAvailableEdges(ExecutableContainerNodePtr actual, bool reversed);
+
+	bool isNodeAvailable(ExecutableContainerNodePtr node);
+	bool isNodeAvailable(int nodeId);
+
+	bool isEdgeAvailable(ExecutableContainerEdgePtr edge);
+	bool isEdgeAvailable(int idSource, int idTarget);
 	//
 
 	//inlines
@@ -158,15 +167,6 @@ protected:
 		ExecutableContainerEdgeVector & recorridos,
 		FlowHeap & flows,
 		ExecutableContainerNodePtr actual, int idDestination);
-
-	ExecutableContainerNodeVector getAllCompatibleNodes(const ContainerNodeType & type, const ExecutableContainerNodeVector & nodeList);
-	ExecutableContainerEdgeVector getAvailableEdges(ExecutableContainerNodePtr actual, bool reversed);
-
-	bool isNodeAvailable(ExecutableContainerNodePtr node);
-	bool isNodeAvailable(int nodeId);
-
-	bool isEdgeAvailable(ExecutableContainerEdgePtr edge);
-	bool isEdgeAvailable(int idSource, int idTarget);
 
 	ExecutableContainerEdgePtr makeEdge(int idSource, int idTarget);
 };

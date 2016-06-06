@@ -112,6 +112,9 @@
   <ItemGroup>
     <ClCompile Include="src\ExecutionMachineServer.cpp" />
     <ClCompile Include="src\ExecutionServer.cpp" />
+    <ClCompile Include="src\fluidControl\mapping\pathcalculator\PathManager.cpp" />
+    <ClCompile Include="src\fluidControl\mapping\pathcalculator\PathSearcher.cpp" />
+    <ClCompile Include="src\fluidControl\mapping\pathcalculator\PathSearcherIterator.cpp" />
     <ClCompile Include="src\plugin\actuators\LightPlugin.cpp" />
     <ClCompile Include="src\plugin\actuators\ODSensorPlugin.cpp" />
     <ClCompile Include="src\plugin\actuators\ControlPlugin.cpp" />
@@ -120,7 +123,7 @@
     <ClCompile Include="src\plugin\actuators\MixerPlugin.cpp" />
     <ClCompile Include="src\plugin\actuators\TemperaturePlugin.cpp" />
     <ClCompile Include="src\plugin\PluginFileLoader.cpp" />
-    <ClCompile Include="src\fluidControl\ContinuousFlowEngine.cpp" />
+    <ClCompile Include="src\fluidControl\mapping\ContinuousFlowEngine.cpp" />
     <ClCompile Include="src\fluidcontrol\ExecutionEngine.cpp" />
     <ClCompile Include="src\fluidcontrol\executable\containers\actuators\communications\CommunicationsInterface.cpp" />
     <ClCompile Include="src\fluidcontrol\executable\containers\actuators\communications\FileSender.cpp" />
@@ -137,8 +140,8 @@
     <ClCompile Include="src\fluidcontrol\machinegraph\ContainerNode.cpp" />
     <ClCompile Include="src\fluidcontrol\machinegraph\ContainerNodeType.cpp" />
     <ClCompile Include="src\fluidcontrol\machinegraph\MachineGraph.cpp" />
-    <ClCompile Include="src\fluidcontrol\Mapping.cpp" />
-    <ClCompile Include="src\fluidcontrol\MappingEngine.cpp" />
+    <ClCompile Include="src\fluidControl\mapping\Mapping.cpp" />
+    <ClCompile Include="src\fluidControl\mapping\MappingEngine.cpp" />
     <ClCompile Include="src\operables\comparison\BooleanComparison.cpp" />
     <ClCompile Include="src\operables\comparison\SimpleComparison.cpp" />
     <ClCompile Include="src\operables\mathematics\ArithmeticOperation.cpp" />
@@ -177,6 +180,9 @@
   <ItemGroup>
     <ClInclude Include="src\ExecutionMachineServer.h" />
     <ClInclude Include="src\ExecutionServer.h" />
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\PathManager.h" />
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\PathSearcher.h" />
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\PathSearcherIterator.h" />
     <ClInclude Include="src\plugin\actuators\LightPlugin.h" />
     <ClInclude Include="src\plugin\actuators\ODSensorPlugin.h" />
     <ClInclude Include="src\plugin\actuators\ControlPlugin.h" />
@@ -185,7 +191,7 @@
     <ClInclude Include="src\plugin\actuators\MixerPlugin.h" />
     <ClInclude Include="src\plugin\actuators\TemperaturePlugin.h" />
     <ClInclude Include="src\plugin\PluginFileLoader.h" />
-    <ClInclude Include="src\fluidControl\ContinuousFlowEngine.h" />
+    <ClInclude Include="src\fluidControl\mapping\ContinuousFlowEngine.h" />
     <ClInclude Include="lib\easylogging++.h" />
     <ClInclude Include="src\fluidcontrol\ExecutionEngine.h" />
     <ClInclude Include="src\fluidcontrol\executable\containers\actuators\communications\CommandSender.h" />
@@ -213,8 +219,8 @@
     <ClInclude Include="src\fluidcontrol\machinegraph\ContainerNode.h" />
     <ClInclude Include="src\fluidcontrol\machinegraph\ContainerNodeType.h" />
     <ClInclude Include="src\fluidcontrol\machinegraph\MachineGraph.h" />
-    <ClInclude Include="src\fluidcontrol\Mapping.h" />
-    <ClInclude Include="src\fluidcontrol\MappingEngine.h" />
+    <ClInclude Include="src\fluidControl\mapping\Mapping.h" />
+    <ClInclude Include="src\fluidControl\mapping\MappingEngine.h" />
     <ClInclude Include="src\graph\Edge.h" />
     <ClInclude Include="src\graph\Flow.h" />
     <ClInclude Include="src\graph\FlowPtrComparator.h" />

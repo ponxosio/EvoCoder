@@ -18,12 +18,6 @@
     <ClCompile Include="src\Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\fluidcontrol\Mapping.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fluidcontrol\MappingEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\fluidcontrol\executable\ExecutableMachineGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -165,9 +159,6 @@
     <ClCompile Include="src\util\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\fluidControl\ContinuousFlowEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\plugin\PluginFileLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -204,18 +195,30 @@
     <ClCompile Include="src\fluidcontrol\ExecutionEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\fluidControl\mapping\Mapping.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fluidControl\mapping\MappingEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fluidControl\mapping\pathcalculator\PathSearcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fluidControl\mapping\pathcalculator\PathManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fluidControl\mapping\pathcalculator\PathSearcherIterator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fluidControl\mapping\ContinuousFlowEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\easylogging++.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Test.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\fluidcontrol\Mapping.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\fluidcontrol\MappingEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\fluidcontrol\executable\ExecutableMachineGraph.h">
@@ -422,9 +425,6 @@
     <ClInclude Include="src\util\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\fluidControl\ContinuousFlowEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\plugin\PluginFileLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -462,6 +462,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\protocolGraph\operations\container\ContainerOperation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fluidControl\mapping\Mapping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fluidControl\mapping\MappingEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\PathSearcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\PathManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\PathSearcherIterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fluidControl\mapping\ContinuousFlowEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

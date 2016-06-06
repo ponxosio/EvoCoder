@@ -38,7 +38,7 @@ int main(int argv, char* argc[]) {
 	 //t.testSketcher();
 	 //t.testMapping();
 	 //t.testFlow();
-	 //t.testExecutableMachineGraph();
+	 t.testExecutableMachineGraph();
 	 //t.testExecutableMachineGraphPerformance();
 	 //t.testCalculateSubgraphs();
 	 //t.testContainerNodeType();
@@ -75,7 +75,7 @@ int main(int argv, char* argc[]) {
 	//t.testMappingPluginTest();
 	//t.testMappingPluginExec();
 
-	t.testExecutionServer();
+	//t.testExecutionServer();
 
 	LOG(INFO) << "finished!";
 }
@@ -643,7 +643,7 @@ void Test::testExecutableMachineGraph() {
 	int communications = CommunicationsInterface::GetInstance()->addCommandSender(comEx->clone());
 
 	LOG(INFO) << "creating machine...";
-	ExecutableMachineGraph* machine = makeMappingMachine(communications, std::move(comEx), std::move(comTest));
+	std::shared_ptr<ExecutableMachineGraph> machine = std::shared_ptr<ExecutableMachineGraph>(makeMappingMachine(communications, std::move(comEx), std::move(comTest)));
 
 	//ContainerNodeType cinlet(MovementType::continuous, ContainerType::inlet);
 	ContainerNodeType cinlet(MovementType::continuous, ContainerType::flow);
@@ -655,53 +655,19 @@ void Test::testExecutableMachineGraph() {
 	//LOG(INFO) << "not available 2";
 	//machine->addUsedNode(4);
 
-	LOG(INFO) << "getting flows flow to sink...";
-	std::priority_queue<Flow<Edge>, vector<Flow<Edge>>,
-		FlowPtrComparator<Edge>> f = machine->getAvailableFlows(cinlet, sink, *(machine->getGraph()->getAllNodes()));
-
-	int i = 0;
-	while (!f.empty()) {
-		Flow<Edge> flow = f.top();
-		LOG(INFO) << "Flow: " << i << " " << flow.toText();
-		f.pop();
-		i++;
+	LOG(INFO) << "gettings all paths from 2";
+	PathManager manager(machine);
+	std::shared_ptr<PathSearcherIterator> it = manager.getPathSearcher(2);
+	try {
+		while (it->hasNext()) {
+			LOG(INFO) << it->next()->toText();
+		}
+	}
+	catch (exception e) {
+		LOG(ERROR) << e.what();
 	}
 
-	LOG(INFO) << "getting flows #1 to sink...";
-	f = machine->getAvailableFlows(1, sink);
-
-	i = 0;
-	while (!f.empty()) {
-		Flow<Edge> flow = f.top();
-		LOG(INFO) << "Flow: " << i << " " << flow.toText();
-		f.pop();
-		i++;
-	}
-
-	LOG(INFO) << "getting flows: sink to #7...";
-	f = machine->getAvailableFlows(sink, 7);
-
-	i = 0;
-	while (!f.empty()) {
-		Flow<Edge> flow = f.top();
-		LOG(INFO) << "Flow: " << i << " " << flow.toText();
-		f.pop();
-		i++;
-	}
-
-	LOG(INFO) << "getting flows #2 to #7...";
-	f = machine->getAvailableFlows(2, 7);
-
-	i = 0;
-	while (!f.empty()) {
-		Flow<Edge> flow = f.top();
-		LOG(INFO) << "Flow: " << i << " " << flow.toText();
-		f.pop();
-		i++;
-	}
-
-	LOG(INFO) << "destroying machine";
-	delete machine;
+	
 }
 
 ExecutableMachineGraph* Test::makeSimpleMachine(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test) {
@@ -1002,8 +968,8 @@ ExecutableMachineGraph* Test::makeMappingMachine(int communications,
 
 	ExecutableMachineGraph::ExecutableContainerNodePtr cSwtInlet5 = std::make_shared<ConvergentSwitchInlet>(5, 100.0,
 		dummyInjector, cExtractor, control);
-	ExecutableMachineGraph::ExecutableContainerNodePtr cSwtInlet6 = std::make_shared<ConvergentSwitchInlet>(6, 100.0,
-		dummyInjector, cExtractor, control);
+	ExecutableMachineGraph::ExecutableContainerNodePtr cSwtInlet6 = std::make_shared<BidirectionalSwitch>(6, 100.0,
+		cExtractor, dummyInjector, control, control);
 	cSwtInlet6->setOd(sensor);
 	ExecutableMachineGraph::ExecutableContainerNodePtr cSwich7 = std::make_shared<ConvergentSwitch>(7, 100.0, dummyInjector, control);
 
@@ -1021,6 +987,7 @@ ExecutableMachineGraph* Test::makeMappingMachine(int communications,
 	machine->connectExecutableContainer(4, 6);
 	machine->connectExecutableContainer(5, 7);
 	machine->connectExecutableContainer(6, 7);
+	machine->connectExecutableContainer(6, 2);
 	machine->connectExecutableContainer(2, 3);
 
 	return machine;
