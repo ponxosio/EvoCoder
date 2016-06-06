@@ -15,10 +15,10 @@ public:
 	virtual ~PathSearcherIterator();
 
 	bool hasNext();
-	bool hasNext(std::shared_ptr<std::unordered_set<int>> visitados);
+	bool hasNext(std::unordered_set<int> visitados);
 
 	std::shared_ptr<Flow<Edge>> next() throw (std::runtime_error);
-	std::shared_ptr<Flow<Edge>> next(std::shared_ptr<std::unordered_set<int>> visitados) throw (std::runtime_error);
+	std::shared_ptr<Flow<Edge>> next(std::unordered_set<int> visitados) throw (std::runtime_error);
 	
 	void begin();
 	bool hasEnded();

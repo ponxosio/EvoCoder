@@ -14,13 +14,11 @@ class PathManager;
 class PathSearcher
 {
 public:
-	PathSearcher(int idInicio, std::shared_ptr<ExecutableMachineGraph> machine, std::shared_ptr<PathManager> manager) throw (std::invalid_argument);
+	PathSearcher(int idInicio, std::shared_ptr<ExecutableMachineGraph> machine, PathManager* manager) throw (std::invalid_argument);
 	virtual ~PathSearcher();
 
-	std::shared_ptr<PathSearcherIterator> makeIterator();
-
 	bool calculateNextFlow();
-	bool calculateNextFlow(std::shared_ptr<std::unordered_set<int>> externalVisited, int LastStack);
+	bool calculateNextFlow(std::unordered_set<int> externalVisited, int LastStack);
 
 	inline std::shared_ptr<std::vector<std::shared_ptr<Flow<Edge>>>> getAvialableFlows() {
 		return calculatedFlows;
@@ -33,16 +31,16 @@ public:
 protected:
 	int idInicio;
 	std::shared_ptr<ExecutableMachineGraph> machine;
-	std::shared_ptr<PathManager> manager;
+	PathManager* manager;
 
 	//internal
 	bool ended;
-	std::shared_ptr<std::unordered_set<int>> visited;
+	std::unordered_set<int> visited;
 	ExecutableMachineGraph::ExecutableContainerEdgeVector pending;
 	std::shared_ptr<std::vector<std::shared_ptr<Flow<Edge>>>> calculatedFlows;
 	std::shared_ptr<std::vector<std::tuple<std::shared_ptr<Edge>, std::shared_ptr<PathSearcherIterator>>>> executionStack;
 
 	bool popNextEdge();
-	bool popNextEdge(std::shared_ptr<std::unordered_set<int>> externalVisited, int lastSeen);
+	bool popNextEdge(std::unordered_set<int> externalVisited, int lastSeen);
 };
 

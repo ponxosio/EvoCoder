@@ -4,7 +4,7 @@
 
 using namespace std;
 
-PathSearcher::PathSearcher(int idInicio, std::shared_ptr<ExecutableMachineGraph> machine, std::shared_ptr<PathManager> manager) throw (std::invalid_argument)
+PathSearcher::PathSearcher(int idInicio, std::shared_ptr<ExecutableMachineGraph> machine, PathManager* manager) throw (std::invalid_argument)
 {
 	this->idInicio = idInicio;
 	this->machine = machine;
@@ -17,8 +17,7 @@ PathSearcher::PathSearcher(int idInicio, std::shared_ptr<ExecutableMachineGraph>
 		this->calculatedFlows = make_shared<std::vector<std::shared_ptr<Flow<Edge>>>>();
 		this->executionStack = make_shared<std::vector<std::tuple<std::shared_ptr<Edge>, std::shared_ptr<PathSearcherIterator>>>>();
 
-		this->visited = make_shared<unordered_set<int>>();
-		this->visited->insert(idInicio);
+		this->visited.insert(idInicio);
 	}
 	catch (std::invalid_argument & e) {
 		throw(std::invalid_argument("PathSearcher(), exception occured; " + std::string(e.what())));
@@ -29,18 +28,19 @@ PathSearcher::~PathSearcher()
 {
 }
 
-std::shared_ptr<PathSearcherIterator> PathSearcher::makeIterator()
-{
-	return std::make_shared<PathSearcherIterator>(std::shared_ptr<PathSearcher>(this));
-}
-
 bool PathSearcher::calculateNextFlow()
-{	
+{
 	bool finded = false;
 	if (!ended) {
 		if (executionStack->empty()) {
-			finded = popNextEdge();
-		} else {
+			if (!pending.empty()) {
+				finded = popNextEdge();
+			}
+			else {
+				ended = true;
+			}
+		}
+		else {
 			shared_ptr<PathSearcherIterator> topIt = get<1>(executionStack->back());
 			shared_ptr<Edge> edge = get<0>(executionStack->back());
 			if (topIt->hasNext(visited)) {
@@ -61,24 +61,32 @@ bool PathSearcher::calculateNextFlow()
 	return finded;
 }
 
-bool PathSearcher::calculateNextFlow(std::shared_ptr<std::unordered_set<int>> externalVisited, int lastStack)
+bool PathSearcher::calculateNextFlow(std::unordered_set<int> externalVisited, int lastStack)
 {
 	bool finded = false;
-	for (auto it = visited->begin(); it != visited->end(); ++it) {
-		externalVisited->insert(*it);
+	for (auto it = visited.begin(); it != visited.end(); ++it) {
+		externalVisited.insert(*it);
 	}
 
 	if (!ended) {
-		if (executionStack->empty() || 
-			(lastStack >= executionStack->size())) 
+		if (executionStack->empty())
+		{
+			if (!pending.empty()) {
+				finded = popNextEdge();
+			}
+			else {
+				ended = true;
+			}
+		}
+		else if (lastStack >= executionStack->size())
 		{
 			finded = popNextEdge(externalVisited, 0);
-		} else {
+		}
+		else
+		{
 			int idNextStack = (executionStack->size() - 1) - lastStack;
 			shared_ptr<PathSearcherIterator> topIt = get<1>(executionStack->at(idNextStack));
 			shared_ptr<Edge> edge = get<0>(executionStack->at(idNextStack));
-			
-			unordered_set<int> temp(*(externalVisited.get()));
 
 			if (topIt->hasNext(externalVisited)) {
 				std::shared_ptr<Flow<Edge>> next = topIt->next(externalVisited);
@@ -88,23 +96,13 @@ bool PathSearcher::calculateNextFlow(std::shared_ptr<std::unordered_set<int>> ex
 
 				calculatedFlows->push_back(newFlow);
 				finded = true;
-
-				for (auto it = externalVisited->begin(); it != externalVisited->end(); ++it) {
-					if (temp.find(*it) == temp.end()) {
-						visited->insert(*it);
-					}
-				}
-			} else {
+			}
+			else {
 				if (topIt->hasEnded()) {
 					executionStack->pop_back();
-				} else {
-					lastStack++;
 				}
-
-				for (auto it = externalVisited->begin(); it != externalVisited->end(); ++it) {
-					if (temp.find(*it) == temp.end()) {
-						visited->insert(*it);
-					}
+				else {
+					lastStack++;
 				}
 				finded = calculateNextFlow(externalVisited, lastStack);
 			}
@@ -124,7 +122,7 @@ bool PathSearcher::popNextEdge()
 			int nextId = nextEdge->getIdTarget();
 			if (machine->isEdgeAvailable(nextEdge) &&
 				machine->isNodeAvailable(nextId) &&
-				visited->find(nextId) == visited->end())
+				visited.find(nextId) == visited.end())
 			{
 				vector<shared_ptr<Edge>> v;
 				v.push_back(nextEdge);
@@ -136,14 +134,12 @@ bool PathSearcher::popNextEdge()
 			else {
 				finded = popNextEdge();
 			}
-		} else {
-			ended = true;
 		}
 	}
 	return finded;
 }
 
-bool PathSearcher::popNextEdge(std::shared_ptr<std::unordered_set<int>> externalVisited, int lastSeen)
+bool PathSearcher::popNextEdge(std::unordered_set<int> externalVisited, int lastSeen)
 {
 	bool finded = false;
 	if (!ended) {
@@ -153,11 +149,11 @@ bool PathSearcher::popNextEdge(std::shared_ptr<std::unordered_set<int>> external
 				shared_ptr<Edge> nextEdge = pending.at(idnextEdge);
 				int nextId = nextEdge->getIdTarget();
 
-				if (externalVisited->find(nextId) == externalVisited->end()) {
+				if (externalVisited.find(nextId) == externalVisited.end()) {
 					pending.erase(pending.begin() + idnextEdge);
 					if (machine->isEdgeAvailable(nextEdge) &&
 						machine->isNodeAvailable(nextId) &&
-						visited->find(nextId) == visited->end())
+						visited.find(nextId) == visited.end())
 					{
 						vector<shared_ptr<Edge>> v;
 						v.push_back(nextEdge);
@@ -169,13 +165,12 @@ bool PathSearcher::popNextEdge(std::shared_ptr<std::unordered_set<int>> external
 					else {
 						finded = popNextEdge(externalVisited, lastSeen);
 					}
-				} else {
+				}
+				else {
 					lastSeen++;
 					finded = popNextEdge(externalVisited, lastSeen);
 				}
 			}
-		} else {
-			ended = true;
 		}
 	}
 	return finded;

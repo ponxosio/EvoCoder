@@ -21,13 +21,28 @@ bool PathSearcherIterator::hasNext()
 	return has;
 }
 
-bool PathSearcherIterator::hasNext(std::shared_ptr<std::unordered_set<int>> visitados)
+bool PathSearcherIterator::hasNext(std::unordered_set<int> visitados)
 {
 	bool has = true;
 	if (lastPosition >= engine->getAvialableFlows()->size()) {
 		LOG(DEBUG) << "Calculating next flow...";
 		has = engine->calculateNextFlow(visitados, 0);
 	}
+	else {
+		std::shared_ptr<Flow<Edge>> next = engine->getAvialableFlows()->at(lastPosition);
+
+		Flow<Edge>::FlowEdgeVector path = next->getPaths();
+		bool finded = false;
+		for (auto it = path.begin(); !finded && it != path.end(); ++it) {
+			finded = visitados.find((*it)->getIdTarget()) != visitados.end();
+		}
+
+		if (finded) {
+			lastPosition++;
+			has = hasNext(visitados);
+		}
+	}
+
 	return has;
 }
 
@@ -36,21 +51,14 @@ std::shared_ptr<Flow<Edge>> PathSearcherIterator::next() throw (std::runtime_err
 	std::shared_ptr<Flow<Edge>> next;
 	if (lastPosition < engine->getAvialableFlows()->size()) {
 		next = engine->getAvialableFlows()->at(lastPosition);
-	}
-	else {
-		LOG(DEBUG) << "Calculating next flow...";
-		if (engine->calculateNextFlow()) {
-			next = engine->getAvialableFlows()->at(lastPosition);
-		}
-		else {
-			throw(std::runtime_error("iterator is already at the end"));
-		}
+	} else {
+		throw(std::runtime_error("iterator is already at the end"));
 	}
 	lastPosition++;
 	return next;
 }
 
-std::shared_ptr<Flow<Edge>> PathSearcherIterator::next(std::shared_ptr<std::unordered_set<int>> visitados) throw(std::runtime_error)
+std::shared_ptr<Flow<Edge>> PathSearcherIterator::next(std::unordered_set<int> visitados) throw(std::runtime_error)
 {
 	std::shared_ptr<Flow<Edge>> next;
 	if (lastPosition < engine->getAvialableFlows()->size()) {

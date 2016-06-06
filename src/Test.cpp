@@ -655,18 +655,21 @@ void Test::testExecutableMachineGraph() {
 	//LOG(INFO) << "not available 2";
 	//machine->addUsedNode(4);
 
-	LOG(INFO) << "gettings all paths from 2";
 	PathManager manager(machine);
-	std::shared_ptr<PathSearcherIterator> it = manager.getPathSearcher(2);
-	try {
-		while (it->hasNext()) {
-			LOG(INFO) << it->next()->toText();
+	
+	for (int i = 1; i < 8; i++) {
+		LOG(INFO) << "gettings all paths from " << i;
+
+		std::shared_ptr<PathSearcherIterator> it = manager.getPathSearcher(i);
+		try {
+			while (it->hasNext()) {
+				LOG(INFO) << it->next()->toText();
+			}
+		}
+		catch (exception e) {
+			LOG(ERROR) << e.what();
 		}
 	}
-	catch (exception e) {
-		LOG(ERROR) << e.what();
-	}
-
 	
 }
 
