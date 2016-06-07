@@ -28,21 +28,6 @@ bool PathSearcherIterator::hasNext(std::unordered_set<int> visitados)
 		LOG(DEBUG) << "Calculating next flow...";
 		has = engine->calculateNextFlow(visitados, 0);
 	}
-	else {
-		std::shared_ptr<Flow<Edge>> next = engine->getAvialableFlows()->at(lastPosition);
-
-		Flow<Edge>::FlowEdgeVector path = next->getPaths();
-		bool finded = false;
-		for (auto it = path.begin(); !finded && it != path.end(); ++it) {
-			finded = visitados.find((*it)->getIdTarget()) != visitados.end();
-		}
-
-		if (finded) {
-			lastPosition++;
-			has = hasNext(visitados);
-		}
-	}
-
 	return has;
 }
 
@@ -85,4 +70,8 @@ void PathSearcherIterator::begin()
 bool PathSearcherIterator::hasEnded()
 {
 	return engine->hasEnded();
+}
+
+int PathSearcherIterator::getIdStart() {
+	return engine->getIdStart();
 }

@@ -28,6 +28,10 @@ public:
 		return ended;
 	}
 
+	inline int getIdStart() {
+		return idInicio;
+	}
+
 protected:
 	int idInicio;
 	std::shared_ptr<ExecutableMachineGraph> machine;

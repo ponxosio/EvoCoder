@@ -213,6 +213,9 @@
     <ClCompile Include="src\fluidControl\mapping\ContinuousFlowEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\fluidControl\mapping\pathcalculator\TypeSearcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\easylogging++.h">
@@ -480,6 +483,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\fluidControl\mapping\ContinuousFlowEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\TypeSearcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

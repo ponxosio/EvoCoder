@@ -8,6 +8,7 @@
 #ifndef SRC_TEST_H_
 #define SRC_TEST_H_
 
+#include <cstdlib>
 #include <functional>
 #include <iostream>
 #include <sstream>
@@ -17,6 +18,7 @@
 #include <thread>
 #include <vector>
 #include <windows.h>
+#include <time.h>
 
 #include <unordered_map>
 #include <tuple>
@@ -157,6 +159,8 @@ public:
 	static ExecutableMachineGraph* makeSimpleMachinePlugin(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test);
 	static ExecutableMachineGraph* makeMatrixMachine(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test, int size);
 	static ExecutableMachineGraph* makeMappingMachine(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test);
+	static ExecutableMachineGraph* makeRandomMachine(std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test, int size);
+
 	static MachineGraph* makeTurbidostatSketch();
 	static MachineGraph* makeMatrixSketch(int size);
 
@@ -214,6 +218,8 @@ public:
 	void testMappingPluginExec();
 
 	void testExecutionServer();
+
+	void testFlowCalculatorIntensive();
 
 	class Chorra {
 	public:

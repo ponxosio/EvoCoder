@@ -43,16 +43,31 @@ bool PathSearcher::calculateNextFlow()
 		else {
 			shared_ptr<PathSearcherIterator> topIt = get<1>(executionStack->back());
 			shared_ptr<Edge> edge = get<0>(executionStack->back());
-			if (topIt->hasNext(visited)) {
-				std::shared_ptr<Flow<Edge>> next = topIt->next(visited);
-				std::shared_ptr<Flow<Edge>> newFlow = make_shared<Flow<Edge>>(*(next.get()));
-				newFlow->setIdStart(idInicio);
-				newFlow->prepend(edge);
+			int idTop = topIt->getIdStart();
 
-				calculatedFlows->push_back(newFlow);
-				finded = true;
-			}
-			else {
+			if (idTop != idInicio &&
+				topIt->hasNext(visited)) 
+			{
+				std::shared_ptr<Flow<Edge>> next = topIt->next(visited);
+				Flow<Edge>::FlowEdgeVector path = next->getPaths();
+
+				bool findedVisited = false;
+				for (auto it = path.begin(); !findedVisited && it != path.end(); ++it) {
+					int idTarget = (*it)->getIdTarget();
+					findedVisited = visited.find(idTarget) != visited.end();
+				}
+
+				if (!findedVisited) {
+					std::shared_ptr<Flow<Edge>> newFlow = make_shared<Flow<Edge>>(*(next.get()));
+					newFlow->setIdStart(idInicio);
+					newFlow->prepend(edge);
+
+					calculatedFlows->push_back(newFlow);
+					finded = true;
+				} else {
+					finded = calculateNextFlow();
+				}
+			} else {
 				executionStack->pop_back();
 				finded = calculateNextFlow();
 			}
@@ -72,7 +87,7 @@ bool PathSearcher::calculateNextFlow(std::unordered_set<int> externalVisited, in
 		if (executionStack->empty())
 		{
 			if (!pending.empty()) {
-				finded = popNextEdge();
+				finded = popNextEdge(externalVisited, 0);
 			}
 			else {
 				ended = true;
@@ -87,17 +102,40 @@ bool PathSearcher::calculateNextFlow(std::unordered_set<int> externalVisited, in
 			int idNextStack = (executionStack->size() - 1) - lastStack;
 			shared_ptr<PathSearcherIterator> topIt = get<1>(executionStack->at(idNextStack));
 			shared_ptr<Edge> edge = get<0>(executionStack->at(idNextStack));
+			int idTop = topIt->getIdStart();
 
-			if (topIt->hasNext(externalVisited)) {
+			if (externalVisited.find(idTop) == externalVisited.end() && 
+				topIt->hasNext(externalVisited)) 
+			{
 				std::shared_ptr<Flow<Edge>> next = topIt->next(externalVisited);
-				std::shared_ptr<Flow<Edge>> newFlow = make_shared<Flow<Edge>>(*(next.get()));
-				newFlow->setIdStart(idInicio);
-				newFlow->prepend(edge);
+				Flow<Edge>::FlowEdgeVector path = next->getPaths();
+				
+				bool findedVisited = false;
+				for (auto it = path.begin(); !findedVisited && it != path.end(); ++it) {
+					int idTarget = (*it)->getIdTarget();
+					findedVisited = visited.find(idTarget) != visited.end();
+				}
 
-				calculatedFlows->push_back(newFlow);
-				finded = true;
-			}
-			else {
+				if (!findedVisited) {
+					std::shared_ptr<Flow<Edge>> newFlow = make_shared<Flow<Edge>>(*(next.get()));
+					newFlow->setIdStart(idInicio);
+					newFlow->prepend(edge);
+
+					calculatedFlows->push_back(newFlow);
+				}
+
+				findedVisited = false;
+				for (auto it = path.begin(); !findedVisited && it != path.end(); ++it) {
+					int idTarget = (*it)->getIdTarget();
+					findedVisited = externalVisited.find(idTarget) != externalVisited.end();
+				}
+
+				if (!findedVisited) {
+					finded = true;
+				} else {
+					finded = calculateNextFlow(externalVisited, lastStack);
+				}
+			} else {
 				if (topIt->hasEnded()) {
 					executionStack->pop_back();
 				}

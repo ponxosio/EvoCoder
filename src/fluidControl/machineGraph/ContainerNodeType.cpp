@@ -139,6 +139,7 @@ bool ContainerNodeType::isCompatibleContainer(ContainerType container) {
 		case bidirectional_switch:
 			break;
 		case unknow:
+			compatible = true;
 			break;
 		}
 	} else {

@@ -93,6 +93,9 @@ public:
 	FlowHeap getAvailableFlows(const ContainerNodeType & tipoIni, int idContainerFin);
 	FlowHeap getAvailableFlows(int idInit, int idFin);
 
+	std::vector<Flow<Edge>> getAllFlows(int idContainer);
+	void getAllFlows_recursive(int idStart, ExecutableContainerNodePtr actual, unordered_set<int> visited, vector<Flow<Edge>> & flows, vector<shared_ptr<Edge>> paths);
+
 	void addUsedNode(int nodeId);
 	void removeUsedNode(int nodeId);
 	void addUsedEdge(int idSorce, int idTarget);

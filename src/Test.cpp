@@ -38,7 +38,7 @@ int main(int argv, char* argc[]) {
 	 //t.testSketcher();
 	 //t.testMapping();
 	 //t.testFlow();
-	 t.testExecutableMachineGraph();
+	 //t.testExecutableMachineGraph();
 	 //t.testExecutableMachineGraphPerformance();
 	 //t.testCalculateSubgraphs();
 	 //t.testContainerNodeType();
@@ -76,6 +76,8 @@ int main(int argv, char* argc[]) {
 	//t.testMappingPluginExec();
 
 	//t.testExecutionServer();
+
+	t.testFlowCalculatorIntensive();
 
 	LOG(INFO) << "finished!";
 }
@@ -466,7 +468,7 @@ void Test::testSketcher() {
 	std::vector<int> v;
 	std::shared_ptr<Mapping> map(new Mapping(machine, "testMamchine", v));
 
-	std::shared_ptr<ProtocolGraph> protocol (makeSimpleProtocol(t, map));
+	std::shared_ptr<ProtocolGraph> protocol(makeSimpleProtocol(t, map));
 
 	LOG(INFO) << "printing protocol...";
 	protocol->printProtocol("protocol.graph");
@@ -485,7 +487,7 @@ void Test::testMapping() {
 	std::unique_ptr<CommandSender> test(new FileSender());
 
 	std::shared_ptr<VariableTable> t(new VariableTable());
-	std::shared_ptr<ProtocolGraph> protocol (new ProtocolGraph("testProtocol"));
+	std::shared_ptr<ProtocolGraph> protocol(new ProtocolGraph("testProtocol"));
 	std::shared_ptr<ExecutableMachineGraph> machine(new ExecutableMachineGraph("testMachine", std::move(exec), std::move(test)));
 	std::vector<int> v;
 	std::shared_ptr<Mapping> map = std::shared_ptr<Mapping>(new Mapping(machine, "test", v));
@@ -638,8 +640,8 @@ void Test::testSerialPort_receive() {
 }
 
 void Test::testExecutableMachineGraph() {
-	std::unique_ptr<CommandSender> comEx (new SerialSender("\\\\.\\COM3"));
-	std::unique_ptr<CommandSender> comTest (new FileSender("test.log", "inputFileData.txt"));
+	std::unique_ptr<CommandSender> comEx(new SerialSender("\\\\.\\COM3"));
+	std::unique_ptr<CommandSender> comTest(new FileSender("test.log", "inputFileData.txt"));
 	int communications = CommunicationsInterface::GetInstance()->addCommandSender(comEx->clone());
 
 	LOG(INFO) << "creating machine...";
@@ -652,15 +654,16 @@ void Test::testExecutableMachineGraph() {
 	LOG(INFO) << "printing graph...";
 	machine->saveGraph("exMachine.graph");
 
-	//LOG(INFO) << "not available 2";
-	//machine->addUsedNode(4);
+	//machine->addUsedEdge(6, 2);
+	//machine->addUsedNode(5);
 
 	PathManager manager(machine);
-	
+
 	for (int i = 1; i < 8; i++) {
 		LOG(INFO) << "gettings all paths from " << i;
 
 		std::shared_ptr<PathSearcherIterator> it = manager.getPathSearcher(i);
+
 		try {
 			while (it->hasNext()) {
 				LOG(INFO) << it->next()->toText();
@@ -670,7 +673,41 @@ void Test::testExecutableMachineGraph() {
 			LOG(ERROR) << e.what();
 		}
 	}
-	
+
+}
+
+ExecutableMachineGraph* Test::makeRandomMachine(std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test, int size) {
+	ExecutableMachineGraph* machine = new ExecutableMachineGraph(
+		"simpleMachine", std::move(exec), std::move(test));
+
+	srand(time(NULL));
+
+	std::shared_ptr<Control> control(new EvoprogSixwayValve(0, 7));
+	std::shared_ptr<Extractor> cExtractor13(
+		new EvoprogContinuousPump(0, 13));
+	std::shared_ptr<Extractor> cExtractor14(
+		new EvoprogContinuousPump(0, 14));
+	std::shared_ptr<Extractor> dExtractor(
+		new EvoprogDiscretePump(0, 15));
+	std::shared_ptr<Injector> dummyInjector(
+		new EvoprogDummyInjector(0));
+
+	for (int i = 0; i < size; i++) {
+		ExecutableMachineGraph::ExecutableContainerNodePtr container = std::make_shared<BidirectionalSwitch>(i, 100.0, cExtractor14, dummyInjector, control, control);
+		machine->addContainer(container);
+	}
+
+	for (int i = 0; i < size; i++) {
+		int connections = rand() % 5;
+		for (int j = 0; j < connections; j++) {
+			int pair = rand() % (size-1);
+			if (pair != i) {
+				machine->connectExecutableContainer(i, pair);
+			}
+		}
+	}
+
+	return machine;
 }
 
 ExecutableMachineGraph* Test::makeSimpleMachine(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test) {
@@ -790,12 +827,12 @@ ExecutableMachineGraph* Test::makeMatrixMachine(int communications, std::unique_
 }
 
 void Test::testExecutableMachineGraphPerformance() {
-	std::unique_ptr<CommandSender> comEx (new SerialSender("\\\\.\\COM3"));
-	std::unique_ptr<CommandSender> comTest (new FileSender("test.log", "inputFileData.txt"));
+	std::unique_ptr<CommandSender> comEx(new SerialSender("\\\\.\\COM3"));
+	std::unique_ptr<CommandSender> comTest(new FileSender("test.log", "inputFileData.txt"));
 	int communications = CommunicationsInterface::GetInstance()->addCommandSender(comEx->clone());
 
 	LOG(INFO) << "creating machine...";
-	ExecutableMachineGraph* machine = makeMatrixMachine(communications, std::move(comEx), std::move(comTest), 40);
+	ExecutableMachineGraph* machine = makeMatrixMachine(communications, std::move(comEx), std::move(comTest), 5);
 
 	ContainerNodeType cinlet(MovementType::continuous, ContainerType::inlet);
 	ContainerNodeType sink(MovementType::irrelevant, ContainerType::sink);
@@ -1229,7 +1266,7 @@ void Test::testMappingTest() {
 
 	std::shared_ptr<VariableTable> t(new VariableTable());
 	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
-	std::shared_ptr<ProtocolGraph> protocol (MakeTurbidostat(t, map));
+	std::shared_ptr<ProtocolGraph> protocol(MakeTurbidostat(t, map));
 
 	LOG(INFO) << "printing graphs...";
 	protocol->printProtocol("protocol");
@@ -1244,9 +1281,9 @@ void Test::testMappingTest() {
 }
 
 void Test::testMappingExec() {
-	std::unique_ptr<CommandSender> test (new FileSender("test.log", "inputFileData.txt"));
-	std::unique_ptr<CommandSender> exec (new SerialSender("\\\\.\\COM3"));
-	
+	std::unique_ptr<CommandSender> test(new FileSender("test.log", "inputFileData.txt"));
+	std::unique_ptr<CommandSender> exec(new SerialSender("\\\\.\\COM3"));
+
 	CommunicationsInterface::GetInstance()->setTesting(false);
 	int idCom = CommunicationsInterface::GetInstance()->addCommandSender(exec->clone());
 
@@ -1257,7 +1294,7 @@ void Test::testMappingExec() {
 
 	std::shared_ptr<VariableTable> t(new VariableTable());
 	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
-	std::shared_ptr<ProtocolGraph> protocol (MakeTurbidostat(t, map));
+	std::shared_ptr<ProtocolGraph> protocol(MakeTurbidostat(t, map));
 
 	LOG(INFO) << "printing graphs...";
 	protocol->printProtocol("protocol");
@@ -1322,8 +1359,8 @@ void Test::testSerializeNode() {
 }
 
 void Test::testSerializeMachine() {
-	std::unique_ptr<CommandSender> test (new FileSender("test.log", "inputFileData.txt"));
-	std::unique_ptr<CommandSender> exec (new SerialSender("\\\\.\\COM3"));
+	std::unique_ptr<CommandSender> test(new FileSender("test.log", "inputFileData.txt"));
+	std::unique_ptr<CommandSender> exec(new SerialSender("\\\\.\\COM3"));
 
 	int idCom = CommunicationsInterface::GetInstance()->addCommandSender(test->clone());
 	std::vector<int> v;
@@ -1399,9 +1436,9 @@ ProtocolGraph* Test::makeTimeProtocol(
 }
 
 void Test::testTimeStep() {
-	std::unique_ptr<CommandSender> test (new FileSender("test.log", "inputFileData.txt"));
-	std::unique_ptr<CommandSender> exec (new SerialSender("\\\\.\\COM3"));
-	
+	std::unique_ptr<CommandSender> test(new FileSender("test.log", "inputFileData.txt"));
+	std::unique_ptr<CommandSender> exec(new SerialSender("\\\\.\\COM3"));
+
 	CommunicationsInterface::GetInstance()->setTesting(false);
 	int idCom = CommunicationsInterface::GetInstance()->addCommandSender(exec->clone());
 
@@ -1412,7 +1449,7 @@ void Test::testTimeStep() {
 
 	std::shared_ptr<VariableTable> t(new VariableTable());
 	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
-	std::shared_ptr<ProtocolGraph> protocol (makeTimeProtocol(t, map));
+	std::shared_ptr<ProtocolGraph> protocol(makeTimeProtocol(t, map));
 
 	LOG(INFO) << "printing graphs...";
 	protocol->printProtocol("protocol");
@@ -1427,9 +1464,9 @@ void Test::testTimeStep() {
 }
 
 void Test::testTimeStepTest() {
-	std::unique_ptr<CommandSender> test (new FileSender("test.log", "inputFileData.txt"));
-	std::unique_ptr<CommandSender> exec (new SerialSender("\\\\.\\COM3"));
-	
+	std::unique_ptr<CommandSender> test(new FileSender("test.log", "inputFileData.txt"));
+	std::unique_ptr<CommandSender> exec(new SerialSender("\\\\.\\COM3"));
+
 	CommunicationsInterface::GetInstance()->setTesting(true);
 
 	int idCom = CommunicationsInterface::GetInstance()->addCommandSender(test->clone());
@@ -1440,7 +1477,7 @@ void Test::testTimeStepTest() {
 
 	std::shared_ptr<VariableTable> t(new VariableTable());
 	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
-	std::shared_ptr<ProtocolGraph> protocol (makeTimeProtocol(t, map));
+	std::shared_ptr<ProtocolGraph> protocol(makeTimeProtocol(t, map));
 
 	LOG(INFO) << "printing graphs...";
 	protocol->printProtocol("protocol");
@@ -1594,17 +1631,17 @@ void Test::pythonTest() {
 		Py_Initialize();
 
 		initChorraMod();
-		
+
 		object main_module = import("__main__");
 		object main_namespace = main_module.attr("__dict__");
-		
+
 		std::string dir = Utils::getCurrentDir() + "\\plugins";
 		LOG(INFO) << dir;
 
 		//Add plugins folder to the python path
 		PyObject* sysPath = PySys_GetObject("path");
 		PyList_Insert(sysPath, 0, PyString_FromString(dir.c_str()));
-		
+
 		object rand_mod = import("random");
 
 		object test = import("test");
@@ -1612,7 +1649,7 @@ void Test::pythonTest() {
 
 		main_namespace["var1"] = test.attr("Test")("Angel");
 		main_namespace["var2"] = test.attr("Test")("Elena");
-		
+
 		main_namespace["var1"].attr("saluda")(ptr(cho));
 		main_namespace["var2"].attr("saluda")(ptr(cho));
 
@@ -1622,14 +1659,15 @@ void Test::pythonTest() {
 		main_namespace["var2"].attr("saluda")(ptr(cho));
 
 		//LOG(INFO) << extract<double>(rand_mod.attr("random")());
-		
-		
+
+
 		/*exec("import random", main_namespace);
 		object rand = eval("random.random()", main_namespace);
 		std::cout << extract<double>(rand) << std::endl;*/
 
 		Py_Finalize();
-	} catch (error_already_set) {
+	}
+	catch (error_already_set) {
 		PyErr_Print();
 	}
 	delete cho;
@@ -1647,7 +1685,7 @@ void Test::testPythonEnvironment() {
 	try {
 		vector<string> params1{ "Angel" };
 		vector<string> params2{ "Elena" };
-		
+
 		LOG(INFO) << "making instance Test var1";
 		string nv1 = PythonEnvironment::GetInstance()->makeInstance("Test", params1);
 		LOG(INFO) << "making instance Test var2";
@@ -1694,7 +1732,7 @@ void Test::testOdSensorPlugin() {
 	catch (std::runtime_error & e) {
 		LOG(ERROR) << e.what();
 	}
-	
+
 	com->disconnect();
 	PythonEnvironment::GetInstance()->finishEnvironment();
 }
@@ -1708,18 +1746,18 @@ ExecutableMachineGraph* Test::makeSimpleMachinePlugin(int communications, std::u
 
 	vector<string> paramsl{ "3" };
 	std::shared_ptr<Light> light(new LightPlugin(communications, "EvoprogLight", paramsl));
-	
+
 	vector<string> paramst{ "1" };
 	std::shared_ptr<Temperature> temperature(
-		new TemperaturePlugin(communications,"EvoprogTemperature", paramst));
+		new TemperaturePlugin(communications, "EvoprogTemperature", paramst));
 
 	vector<string> paramsce{ "13" };
 	std::shared_ptr<Extractor> cExtractor13(
-		new ExtractorPlugin(communications,"EvoprogContinuousPump", paramsce));
+		new ExtractorPlugin(communications, "EvoprogContinuousPump", paramsce));
 
 	vector<string> paramsce2{ "14" };
 	std::shared_ptr<Extractor> cExtractor14(
-		new ExtractorPlugin(communications, "EvoprogContinuousPump",  paramsce2));
+		new ExtractorPlugin(communications, "EvoprogContinuousPump", paramsce2));
 
 	vector<string> paramsde{ "14" };
 	std::shared_ptr<Extractor> dExtractor(
@@ -1728,8 +1766,8 @@ ExecutableMachineGraph* Test::makeSimpleMachinePlugin(int communications, std::u
 	vector<string> paramsdi;
 	std::shared_ptr<Injector> dummyInjector(
 		new InjectorPlugin(communications, "EvoprogDummyInjector", paramsdi));
-	
-	vector<string> paramsod{"4"};
+
+	vector<string> paramsod{ "4" };
 	std::shared_ptr<ODSensor> od(new ODSensorPlugin(communications, "EvoprogOdSensor", paramsod));
 
 	ExecutableMachineGraph::ExecutableContainerNodePtr cInlet1 = std::make_shared<InletContainer>(1, 100.0, cExtractor13);
@@ -1754,11 +1792,11 @@ ExecutableMachineGraph* Test::makeSimpleMachinePlugin(int communications, std::u
 
 void Test::testMappingPluginTest() {
 	PythonEnvironment::GetInstance()->initEnvironment();
-	
+
 	CommunicationsInterface::GetInstance()->setTesting(true);
 
-	std::unique_ptr<CommandSender> test (new FileSender("test.log", "inputFileData.txt"));
-	std::unique_ptr<CommandSender> exec (new SerialSender("\\\\.\\COM3"));
+	std::unique_ptr<CommandSender> test(new FileSender("test.log", "inputFileData.txt"));
+	std::unique_ptr<CommandSender> exec(new SerialSender("\\\\.\\COM3"));
 
 	int idCom = CommunicationsInterface::GetInstance()->addCommandSender(test->clone());
 	std::vector<int> v;
@@ -1768,7 +1806,7 @@ void Test::testMappingPluginTest() {
 
 	std::shared_ptr<VariableTable> t(new VariableTable());
 	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
-	std::shared_ptr<ProtocolGraph> protocol (MakeTurbidostat(t, map));
+	std::shared_ptr<ProtocolGraph> protocol(MakeTurbidostat(t, map));
 
 	LOG(INFO) << "printing graphs...";
 	protocol->printProtocol("protocol");
@@ -1788,8 +1826,8 @@ void Test::testMappingPluginExec() {
 
 	CommunicationsInterface::GetInstance()->setTesting(false);
 
-	std::unique_ptr<CommandSender> test (new FileSender("test.log", "inputFileData.txt"));
-	std::unique_ptr<CommandSender> exec (new SerialSender("\\\\.\\COM3"));
+	std::unique_ptr<CommandSender> test(new FileSender("test.log", "inputFileData.txt"));
+	std::unique_ptr<CommandSender> exec(new SerialSender("\\\\.\\COM3"));
 
 	int idCom = CommunicationsInterface::GetInstance()->addCommandSender(exec->clone());
 
@@ -1800,7 +1838,7 @@ void Test::testMappingPluginExec() {
 
 	std::shared_ptr<VariableTable> t(new VariableTable());
 	std::shared_ptr<Mapping> map(new Mapping(exMachine, "simpleMachine", v));
-	std::shared_ptr<ProtocolGraph> protocol (MakeTurbidostat(t, map));
+	std::shared_ptr<ProtocolGraph> protocol(MakeTurbidostat(t, map));
 
 	LOG(INFO) << "printing graphs...";
 	protocol->printProtocol("protocol");
@@ -1837,7 +1875,7 @@ void Test::testExecutionServer() {
 	try {
 		LOG(INFO) << "add new machine...";
 		string machineRef = ExecutionMachineServer::GetInstance()->addNewMachine("exMachine.json");
-		
+
 		LOG(INFO) << "add protocol on new machine";
 		string ref1 = server->addProtocolOnNewMachine("tubidostat.json", "exMachine.json");
 		LOG(INFO) << "add protocol on existing machine";
@@ -1847,7 +1885,7 @@ void Test::testExecutionServer() {
 		server->test(ref1);
 		LOG(INFO) << "test ref2";
 		server->exec(ref2);
-		
+
 
 		LOG(INFO) << "availables machines...";
 		auto vec = ExecutionMachineServer::GetInstance()->getMachineMap();
@@ -1867,4 +1905,49 @@ void Test::testExecutionServer() {
 	CommunicationsInterface::freeCommandInterface();
 
 	PythonEnvironment::GetInstance()->finishEnvironment();
+}
+
+void Test::testFlowCalculatorIntensive() {
+
+	std::unique_ptr<CommandSender> comEx(new SerialSender("\\\\.\\COM3"));
+	std::unique_ptr<CommandSender> comTest(new FileSender("test.log", "inputFileData.txt"));
+	int communications = CommunicationsInterface::GetInstance()->addCommandSender(comEx->clone());
+
+	int size = 20;
+
+	LOG(INFO) << "creating machine...";
+	std::shared_ptr<ExecutableMachineGraph> machine = std::shared_ptr<ExecutableMachineGraph>(makeRandomMachine(std::move(comEx), std::move(comTest), size));
+
+	LOG(INFO) << "printing machine...";
+	machine->printMachine("random.graph");
+
+	try {
+		bool todoIgual = true;
+		for (int i = 0; i < size; i++) {
+			LOG(INFO) << "calculating flows" << i << " recursive way...";
+			vector<Flow<Edge>> v1 = machine->getAllFlows(i);
+
+			LOG(INFO) << "calculating flows " << i << " dynamic way...";
+			PathManager manger(machine);
+
+			shared_ptr<PathSearcherIterator> it = manger.getPathSearcher(i);
+			vector<Flow<Edge>> v2;
+
+			while (it->hasNext()) {
+				shared_ptr<Flow<Edge>> n = it->next();
+				//std::string text = n->toText();
+				//LOG(INFO) << text;
+				v2.push_back(*(n.get()));
+			}
+
+			bool igual = v1.size() == v2.size();
+			todoIgual = todoIgual && igual;
+			LOG(INFO) << "nº flows equal: " << (igual) << ", " << v1.size() << ":" << v2.size();
+			//LOG(INFO) << "n flows: " << n;
+		}
+		LOG(INFO) << "todos iguales = " << todoIgual;
+	}
+	catch (exception & e) {
+		LOG(ERROR) << e.what();
+	}
 }

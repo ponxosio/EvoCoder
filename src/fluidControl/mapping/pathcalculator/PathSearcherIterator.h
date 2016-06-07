@@ -22,6 +22,7 @@ public:
 	
 	void begin();
 	bool hasEnded();
+	int getIdStart();
 
 protected:
 	int lastPosition;

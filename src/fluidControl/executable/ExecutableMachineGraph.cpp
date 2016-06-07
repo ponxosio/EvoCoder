@@ -197,7 +197,8 @@ void ExecutableMachineGraph::getAvailableFlows_recursive_type(int idSource, vect
 	FlowHeap & flows,
 	ExecutableContainerNodePtr actual, const ContainerNodeType & destinationType, bool reversed) {
 
-	visitados.push_back(actual->getContainerId());
+	int idContainer = actual->getContainerId();
+	visitados.push_back(idContainer);
 	ExecutableContainerEdgeVector neighbors = getAvailableEdges(actual, reversed);
 	for (auto it = neighbors.begin(); it != neighbors.end(); ++it) {
 		ExecutableContainerEdgePtr actualNeig = *it;
@@ -351,5 +352,36 @@ void ExecutableMachineGraph::updateControlActuators()
 
 		source->connectContainer((*it)->getIdSource(), (*it)->getIdTarget());
 		target->connectContainer((*it)->getIdSource(), (*it)->getIdTarget());
+	}
+}
+
+std::vector<Flow<Edge>> ExecutableMachineGraph::getAllFlows(int idContainer) {
+	ExecutableContainerNodePtr actual = graph->getNode(idContainer);
+	unordered_set<int> visited;
+	vector<Flow<Edge>> vuelta;
+	vector<shared_ptr<Edge>> paths;
+
+	getAllFlows_recursive(idContainer, actual, visited, vuelta, paths);
+
+	return vuelta;
+}
+
+void ExecutableMachineGraph::getAllFlows_recursive(int idStart, ExecutableContainerNodePtr actual, unordered_set<int> visited, vector<Flow<Edge>> & flows, vector<shared_ptr<Edge>> paths) {
+	
+	int idContainer = actual->getContainerId();
+	visited.insert(idContainer);
+
+	ExecutableContainerEdgeVectorPtr neighbors = graph->getLeavingEdges(idContainer);
+	for (auto it = neighbors->begin(); it != neighbors->end(); ++it) {
+		ExecutableContainerEdgePtr next = *it;
+
+		if (visited.find(next->getIdTarget()) == visited.end()) {
+			paths.push_back(next);
+			flows.push_back(Flow<Edge>(idStart, next->getIdTarget(), paths));
+
+			getAllFlows_recursive(idStart, graph->getNode(next->getIdTarget()), visited, flows, paths);
+
+			paths.pop_back();
+		}
 	}
 }

@@ -15,12 +15,12 @@ public:
 	virtual ~FlowPtrComparator(){}
 
 	inline bool operator()(Flow<EdgeType>* f1, Flow<EdgeType>* f2) const {
-		return (f1->getPaths().size() >= f2->getPaths().size());
+		return (f1->getPaths().size() < f2->getPaths().size());
 	}
 
 	inline bool operator()(Flow<EdgeType> f1, Flow<EdgeType> f2) const {
-			return (f1.getPaths().size() >= f2.getPaths().size());
-		}
+		return (f1.getPaths().size() < f2.getPaths().size());
+	}
 };
 
 #endif /* SRC_GRAPH_FLOWPTRCOMPARATOR_H_ */
