@@ -113,9 +113,12 @@
   <ItemGroup>
     <ClCompile Include="src\ExecutionMachineServer.cpp" />
     <ClCompile Include="src\ExecutionServer.cpp" />
+    <ClCompile Include="src\fluidControl\mapping\pathcalculator\IdSearcher.cpp" />
     <ClCompile Include="src\fluidControl\mapping\pathcalculator\PathManager.cpp" />
     <ClCompile Include="src\fluidControl\mapping\pathcalculator\PathSearcher.cpp" />
     <ClCompile Include="src\fluidControl\mapping\pathcalculator\PathSearcherIterator.cpp" />
+    <ClCompile Include="src\fluidControl\mapping\pathcalculator\SearcherIterator.cpp" />
+    <ClCompile Include="src\fluidControl\mapping\pathcalculator\SimplePathSearcher.cpp" />
     <ClCompile Include="src\fluidControl\mapping\pathcalculator\TypeSearcher.cpp" />
     <ClCompile Include="src\plugin\actuators\LightPlugin.cpp" />
     <ClCompile Include="src\plugin\actuators\ODSensorPlugin.cpp" />
@@ -182,9 +185,13 @@
   <ItemGroup>
     <ClInclude Include="src\ExecutionMachineServer.h" />
     <ClInclude Include="src\ExecutionServer.h" />
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\IdSearcher.h" />
     <ClInclude Include="src\fluidControl\mapping\pathcalculator\PathManager.h" />
     <ClInclude Include="src\fluidControl\mapping\pathcalculator\PathSearcher.h" />
     <ClInclude Include="src\fluidControl\mapping\pathcalculator\PathSearcherIterator.h" />
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\SearcherInterface.h" />
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\SearcherIterator.h" />
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\SimplePathSearcher.h" />
     <ClInclude Include="src\fluidControl\mapping\pathcalculator\TypeSearcher.h" />
     <ClInclude Include="src\plugin\actuators\LightPlugin.h" />
     <ClInclude Include="src\plugin\actuators\ODSensorPlugin.h" />

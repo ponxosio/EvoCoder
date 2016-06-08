@@ -216,6 +216,15 @@
     <ClCompile Include="src\fluidControl\mapping\pathcalculator\TypeSearcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\fluidControl\mapping\pathcalculator\IdSearcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fluidControl\mapping\pathcalculator\SearcherIterator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fluidControl\mapping\pathcalculator\SimplePathSearcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\easylogging++.h">
@@ -486,6 +495,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\fluidControl\mapping\pathcalculator\TypeSearcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\IdSearcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\SearcherInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\SearcherIterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fluidControl\mapping\pathcalculator\SimplePathSearcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

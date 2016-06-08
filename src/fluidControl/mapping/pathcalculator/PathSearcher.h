@@ -14,7 +14,7 @@ class PathManager;
 class PathSearcher
 {
 public:
-	PathSearcher(int idInicio, std::shared_ptr<ExecutableMachineGraph> machine, PathManager* manager) throw (std::invalid_argument);
+	PathSearcher(int idInicio, std::shared_ptr<ExecutableMachineGraph> machine, PathManager* manager, bool reverse) throw (std::invalid_argument);
 	virtual ~PathSearcher();
 
 	bool calculateNextFlow();
@@ -36,6 +36,7 @@ protected:
 	int idInicio;
 	std::shared_ptr<ExecutableMachineGraph> machine;
 	PathManager* manager;
+	bool reverse;
 
 	//internal
 	bool ended;

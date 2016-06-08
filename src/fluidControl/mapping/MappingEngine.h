@@ -25,6 +25,8 @@
 #include "../../graph/FlowPtrComparator.h"
 #include "../../fluidControl/machineGraph/MachineGraph.h"
 #include "../../fluidControl/executable/ExecutableMachineGraph.h"
+#include "pathcalculator\PathManager.h"
+#include "pathcalculator\SearcherIterator.h"
 
 typedef Graph<ContainerNode, Edge>::SubGraphElem SubGraphSketch;
 typedef Graph<ExecutableContainerNode, Edge>::SubGraphElem SubGraphMachine;
@@ -46,6 +48,7 @@ protected:
 
 	MachineGraph* sketch;
 	std::shared_ptr<ExecutableMachineGraph> machine;
+	PathManager manager;
 
 	/*bool trySubgraph(Graph<ContainerNode, Edge>::SubGraph & sketchSubgraphs, Graph<ExecutableContainerNode, Edge>::SubGraphPtr machineSubgraphs);*/
 	bool mapSubgraph(MachineGraph::ContainerEdgeVector& edges, ExecutableMachineGraph::ExecutableContainerNodeVectorPtr machineNodes);
@@ -55,7 +58,7 @@ protected:
 	void setNodesUsed(const Flow<Edge> & flow);
 	void unsetNodesUsed(const Flow<Edge> & flow);
 
-	FlowsHeap getAvailableFlows(ExecutableMachineGraph::ExecutableContainerEdgePtr actual, ExecutableMachineGraph::ExecutableContainerNodeVectorPtr machineNodes);
+	std::shared_ptr<SearcherIterator> getAvailableFlows(ExecutableMachineGraph::ExecutableContainerEdgePtr actual);
 
 	inline bool isMapped(int idConatiner) {
 		return (containersMap->find(idConatiner) != containersMap->end());

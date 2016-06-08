@@ -8,7 +8,9 @@
 #include "MappingEngine.h"
 
 MappingEngine::MappingEngine(MachineGraph* sketch,
-	std::shared_ptr<ExecutableMachineGraph> machine) {
+	std::shared_ptr<ExecutableMachineGraph> machine) : 
+	manager(machine) 
+{
 	this->sketch = sketch;
 	this->machine = machine;
 
@@ -51,11 +53,10 @@ bool MappingEngine::mapSubgraph(MachineGraph::ContainerEdgeVector& edges, Execut
 		MachineGraph::ContainerEdgePtr actual = edges.back();
 		edges.pop_back();
 
-		FlowsHeap heap = getAvailableFlows(actual, machineNodes);
-		while (!success && !heap.empty()) {
-			Flow<Edge> actualFlow = heap.top();
-			heap.pop();
-			addSolution(actual, actualFlow);
+		shared_ptr<SearcherIterator> it = getAvailableFlows(actual);
+		while (!success && it->hasNext()) {
+			shared_ptr<Flow<Edge>> actualFlow = it->next();
+			addSolution(actual, *(actualFlow.get()));
 			success = mapSubgraph(edges, machineNodes);
 			if (!success) {
 				removeSolution(actual);
@@ -195,31 +196,25 @@ void MappingEngine::unsetNodesUsed(const Flow<Edge>& flow) {
 	}
 }
 
-FlowsHeap MappingEngine::getAvailableFlows(ExecutableMachineGraph::ExecutableContainerEdgePtr actual,
-	ExecutableMachineGraph::ExecutableContainerNodeVectorPtr machineNodes) {
+std::shared_ptr<SearcherIterator> MappingEngine::getAvailableFlows(ExecutableMachineGraph::ExecutableContainerEdgePtr actual) {
 
 	if (!isMapped(actual->getIdSource()) && !isMapped(actual->getIdTarget())) {
-		ContainerNodeType* typeSource = sketch->getContainer(
-				actual->getIdSource())->getType().get();
-		ContainerNodeType* typeTarget = sketch->getContainer(
-				actual->getIdTarget())->getType().get();
-		return machine->getAvailableFlows(*typeSource, *typeTarget,
-				*machineNodes);
+		shared_ptr<ContainerNodeType> typeSource = sketch->getContainer(actual->getIdSource())->getType();
+		shared_ptr<ContainerNodeType> typeTarget = sketch->getContainer(actual->getIdTarget())->getType();
+		return manager.getFlows(typeSource, typeTarget);
 	} else if (isMapped(actual->getIdSource())
 			&& !isMapped(actual->getIdTarget())) {
-		ContainerNodeType* typeTarget = sketch->getContainer(
-						actual->getIdTarget())->getType().get();
+		shared_ptr<ContainerNodeType> typeTarget = sketch->getContainer(actual->getIdTarget())->getType();
 		int idSourceMachine = containersMap->find(actual->getIdSource())->second;
-		return machine->getAvailableFlows(idSourceMachine, *typeTarget);
+		return manager.getFlows(idSourceMachine, typeTarget);
 	} else if (!isMapped(actual->getIdSource())
 			&& isMapped(actual->getIdTarget())) {
-		ContainerNodeType* typeSource = sketch->getContainer(
-				actual->getIdSource())->getType().get();
+		shared_ptr<ContainerNodeType> typeSource = sketch->getContainer(actual->getIdSource())->getType();
 		int idTargetMachine = containersMap->find(actual->getIdTarget())->second;
-		return machine->getAvailableFlows(*typeSource, idTargetMachine);
+		return manager.getFlows(typeSource, idTargetMachine);
 	} else { //both mapped
 		int idSourceMachine = containersMap->find(actual->getIdSource())->second;
 		int idTargetMachine = containersMap->find(actual->getIdTarget())->second;
-		return machine->getAvailableFlows(idSourceMachine, idTargetMachine);
+		return manager.getFlows(idSourceMachine, idTargetMachine);
 	}
 }

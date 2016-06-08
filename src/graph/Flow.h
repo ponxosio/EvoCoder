@@ -55,6 +55,10 @@ public:
 		return idFinish;
 	}
 
+	inline void setIdFinish(int idFinish) {
+		this->idFinish = idFinish;
+	}
+
 	inline int getIdStart() const {
 		return idStart;
 	}

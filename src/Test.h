@@ -221,6 +221,8 @@ public:
 
 	void testFlowCalculatorIntensive();
 
+	void testPathManager();
+
 	class Chorra {
 	public:
 		Chorra() {

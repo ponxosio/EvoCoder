@@ -355,33 +355,64 @@ void ExecutableMachineGraph::updateControlActuators()
 	}
 }
 
-std::vector<Flow<Edge>> ExecutableMachineGraph::getAllFlows(int idContainer) {
+std::vector<std::shared_ptr<Flow<Edge>>> ExecutableMachineGraph::getAllFlows(int idContainer, bool reverse) {
 	ExecutableContainerNodePtr actual = graph->getNode(idContainer);
 	unordered_set<int> visited;
-	vector<Flow<Edge>> vuelta;
+	vector<std::shared_ptr<Flow<Edge>>> vuelta;
 	vector<shared_ptr<Edge>> paths;
 
-	getAllFlows_recursive(idContainer, actual, visited, vuelta, paths);
+	getAllFlows_recursive(idContainer, actual, visited, vuelta, paths, reverse);
 
 	return vuelta;
 }
 
-void ExecutableMachineGraph::getAllFlows_recursive(int idStart, ExecutableContainerNodePtr actual, unordered_set<int> visited, vector<Flow<Edge>> & flows, vector<shared_ptr<Edge>> paths) {
+void ExecutableMachineGraph::getAllFlows_recursive(int idStart, 
+	ExecutableContainerNodePtr actual, 
+	unordered_set<int> visited, 
+	vector<std::shared_ptr<Flow<Edge>>> & flows, 
+	vector<shared_ptr<Edge>> paths,
+	bool reverse
+	) {
 	
 	int idContainer = actual->getContainerId();
 	visited.insert(idContainer);
 
-	ExecutableContainerEdgeVectorPtr neighbors = graph->getLeavingEdges(idContainer);
-	for (auto it = neighbors->begin(); it != neighbors->end(); ++it) {
+	ExecutableContainerEdgeVectorPtr neighbors;
+	if (!reverse) {
+		neighbors = graph->getLeavingEdges(idContainer);
+	} else {
+		neighbors = graph->getArrivingEdges(idContainer);
+	}
+
+	for	(auto it = neighbors->begin(); it != neighbors->end(); ++it) {
 		ExecutableContainerEdgePtr next = *it;
 
-		if (visited.find(next->getIdTarget()) == visited.end()) {
-			paths.push_back(next);
-			flows.push_back(Flow<Edge>(idStart, next->getIdTarget(), paths));
+		int nextId = 0;
+		if (!reverse) {
+			nextId = next->getIdTarget();
+		}
+		else {
+			nextId = next->getIdSource();
+		}
 
-			getAllFlows_recursive(idStart, graph->getNode(next->getIdTarget()), visited, flows, paths);
+		if (visited.find(nextId) == visited.end()) {
+			
+			if (!reverse) {
+				paths.push_back(next);
+				flows.push_back(make_shared<Flow<Edge>>(idStart, nextId, paths));
+			}
+			else {
+				paths.insert(paths.begin(),next);
+				flows.push_back(make_shared<Flow<Edge>>(nextId, idStart, paths));
+			}
 
-			paths.pop_back();
+			getAllFlows_recursive(idStart, graph->getNode(nextId), visited, flows, paths, reverse);
+
+			if (!reverse) {
+				paths.pop_back();
+			} else {
+				paths.erase(paths.begin());
+			}
 		}
 	}
 }

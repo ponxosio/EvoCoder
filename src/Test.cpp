@@ -49,7 +49,7 @@ int main(int argv, char* argc[]) {
 	 //t.testSerialPort_receive();
 
 	 //t.testMappingEngine();
-	 //t.testMappingEnginePerformance();
+	 t.testMappingEnginePerformance();
 
 	 //t.testCommunicationsInterface();
 	 //t.testFileCommandSender();
@@ -77,7 +77,9 @@ int main(int argv, char* argc[]) {
 
 	//t.testExecutionServer();
 
-	t.testFlowCalculatorIntensive();
+	//t.testFlowCalculatorIntensive();
+
+	//t.testPathManager();
 
 	LOG(INFO) << "finished!";
 }
@@ -662,7 +664,22 @@ void Test::testExecutableMachineGraph() {
 	for (int i = 1; i < 8; i++) {
 		LOG(INFO) << "gettings all paths from " << i;
 
-		std::shared_ptr<PathSearcherIterator> it = manager.getPathSearcher(i);
+		std::shared_ptr<SearcherIterator> it = manager.getPathSearcher(i,false);
+
+		try {
+			while (it->hasNext()) {
+				LOG(INFO) << it->next()->toText();
+			}
+		}
+		catch (exception e) {
+			LOG(ERROR) << e.what();
+		}
+	}
+
+	for (int i = 1; i < 8; i++) {
+		LOG(INFO) << "gettings all reverse paths from " << i;
+
+		std::shared_ptr<SearcherIterator> it = manager.getPathSearcher(i, true);
 
 		try {
 			while (it->hasNext()) {
@@ -1168,7 +1185,7 @@ void Test::testMappingEnginePerformance() {
 	std::unique_ptr<CommandSender> comTest = std::unique_ptr<CommandSender>(new FileSender("test.log", "inputFileData.txt"));
 	int com = CommunicationsInterface::GetInstance()->addCommandSender(comEx->clone());
 
-	MachineGraph* sketch = makeMatrixSketch(6);
+	MachineGraph* sketch = makeMatrixSketch(10);
 	std::shared_ptr<ExecutableMachineGraph> machine(makeMatrixMachine(com, std::move(comEx), std::move(comTest), 10));
 	MappingEngine* map = new MappingEngine(sketch, machine);
 
@@ -1925,12 +1942,12 @@ void Test::testFlowCalculatorIntensive() {
 		bool todoIgual = true;
 		for (int i = 0; i < size; i++) {
 			LOG(INFO) << "calculating flows" << i << " recursive way...";
-			vector<Flow<Edge>> v1 = machine->getAllFlows(i);
+			vector<std::shared_ptr<Flow<Edge>>> v1 = machine->getAllFlows(i, false);
 
 			LOG(INFO) << "calculating flows " << i << " dynamic way...";
 			PathManager manger(machine);
 
-			shared_ptr<PathSearcherIterator> it = manger.getPathSearcher(i);
+			shared_ptr<SearcherIterator> it = manger.getPathSearcher(i, false);
 			vector<Flow<Edge>> v2;
 
 			while (it->hasNext()) {
@@ -1946,8 +1963,85 @@ void Test::testFlowCalculatorIntensive() {
 			//LOG(INFO) << "n flows: " << n;
 		}
 		LOG(INFO) << "todos iguales = " << todoIgual;
+
+		for (int i = 0; i < size; i++) {
+			LOG(INFO) << "calculating reverse flows" << i << " recursive way...";
+			vector<std::shared_ptr<Flow<Edge>>> v1 = machine->getAllFlows(i, true);
+
+			LOG(INFO) << "calculating reverse flows " << i << " dynamic way...";
+			PathManager manger(machine);
+
+			shared_ptr<SearcherIterator> it = manger.getPathSearcher(i, true);
+			vector<Flow<Edge>> v2;
+
+			while (it->hasNext()) {
+				shared_ptr<Flow<Edge>> n = it->next();
+				//std::string text = n->toText();
+				//LOG(INFO) << text;
+				v2.push_back(*(n.get()));
+			}
+
+			bool igual = v1.size() == v2.size();
+			todoIgual = todoIgual && igual;
+			LOG(INFO) << "nº reverse flows equal: " << (igual) << ", " << v1.size() << ":" << v2.size();
+			//LOG(INFO) << "n flows: " << n;
+		}
+		LOG(INFO) << "todos iguales reverse = " << todoIgual;
 	}
 	catch (exception & e) {
 		LOG(ERROR) << e.what();
+	}
+}
+
+void Test::testPathManager() {
+
+	std::unique_ptr<CommandSender> comEx(new SerialSender("\\\\.\\COM3"));
+	std::unique_ptr<CommandSender> comTest(new FileSender("test.log", "inputFileData.txt"));
+	int communications = CommunicationsInterface::GetInstance()->addCommandSender(comEx->clone());
+
+	int size = 20;
+
+	LOG(INFO) << "creating machine...";
+	std::shared_ptr<ExecutableMachineGraph> machine = std::shared_ptr<ExecutableMachineGraph>(makeMappingMachine(communications, std::move(comEx), std::move(comTest)));
+
+	PathManager manager(machine);
+
+	LOG(INFO) << " flows from 2 to 7..";
+
+	shared_ptr<SearcherIterator> it = manager.getFlows(2, 7);
+
+	while (it->hasNext()) {
+		LOG(INFO) << it->next()->toText();
+	}
+
+	LOG(INFO) << " flows from 2 to sink..";
+
+	it = manager.getFlows(2, make_shared<ContainerNodeType>(MovementType::irrelevant, ContainerType::sink));
+
+	while (it->hasNext()) {
+		LOG(INFO) << it->next()->toText();
+	}
+
+	LOG(INFO) << " flows from inlet to 7..";
+
+	it = manager.getFlows(make_shared<ContainerNodeType>(MovementType::continuous, ContainerType::inlet), 7);
+
+	while (it->hasNext()) {
+		LOG(INFO) << it->next()->toText();
+	}
+
+	LOG(INFO) << " flows from inlet to sink..";
+
+	it = manager.getFlows(make_shared<ContainerNodeType>(MovementType::continuous, ContainerType::inlet), make_shared<ContainerNodeType>(MovementType::irrelevant, ContainerType::sink));
+
+	while (it->hasNext()) {
+		LOG(INFO) << it->next()->toText();
+	}
+
+	LOG(INFO) << "reverse from 7, recursive...";
+	vector<std::shared_ptr<Flow<Edge>>> v = machine->getAllFlows(7, true);
+
+	for (auto it = v.begin(); it != v.end(); ++it) {
+		LOG(INFO) << (*it)->toText();
 	}
 }
