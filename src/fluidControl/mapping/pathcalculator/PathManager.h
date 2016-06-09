@@ -25,7 +25,7 @@ public:
 	PathManager(std::shared_ptr<ExecutableMachineGraph> machine);
 	virtual ~PathManager();
 
-	std::shared_ptr<SearcherIterator> getPathSearcher(int idStart, bool reverse);
+	std::shared_ptr<PathSearcherIterator> getPathSearcher(int idStart, bool reverse);
 
 	std::shared_ptr<SearcherIterator> getFlows(int idStart, int idFinish) throw (std::invalid_argument);
 	std::shared_ptr<SearcherIterator> getFlows(int idStart, std::shared_ptr<ContainerNodeType> destinationType) throw(std::invalid_argument);
@@ -37,8 +37,8 @@ protected:
 
 	//internal
 	//paths
-	std::unordered_map<int, std::shared_ptr<SearcherInterface>> searchersMap;
-	std::unordered_map<int, std::shared_ptr<SearcherInterface>> searchersMapReverse;
+	std::unordered_map<int, std::shared_ptr<PathSearcher>> searchersMap;
+	std::unordered_map<int, std::shared_ptr<PathSearcher>> searchersMapReverse;
 	
 	//flows
 	std::unordered_map<std::tuple<int, int>, std::shared_ptr<SearcherInterface>, PairIntIntHashFunction> idIdMap;

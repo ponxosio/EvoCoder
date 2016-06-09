@@ -81,6 +81,8 @@ int main(int argv, char* argc[]) {
 
 	//t.testPathManager();
 
+	//t.testMappingIntensive();
+
 	LOG(INFO) << "finished!";
 }
 
@@ -664,10 +666,10 @@ void Test::testExecutableMachineGraph() {
 	for (int i = 1; i < 8; i++) {
 		LOG(INFO) << "gettings all paths from " << i;
 
-		std::shared_ptr<SearcherIterator> it = manager.getPathSearcher(i,false);
+		std::shared_ptr<PathSearcherIterator> it = manager.getPathSearcher(i,false);
 
 		try {
-			while (it->hasNext()) {
+			while (it->hasNext() != -1) {
 				LOG(INFO) << it->next()->toText();
 			}
 		}
@@ -679,10 +681,10 @@ void Test::testExecutableMachineGraph() {
 	for (int i = 1; i < 8; i++) {
 		LOG(INFO) << "gettings all reverse paths from " << i;
 
-		std::shared_ptr<SearcherIterator> it = manager.getPathSearcher(i, true);
+		std::shared_ptr<PathSearcherIterator> it = manager.getPathSearcher(i, true);
 
 		try {
-			while (it->hasNext()) {
+			while (it->hasNext() != -1) {
 				LOG(INFO) << it->next()->toText();
 			}
 		}
@@ -697,7 +699,9 @@ ExecutableMachineGraph* Test::makeRandomMachine(std::unique_ptr<CommandSender> e
 	ExecutableMachineGraph* machine = new ExecutableMachineGraph(
 		"simpleMachine", std::move(exec), std::move(test));
 
-	srand(time(NULL));
+	long seed = time(NULL);
+	LOG(INFO) << "seed: " << seed;
+	srand(seed);
 
 	std::shared_ptr<Control> control(new EvoprogSixwayValve(0, 7));
 	std::shared_ptr<Extractor> cExtractor13(
@@ -720,6 +724,48 @@ ExecutableMachineGraph* Test::makeRandomMachine(std::unique_ptr<CommandSender> e
 			int pair = rand() % (size-1);
 			if (pair != i) {
 				machine->connectExecutableContainer(i, pair);
+			}
+		}
+	}
+
+	for (int i = 0; i < size; i++) {
+		int leaving = machine->getGraph()->getLeavingEdges(i)->size();
+		int arriving = machine->getGraph()->getArrivingEdges(i)->size();
+
+		if (leaving == 0 ) {
+			if (arriving == 1) {
+				machine->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::sink);
+				machine->getGraph()->getNode(i)->getType()->changeMovementType(MovementType::irrelevant);
+			}
+			else if (arriving > 1) {
+				machine->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::convergent_switch);
+				machine->getGraph()->getNode(i)->getType()->changeMovementType(MovementType::irrelevant);
+			}
+			else {
+				machine->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::unknow);
+				machine->getGraph()->getNode(i)->getType()->changeMovementType(MovementType::irrelevant);
+			}
+		}
+		else if (leaving == 1) {
+			if (arriving == 1) {
+				machine->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::flow);
+			}
+			else if (arriving > 1) {
+				machine->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::convergent_switch_inlet);
+			}
+			else {
+				machine->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::inlet);
+			}
+		}
+		else if (leaving > 1) {
+			if (arriving == 1) {
+				machine->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::divergent_switch_sink);
+			}
+			else if (arriving > 1) {
+				machine->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::bidirectional_switch);
+			}
+			else {
+				machine->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::divergent_switch);
 			}
 		}
 	}
@@ -1185,8 +1231,8 @@ void Test::testMappingEnginePerformance() {
 	std::unique_ptr<CommandSender> comTest = std::unique_ptr<CommandSender>(new FileSender("test.log", "inputFileData.txt"));
 	int com = CommunicationsInterface::GetInstance()->addCommandSender(comEx->clone());
 
-	MachineGraph* sketch = makeMatrixSketch(10);
-	std::shared_ptr<ExecutableMachineGraph> machine(makeMatrixMachine(com, std::move(comEx), std::move(comTest), 10));
+	MachineGraph* sketch = makeMatrixSketch(4);
+	std::shared_ptr<ExecutableMachineGraph> machine(makeMatrixMachine(com, std::move(comEx), std::move(comTest), 20));
 	MappingEngine* map = new MappingEngine(sketch, machine);
 
 	LOG(INFO) << "printing machine...";
@@ -1205,10 +1251,18 @@ void Test::testMappingEnginePerformance() {
 		const MachineGraph::ContainerEdgeVectorPtr edges = sketch->getGraph()->getEdgeList();
 		const MachineGraph::ContainerNodeVectorPtr nodes = sketch->getGraph()->getAllNodes();
 
+		unordered_set<int> set;
 		for (auto it = nodes->begin(); it != nodes->end(); ++it) {
 			MachineGraph::ContainerNodePtr act = *it;
 			try {
-				LOG(INFO) << " sketch : " << patch::to_string(act->getContainerId()) << ", machine: " << patch::to_string(map->getMappedContainerId(act->getContainerId()));
+				int nm = map->getMappedContainerId(act->getContainerId());
+				if (set.find(nm) != set.end()) {
+					LOG(FATAL) << "error " << nm << " used twice";
+				} else {
+					set.insert(nm);
+				}
+
+				LOG(INFO) << " sketch : " << patch::to_string(act->getContainerId()) << ", machine: " << patch::to_string(nm);
 			}
 			catch (std::invalid_argument & e) {
 				LOG(INFO) << "exception " << e.what();
@@ -1939,22 +1993,23 @@ void Test::testFlowCalculatorIntensive() {
 	machine->printMachine("random.graph");
 
 	try {
+		PathManager manger(machine);
 		bool todoIgual = true;
 		for (int i = 0; i < size; i++) {
 			LOG(INFO) << "calculating flows" << i << " recursive way...";
 			vector<std::shared_ptr<Flow<Edge>>> v1 = machine->getAllFlows(i, false);
 
 			LOG(INFO) << "calculating flows " << i << " dynamic way...";
-			PathManager manger(machine);
-
-			shared_ptr<SearcherIterator> it = manger.getPathSearcher(i, false);
+			shared_ptr<PathSearcherIterator> it = manger.getPathSearcher(i, false);
 			vector<Flow<Edge>> v2;
 
-			while (it->hasNext()) {
+			int p = 0;
+			while (it->hasNext() != -1) {
 				shared_ptr<Flow<Edge>> n = it->next();
 				//std::string text = n->toText();
-				//LOG(INFO) << text;
+				//LOG(INFO) <<p;
 				v2.push_back(*(n.get()));
+				p++;
 			}
 
 			bool igual = v1.size() == v2.size();
@@ -1964,21 +2019,22 @@ void Test::testFlowCalculatorIntensive() {
 		}
 		LOG(INFO) << "todos iguales = " << todoIgual;
 
+		
 		for (int i = 0; i < size; i++) {
 			LOG(INFO) << "calculating reverse flows" << i << " recursive way...";
 			vector<std::shared_ptr<Flow<Edge>>> v1 = machine->getAllFlows(i, true);
 
 			LOG(INFO) << "calculating reverse flows " << i << " dynamic way...";
-			PathManager manger(machine);
-
-			shared_ptr<SearcherIterator> it = manger.getPathSearcher(i, true);
+			shared_ptr<PathSearcherIterator> it = manger.getPathSearcher(i, true);
 			vector<Flow<Edge>> v2;
-
-			while (it->hasNext()) {
+			
+			int p = 0;
+			while (it->hasNext() != -1) {
 				shared_ptr<Flow<Edge>> n = it->next();
 				//std::string text = n->toText();
-				//LOG(INFO) << text;
+				//LOG(INFO) << p;
 				v2.push_back(*(n.get()));
+				p++;
 			}
 
 			bool igual = v1.size() == v2.size();
@@ -1999,7 +2055,7 @@ void Test::testPathManager() {
 	std::unique_ptr<CommandSender> comTest(new FileSender("test.log", "inputFileData.txt"));
 	int communications = CommunicationsInterface::GetInstance()->addCommandSender(comEx->clone());
 
-	int size = 20;
+	int size = 5;
 
 	LOG(INFO) << "creating machine...";
 	std::shared_ptr<ExecutableMachineGraph> machine = std::shared_ptr<ExecutableMachineGraph>(makeMappingMachine(communications, std::move(comEx), std::move(comTest)));
@@ -2044,4 +2100,55 @@ void Test::testPathManager() {
 	for (auto it = v.begin(); it != v.end(); ++it) {
 		LOG(INFO) << (*it)->toText();
 	}
+}
+
+void Test::testMappingIntensive() {
+	std::unique_ptr<CommandSender> comEx(new SerialSender("\\\\.\\COM3"));
+	std::unique_ptr<CommandSender> comTest(new FileSender("test.log", "inputFileData.txt"));
+	int communications = CommunicationsInterface::GetInstance()->addCommandSender(comEx->clone());
+
+	int size = 200;
+
+	LOG(INFO) << "creating machine...";
+	std::shared_ptr<ExecutableMachineGraph> machine = std::shared_ptr<ExecutableMachineGraph>(makeRandomMachine(std::move(comEx), std::move(comTest), size));
+
+	LOG(INFO) << "printing machine...";
+	machine->printMachine("random.graph");
+
+	MachineGraph* sketch = makeTurbidostatSketch();
+	MappingEngine* map = new MappingEngine(sketch, machine);
+
+	sketch->printMachine("turbidostatSketch.graph");
+	machine->saveGraph("mappingSimpleMachine.graph");
+
+	LOG(INFO) << "edge list size" << sketch->getGraph()->getEdgeList()->size();
+	LOG(INFO) << "making mapping... ";
+	if (map->startMapping()) {
+
+		LOG(INFO) << "edge list size" << sketch->getGraph()->getEdgeList()->size();
+
+		const MachineGraph::ContainerEdgeVectorPtr edges = sketch->getGraph()->getEdgeList();
+		const MachineGraph::ContainerNodeVectorPtr nodes = sketch->getGraph()->getAllNodes();
+
+		for (auto it = nodes->begin(); it != nodes->end(); ++it) {
+			MachineGraph::ContainerNodePtr act = *it;
+			LOG(INFO) << " sketch : " << patch::to_string(act->getContainerId()) << ", machine: " << patch::to_string(map->getMappedContainerId(act->getContainerId()));
+		}
+
+		for (auto it = edges->begin(); it != edges->end(); ++it) {
+			MachineGraph::ContainerEdgePtr act = *it;
+			LOG(INFO) << " sketch : " << act->toText() << ", machine: " << map->getMappedEdge(act)->toText();
+		}
+
+		LOG(INFO) << "used Nodes:";
+		ExecutableMachineGraph::UsedMapPtr usedNodes = machine->getUsedNodes();
+		for (auto it = usedNodes->begin(); it != usedNodes->end(); ++it) {
+			LOG(INFO) << *it;
+		}
+	}
+	else {
+		LOG(INFO) << "mapping error!";
+	}
+
+
 }

@@ -223,6 +223,8 @@ public:
 
 	void testPathManager();
 
+	void testMappingIntensive();
+
 	class Chorra {
 	public:
 		Chorra() {

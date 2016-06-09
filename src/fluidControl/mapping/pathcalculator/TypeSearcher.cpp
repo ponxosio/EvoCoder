@@ -1,6 +1,6 @@
 #include "TypeSearcher.h"
 #include "PathManager.h"
-#include "SearcherIterator.h"
+#include "PathSearcherIterator.h"
 
 TypeSearcher::TypeSearcher( const ExecutableMachineGraph::ExecutableContainerNodeVector & pendingNodes,
 	PathManager * manager,
@@ -21,7 +21,7 @@ TypeSearcher::TypeSearcher( const ExecutableMachineGraph::ExecutableContainerNod
 		this->pendingNodes.push_back(*it);
 	}
 
-	this->it = std::shared_ptr<SearcherIterator>();
+	this->it = std::shared_ptr<PathSearcherIterator>();
 }
 
 TypeSearcher::~TypeSearcher()
@@ -33,7 +33,7 @@ bool TypeSearcher::calculateNextFlow()
 	bool hasNext = false;
 	if (!ended) {
 		if (it) {
-			if (it->hasNext()) {
+			if (it->hasNext() != -1) {
 				std::shared_ptr<Flow<Edge>> nextFlow = it->next();
 
 				int nodeId = 0;
@@ -53,7 +53,7 @@ bool TypeSearcher::calculateNextFlow()
 					hasNext = calculateNextFlow();
 				}
 			} else {
-				it = std::shared_ptr<SearcherIterator>();
+				it = std::shared_ptr<PathSearcherIterator>();
 				hasNext = calculateNextFlow();
 			}
 		}

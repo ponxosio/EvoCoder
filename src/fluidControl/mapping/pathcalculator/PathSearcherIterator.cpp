@@ -5,28 +5,38 @@ PathSearcherIterator::PathSearcherIterator(std::shared_ptr<PathSearcher> engine)
 {
 	this->lastPosition = 0;
 	this->engine = engine;
+	this->engine->startSearch();
 }
 
 PathSearcherIterator::~PathSearcherIterator()
 {
 }
 
-bool PathSearcherIterator::hasNext()
+int PathSearcherIterator::hasNext()
 {
-	bool has = true;
+	int has = -1;
 	if (lastPosition >= engine->getAvialableFlows()->size()) {
 		LOG(DEBUG) << "Calculating next flow...";
-		has = engine->calculateNextFlow();
+		if (engine->calculateNextFlow()) {
+			has = engine->getAvialableFlows()->at(lastPosition)->getPaths().size();
+		}
+	}
+	else {
+		has = engine->getAvialableFlows()->at(lastPosition)->getPaths().size();
 	}
 	return has;
 }
 
-bool PathSearcherIterator::hasNext(std::unordered_set<int> visitados)
+int PathSearcherIterator::hasNext(std::unordered_set<int> visitados)
 {
-	bool has = true;
+	int has = -1;
 	if (lastPosition >= engine->getAvialableFlows()->size()) {
 		LOG(DEBUG) << "Calculating next flow...";
-		has = engine->calculateNextFlow(visitados, 0);
+		if (engine->calculateNextFlow(visitados, 0)) {
+			has = engine->getAvialableFlows()->at(lastPosition)->getPaths().size();
+		}
+	}else {
+		has = engine->getAvialableFlows()->at(lastPosition)->getPaths().size();
 	}
 	return has;
 }
@@ -69,7 +79,7 @@ void PathSearcherIterator::begin()
 
 bool PathSearcherIterator::hasEnded()
 {
-	return engine->hasEnded();
+	return (lastPosition >= engine->getAvialableFlows()->size() && engine->hasEnded());
 }
 
 int PathSearcherIterator::getIdStart() {

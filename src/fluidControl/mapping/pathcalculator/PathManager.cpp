@@ -11,22 +11,22 @@ PathManager::~PathManager()
 {
 }
 
-std::shared_ptr<SearcherIterator> PathManager::getPathSearcher(int idStart, bool reverse) throw (std::invalid_argument)
+std::shared_ptr<PathSearcherIterator> PathManager::getPathSearcher(int idStart, bool reverse) throw (std::invalid_argument)
 {
 	if (!reverse) {
 		auto it = searchersMap.find(idStart);
 		if (it != searchersMap.end()) {
-			std::shared_ptr<SearcherInterface> searcher = it->second;
-			return make_shared<SearcherIterator>(searcher);
+			std::shared_ptr<PathSearcher> searcher = it->second;
+			return make_shared<PathSearcherIterator>(searcher);
 		}
 		else {
 			try {
-				//std::shared_ptr<PathSearcher> newSearcher = std::make_shared<PathSearcher>(idStart, machine, this, reverse);
-				std::shared_ptr<SearcherInterface> newSearcher = make_shared<SimplePathSearcher>(idStart, machine, reverse);
+				std::shared_ptr<PathSearcher> newSearcher = std::make_shared<PathSearcher>(idStart, machine, this, reverse);
+				//std::shared_ptr<SearcherInterface> newSearcher = make_shared<SimplePathSearcher>(idStart, machine, reverse);
 
 				searchersMap.insert(std::make_pair(idStart, newSearcher));
 
-				return make_shared<SearcherIterator>(newSearcher);
+				return make_shared<PathSearcherIterator>(newSearcher);
 			} catch (std::invalid_argument & e) {
 				throw("PathManager::getPatgSearcher(), exception occured: " + string(e.what()));
 			}
@@ -34,17 +34,17 @@ std::shared_ptr<SearcherIterator> PathManager::getPathSearcher(int idStart, bool
 	} else {
 		auto it = searchersMapReverse.find(idStart);
 		if (it != searchersMapReverse.end()) {
-			std::shared_ptr<SearcherInterface> searcher = it->second;
-			return make_shared<SearcherIterator>(searcher);
+			std::shared_ptr<PathSearcher> searcher = it->second;
+			return make_shared<PathSearcherIterator>(searcher);
 		}
 		else {
 			try {
-				//std::shared_ptr<PathSearcher> newSearcher = std::make_shared<PathSearcher>(idStart, machine, this, reverse);
-				std::shared_ptr<SearcherInterface> newSearcher = make_shared<SimplePathSearcher>(idStart, machine, reverse);
+				std::shared_ptr<PathSearcher> newSearcher = std::make_shared<PathSearcher>(idStart, machine, this, reverse);
+				//std::shared_ptr<SearcherInterface> newSearcher = make_shared<SimplePathSearcher>(idStart, machine, reverse);
 
 				searchersMapReverse.insert(std::make_pair(idStart, newSearcher));
 
-				return make_shared<SearcherIterator>(newSearcher);
+				return make_shared<PathSearcherIterator>(newSearcher);
 			}
 			catch (std::invalid_argument & e) {
 				throw("PathManager::getPatgSearcher(), exception occured: " + string(e.what()));

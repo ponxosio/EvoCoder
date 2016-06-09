@@ -9,7 +9,7 @@
 #include "../../machineGraph/ContainerNodeType.h"
 #include "SearcherInterface.h"
 
-class SearcherIterator;
+class PathSearcherIterator;
 class PathManager;
 
 class TypeSearcher : public SearcherInterface
@@ -47,7 +47,7 @@ protected:
 
 	//internal
 	bool ended;
-	std::shared_ptr<SearcherIterator> it;
+	std::shared_ptr<PathSearcherIterator> it;
 	std::shared_ptr<std::vector<std::shared_ptr<Flow<Edge>>>> calculatedFlows;
 };
 

@@ -1,6 +1,6 @@
 #include "IdSearcher.h"
 #include "PathManager.h"
-#include "SearcherIterator.h"
+#include "PathSearcherIterator.h"
 
 
 IdSearcher::IdSearcher(int idInicio, PathManager * manager, int idDestination) throw (std::invalid_argument)
@@ -22,7 +22,7 @@ bool IdSearcher::calculateNextFlow()
 {
 	bool hasNext = false;
 	if (!ended) {
-		if (it->hasNext()) {
+		if (it->hasNext() != -1) {
 			std::shared_ptr<Flow<Edge>> nextFlow = it->next();
 			if (nextFlow->getIdFinish() == idDestination) {
 				calculatedFlows->push_back(nextFlow);
