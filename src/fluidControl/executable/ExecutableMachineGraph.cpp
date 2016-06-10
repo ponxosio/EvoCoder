@@ -5,9 +5,9 @@
  *      Author: angel
  */
 
-#include "../executable/ExecutableMachineGraph.h"
+#include "ExecutableMachineGraph.h"
 
-//static
+ //static
 void ExecutableMachineGraph::toJSON(const std::string & path, const ExecutableMachineGraph & machine) {
 	ofstream o(path);
 	LOG(DEBUG) << "serializating ExecutableMachineGraph to " + path;
@@ -18,7 +18,7 @@ ExecutableMachineGraph* ExecutableMachineGraph::fromJSON(const std::string & pat
 	ifstream i(path);
 	LOG(DEBUG) << "loading ExecutableMachine from " + path;
 	cereal::JSONInputArchive arIn(i);
-	
+
 	ExecutableMachineGraph machine;
 	arIn(machine);
 	return new ExecutableMachineGraph(machine);
@@ -66,8 +66,13 @@ void ExecutableMachineGraph::addContainer(ExecutableContainerNodePtr node) {
 	this->graph->addNode(node);
 }
 
-typename ExecutableMachineGraph::ExecutableContainerNodePtr ExecutableMachineGraph::getContainer(int idConatiner) {
-	return this->graph->getNode(idConatiner);
+typename ExecutableMachineGraph::ExecutableContainerNodePtr ExecutableMachineGraph::getContainer(int idConatiner) throw(std::invalid_argument) {
+	ExecutableContainerNodePtr node = graph->getNode(idConatiner);
+	if (node) {
+		return node;
+	} else {
+		throw(std::invalid_argument("ExecutableMachineGraph::getConmtainer(), id " + patch::to_string(idConatiner) + " does not exits"));
+	}
 }
 
 bool ExecutableMachineGraph::connectExecutableContainer(int idSource,
@@ -115,7 +120,7 @@ ExecutableMachineGraph::FlowHeap ExecutableMachineGraph::getAvailableFlows(int i
 	vector<int> visitados;
 	ExecutableContainerEdgeVector recorridos;
 	ExecutableContainerNodePtr actual = graph->getNode(idConatinerInit);
-	getAvailableFlows_recursive_type(idConatinerInit, visitados, recorridos, flows,	actual, tipofin, false);
+	getAvailableFlows_recursive_type(idConatinerInit, visitados, recorridos, flows, actual, tipofin, false);
 	return flows;
 }
 
@@ -177,20 +182,23 @@ ExecutableMachineGraph::ExecutableContainerEdgeVector ExecutableMachineGraph::ge
 		edges = graph->getLeavingEdges(actual->getContainerId());
 	}
 
+
 	for (auto it = edges->begin(); it != edges->end(); ++it) {
 		ExecutableContainerEdgePtr actualE = *it;
 		if (isEdgeAvailable(actualE)) {
 			available.push_back(actualE);
 		}
 	}
-	return available;
+
+	return	available;
 }
 
 void ExecutableMachineGraph::getAvailableFlows_recursive_type(int idSource, vector<int> & visitados, ExecutableContainerEdgeVector & recorridos,
 	FlowHeap & flows,
 	ExecutableContainerNodePtr actual, const ContainerNodeType & destinationType, bool reversed) {
 
-	visitados.push_back(actual->getContainerId());
+	int idContainer = actual->getContainerId();
+	visitados.push_back(idContainer);
 	ExecutableContainerEdgeVector neighbors = getAvailableEdges(actual, reversed);
 	for (auto it = neighbors.begin(); it != neighbors.end(); ++it) {
 		ExecutableContainerEdgePtr actualNeig = *it;
@@ -329,7 +337,7 @@ void ExecutableMachineGraph::updateCommunicationsInterface(int idCommunication) 
 	}
 }
 
-void ExecutableMachineGraph::updateControlActuators() 
+void ExecutableMachineGraph::updateControlActuators()
 {
 	ExecutableContainerNodeVectorPtr nodes = graph->getAllNodes();
 	for (auto it = nodes->begin(); it != nodes->end(); ++it)
@@ -344,5 +352,67 @@ void ExecutableMachineGraph::updateControlActuators()
 
 		source->connectContainer((*it)->getIdSource(), (*it)->getIdTarget());
 		target->connectContainer((*it)->getIdSource(), (*it)->getIdTarget());
+	}
+}
+
+std::vector<std::shared_ptr<Flow<Edge>>> ExecutableMachineGraph::getAllFlows(int idContainer, bool reverse) {
+	ExecutableContainerNodePtr actual = graph->getNode(idContainer);
+	unordered_set<int> visited;
+	vector<std::shared_ptr<Flow<Edge>>> vuelta;
+	vector<shared_ptr<Edge>> paths;
+
+	getAllFlows_recursive(idContainer, actual, visited, vuelta, paths, reverse);
+
+	return vuelta;
+}
+
+void ExecutableMachineGraph::getAllFlows_recursive(int idStart, 
+	ExecutableContainerNodePtr actual, 
+	unordered_set<int> visited, 
+	vector<std::shared_ptr<Flow<Edge>>> & flows, 
+	vector<shared_ptr<Edge>> paths,
+	bool reverse
+	) {
+	
+	int idContainer = actual->getContainerId();
+	visited.insert(idContainer);
+
+	ExecutableContainerEdgeVectorPtr neighbors;
+	if (!reverse) {
+		neighbors = graph->getLeavingEdges(idContainer);
+	} else {
+		neighbors = graph->getArrivingEdges(idContainer);
+	}
+
+	for	(auto it = neighbors->begin(); it != neighbors->end(); ++it) {
+		ExecutableContainerEdgePtr next = *it;
+
+		int nextId = 0;
+		if (!reverse) {
+			nextId = next->getIdTarget();
+		}
+		else {
+			nextId = next->getIdSource();
+		}
+
+		if (visited.find(nextId) == visited.end()) {
+			
+			if (!reverse) {
+				paths.push_back(next);
+				flows.push_back(make_shared<Flow<Edge>>(idStart, nextId, paths));
+			}
+			else {
+				paths.insert(paths.begin(),next);
+				flows.push_back(make_shared<Flow<Edge>>(nextId, idStart, paths));
+			}
+
+			getAllFlows_recursive(idStart, graph->getNode(nextId), visited, flows, paths, reverse);
+
+			if (!reverse) {
+				paths.pop_back();
+			} else {
+				paths.erase(paths.begin());
+			}
+		}
 	}
 }

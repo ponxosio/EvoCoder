@@ -66,7 +66,8 @@
 typedef enum MovementType_ {
 	continuous,	// chamber with peristaltic pump or similar
 	discrete,	// chamber with syringe pump or similar
-	irrelevant //chamber with no pump
+	irrelevant, //chamber with no pump
+	MOVEMENT_MAX = irrelevant + 1 //Max number ALWAYS EQUALS TO THE SECOND-TO-LAST TYPE PLUS ONE
 } MovementType;
 
 /*** Enum for the type of container ***/
@@ -79,7 +80,8 @@ typedef enum ContainerType_ {
 	divergent_switch_sink, //container capable of sending liquid to several other containers and receive liquid from one
 	convergent_switch_inlet, //container capable of receiving liquid from several other containers and send liquid to one
 	bidirectional_switch, //container capable of sending/receiving liquid to/from several other containers
-	unknow //passive element
+	unknow, //passive element
+	CONTAINER_MAX = unknow + 1 //Max number ALWAYS EQUALS TO THE SECOND-TO-LAST TYPE PLUS ONE
 } ContainerType;
 
 /*** Enum for the type of AddOns ***/
@@ -112,6 +114,7 @@ public:
 	bool hasMovementType(MovementType movement);
 	bool hasContainerType(ContainerType container);
 	bool hasAddOns(AddOnsType addOn);
+	int calculateHashCode();
 
 	std::string getTypeString();
 	std::string getContainerTypeString();

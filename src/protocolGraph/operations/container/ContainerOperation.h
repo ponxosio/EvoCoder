@@ -19,7 +19,6 @@
 #include "../../../util/Utils.h"
 #include "../../../operables/mathematics/MathematicOperable.h"
 #include "../../OperationNode.h"
-#include "../../../fluidControl/Mapping.h"
 
 //cereal
 #include <cereal/cereal.hpp>

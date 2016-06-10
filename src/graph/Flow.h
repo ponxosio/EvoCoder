@@ -55,12 +55,35 @@ public:
 		return idFinish;
 	}
 
+	inline void setIdFinish(int idFinish) {
+		this->idFinish = idFinish;
+	}
+
 	inline int getIdStart() const {
 		return idStart;
 	}
 
+	inline void setIdStart(int idStart) {
+		this->idStart = idStart;
+	}
+
 	inline const typename FlowEdgeVector & getPaths() const {
 		return paths;
+	}
+
+	inline bool operator == (const Flow<EdgeType>& rhs) {
+		bool equal = (this->idStart == rhs.idStart) && (this->idFinish == rhs.idFinish);
+		if (equal) {
+			for (auto its = this->paths.begin(); equal && its != this->paths.end(); ++its) {
+				bool finded = false;
+				FlowEdgePtr actuals = *its;
+				for (auto itr = rhs.paths.begin(); !finded && its != rhs.paths.end(); ++its) {
+					FlowEdgePtr actualr = *itr;
+					finded = actuals->equals(*(actualr.get()));
+				}
+				equal = finded;
+			}
+		}
 	}
 protected:
 	int idStart;

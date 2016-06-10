@@ -8,6 +8,7 @@
 #ifndef SRC_TEST_H_
 #define SRC_TEST_H_
 
+#include <cstdlib>
 #include <functional>
 #include <iostream>
 #include <sstream>
@@ -17,6 +18,8 @@
 #include <thread>
 #include <vector>
 #include <windows.h>
+#include <time.h>
+#include <stdexcept>
 
 #include <unordered_map>
 #include <tuple>
@@ -53,7 +56,7 @@
 #include "util/ContainersUtils.h"
 
 #include "fluidControl/ExecutionEngine.h"
-#include "fluidControl/MappingEngine.h"
+#include "fluidControl/mapping/MappingEngine.h"
 #include "fluidControl/machineGraph/MachineGraph.h"
 #include "fluidControl/machineGraph/ContainerNode.h"
 #include "fluidControl/machineGraph/ContainerNodeType.h"
@@ -94,6 +97,9 @@
 #include "operables/comparison/Tautology.h"
 #include "operables/comparison/SimpleComparison.h"
 #include "operables/comparison/BooleanComparison.h"
+
+//flow
+#include "fluidControl\mapping\pathcalculator\PathManager.h"
 
 //plugins
 #include "plugin/PluginFileLoader.h"
@@ -154,6 +160,9 @@ public:
 	static ExecutableMachineGraph* makeSimpleMachinePlugin(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test);
 	static ExecutableMachineGraph* makeMatrixMachine(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test, int size);
 	static ExecutableMachineGraph* makeMappingMachine(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test);
+	static ExecutableMachineGraph* makeRandomMachine(std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test, int size);
+	
+	static MachineGraph* makeRandomSketch(std::shared_ptr<ExecutableMachineGraph> machine, int size, int maxConnections);
 	static MachineGraph* makeTurbidostatSketch();
 	static MachineGraph* makeMatrixSketch(int size);
 
@@ -211,6 +220,12 @@ public:
 	void testMappingPluginExec();
 
 	void testExecutionServer();
+
+	void testFlowCalculatorIntensive();
+
+	void testPathManager();
+
+	DWORD testMappingIntensive(int machine_size, int sketch_size) throw (std::runtime_error);
 
 	class Chorra {
 	public:

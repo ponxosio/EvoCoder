@@ -139,6 +139,7 @@ bool ContainerNodeType::isCompatibleContainer(ContainerType container) {
 		case bidirectional_switch:
 			break;
 		case unknow:
+			compatible = true;
 			break;
 		}
 	} else {
@@ -331,6 +332,26 @@ std::string ContainerNodeType::getContainerSubfix() {
 		break;
 	}
 	return vuelta;
+}
+
+int ContainerNodeType::calculateHashCode()
+{
+	int containerHash = (int) this->containerType;
+	int containerDigits = ceil(((int)ContainerType::CONTAINER_MAX) / 10.0);
+
+	int movementHash = ((int)this->movementType) * pow(10.0, containerDigits);
+	int movementDigits = ceil(((int)MovementType::MOVEMENT_MAX) / 10.0);
+
+	int addonsHash = 0;
+	for (int i = 0; i < AddOnsType::ADDONS_MAX; i++) {
+		if (this->addOns[i]) {
+			addonsHash += (1 << i);
+		}
+	}
+	addonsHash = addonsHash * pow(10.0, containerDigits + movementDigits);
+
+	return addonsHash + movementHash + containerHash;
+
 }
 
 bool ContainerNodeType::operator ==(const ContainerNodeType& n1) {

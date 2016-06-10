@@ -50,3 +50,5 @@ Temporary Items
 cereal
 /x64/Debug
 /*.json
+/EvoCoder.VC.db
+/logs

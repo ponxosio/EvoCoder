@@ -55,7 +55,7 @@ public:
 	virtual ~ExecutableContainerNode(){}
 
 	inline virtual std::string toText() {
-		return "executable: " + ContainerNode::toText();
+		return ContainerNode::toText();
 	}
 
 	//getters & setters

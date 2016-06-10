@@ -213,12 +213,11 @@ void Graph<NodeType,EdgeType>::clear() {
  */
 template <class NodeType, class EdgeType>
 bool Graph<NodeType,EdgeType>::addNode(NodeTypePtr node) {
-	NodePtr nodeCast = dynamic_cast<NodePtr>(node.get());
 	bool vuelta = false;
-	if (nodeMap->find(nodeCast->getContainerId()) == nodeMap->end()) {
-		nodeMap->insert(make_pair(nodeCast->getContainerId(), node));
-		leavingEdges->insert(make_pair(nodeCast->getContainerId(), makeEdgeVector()));
-		arrivingEdges->insert(make_pair(nodeCast->getContainerId(), makeEdgeVector()));
+	if (nodeMap->find(node->getContainerId()) == nodeMap->end()) {
+		nodeMap->insert(make_pair(node->getContainerId(), node));
+		leavingEdges->insert(make_pair(node->getContainerId(), makeEdgeVector()));
+		arrivingEdges->insert(make_pair(node->getContainerId(), makeEdgeVector()));
 		vuelta = true;
 	}
 	return vuelta;
@@ -233,17 +232,16 @@ bool Graph<NodeType,EdgeType>::addNode(NodeTypePtr node) {
  */
 template <class NodeType, class EdgeType>
 bool Graph<NodeType,EdgeType>::addEdge(EdgeTypePtr edge) {
-	EdgePtr edgeCast = dynamic_cast<EdgePtr>(edge.get());
 	bool vuelta = false;
 
-	auto nodeSource = nodeMap->find(edgeCast->getIdSource());
+	auto nodeSource = nodeMap->find(edge->getIdSource());
 	// if the two node that the edge connects exits
 	if ((nodeSource != nodeMap->end())
-			&& (nodeMap->find(edgeCast->getIdTarget()) != nodeMap->end())) {
+			&& (nodeMap->find(edge->getIdTarget()) != nodeMap->end())) {
 		edgeList->push_back(edge);
-		EdgeVectorPtr vectorLeaving = leavingEdges->find(edgeCast->getIdSource())->second;
+		EdgeVectorPtr vectorLeaving = leavingEdges->find(edge->getIdSource())->second;
 		vectorLeaving->push_back(edge);
-		EdgeVectorPtr vectorArriving = arrivingEdges->find(edgeCast->getIdTarget())->second;
+		EdgeVectorPtr vectorArriving = arrivingEdges->find(edge->getIdTarget())->second;
 		vectorArriving->push_back(edge);
 		vuelta = true;
 	}
@@ -307,17 +305,17 @@ bool Graph<NodeType,EdgeType>::removeNode(int nodeID) {
 	auto nodeRemove = nodeMap->find(nodeID);
 	if (nodeRemove != nodeMap->end()) {
 		//removes the node
-		delete nodeRemove->second;
+		//delete nodeRemove->second;
 		nodeMap->erase(nodeID);
 
 		//remove all the edges that use idNode
 		auto it = edgeList->begin();
 		while (it != edgeList->end()) {
-			EdgePtr actual = dynamic_cast<EdgePtr>(*it);
+			EdgeTypePtr actual = *it;
 			if ((actual->getIdSource() == nodeID)
 					|| (actual->getIdTarget() == nodeID)) {
 				edgeList->erase(it);
-				delete actual;
+				//delete actual;
 			} else {
 				++it;
 			}
@@ -343,7 +341,7 @@ void Graph<NodeType, EdgeType>::removeEdge(const EdgeType & edge) {
 		EdgeTypePtr actual = *it;
 		if (actual->equals(edge)) {
 			edgeList->erase(it);
-			delete actual;
+			//delete actual;
 		} else {
 			++it;
 		}
