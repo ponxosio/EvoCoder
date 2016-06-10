@@ -49,7 +49,7 @@ int main(int argv, char* argc[]) {
 	 //t.testSerialPort_receive();
 
 	 //t.testMappingEngine();
-	 t.testMappingEnginePerformance();
+	 //t.testMappingEnginePerformance();
 
 	 //t.testCommunicationsInterface();
 	 //t.testFileCommandSender();
@@ -81,7 +81,20 @@ int main(int argv, char* argc[]) {
 
 	//t.testPathManager();
 
-	//t.testMappingIntensive();
+	int ss = 10;
+	int ms = 20;
+	LOG(INFO) <<"s:" << ss << ", m:" << ms;
+	try {
+		int size = 20;
+		DWORD mean = 0;
+		for (int i = 0; i < 10; i++) {
+			mean += t.testMappingIntensive(ms,ss);
+		}
+		LOG(INFO) << "ha tardao en mapear una maquina de media " << mean / 20;
+	}
+	catch (std::runtime_error & e) {
+		LOG(FATAL) << e.what();
+	}
 
 	LOG(INFO) << "finished!";
 }
@@ -1231,8 +1244,8 @@ void Test::testMappingEnginePerformance() {
 	std::unique_ptr<CommandSender> comTest = std::unique_ptr<CommandSender>(new FileSender("test.log", "inputFileData.txt"));
 	int com = CommunicationsInterface::GetInstance()->addCommandSender(comEx->clone());
 
-	MachineGraph* sketch = makeMatrixSketch(4);
-	std::shared_ptr<ExecutableMachineGraph> machine(makeMatrixMachine(com, std::move(comEx), std::move(comTest), 20));
+	MachineGraph* sketch = makeMatrixSketch(2);
+	std::shared_ptr<ExecutableMachineGraph> machine(makeMatrixMachine(com, std::move(comEx), std::move(comTest), 6));
 	MappingEngine* map = new MappingEngine(sketch, machine);
 
 	LOG(INFO) << "printing machine...";
@@ -2102,37 +2115,49 @@ void Test::testPathManager() {
 	}
 }
 
-void Test::testMappingIntensive() {
+DWORD Test::testMappingIntensive(int machine_size, int sketch_size) throw (std::runtime_error) {
 	std::unique_ptr<CommandSender> comEx(new SerialSender("\\\\.\\COM3"));
 	std::unique_ptr<CommandSender> comTest(new FileSender("test.log", "inputFileData.txt"));
 	int communications = CommunicationsInterface::GetInstance()->addCommandSender(comEx->clone());
 
-	int size = 200;
+	int size = machine_size;
+	int sizeSketch = sketch_size;
 
 	LOG(INFO) << "creating machine...";
 	std::shared_ptr<ExecutableMachineGraph> machine = std::shared_ptr<ExecutableMachineGraph>(makeRandomMachine(std::move(comEx), std::move(comTest), size));
 
-	LOG(INFO) << "printing machine...";
-	machine->printMachine("random.graph");
 
-	MachineGraph* sketch = makeTurbidostatSketch();
+	MachineGraph* sketch = makeRandomSketch(machine, sizeSketch, 5);
 	MappingEngine* map = new MappingEngine(sketch, machine);
 
-	sketch->printMachine("turbidostatSketch.graph");
-	machine->saveGraph("mappingSimpleMachine.graph");
+	sketch->printMachine("randonSketch.graph");
+	machine->saveGraph("randomMachine.graph");
 
 	LOG(INFO) << "edge list size" << sketch->getGraph()->getEdgeList()->size();
 	LOG(INFO) << "making mapping... ";
+
+	DWORD init = GetTickCount();
 	if (map->startMapping()) {
+		DWORD end = GetTickCount();
+		init = end - init;
+		LOG(INFO) << "spend: " << init << " ms";
 
 		LOG(INFO) << "edge list size" << sketch->getGraph()->getEdgeList()->size();
 
 		const MachineGraph::ContainerEdgeVectorPtr edges = sketch->getGraph()->getEdgeList();
 		const MachineGraph::ContainerNodeVectorPtr nodes = sketch->getGraph()->getAllNodes();
 
+		unordered_set<int> set;
 		for (auto it = nodes->begin(); it != nodes->end(); ++it) {
 			MachineGraph::ContainerNodePtr act = *it;
-			LOG(INFO) << " sketch : " << patch::to_string(act->getContainerId()) << ", machine: " << patch::to_string(map->getMappedContainerId(act->getContainerId()));
+			int nm = map->getMappedContainerId(act->getContainerId());
+			if (set.find(nm) != set.end()) {
+				LOG(FATAL) << "error " << nm << " used twice";
+			}
+			else {
+				set.insert(nm);
+			}
+			LOG(INFO) << " sketch : " << act->getContainerId() << ", machine: " << nm;
 		}
 
 		for (auto it = edges->begin(); it != edges->end(); ++it) {
@@ -2147,8 +2172,132 @@ void Test::testMappingIntensive() {
 		}
 	}
 	else {
-		LOG(INFO) << "mapping error!";
+		throw (std::runtime_error("mapping error!"));
 	}
 
+	return init;
+}
 
+MachineGraph* Test::makeRandomSketch(std::shared_ptr<ExecutableMachineGraph> machine, int size, int maxConnections) {
+
+	AutoEnumerate serie;
+	MachineGraph* sketch = new MachineGraph("randomSketch");
+	PathManager manger(machine);
+
+	ExecutableMachineGraph::ExecutableContainerNodeVectorPtr nodes = machine->getGraph()->getAllNodes();
+	
+	long seed = time(NULL);
+	LOG(INFO) << "seed: " << seed;
+	srand(seed);
+
+	int numNodes = 0;
+	int lastNode = serie.getNextValue();
+	unordered_set<int> used;
+	unordered_map<int, int> asigned;
+	
+	ExecutableMachineGraph::ExecutableContainerNodePtr first = machine->getContainer(rand() % (nodes->size() - 1));
+	used.insert(first->getContainerId());
+	sketch->addContainer(lastNode, make_shared<ContainerNodeType>(MovementType::continuous, ContainerType::inlet), 100.0);
+	asigned.insert(make_pair(first->getContainerId(), lastNode));
+	numNodes++;
+	
+	vector<ExecutableMachineGraph::ExecutableContainerNodePtr> stack;
+	stack.push_back(first);
+
+	while (numNodes < size) {
+		//LOG(INFO) << numNodes;
+		if (stack.empty()) {
+			int nextNode = rand() % (nodes->size() - 1);
+			while (used.find(nextNode) != used.end()) {
+				nextNode = rand() % (nodes->size() - 1);
+			}
+
+			ExecutableMachineGraph::ExecutableContainerNodePtr first = machine->getContainer(nextNode);
+			lastNode = serie.getNextValue();;
+			used.insert(nextNode);
+			stack.push_back(first);
+
+			sketch->addContainer(lastNode, make_shared<ContainerNodeType>(MovementType::continuous, ContainerType::inlet), 100.0);
+			asigned.insert(make_pair(first->getContainerId(), lastNode));
+			numNodes++;
+		}
+		
+		int stackPos = stack.size() > 1 ? rand() % (stack.size() - 1) : 0;
+		ExecutableMachineGraph::ExecutableContainerNodePtr start = stack.at(stackPos);
+		lastNode = asigned.find(start->getContainerId())->second;
+		shared_ptr<PathSearcherIterator> it = manger.getPathSearcher(start->getContainerId(), false);
+
+		int numFlow = rand() % maxConnections;
+		int chances = 0;
+
+		shared_ptr<Flow<Edge>> nextFlow;
+		while (chances < numFlow) {
+			if (it->hasNext() != -1) {
+				nextFlow = it->next();
+			}
+			else {
+				stack.erase(stack.begin() + stackPos);
+				chances = numFlow;
+			}
+			chances++;
+		}
+
+		if (nextFlow && used.find(nextFlow->getIdFinish()) == used.end()) {
+			int idEnd = nextFlow->getIdFinish();
+			ExecutableMachineGraph::ExecutableContainerNodePtr first = machine->getContainer(idEnd);
+			int sValue = serie.getNextValue();
+			sketch->addContainer(sValue, make_shared<ContainerNodeType>(MovementType::continuous, ContainerType::inlet), 100.0);
+			sketch->connectContainer(lastNode, sValue);
+			asigned.insert(make_pair(first->getContainerId(), lastNode));
+			lastNode = sValue;
+
+			used.insert(idEnd);
+			stack.push_back(first);
+			numNodes++;
+		}
+	}
+
+	for (int i = 0; i < size; i++) {
+		sketch->getGraph()->getNode(i)->getType()->changeMovementType(MovementType::continuous);
+		int leaving = sketch->getGraph()->getLeavingEdges(i)->size();
+		int arriving = sketch->getGraph()->getArrivingEdges(i)->size();
+
+		if (leaving == 0) {
+			if (arriving == 1) {
+				sketch->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::sink);
+				sketch->getGraph()->getNode(i)->getType()->changeMovementType(MovementType::irrelevant);
+			}
+			else if (arriving > 1) {
+				sketch->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::convergent_switch);
+				sketch->getGraph()->getNode(i)->getType()->changeMovementType(MovementType::irrelevant);
+			}
+			else {
+				sketch->getGraph()->removeNode(i);
+			}
+		}
+		else if (leaving == 1) {
+			if (arriving == 1) {
+				sketch->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::flow);
+			}
+			else if (arriving > 1) {
+				sketch->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::convergent_switch_inlet);
+			}
+			else {
+				sketch->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::inlet);
+			}
+		}
+		else if (leaving > 1) {
+			if (arriving == 1) {
+				sketch->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::divergent_switch_sink);
+			}
+			else if (arriving > 1) {
+				sketch->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::bidirectional_switch);
+			}
+			else {
+				sketch->getGraph()->getNode(i)->getType()->changeContainerType(ContainerType::divergent_switch);
+			}
+		}
+	}
+
+	return sketch;
 }

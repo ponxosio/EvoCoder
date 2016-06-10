@@ -63,6 +63,8 @@ protected:
 	inline bool isMapped(int idConatiner) {
 		return (containersMap->find(idConatiner) != containersMap->end());
 	}
+
+	bool isAvailable(std::shared_ptr<Flow<Edge>> actualFlow, MachineGraph::ContainerEdgePtr actualEdge);
 };
 
 #endif /* FLUIDCONTROL_MAPPINGENGINE_H_ */

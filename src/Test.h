@@ -19,6 +19,7 @@
 #include <vector>
 #include <windows.h>
 #include <time.h>
+#include <stdexcept>
 
 #include <unordered_map>
 #include <tuple>
@@ -160,7 +161,8 @@ public:
 	static ExecutableMachineGraph* makeMatrixMachine(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test, int size);
 	static ExecutableMachineGraph* makeMappingMachine(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test);
 	static ExecutableMachineGraph* makeRandomMachine(std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test, int size);
-
+	
+	static MachineGraph* makeRandomSketch(std::shared_ptr<ExecutableMachineGraph> machine, int size, int maxConnections);
 	static MachineGraph* makeTurbidostatSketch();
 	static MachineGraph* makeMatrixSketch(int size);
 
@@ -223,7 +225,7 @@ public:
 
 	void testPathManager();
 
-	void testMappingIntensive();
+	DWORD testMappingIntensive(int machine_size, int sketch_size) throw (std::runtime_error);
 
 	class Chorra {
 	public:

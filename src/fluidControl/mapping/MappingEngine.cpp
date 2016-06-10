@@ -56,10 +56,12 @@ bool MappingEngine::mapSubgraph(MachineGraph::ContainerEdgeVector& edges, Execut
 		shared_ptr<SearcherIterator> it = getAvailableFlows(actual);
 		while (!success && it->hasNext()) {
 			shared_ptr<Flow<Edge>> actualFlow = it->next();
-			addSolution(actual, *(actualFlow.get()));
-			success = mapSubgraph(edges, machineNodes);
-			if (!success) {
-				removeSolution(actual);
+			if (isAvailable(actualFlow, actual)) {
+				addSolution(actual, *(actualFlow.get()));
+				success = mapSubgraph(edges, machineNodes);
+				if (!success) {
+					removeSolution(actual);
+				}
 			}
 		}
 		if (!success) {
@@ -217,4 +219,29 @@ std::shared_ptr<SearcherIterator> MappingEngine::getAvailableFlows(ExecutableMac
 		int idTargetMachine = containersMap->find(actual->getIdTarget())->second;
 		return manager.getFlows(idSourceMachine, idTargetMachine);
 	}
+}
+
+bool MappingEngine::isAvailable(std::shared_ptr<Flow<Edge>> actualFlow, MachineGraph::ContainerEdgePtr actualEdge)
+{
+	bool available = true;
+	int idStart = actualFlow->getIdStart();
+	int idFinish = actualFlow->getIdFinish();
+	Flow<Edge>::FlowEdgeVector paths = actualFlow->getPaths();
+
+	if (!isMapped(actualEdge->getIdSource())) {
+		available = machine->isNodeAvailable(idStart);
+	}
+	if (!isMapped(actualEdge->getIdTarget())) {
+		available = machine->isNodeAvailable(idFinish);
+	}
+
+	for (auto it = paths.begin(); available && it != paths.end(); ++it) {
+		available = machine->isEdgeAvailable(*it);
+
+		if ((it + 1) != paths.end()) {
+			available = machine->isNodeAvailable((*it)->getIdTarget());
+		} 
+	}
+	
+	return available;
 }

@@ -192,8 +192,7 @@ bool PathSearcher::calculateNextFlow(std::unordered_set<int> externalVisited, in
 						executionStack->insert(executionStack->begin(), last);
 
 						finded = calculateNextFlow(externalVisited, lastStack);
-					}
-					else {
+					} else {
 						std::shared_ptr<Flow<Edge>> next = topIt->next(externalVisited);
 						Flow<Edge>::FlowEdgeVector path = next->getPaths();
 
@@ -366,8 +365,8 @@ void PathSearcher::stackAllEdges(const ExecutableMachineGraph::ExecutableContain
 		else {
 			nextId = nextEdge->getIdSource();
 		}
-		if (machine->isEdgeAvailable(nextEdge) &&
-			machine->isNodeAvailable(nextId) &&
+		if (/*machine->isEdgeAvailable(nextEdge) &&
+			machine->isNodeAvailable(nextId) &&*/
 			visited.find(nextId) == visited.end())
 		{
 			vector<shared_ptr<Edge>> v;
