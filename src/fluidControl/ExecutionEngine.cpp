@@ -42,6 +42,9 @@ bool ExecutionEngine::exec_general() throw (std::runtime_error) {
 
 		mapping->setExec_general();
 		mapping->startCommunications();
+
+		Sleep(3000);
+		
 		correct = exec();
 		mapping->stopCommunications();
 	}

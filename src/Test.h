@@ -156,11 +156,16 @@ public:
 	static ProtocolGraph* makeSimpleProtocol(
 				std::shared_ptr<VariableTable> table,
 				std::shared_ptr<Mapping> map);
+	static ProtocolGraph* makeEvoprogv2Protocol(
+		std::shared_ptr<VariableTable> table,
+		std::shared_ptr<Mapping> map);
+
 	static ExecutableMachineGraph* makeSimpleMachine(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test);
 	static ExecutableMachineGraph* makeSimpleMachinePlugin(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test);
 	static ExecutableMachineGraph* makeMatrixMachine(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test, int size);
 	static ExecutableMachineGraph* makeMappingMachine(int communications, std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test);
 	static ExecutableMachineGraph* makeRandomMachine(std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test, int size);
+	static ExecutableMachineGraph* makeEvoprogV2Machine(std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test, int size);
 	
 	static MachineGraph* makeRandomSketch(std::shared_ptr<ExecutableMachineGraph> machine, int size, int maxConnections);
 	static MachineGraph* makeTurbidostatSketch();
@@ -220,6 +225,7 @@ public:
 	void testMappingPluginExec();
 
 	void testExecutionServer();
+	void testEvoprogPluginV2();
 
 	void testFlowCalculatorIntensive();
 

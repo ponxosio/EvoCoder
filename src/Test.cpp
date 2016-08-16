@@ -76,12 +76,13 @@ int main(int argv, char* argc[]) {
 	//t.testMappingPluginExec();
 
 	//t.testExecutionServer();
+	t.testEvoprogPluginV2();
 
 	//t.testFlowCalculatorIntensive();
 
 	//t.testPathManager();
 
-	int ss = 10;
+	/*int ss = 10;
 	int ms = 20;
 	LOG(INFO) <<"s:" << ss << ", m:" << ms;
 	try {
@@ -96,7 +97,7 @@ int main(int argv, char* argc[]) {
 		LOG(FATAL) << e.what();
 	}
 
-	LOG(INFO) << "finished!";
+	LOG(INFO) << "finished!";*/
 }
 
 void Test::testGraph() {
@@ -640,6 +641,82 @@ ProtocolGraph* Test::makeSimpleProtocol(std::shared_ptr<VariableTable> table,
 	return protocol;
 }
 
+ProtocolGraph * Test::makeEvoprogv2Protocol(std::shared_ptr<VariableTable> table, std::shared_ptr<Mapping> map)
+{
+	AutoEnumerate serial;
+	ProtocolGraph* protocol = new ProtocolGraph("evoprogv2protocol");
+
+	std::shared_ptr<ComparisonOperable> tautology(new Tautology());
+	std::shared_ptr<MathematicOperable> num1(new ConstantNumber(0.001));
+	std::shared_ptr<MathematicOperable> num60000(new ConstantNumber(60000));
+	std::shared_ptr<MathematicOperable> num65(new ConstantNumber(65));
+	std::shared_ptr<MathematicOperable> num30000(new ConstantNumber(30000));
+	std::shared_ptr<MathematicOperable> num0(new ConstantNumber(0));
+	std::shared_ptr<MathematicOperable> num2(new ConstantNumber(2));
+	
+	std::shared_ptr<VariableEntry> flow = std::make_shared<VariableEntry>("flow");
+	std::shared_ptr<MathematicOperable> mflow = std::make_shared<VariableEntry>("flow");
+	std::shared_ptr<VariableEntry> time(
+		new VariableEntry(TIME_VARIABLE));
+	std::shared_ptr<MathematicOperable> mtime(
+		new VariableEntry(TIME_VARIABLE));
+	std::shared_ptr<ComparisonOperable> comp2in(
+		new SimpleComparison(false, mtime, comparison::less_equal, num60000));
+	std::shared_ptr<ComparisonOperable> not_comp2in(
+		new SimpleComparison(true, mtime, comparison::less_equal, num60000));
+	
+	ProtocolGraph::ProtocolNodePtr loop1 = std::make_shared<LoopNode>(serial.getNextValue(), comp2in); //while ( t <= 60s)
+	ProtocolGraph::ProtocolNodePtr asig = std::make_shared<AssignationOperation>(serial.getNextValue(), flow, num2);
+	ProtocolGraph::ProtocolNodePtr op2 = std::make_shared<SetContinousFlow>(serial.getNextValue(), 1, 2, num1);
+	ProtocolGraph::ProtocolNodePtr op1 = std::make_shared<LoadContainerOperation>(serial.getNextValue(), 1, num65); //loadContainer(1, 1000ml)
+	
+	protocol->addOperation(op1);
+	protocol->addOperation(asig);
+	protocol->addOperation(op2);
+	protocol->addOperation(loop1);
+
+	protocol->connectOperation(asig, op1, tautology);
+	protocol->connectOperation(op1, op2, tautology);
+	protocol->connectOperation(op2, loop1, tautology);
+	
+
+	std::shared_ptr<ComparisonOperable> compif1(
+		new SimpleComparison(false, mtime, comparison::greater_equal, num30000));
+	std::shared_ptr<ComparisonOperable> compif2(
+		new SimpleComparison(false, mflow, comparison::equal, num2));
+	std::shared_ptr<ComparisonOperable> compif(new BooleanComparison(false, compif1, logical::conjunction, compif2));
+	std::shared_ptr<ComparisonOperable> not_compif(new BooleanComparison(true, compif1, logical::conjunction, compif2));
+	
+	ProtocolGraph::ProtocolNodePtr if1 = std::make_shared<DivergeNode>(serial.getNextValue(), compif);
+	ProtocolGraph::ProtocolNodePtr asig1 = std::make_shared<AssignationOperation>(serial.getNextValue(), flow, num0);
+
+	ProtocolGraph::ProtocolNodePtr op2s = std::make_shared<SetContinousFlow>(serial.getNextValue(), 1, 2, num0);
+	ProtocolGraph::ProtocolNodePtr op3 = std::make_shared<SetContinousFlow>(serial.getNextValue(), 1, 3, num1);
+	ProtocolGraph::ProtocolNodePtr op3s = std::make_shared<SetContinousFlow>(serial.getNextValue(), 1, 3, num0);
+	ProtocolGraph::ProtocolNodePtr timeStep = std::make_shared<TimeStep>(serial.getNextValue(), time);
+
+	protocol->addOperation(if1);
+	protocol->addOperation(asig1);
+	protocol->addOperation(op3s);
+	protocol->addOperation(op2s);
+	protocol->addOperation(op3);
+	protocol->addOperation(timeStep);
+	
+	protocol->connectOperation(loop1, if1, comp2in);
+	protocol->connectOperation(loop1, op3s, not_comp2in);
+	
+	protocol->connectOperation(if1, op2s, compif);
+	protocol->connectOperation(op2s, op3, tautology);
+	protocol->connectOperation(op3, asig1, tautology);
+	protocol->connectOperation(asig1, timeStep, tautology);
+	
+	protocol->connectOperation(if1, timeStep, not_compif);
+	protocol->connectOperation(timeStep, loop1, tautology);
+
+	protocol->setStartNode(asig->getContainerId());
+	return protocol;
+}
+
 void Test::testSerialPort_receive() {
 	try {
 		CommandSender* s = new SerialSender("\\\\.\\COM3");
@@ -782,6 +859,37 @@ ExecutableMachineGraph* Test::makeRandomMachine(std::unique_ptr<CommandSender> e
 			}
 		}
 	}
+
+	return machine;
+}
+
+ExecutableMachineGraph * Test::makeEvoprogV2Machine(std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test, int size)
+{
+	int communications = 0;
+	ExecutableMachineGraph* machine = new ExecutableMachineGraph(
+		"simpleMachine", std::move(exec), std::move(test));
+
+	vector<string> paramsc{ "46" };
+	std::shared_ptr<Control> control(new ControlPlugin(communications, 2, "Evoprog2WayValve", paramsc));
+
+	vector<string> paramsce{ "7", "1" };
+	std::shared_ptr<Extractor> cExtractor13(
+		new ExtractorPlugin(communications, "EvoprogV2Pump", paramsce));
+
+	vector<string> paramsdi;
+	std::shared_ptr<Injector> dummyInjector(
+		new InjectorPlugin(communications, "EvoprogDummyInjector", paramsdi));
+
+	ExecutableMachineGraph::ExecutableContainerNodePtr cInlet1 = std::make_shared<DivergentSwitch>(1, 100.0, cExtractor13, control);
+	ExecutableMachineGraph::ExecutableContainerNodePtr sink2 = std::make_shared<SinkContainer>(2, 100.0, dummyInjector);
+	ExecutableMachineGraph::ExecutableContainerNodePtr sink3 = std::make_shared<SinkContainer>(3, 100.0, dummyInjector);
+
+	machine->addContainer(cInlet1);
+	machine->addContainer(sink2);
+	machine->addContainer(sink3);
+
+	machine->connectExecutableContainer(1, 2);
+	machine->connectExecutableContainer(1, 3);
 
 	return machine;
 }
@@ -1969,6 +2077,54 @@ void Test::testExecutionServer() {
 		server->test(ref1);
 		LOG(INFO) << "test ref2";
 		server->exec(ref2);
+
+
+		LOG(INFO) << "availables machines...";
+		auto vec = ExecutionMachineServer::GetInstance()->getMachineMap();
+		for (auto it = vec->begin(); it != vec->end(); ++it) {
+			LOG(INFO) << it->first << " , " << get<1>(it->second)->getName();
+		}
+	}
+	catch (std::runtime_error & e) {
+		LOG(ERROR) << e.what();
+	}
+	catch (std::invalid_argument & e) {
+		LOG(ERROR) << e.what();
+	}
+
+	ExecutionServer::freeCommandInterface();
+	ExecutionMachineServer::freeCommandInterface();
+	CommunicationsInterface::freeCommandInterface();
+
+	PythonEnvironment::GetInstance()->finishEnvironment();
+}
+
+void Test::testEvoprogPluginV2()
+{
+	PythonEnvironment::GetInstance()->initEnvironment();
+
+	ExecutionServer* server = ExecutionServer::GetInstance();
+	std::unique_ptr<CommandSender> test(new FileSender("test.log", "inputFileData.txt"));
+	std::unique_ptr<CommandSender> exec(new SerialSender("\\\\.\\COM3", 115200));
+
+	LOG(INFO) << "making machine...";
+	std::shared_ptr<ExecutableMachineGraph> exMachine(makeEvoprogV2Machine(std::move(exec), std::move(test), 0));
+	ExecutableMachineGraph::toJSON("evoMachine.json", *exMachine.get());
+
+	LOG(INFO) << "making turbidostat protocol...";
+	std::vector<int> v;
+	std::shared_ptr<VariableTable> t(new VariableTable());
+	std::shared_ptr<Mapping> map(new Mapping(exMachine, "evoMachine", v));
+	std::shared_ptr<ProtocolGraph> protocol(makeEvoprogv2Protocol(t, map));
+	protocol->printProtocol("protocol.graph");
+	ProtocolGraph::toJSON("evoProtocol.json", *protocol.get());
+
+	try {
+		LOG(INFO) << "add protocol on new machine";
+		string ref1 = server->addProtocolOnNewMachine("evoProtocol.json", "evoMachine.json");
+
+		LOG(INFO) << "exec ref1";
+		server->exec(ref1);
 
 
 		LOG(INFO) << "availables machines...";

@@ -32,6 +32,8 @@ BOOST_PYTHON_MODULE(communicationsMod)
 		;
 }
 
+namespace boost { template <> CommandSender const volatile * get_pointer(class CommandSender const volatile *c) { return c; } }
+
 using namespace boost::python;
 
 PythonEnvironment::PythonEnvironment()

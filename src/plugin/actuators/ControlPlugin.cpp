@@ -15,7 +15,7 @@ ControlPlugin::ControlPlugin(int communications, int maxconnections, const std::
 	this->referenceName = "";
 	this->pluginType = std::string(pluginType);
 	this->params = std::vector<std::string>(params);
-	this->params.insert(this->params.begin(), patch::to_string(maxconnections));
+	//this->params.insert(this->params.begin(), patch::to_string(maxconnections));
 }
 
 

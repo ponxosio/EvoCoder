@@ -136,7 +136,7 @@ void SerialSender::connect() throw (std::ios_base::failure) {
 }
 
 void SerialSender::synch() throw (std::ios_base::failure) {
-	receiveString();
+	Sleep(1500);
 }
 
 void SerialSender::configure() throw (std::ios_base::failure) {

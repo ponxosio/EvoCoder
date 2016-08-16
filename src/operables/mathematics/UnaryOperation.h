@@ -9,6 +9,7 @@
 #define SRC_OPERABLES_MATHEMATICS_UNARYOPERATION_H_
 
 #define ABSOLUTE_VALUE_STRING "fabs"
+#define FLOOR_VALUE_STRING "floor"
 
 //boost
 #include <memory>
@@ -25,7 +26,8 @@
 namespace unaryOperations {
 /*** Enum for the type of unary operator ***/
 enum UnaryOperator {
-	absoluteValue //abs()
+	absoluteValue, //abs()
+	floor  
 };
 }
 class UnaryOperation: public MathematicOperable {

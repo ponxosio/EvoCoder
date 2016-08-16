@@ -1,27 +1,31 @@
-import abc
+import time
+from control import Control
 
-class Control(object):
-	__metaclass__  = abc.ABCMeta
-
-	def __init__(self, maxConnections):
+class Evoprog1WayValve(Control):
+	def __init__(self, params):
 		"""constructor"""
-		self.maxconnections = maxConnections
+		super(Evoprog1WayValve, self).__init__(1)
+		self.address = int(params[0])
+		self.map = {}
+		self.lastPos = 0
 
 	def getParamsType(self):
 		"""must return a list with the types expected at the params variable in the init function"""
-		return ["int"]
+		return super(Evoprog1WayValve, self) + ["int"]
 
-	@abc.abstractmethod
 	def getInstructions(self):
 		""" must return a string with the instructions to make this component"""
+		return ""
 
-	@abc.abstractmethod
 	def addConnection(self, idSource, idTarget, communications):
 		"""
 			must register a new connection between idSource container and idTarget container
 		"""
+		if self.lastPos < self.maxconnections :
+			self.map[(idSource, idTarget)] = self.lastPos
+			self.lastPos += 1
+			
 
-	@abc.abstractmethod
 	def setConnection(self, idSource, idTarget, communications):
 		"""
 			must send instructions to the machine to allow connection between conatiners idSource and idTarget,
@@ -32,8 +36,16 @@ class Control(object):
 				*) string readUntil(endCharacter) -- returns a string received from the machine, stops when the endCharacter arrives;
 				*) void synch() -- synchronize with the machine, not always necesary, only for protocols compatibles;
 		"""
-	@abc.abstractmethod
+		valvePos = 4
+		if (idSource, idTarget) in self.map:
+			valvePos = self.map[(idSource, idTarget)]	
+		command = "M " + str(self.address) + " " + str(valvePos) + "\r"
+		communications.sendString(command)
+		time.sleep(0.01)
+		communications.synch()
+
 	def clearConnections(self):
 		"""
 			must removed all the connections added with addConnection
 		"""
+		self.map.clear()

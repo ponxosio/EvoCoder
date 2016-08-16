@@ -1,183 +1,244 @@
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
-MOVE 7 0
-DIO 13 1
-DIO 14 1
+M 2 2
+pPump 7
+M 2 0
+P 7 0.001
+M 2 2
+pPump 7
+M 2 0
+P 7 0.001
+M 2 2
+pPump 7
+M 2 0
+P 7 0.001
+M 2 2
+pPump 7
+M 2 0
+P 7 0.001
+M 2 2
+pPump 7
+M 2 0
+P 7 0.001
+M 2 2
+pPump 7
+M 2 0
+P 7 0.001
+M 2 2
+pPump 7
+M 2 0
+P 7 0.001
+M 2 2
+pPump 7
+M 2 0
+P 7 0.001
+M 2 2
+pPump 7
+M 2 0
+P 7 0.001
+M 2 2
+pPump 7
+M 2 0
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001
+M 2 0
+pPump 7
+M 2 2
+P 7 0.001

@@ -15,7 +15,6 @@
 #include <cereal/types/vector.hpp>
 #include <cereal/types/string.hpp>
 
-
 class ControlPlugin :
 	public Control
 {
@@ -40,6 +39,8 @@ protected:
 
 	std::string referenceName;
 };
+
+
 
 template<class Archive>
 inline void ControlPlugin::serialize(Archive& ar,

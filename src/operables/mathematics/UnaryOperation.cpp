@@ -36,6 +36,9 @@ double UnaryOperation::getValue() throw (std::invalid_argument)  {
 	case unaryOperations::absoluteValue:
 		vuelta = fabs(value->getValue());
 		break;
+	case unaryOperations::floor:
+		vuelta = floor(value->getValue());
+		break;
 	}
 	return vuelta;
 }
@@ -59,6 +62,9 @@ std::string UnaryOperation::getStringOp() {
 	switch (this->op) {
 	case unaryOperations::absoluteValue:
 		vuelta = ABSOLUTE_VALUE_STRING;
+		break;
+	case unaryOperations::floor:
+		vuelta = FLOOR_VALUE_STRING;
 		break;
 	}
 	return vuelta;
