@@ -52,3 +52,6 @@ cereal
 /*.json
 /EvoCoder.VC.db
 /logs
+/plugins/EVOPROGv2/*.pyc
+/plugins/EVOPROGv2/utilities/*.pyc
+/.vs/EvoCoder/v14
