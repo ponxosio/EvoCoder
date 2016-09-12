@@ -5,8 +5,7 @@
  *      Author: angel
  */
 
-#ifndef SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONATINER_TRANSFER_H_
-#define SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONATINER_TRANSFER_H_
+#pragma once
 
 #include <string>
 
@@ -67,5 +66,3 @@ CEREAL_CLASS_VERSION( Transfer,(int) 1 );
 #include <cereal/archives/json.hpp>
 // Register DerivedClass
 CEREAL_REGISTER_TYPE_WITH_NAME(Transfer,"Transfer");
-
-#endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONATINER_TRANSFER_H_ */

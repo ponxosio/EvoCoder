@@ -5,11 +5,7 @@
  *      Author: angel
  */
 
-#ifndef SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_LOADCONTAINEROPERATION_H_
-#define SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_LOADCONTAINEROPERATION_H_
-
-//boost
-#include <memory>
+#pragma once
 
 //local
 #include "../../../util/Utils.h"
@@ -68,5 +64,3 @@ CEREAL_CLASS_VERSION( LoadContainerOperation, (int)1 );
 #include <cereal/archives/json.hpp>
 // Register DerivedClass
 CEREAL_REGISTER_TYPE_WITH_NAME(LoadContainerOperation,"LoadContainerOperation");
-
-#endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONTAINER_LOADCONTAINEROPERATION_H_ */

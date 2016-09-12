@@ -5,14 +5,10 @@
  *      Author: angel
  */
 
-#ifndef SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONATINER_CONTAINEROPERATION_H_
-#define SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONATINER_CONTAINEROPERATION_H_
+#pragma once
 
 #include <string>
 #include <stdexcept>
-
-//boost
-#include <memory>
 
 //local
 #include "../../../ExecutionServer.h"
@@ -77,5 +73,3 @@ CEREAL_CLASS_VERSION( ContainerOperation, (int)1 );
 #include <cereal/archives/json.hpp>
 // Register DerivedClass
 CEREAL_REGISTER_TYPE_WITH_NAME(ContainerOperation,"ContainerOperation");
-
-#endif /* SRC_FLUIDCONTROL_PROTOCOLGRAPH_OPERATIONS_CONATINER_CONTAINEROPERATION_H_ */

@@ -3,6 +3,9 @@
 # include <fstream>
 # include <unordered_map>
 
+#include <boost/python.hpp>
+#include <boost/tokenizer.hpp>
+
 //lib
 # include <json/json.hpp>
 
@@ -13,8 +16,9 @@
 # include "operables\mathematics\ConstantNumber.h"
 # include "protocolGraph\ProtocolGraph.h"
 # include "protocolGraph\OperationNode.h"
-//# include "protocolGraph\operations\container\LoadContainerOperation.h"
-//# include "protocolGraph\operations\container\Transfer.h"
+# include "protocolGraph\operations\container\LoadContainerOperation.h"
+# include "protocolGraph\operations\container\Transfer.h"
+# include "protocolGraph\operations\container\SetContinousFlow.h"
 # include "util\AutoEnumerate.h"
 # include "util\Patch.h"
 
@@ -41,5 +45,7 @@ private:
 	AutoEnumerate graph_sequence;
 
 	BioBlocksJSONReader();
+
+	double parseVolume(const std::string & text);
 };
 
