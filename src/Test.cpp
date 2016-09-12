@@ -76,11 +76,13 @@ int main(int argv, char* argc[]) {
 	//t.testMappingPluginExec();
 
 	//t.testExecutionServer();
-	t.testEvoprogPluginV2();
+	//t.testEvoprogPluginV2();
 
 	//t.testFlowCalculatorIntensive();
 
 	//t.testPathManager();
+
+	t.testBioBlocksLoader();
 
 	/*int ss = 10;
 	int ms = 20;
@@ -95,9 +97,9 @@ int main(int argv, char* argc[]) {
 	}
 	catch (std::runtime_error & e) {
 		LOG(FATAL) << e.what();
-	}
+	}*/
 
-	LOG(INFO) << "finished!";*/
+	LOG(INFO) << "finished!";
 }
 
 void Test::testGraph() {
@@ -2269,6 +2271,12 @@ void Test::testPathManager() {
 	for (auto it = v.begin(); it != v.end(); ++it) {
 		LOG(INFO) << (*it)->toText();
 	}
+}
+
+void Test::testBioBlocksLoader()
+{
+	std::shared_ptr<ProtocolGraph> protocol = std::shared_ptr<ProtocolGraph>(BioBlocksJSONReader::GetInstance()->loadFile("bioBlocksTest.json"));
+	protocol->printProtocol("bioBlocks.graph");
 }
 
 DWORD Test::testMappingIntensive(int machine_size, int sketch_size) throw (std::runtime_error) {

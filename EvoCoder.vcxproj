@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\BioBlocksJSONReader.cpp" />
     <ClCompile Include="src\ExecutionMachineServer.cpp" />
     <ClCompile Include="src\ExecutionServer.cpp" />
     <ClCompile Include="src\fluidControl\mapping\pathcalculator\IdSearcher.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="src\util\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\BioBlocksJSONReader.h" />
     <ClInclude Include="src\ExecutionMachineServer.h" />
     <ClInclude Include="src\ExecutionServer.h" />
     <ClInclude Include="src\fluidControl\mapping\pathcalculator\IdSearcher.h" />

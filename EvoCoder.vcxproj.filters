@@ -225,6 +225,9 @@
     <ClCompile Include="src\fluidControl\mapping\pathcalculator\SimplePathSearcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\BioBlocksJSONReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\easylogging++.h">
@@ -507,6 +510,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\fluidControl\mapping\pathcalculator\SimplePathSearcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BioBlocksJSONReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

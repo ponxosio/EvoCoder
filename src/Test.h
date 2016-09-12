@@ -35,6 +35,7 @@
 
 //local
 #include "ExecutionServer.h"
+#include "BioBlocksJSONReader.h"
 
 #include "graph/Graph.h"
 #include "graph/Node.h"
@@ -140,6 +141,9 @@
 #include <cereal/types/unordered_map.hpp>
 #include <cereal/types/vector.hpp>
 
+//json
+#include <json/json.hpp>
+
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -230,6 +234,8 @@ public:
 	void testFlowCalculatorIntensive();
 
 	void testPathManager();
+
+	void testBioBlocksLoader();
 
 	DWORD testMappingIntensive(int machine_size, int sketch_size) throw (std::runtime_error);
 
