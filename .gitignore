@@ -55,3 +55,4 @@ cereal
 /plugins/EVOPROGv2/*.pyc
 /plugins/EVOPROGv2/utilities/*.pyc
 /.vs/EvoCoder/v14
+/x64/Release

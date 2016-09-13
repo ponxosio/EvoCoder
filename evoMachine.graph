@@ -1,0 +1,7 @@
+digraph G {
+1 [image="X:\EvoCoder\Img\continuous_divergentswitch.png"];
+2 [image="X:\EvoCoder\Img\sink.png"];
+3 [image="X:\EvoCoder\Img\sink.png"];
+1->2;
+1->3;
+}

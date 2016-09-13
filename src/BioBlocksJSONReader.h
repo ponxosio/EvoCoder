@@ -5,6 +5,7 @@
 
 #include <boost/python.hpp>
 #include <boost/tokenizer.hpp>
+#include <boost/algorithm/string/trim.hpp>
 
 //lib
 # include <json/json.hpp>
@@ -46,6 +47,6 @@ private:
 
 	BioBlocksJSONReader();
 
-	double parseVolume(const std::string & text);
+	float parseVolume(const std::string & text);
 };
 

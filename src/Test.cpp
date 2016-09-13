@@ -81,8 +81,14 @@ int main(int argv, char* argc[]) {
 	//t.testFlowCalculatorIntensive();
 
 	//t.testPathManager();
-
-	t.testBioBlocksLoader();
+	
+	if (argv >= 2) {
+		string protocolFile(argc[1]);
+		t.testBioBlocksLoader(protocolFile);
+	}
+	else {
+		t.testBioBlocksLoader("bioBlocksTest.json");
+	}
 
 	/*int ss = 10;
 	int ms = 20;
@@ -2273,10 +2279,51 @@ void Test::testPathManager() {
 	}
 }
 
-void Test::testBioBlocksLoader()
+void Test::testBioBlocksLoader(const string & protocolFile)
 {
-	std::shared_ptr<ProtocolGraph> protocol = std::shared_ptr<ProtocolGraph>(BioBlocksJSONReader::GetInstance()->loadFile("bioBlocksTest.json"));
-	protocol->printProtocol("bioBlocks.graph");
+	PythonEnvironment::GetInstance()->initEnvironment();
+
+	ExecutionServer* server = ExecutionServer::GetInstance();
+	std::unique_ptr<CommandSender> test(new FileSender("test.log", "inputFileData.txt"));
+	std::unique_ptr<CommandSender> exec(new SerialSender("\\\\.\\COM3", 115200));
+
+	LOG(INFO) << "making machine...";
+	std::shared_ptr<ExecutableMachineGraph> exMachine(makeEvoprogV2Machine(std::move(exec), std::move(test), 0));
+	exMachine->printMachine("evoMachine.graph");
+	ExecutableMachineGraph::toJSON("evoMachine.json", *exMachine.get());
+
+	LOG(INFO) << "loading protocol " << protocolFile;
+	ProtocolGraph* protocol = BioBlocksJSONReader::GetInstance()->loadFile(protocolFile);
+	protocol->printProtocol("protocol.graph");
+	ProtocolGraph::toJSON("evoProtocol.json", *protocol);
+
+	try {
+		LOG(INFO) << "add protocol on new machine";
+		string ref1 = server->addProtocolOnNewMachine("evoProtocol.json", "evoMachine.json");
+
+		LOG(INFO) << "test ref1";
+		server->test(ref1);
+
+		LOG(INFO) << "availables machines...";
+		auto vec = ExecutionMachineServer::GetInstance()->getMachineMap();
+		for (auto it = vec->begin(); it != vec->end(); ++it) {
+			LOG(INFO) << it->first << " , " << get<1>(it->second)->getName();
+		}
+	}
+	catch (std::runtime_error & e) {
+		LOG(ERROR) << e.what();
+	}
+	catch (std::invalid_argument & e) {
+		LOG(ERROR) << e.what();
+	}
+
+	ExecutionServer::freeCommandInterface();
+	ExecutionMachineServer::freeCommandInterface();
+	CommunicationsInterface::freeCommandInterface();
+
+	PythonEnvironment::GetInstance()->finishEnvironment();
+
+
 }
 
 DWORD Test::testMappingIntensive(int machine_size, int sketch_size) throw (std::runtime_error) {
