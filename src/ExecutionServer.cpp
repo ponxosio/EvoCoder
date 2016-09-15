@@ -23,21 +23,26 @@ ExecutionServer::~ExecutionServer()
 
 std::string ExecutionServer::addProtocolOnNewMachine(const std::string & protocolJson, const std::string & machineJson)
 {
+	shared_ptr<ProtocolGraph> protocol(ProtocolGraph::fromJSON(protocolJson));
+	return addProtocolOnNewMachine(protocol, machineJson);
+}
+
+std::string ExecutionServer::addProtocolOnNewMachine(std::shared_ptr<ProtocolGraph> protocol, const std::string & machineJson)
+{
 	ExecutionMachineServer* machineServer = ExecutionMachineServer::GetInstance();
 	string machineReference = machineServer->addNewMachine(machineJson);
-	
+
 	vector<int> coms;
 	shared_ptr<ExecutableMachineGraph> machine = machineServer->getMachine(machineReference);
 	coms.push_back(machineServer->getMachineComId(machineReference));
-
-	shared_ptr<ProtocolGraph> protocol(ProtocolGraph::fromJSON(protocolJson));
-	shared_ptr<VariableTable> table = make_shared<VariableTable>();
 	
+	shared_ptr<VariableTable> table = make_shared<VariableTable>();
+
 	string executionReference = "execution" + patch::to_string(series.getNextValue());
 	shared_ptr<Mapping> map = make_shared<Mapping>(machine, protocol->getName() + "_" + machine->getName(), coms);
 	shared_ptr<ExecutionEngine> evocoder = make_shared<ExecutionEngine>(protocol, table, map);
 
-	executionMap.insert(make_pair(executionReference, tuple<string,shared_ptr<ExecutionEngine>>(machineReference, evocoder)));
+	executionMap.insert(make_pair(executionReference, tuple<string, shared_ptr<ExecutionEngine>>(machineReference, evocoder)));
 	protocol->updateReference(executionReference);
 
 	return executionReference;
@@ -45,13 +50,18 @@ std::string ExecutionServer::addProtocolOnNewMachine(const std::string & protoco
 
 std::string ExecutionServer::addProtocolOnExistingMachine(const std::string & protocolJson, const std::string & machineReference) throw (std::invalid_argument)
 {
+	shared_ptr<ProtocolGraph> protocol(ProtocolGraph::fromJSON(protocolJson));	
+	return addProtocolOnExistingMachine(protocol, machineReference);
+}
+
+std::string ExecutionServer::addProtocolOnExistingMachine(std::shared_ptr<ProtocolGraph> protocol, const std::string & machineReference) throw(std::invalid_argument)
+{
 	ExecutionMachineServer* machineServer = ExecutionMachineServer::GetInstance();
 
 	vector<int> coms;
 	shared_ptr<ExecutableMachineGraph> machine = machineServer->getMachine(machineReference);
 	coms.push_back(machineServer->getMachineComId(machineReference));
 
-	shared_ptr<ProtocolGraph> protocol(ProtocolGraph::fromJSON(protocolJson));
 	shared_ptr<VariableTable> table = make_shared<VariableTable>();
 
 	string executionReference = "execution" + patch::to_string(series.getNextValue());

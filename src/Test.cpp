@@ -82,12 +82,13 @@ int main(int argv, char* argc[]) {
 
 	//t.testPathManager();
 	
-	if (argv >= 2) {
+	if (argv >= 3) {
 		string protocolFile(argc[1]);
-		t.testBioBlocksLoader(protocolFile);
+		string machineFile(argc[2]);
+		t.testBioBlocksLoader(protocolFile, machineFile);
 	}
 	else {
-		t.testBioBlocksLoader("bioBlocksTest.json");
+		LOG(ERROR) << "Evocoder works like this: Evocoder.exe <path_to_protocol> <path_to_machine>";
 	}
 
 	/*int ss = 10;
@@ -874,22 +875,29 @@ ExecutableMachineGraph* Test::makeRandomMachine(std::unique_ptr<CommandSender> e
 ExecutableMachineGraph * Test::makeEvoprogV2Machine(std::unique_ptr<CommandSender> exec, std::unique_ptr<CommandSender> test, int size)
 {
 	int communications = 0;
+	LOG(INFO) << "creating machine husk";
 	ExecutableMachineGraph* machine = new ExecutableMachineGraph(
 		"simpleMachine", std::move(exec), std::move(test));
 
+	LOG(INFO) << "creating 2 way valve";
 	vector<string> paramsc{ "46" };
 	std::shared_ptr<Control> control(new ControlPlugin(communications, 2, "Evoprog2WayValve", paramsc));
 
+	LOG(INFO) << "creating pump";
 	vector<string> paramsce{ "7", "1" };
 	std::shared_ptr<Extractor> cExtractor13(
 		new ExtractorPlugin(communications, "EvoprogV2Pump", paramsce));
 
+	LOG(INFO) << "creating injector";
 	vector<string> paramsdi;
 	std::shared_ptr<Injector> dummyInjector(
 		new InjectorPlugin(communications, "EvoprogDummyInjector", paramsdi));
 
+	LOG(INFO) << "creating inlet";
 	ExecutableMachineGraph::ExecutableContainerNodePtr cInlet1 = std::make_shared<DivergentSwitch>(1, 100.0, cExtractor13, control);
+	LOG(INFO) << "creating injector";
 	ExecutableMachineGraph::ExecutableContainerNodePtr sink2 = std::make_shared<SinkContainer>(2, 100.0, dummyInjector);
+	LOG(INFO) << "creating injector";
 	ExecutableMachineGraph::ExecutableContainerNodePtr sink3 = std::make_shared<SinkContainer>(3, 100.0, dummyInjector);
 
 	machine->addContainer(cInlet1);
@@ -2279,41 +2287,31 @@ void Test::testPathManager() {
 	}
 }
 
-void Test::testBioBlocksLoader(const string & protocolFile)
+void Test::testBioBlocksLoader(const string & protocolFile, const string & machineFile)
 {
+	
 	PythonEnvironment::GetInstance()->initEnvironment();
-
-	ExecutionServer* server = ExecutionServer::GetInstance();
-	std::unique_ptr<CommandSender> test(new FileSender("test.log", "inputFileData.txt"));
-	std::unique_ptr<CommandSender> exec(new SerialSender("\\\\.\\COM3", 115200));
-
-	LOG(INFO) << "making machine...";
-	std::shared_ptr<ExecutableMachineGraph> exMachine(makeEvoprogV2Machine(std::move(exec), std::move(test), 0));
-	exMachine->printMachine("evoMachine.graph");
-	ExecutableMachineGraph::toJSON("evoMachine.json", *exMachine.get());
-
-	LOG(INFO) << "loading protocol " << protocolFile;
-	ProtocolGraph* protocol = BioBlocksJSONReader::GetInstance()->loadFile(protocolFile);
-	protocol->printProtocol("protocol.graph");
-	ProtocolGraph::toJSON("evoProtocol.json", *protocol);
-
+	
 	try {
+		ExecutionServer* server = ExecutionServer::GetInstance();
+
+		LOG(INFO) << "loading protocol " << protocolFile;
+		std::shared_ptr<ProtocolGraph> protocol = std::shared_ptr<ProtocolGraph>(BioBlocksJSONReader::GetInstance()->loadFile(protocolFile));
+
+	
 		LOG(INFO) << "add protocol on new machine";
-		string ref1 = server->addProtocolOnNewMachine("evoProtocol.json", "evoMachine.json");
+		string ref1 = server->addProtocolOnNewMachine(protocol, machineFile);
 
 		LOG(INFO) << "test ref1";
 		server->test(ref1);
-
-		LOG(INFO) << "availables machines...";
-		auto vec = ExecutionMachineServer::GetInstance()->getMachineMap();
-		for (auto it = vec->begin(); it != vec->end(); ++it) {
-			LOG(INFO) << it->first << " , " << get<1>(it->second)->getName();
-		}
 	}
 	catch (std::runtime_error & e) {
 		LOG(ERROR) << e.what();
 	}
 	catch (std::invalid_argument & e) {
+		LOG(ERROR) << e.what();
+	}
+	catch (std::exception & e) {
 		LOG(ERROR) << e.what();
 	}
 

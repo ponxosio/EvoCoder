@@ -516,4 +516,14 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="plugins\EVOPROG\EVOPROG_continuousPump.py" />
+    <None Include="plugins\EVOPROG\EVOPROG_discretePump.py" />
+    <None Include="plugins\EVOPROG\EVOPROG_dummyInjector.py" />
+    <None Include="plugins\EVOPROG\EVOPROG_light.py" />
+    <None Include="plugins\EVOPROG\EVOPROG_mixer.py" />
+    <None Include="plugins\EVOPROG\EVOPROG_odsensor.py" />
+    <None Include="plugins\EVOPROG\EVOPROG_sixwayvalve.py" />
+    <None Include="plugins\EVOPROG\EVOPROG_temperature.py" />
+  </ItemGroup>
 </Project>

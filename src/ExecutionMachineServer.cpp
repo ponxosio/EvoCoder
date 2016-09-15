@@ -23,6 +23,7 @@ ExecutionMachineServer::~ExecutionMachineServer()
 
 std::string ExecutionMachineServer::addNewMachine(const std::string & jsonFilePath)
 {
+	LOG(DEBUG) << "Loading machine file: " << jsonFilePath;
 	std::shared_ptr<ExecutableMachineGraph> mPtr (ExecutableMachineGraph::fromJSON(jsonFilePath));
 
 	int exComId = CommunicationsInterface::GetInstance()->addCommandSenderTestExec(mPtr->getExecCommunicationsPrototypeCopy(), mPtr->getTestCommunicationsPrototypeCopy());

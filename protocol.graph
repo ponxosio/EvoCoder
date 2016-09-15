@@ -1,7 +1,7 @@
 digraph G {
 0[label="loadContainer(0, 2)"];
 1[label="loadContainer(1, 2)"];
-2[label="setContinousFlow(0, 1, 0.01)"];
+2[label="setContinousFlow(0, 1, 0.1)"];
 0->1[label = "true"];
 1->2[label = "true"];
 }

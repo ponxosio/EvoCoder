@@ -235,7 +235,7 @@ public:
 
 	void testPathManager();
 
-	void testBioBlocksLoader(const string & protocolFile);
+	void testBioBlocksLoader(const string & protocolFile, const string & machineFile);
 
 	DWORD testMappingIntensive(int machine_size, int sketch_size) throw (std::runtime_error);
 

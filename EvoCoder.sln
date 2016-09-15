@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EvoCoder", "EvoCoder.vcxproj", "{42ABC1A5-578C-4EF3-ADFC-20C2DE898926}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup1", "c:\users\angel\documents\visual studio 2015\Projects\Setup1\Setup1.vdproj", "{AA5170B6-A611-4897-B3DF-2BD5F6373094}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EvocoderInstaller", "..\EvocoderInstaller\EvocoderInstaller.vdproj", "{11B18959-1E41-4795-83CF-2EF8FAABF35F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{42ABC1A5-578C-4EF3-ADFC-20C2DE898926}.Release|x64.Build.0 = Release|x64
 		{42ABC1A5-578C-4EF3-ADFC-20C2DE898926}.Release|x86.ActiveCfg = Release|Win32
 		{42ABC1A5-578C-4EF3-ADFC-20C2DE898926}.Release|x86.Build.0 = Release|Win32
-		{AA5170B6-A611-4897-B3DF-2BD5F6373094}.Debug|x64.ActiveCfg = Debug
-		{AA5170B6-A611-4897-B3DF-2BD5F6373094}.Debug|x86.ActiveCfg = Debug
-		{AA5170B6-A611-4897-B3DF-2BD5F6373094}.Release|x64.ActiveCfg = Release
-		{AA5170B6-A611-4897-B3DF-2BD5F6373094}.Release|x86.ActiveCfg = Release
+		{11B18959-1E41-4795-83CF-2EF8FAABF35F}.Debug|x64.ActiveCfg = Debug
+		{11B18959-1E41-4795-83CF-2EF8FAABF35F}.Debug|x86.ActiveCfg = Debug
+		{11B18959-1E41-4795-83CF-2EF8FAABF35F}.Release|x64.ActiveCfg = Release
+		{11B18959-1E41-4795-83CF-2EF8FAABF35F}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

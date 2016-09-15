@@ -34,7 +34,9 @@ public:
 
 	//protocols operation
 	std::string addProtocolOnNewMachine(const std::string & protocolJson, const std::string & machineJson);
+	std::string addProtocolOnNewMachine(std::shared_ptr<ProtocolGraph> protocol, const std::string & machineJson);
 	std::string addProtocolOnExistingMachine(const std::string & protocolJson, const std::string & machineReference) throw (std::invalid_argument);
+	std::string addProtocolOnExistingMachine(std::shared_ptr<ProtocolGraph> protocol, const std::string & machineReference) throw (std::invalid_argument);
 
 	void exec(const std::string & reference) throw(std::runtime_error);
 	void test(const std::string& reference) throw(std::runtime_error);

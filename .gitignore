@@ -56,3 +56,11 @@ cereal
 /plugins/EVOPROGv2/utilities/*.pyc
 /.vs/EvoCoder/v14
 /x64/Release
+/UpgradeLog.htm
+/machines/mappingMachine.json
+/machines/mappingMachine.png
+/plugins/plugins.zip
+/randomMachine.graph
+/randonSketch.graph
+/simpleMachine.graph
+/simpleSketch.graph
